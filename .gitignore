@@ -1,0 +1,8 @@
+*.class
+*.war
+*.ear
+/bin
+.DS_Store
+.project
+.classpath
+.settings/
