@@ -36,24 +36,22 @@ public class QueueMain implements Daemon {
      * @param args
      */
     public static void main(String[] args) {
-        new QueueMain();
+        System.out.println("Called main method.");
+        QueueMain main = new QueueMain();
+        try {
+            main.init(null);
+            main.start();
+        } catch (DaemonInitException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * コンストラクタ
      */
     public QueueMain() {
-        try {
-            // デーモン初期化処理+開始
-            // main->コンストラクタから実行する場合はinitの引数にnullを渡すことで
-            // デーモンAPIから開始された場合と区別している
-            this.init(null);
-            this.start();
-        } catch (DaemonInitException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**

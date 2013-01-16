@@ -14,6 +14,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+import jp.lg.ishinomaki.city.mrs.AppConfig;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -37,11 +39,6 @@ public class PostController implements ResponseHandler<String> {
     // ログ用
     private final Logger log = Logger.getLogger(PostController.class
             .getSimpleName());
-
-    /**
-     * RedmineにREST接続する際のプロパティファイル名
-     */
-    private final static String PROPERTY_FILE = "redmine.properties";
 
     /**
      * プロトコル
@@ -102,8 +99,10 @@ public class PostController implements ResponseHandler<String> {
         // コンストラクタ内でプロパティファイル読み込み
         try {
             // プロパティファイル読み込み
+            AppConfig appConfig = AppConfig.getInstance();
+            String redmine_file = appConfig.getConfig("redmine_file");
             Properties prop = new Properties();
-            prop.load(new FileReader(PROPERTY_FILE));
+            prop.load(new FileReader(redmine_file));
 
             // 各種設定をインスタンス変数に保存
             protocol = prop.getProperty("protocol");

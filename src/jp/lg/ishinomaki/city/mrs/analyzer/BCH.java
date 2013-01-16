@@ -6,7 +6,6 @@
 //
 //
 
-
 package jp.lg.ishinomaki.city.mrs.analyzer;
 
 import java.util.Arrays;
@@ -15,6 +14,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import jp.lg.ishinomaki.city.mrs.AppConfig;
 import jp.lg.ishinomaki.city.mrs.utils.LinkedProperties;
 
 /**
@@ -26,28 +26,21 @@ import jp.lg.ishinomaki.city.mrs.utils.LinkedProperties;
 public class BCH {
 
     /**
-     * 電文定義プロパティファイル名
-     */
-    private final static String formatFile = "bch.properties";
-
-    /**
      * BCHのバイト配列
      */
     private byte[] byteBch = null;
-    
+
     /**
      * BCHのビット符号文字列表現
      */
     private String strBch = null;
-    
+
     /**
      * BCHの内容を保持するテーブル<br>
      * key:データを取り出すための識別子(String)、値にデータ内容を保持する
      */
     private Map<String, String> bchMap;
 
-    
-    
     // 以下、bchMapからデータを取得するための識別子
     //
 
@@ -258,37 +251,37 @@ public class BCH {
      */
     public final static int MAJORDATATYPE_MESSAGE = 0;
     public final static String MAJORDATATYPE_MESSAGE_STRING = "運用報";
-    
+
     /**
      * データ種別大分類 地震・津波報
      */
     public final static int MAJORDATATYPE_EMERGENCY = 1;
     public final static String MAJORDATATYPE_EMERGENCY_STRING = "地震・津波報";
-    
+
     /**
      * データ種別大分類 国内発信通常報
      */
     public final static int MAJORDATATYPE_INTERNAL = 2;
     public final static String MAJORDATATYPE_INTERNAL_STRING = "国内発信通常報";
-    
+
     /**
      * データ種別大分類 国外発信通常報
      */
     public final static int MAJORDATATYPE_INTERNATIONAL = 3;
     public final static String MAJORDATATYPE_INTERNATIONAL_STRING = "国外発信通常報";
-    
+
     /**
      * データ種別大分類 国内発信バイナリ
      */
     public final static int MAJORDATATYPE_INTERNAL_BINARY = 4;
     public final static String MAJORDATATYPE_INTERNAL_BINARY_STRING = "国内発信バイナリ";
-    
+
     /**
      * データ種別大分類 国外発信バイナリ
      */
     public final static int MAJORDATATYPE_INTERNATIONAL_BINARY = 6;
     public final static String MAJORDATATYPE_INTERNATIONAL_BINARY_STRING = "国外発信バイナリ";
-    
+
     /**
      * データ種別大分類 エラー返信報
      */
@@ -398,7 +391,7 @@ public class BCH {
 
         // 引数データから先頭20オクテットを取得(この部分がBCHの領域)
         this.byteBch = Arrays.copyOf(data, 20);
-        
+
         // byte[]を2進数文字列に変換
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < byteBch.length; i++) {
@@ -407,11 +400,12 @@ public class BCH {
             int c = byteBch[i] & 0xff;
             sb.append(fullZero(Integer.toBinaryString(c), 8));
         }
-       this.strBch = sb.toString();
-System.out.println("-----------------bch-----------------");
-System.out.println(strBch);
+        this.strBch = sb.toString();
+
         // format定義に従って分割しMapに保存
-        LinkedProperties properties = new LinkedProperties(formatFile);
+        AppConfig appConfig = AppConfig.getInstance();
+        String bch_file = appConfig.getConfig("bch_file");
+        LinkedProperties properties = new LinkedProperties(bch_file);
         LinkedHashMap<String, String> format = properties.getProperties();
 
         int cursor = 0;
@@ -442,7 +436,7 @@ System.out.println(strBch);
     public byte[] getByteBch() {
         return this.byteBch;
     }
-    
+
     /**
      * BCHの文字列表現を取得します。
      * 
@@ -451,7 +445,7 @@ System.out.println(strBch);
     public String getStrBch() {
         return this.strBch;
     }
-    
+
     /**
      * 0埋め処理用ユーティリティメソッド
      * 
@@ -570,7 +564,7 @@ System.out.println(strBch);
         case MAJORDATATYPE_MESSAGE:
             sb.append(MAJORDATATYPE_MESSAGE_STRING).append("\n");
             sb.append("  データ種別(小分類)\t[" + minorDataType + "] ");
-            switch(minorDataType) {
+            switch (minorDataType) {
             case 0:
                 sb.append("小分類の設定なし\n");
                 break;
@@ -588,9 +582,10 @@ System.out.println(strBch);
             }
             break;
         case MAJORDATATYPE_EMERGENCY:
-            sb.append(MAJORDATATYPE_EMERGENCY_STRING).append("\n");;
+            sb.append(MAJORDATATYPE_EMERGENCY_STRING).append("\n");
+            ;
             sb.append("  データ種別(小分類)\t[" + minorDataType + "] ");
-            switch(minorDataType) {
+            switch (minorDataType) {
             case 0:
                 sb.append("小分類の設定なし\n");
                 break;
@@ -625,7 +620,7 @@ System.out.println(strBch);
         case MAJORDATATYPE_INTERNAL:
             sb.append(MAJORDATATYPE_INTERNAL_STRING).append("\n");
             sb.append("  データ種別(小分類)\t[" + minorDataType + "] ");
-            switch(minorDataType) {
+            switch (minorDataType) {
             case 0:
                 sb.append("小分類の設定なし\n");
                 break;
@@ -654,7 +649,7 @@ System.out.println(strBch);
         case MAJORDATATYPE_INTERNATIONAL:
             sb.append(MAJORDATATYPE_INTERNATIONAL_STRING).append(" \n");
             sb.append("  データ種別(小分類)\t[" + minorDataType + "] ");
-            switch(minorDataType) {
+            switch (minorDataType) {
             case 0:
                 sb.append("小分類の設定なし\n");
                 break;
@@ -677,7 +672,7 @@ System.out.println(strBch);
         case MAJORDATATYPE_INTERNAL_BINARY:
             sb.append(MAJORDATATYPE_INTERNAL_BINARY_STRING).append(" \n");
             sb.append("  データ種別(小分類)\t[" + minorDataType + "] ");
-            switch(minorDataType) {
+            switch (minorDataType) {
             case 0:
                 sb.append("小分類の設定なし\n");
                 break;
@@ -727,7 +722,7 @@ System.out.println(strBch);
         case MAJORDATATYPE_INTERNATIONAL_BINARY:
             sb.append(MAJORDATATYPE_INTERNATIONAL_BINARY_STRING).append(" \n");
             sb.append("  データ種別(小分類)\t[" + minorDataType + "] ");
-            switch(minorDataType) {
+            switch (minorDataType) {
             case 0:
                 sb.append("小分類の設定なし\n");
                 break;
@@ -751,7 +746,7 @@ System.out.println(strBch);
         case MAJORDATATYPE_ERROR:
             sb.append(MAJORDATATYPE_ERROR_STRING).append(" \n");
             sb.append("  データ種別(小分類)\t[" + minorDataType + "] ");
-            switch(minorDataType) {
+            switch (minorDataType) {
             case 0:
                 sb.append("小分類の設定なし\n");
                 break;
@@ -855,7 +850,7 @@ System.out.println(strBch);
 
         sb.append("  A/N桁数\t\t[").append(this.getAnLength()).append("]\n");
         sb.append("  QCチェックサム\t\t[").append(this.getQcChecksum()).append("]\n");
-        
+
         sb.append("発信官署番号\n");
         sb.append("  大分類\t\t\t[").append(this.getSendNoClassification())
                 .append("]\n");
@@ -1010,7 +1005,7 @@ System.out.println(strBch);
         String substr = str.substring(0, 4);
         return Integer.parseInt(substr, 2);
     }
-    
+
     /**
      * データ種別(大分類)の文字列表現を取得します。
      * 
@@ -1018,7 +1013,7 @@ System.out.println(strBch);
      */
     public String getMajorDataTypeString() {
         int type = getMajorDataType();
-        switch(type) {
+        switch (type) {
         case MAJORDATATYPE_MESSAGE:
             return MAJORDATATYPE_MESSAGE_STRING;
         case MAJORDATATYPE_EMERGENCY:
@@ -1036,7 +1031,7 @@ System.out.println(strBch);
         }
         return null;
     }
-    
+
     /**
      * データ種別(小分類)を取得します。
      * 
@@ -1098,7 +1093,7 @@ System.out.println(strBch);
         String str = bchMap.get(KEY_QCCHECKSUM);
         return str;
     }
-    
+
     /**
      * 発信官署番号の大分類を取得します。
      * 

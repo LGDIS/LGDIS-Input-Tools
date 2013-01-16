@@ -1,0 +1,6 @@
+#
+# Config file for ParcerMain
+#
+
+# path of redmine.properties
+redmine_file=/home/dis/develop/LGDIS-Input-Tools/config/redmine.properties

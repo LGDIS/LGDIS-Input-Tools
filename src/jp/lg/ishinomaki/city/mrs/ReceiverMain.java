@@ -8,6 +8,8 @@
 
 package jp.lg.ishinomaki.city.mrs;
 
+import java.io.FileReader;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 import jp.lg.ishinomaki.city.mrs.receiver.ReceiverThreadManager;
@@ -26,17 +28,13 @@ public class ReceiverMain implements Daemon {
     /**
      * ログ用
      */
-    private final Logger log = Logger.getLogger(ReceiverMain.class.getSimpleName());
-    
+    private final Logger log = Logger.getLogger(ReceiverMain.class
+            .getSimpleName());
+
     /**
      * データ受信スレッド管理インスタンス
      */
     private ReceiverThreadManager threadManager = null;
-
-    /**
-     * データ受信スレッド内容定義プロパティ
-     */
-    private String threadProperties = null;
 
     /**
      * デフォルトコンストラクタ 特に処理なし daemon から呼ばれる?
@@ -45,34 +43,21 @@ public class ReceiverMain implements Daemon {
     }
 
     /**
-     * コンストラクタ main関数から呼ばれる想定
+     * スレッド管理クラスを取得します
      * 
-     * @param args
-     *            main関数の引数
+     * @return
      */
-    public ReceiverMain(String[] args) {
+    public ReceiverThreadManager getThreadManager() {
+        return threadManager;
+    }
 
-        // 引数チェック
-        if (args == null || args.length != 1) {
-            log.severe("パラメータが不正です。");
-            log.severe("パラメータにはプロパティファイルのパスをフルパスで指定してください。");
-            return;
-        }
-
-        // 受信データスレッド定義プロパティファイル保存
-        this.threadProperties = args[0];
-
-        try {
-            // デーモン初期化処理+開始
-            // main->コンストラクタから実行する場合はinitの引数にnullを渡すことで
-            // デーモンAPIから開始された場合と区別している
-            this.init(null);
-            this.start();
-        } catch (DaemonInitException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    /**
+     * スレッド管理クラスを設定します
+     * 
+     * @param threadManager
+     */
+    public void setThreadManager(ReceiverThreadManager threadManager) {
+        this.threadManager = threadManager;
     }
 
     /**
@@ -82,7 +67,35 @@ public class ReceiverMain implements Daemon {
      *            第一引数にスレッド定義プロパティファイル名を指定
      */
     public static void main(String[] args) {
-        new ReceiverMain(args);
+
+        // 引数は1つでconfigファイルが指定されているはず
+        if (args == null || args.length != 1) {
+            System.err.println("パラメータが不正です。");
+            System.err.println("パラメータにはプロパティファイルのパスをフルパスで指定してください。");
+            return;
+        }
+
+        // configファイルの内容をAppConfigに保存
+        Properties config = new Properties();
+        try {
+            config.load(new FileReader(args[0]));
+        } catch (Exception e) {
+            return;
+        }
+        // 必要な情報を取得
+        String threads_file = config.getProperty("threads_file");
+        String bch_file = config.getProperty("bch_file");
+        
+        AppConfig appConfig = AppConfig.getInstance();
+        appConfig.putConfig("threads_file", threads_file);
+        appConfig.putConfig("bch_file", bch_file);
+
+        // メインクラス生成
+        ReceiverMain main = new ReceiverMain();
+
+        // スレッド管理インスタンス生成
+        main.setThreadManager(new ReceiverThreadManager(threads_file));
+        main.start();
     }
 
     /**
@@ -91,25 +104,30 @@ public class ReceiverMain implements Daemon {
     @Override
     public void init(DaemonContext dc) throws DaemonInitException, Exception {
         log.info("データ受信機能を初期化します...");
-        // DamonContextがnullの場合はmain関数からのコール
-        if (dc == null) {
-            // すでにthreadPropertiesは保存してあるはずなので処理しない
-        } else {
-            // コマンドライン引数取得
-            String[] args = dc.getArguments();
-            // 引数チェック
-            if (args == null || args.length != 1) {
-                log.severe("パラメータが不正です。");
-                log.severe("パラメータにはプロパティファイルのパスをフルパスで指定してください。");
-                return;
-            }
-
-            // スレッド定義プロパティファイル保存
-            this.threadProperties = args[0];
+        // 引数チェック
+        String[] args = dc.getArguments();
+        if (args == null || args.length != 1) {
+            log.severe("パラメータが不正です。");
+            log.severe("パラメータにはプロパティファイルのパスをフルパスで指定してください。");
+            return;
         }
-        
+
+        // configファイルの内容をAppConfigに保存
+        Properties config = new Properties();
+        try {
+            config.load(new FileReader(args[0]));
+        } catch (Exception e) {
+            return;
+        }
+        // 必要な情報を取得
+        String threads_file = config.getProperty("threads_file");
+        String bch_file = config.getProperty("bch_file");
+        AppConfig appConfig = AppConfig.getInstance();
+        appConfig.putConfig("threads_file", threads_file);
+        appConfig.putConfig("bch_file", bch_file);
+
         // スレッド管理インスタンス生成
-        this.threadManager = new ReceiverThreadManager(this.threadProperties);
+        setThreadManager(new ReceiverThreadManager(threads_file));
     }
 
     /**

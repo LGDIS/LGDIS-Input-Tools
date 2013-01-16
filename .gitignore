@@ -1,9 +1,20 @@
+# java
 *.class
 *.war
 *.ear
+
+# eclipse
 /bin
-.DS_Store
 .project
 .classpath
 .settings/
+
+# mac
+.DS_Store
+
+# project specifity
+parser.config
+receiver.config
+redmine.properties
+threads.properties
 
