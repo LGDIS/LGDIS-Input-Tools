@@ -3,7 +3,7 @@
 #
 
 # path of threads.properties
-#threads_file=/home/dis/develop/LGDIS-Input-Tools/config/threads.properties
+threads_file=/home/dis/develop/LGDIS-Input-Tools/config/threads.properties
 
 # path of bch.properties
-#bch_file=/home/dis/develop/LGDIS-Input-Tools/config/bch.properties
+bch_file=/home/dis/develop/LGDIS-Input-Tools/config/bch.properties
