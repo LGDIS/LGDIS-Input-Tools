@@ -1,3 +1,11 @@
+//
+//  AppConfig.java
+//  LGDIS-Input-Tools
+//
+//  Copyright (C) 2012 ISHINOMAKI CITY OFFICE.
+//
+//
+
 package jp.lg.ishinomaki.city.mrs;
 
 import java.util.HashMap;
