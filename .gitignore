@@ -17,4 +17,5 @@ parser.config
 receiver.config
 redmine.properties
 threads.properties
+/shells
 
