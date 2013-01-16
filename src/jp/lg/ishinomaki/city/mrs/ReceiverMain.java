@@ -117,6 +117,7 @@ public class ReceiverMain implements Daemon {
         try {
             config.load(new FileReader(args[0]));
         } catch (Exception e) {
+            e.printStackTrace();
             return;
         }
         // 必要な情報を取得
