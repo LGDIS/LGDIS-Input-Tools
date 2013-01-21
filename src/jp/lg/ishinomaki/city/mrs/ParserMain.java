@@ -53,9 +53,10 @@ public class ParserMain implements Daemon {
         }
         // 必要な情報を取得
         String redmine_file = config.getProperty("redmine_file");
-        
+        String parse_rule_file = config.getProperty("parse_rule_file");
         AppConfig appConfig = AppConfig.getInstance();
         appConfig.putConfig("redmine_file", redmine_file);
+        appConfig.putConfig("parse_rule_file", parse_rule_file);
 
         // メインクラス生成
         ParserMain main = new ParserMain();
@@ -79,7 +80,7 @@ public class ParserMain implements Daemon {
         String[] args = dc.getArguments();
         if (args == null || args.length != 1) {
             log.severe("パラメータが不正です。");
-            log.severe("パラメータにはプロパティファイルのパスをフルパスで指定してください。");
+            log.severe("パラメータにはconfigファイルのパスをフルパスで指定してください。");
             return;
         }
 
@@ -88,13 +89,16 @@ public class ParserMain implements Daemon {
         try {
             config.load(new FileReader(args[0]));
         } catch (Exception e) {
+            log.severe("configファイルの読み込みに失敗しました。");
             e.printStackTrace();
             return;
         }
         // 必要な情報を取得
         String redmine_file = config.getProperty("redmine_file");
+        String parse_rule_file = config.getProperty("parse_rule_file");
         AppConfig appConfig = AppConfig.getInstance();
         appConfig.putConfig("redmine_file", redmine_file);
+        appConfig.putConfig("parse_rule_file", parse_rule_file);
 
     }
 

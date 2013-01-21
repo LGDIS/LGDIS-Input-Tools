@@ -65,11 +65,15 @@ public class ParseRule {
 
     private String kasenProjectId;
 
+    private String trainingProjectId;
+    
+    private String testProjectId;
+    
     private String autoLaunchSeismicIntensityXpath;
 
     private Double autoLaunchSeismicIntensityThreashold;
 
-    private ArrayList<String> autoLaunchTsunamiHeightXpaths;
+    private String autoLaunchTsunamiHeightXpath;
 
     private Double autoLaunchTsunamiHeightThreashold;
 
@@ -116,8 +120,6 @@ public class ParseRule {
             // ymlファイルパスはアプリ構成定義から取得
             AppConfig appConfig = AppConfig.getInstance();
             String parse_rule_file = appConfig.getConfig("parse_rule_file");
-            // for debug
-            parse_rule_file = "config/parse_rule.yml";
             Object obj = Yaml.load(new FileReader(parse_rule_file));
 
             // ymlの定義内容はMap形式であることが前提
@@ -183,9 +185,9 @@ public class ParseRule {
             // 津波用
             HashMap<String, Object> autoLaunchTsunami = (HashMap<String, Object>) autoLaunch
                     .get("津波");
-            autoLaunchTsunamiHeightXpaths = (ArrayList<String>) autoLaunchTsunami
+            autoLaunchTsunamiHeightXpath = (String) autoLaunchTsunami
                     .get("Path");
-            autoLaunchTsunamiHeightThreashold = (Double) autoLaunchEarthquake
+            autoLaunchTsunamiHeightThreashold = (Double) autoLaunchTsunami
                     .get("高さ");
 
             // ------------------------------------------------
@@ -216,7 +218,9 @@ public class ParseRule {
                     .get("プロジェクト");
             jmaProjectId = project.get("JMAプロジェクトID");
             kasenProjectId = project.get("河川プロジェクトID");
-
+            trainingProjectId = project.get("訓練プロジェクトID");
+            testProjectId = project.get("通信テストプロジェクトID");
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -307,8 +311,8 @@ public class ParseRule {
         return autoLaunchSeismicIntensityThreashold;
     }
 
-    public ArrayList<String> getAutoLaunchTsunamiHeightXpaths() {
-        return autoLaunchTsunamiHeightXpaths;
+    public String getAutoLaunchTsunamiHeightXpath() {
+        return autoLaunchTsunamiHeightXpath;
     }
 
     public Double getAutoLaunchTsunamiHeightThreashold() {
@@ -329,6 +333,14 @@ public class ParseRule {
 
     public Double getAutoSendTsunamiHeightThreashold() {
         return autoSendTsunamiHeightThreashold;
+    }
+
+    public String getTrainingProjectId() {
+        return trainingProjectId;
+    }
+
+    public String getTestProjectId() {
+        return testProjectId;
     }
 
     /**
@@ -353,10 +365,5 @@ public class ParseRule {
             }
         }
         return null;
-    }
-
-    public static void main(String[] args) {
-
-        new ParseRule();
     }
 }

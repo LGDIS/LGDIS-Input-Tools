@@ -47,7 +47,6 @@ public class XmlDataHandler implements PickupDataHandler {
         }
 
         // xmlデータを解析
-        System.err.println("xmlデータ解析！");
         JAlertKishouDataParser parser = new JAlertKishouDataParser();
         boolean isSuccess = parser.parse(xml);
         if (isSuccess == false) {
@@ -58,6 +57,9 @@ public class XmlDataHandler implements PickupDataHandler {
         // 送信データを作成
         String sendData = parser.createIssuesXmlAsString();
 
+        // for debug
+        System.err.println(sendData);
+        
         // rest送信
         PostController postController = new PostController();
         postController.post(sendData);
