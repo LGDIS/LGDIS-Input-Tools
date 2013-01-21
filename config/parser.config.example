@@ -6,4 +6,4 @@
 redmine_file=/home/dis/develop/LGDIS-Input-Tools/config/redmine.properties
 
 # path of parse_rule.yml
-parth_rule_file=/home/dis/develop/LGDIS-Input-Tools/config/parse_rule.yml
+parse_rule_file=/home/dis/develop/LGDIS-Input-Tools/config/parse_rule.yml
