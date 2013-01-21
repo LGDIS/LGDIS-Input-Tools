@@ -1,0 +1,58 @@
+カスタムフィールド: 
+ Status: "/Report/Control/Status"
+ EditorialOffice: "/Report/Control/EditorialOffice/text()"
+ PublishingOffice: "/Report/Control/PublishingOffice/text()"
+ ReportDateTime: "abc"
+ TargetDateTime: ""
+ TargetDTDubious: ""
+ TargetDuration: ""
+ ValidDateTime: ""
+ EventID: ""
+ InfoType: ""
+ Serial: ""
+ InfoKind: ""
+ InfoKindVersion: ""
+ Text: ""
+ Cause: ""
+ Apply: ""
+
+トラッカー: 
+ Path: "/Report/Head/Headline/Information/@type"
+ Type: 
+  - "緊急地震速報（地方予報区）": "気象等環境変化モデル"
+  - "タイプ2": "モデル2"
+  - "タイプ3": "モデル3"
+
+プロジェクト: 
+ JMAプロジェクトID: "rms-project"
+ 河川プロジェクトID: "rms-project"
+
+プロジェクト自動立ち上げ: 
+ 地震: 
+  Path: "/Report/Body/Earthquake/jmx_eb:Magnitude/text()"
+  震度: 5.1
+ 津波:
+  Path: 
+   - : "/Report/Body/Earthquake/jmx_eb:Magnitude/text()"
+  高さ: 5
+ 配信先: 
+  - 配信先ID1
+  - 配信先ID2
+
+プロジェクト自動配信: 
+ 地震: 
+  Path: "/Report/Body/Earthquake/jmx_eb:Magnitude/text()"
+  震度: 5.1
+ 津波: 
+  Path: 
+   - "/Report/Body/Earthquake/jmx_eb:Magnitude/text()"
+  高さ: 5
+ 配信先: 
+  - 配信先ID1
+  - 配信先ID3
+
+訓練: 
+ プロジェクトID: "kunren-project"
+
+通信テスト: 
+ プロジェクトID: "test-project"
