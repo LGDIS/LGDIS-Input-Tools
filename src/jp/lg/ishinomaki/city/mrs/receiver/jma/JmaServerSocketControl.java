@@ -536,49 +536,59 @@ public class JmaServerSocketControl {
                 // 2.ユーザデータ(チェックポイントあり)の場合はこの処理内で回答する
                 // 3.ユーザデータ(チェックポイントなし)の場合はメッセージを呼び出し元へ渡して処理終了
                 // --------------------------------------------------------------------------
-                if (msg.isHealthCheck()) {
-                    // 1.ヘルスチェック //
-                    log.info("[" + threadName + "] ヘルスチェック電文です。");
-                    // ヘルスチェック応答返却
-                    ackHelthCheck();
+                // メッセージ種別がJMA接続仕様対象外の場合はデータ自体無視する
+                if (msg.isValidMessageType()) {
 
-                } else if (msg.isCheckPoint()) {
-                    // 2.チェックポイントあり //
-                    log.info("[" + threadName + "] ユーザデータ (チェックポイントあり) 電文です。");
+                    if (msg.isHealthCheck()) {
+                        // 1.ヘルスチェック //
+                        log.info("[" + threadName + "] ヘルスチェック電文です。");
+                        // ヘルスチェック応答返却
+                        ackHelthCheck();
 
-                    // チェックポイントの場合はデータをインスタンス変数に保存しクライアントへ"ACK"を回答
-                    checkpointManagedMessages.add(msg);
-                    // チェックポイント応答返却
-                    ackCheckpoint(msg);
+                    } else if (msg.isCheckPoint()) {
+                        // 2.チェックポイントあり //
+                        log.info("[" + threadName
+                                + "] ユーザデータ (チェックポイントあり) 電文です。");
 
-                } else {
-                    // 3.チェックポイントなし //
-                    log.info("[" + threadName + "] ユーザデータ (チェックポイントなし) 電文です。");
+                        // チェックポイントの場合はデータをインスタンス変数に保存しクライアントへ"ACK"を回答
+                        checkpointManagedMessages.add(msg);
+                        // チェックポイント応答返却
+                        ackCheckpoint(msg);
 
-                    // 分割受信用保存データ初期化
-                    savedMessage = null;
-
-                    // ----------------------------------------------------------------------
-                    // デリゲートにユーザデータ内容を通知
-                    // チェックポイント管理されている場合は全ユーザデータを結合
-                    // チェックポイント管理されていない場合は1つのメッセージのユーザデータを返却
-                    // ----------------------------------------------------------------------
-                    byte[] userData = null;
-                    if (checkpointManagedMessages != null
-                            && checkpointManagedMessages.size() > 0) {
-                        // チェックポイント管理中
-                        userData = mergeCheckpointManagedData();
                     } else {
-                        // チェックポイント管理なし
-                        userData = msg.getUserData();
+                        // 3.チェックポイントなし //
+                        log.info("[" + threadName
+                                + "] ユーザデータ (チェックポイントなし) 電文です。");
+
+                        // 分割受信用保存データ初期化
+                        savedMessage = null;
+
+                        // ----------------------------------------------------------------------
+                        // デリゲートにユーザデータ内容を通知
+                        // チェックポイント管理されている場合は全ユーザデータを結合
+                        // チェックポイント管理されていない場合は1つのメッセージのユーザデータを返却
+                        // ----------------------------------------------------------------------
+                        byte[] userData = null;
+                        if (checkpointManagedMessages != null
+                                && checkpointManagedMessages.size() > 0) {
+                            // チェックポイント管理中
+                            userData = mergeCheckpointManagedData();
+                        } else {
+                            // チェックポイント管理なし
+                            userData = msg.getUserData();
+                        }
+
+                        // チェックポイント管理用変数初期化
+                        checkpointManagedMessages = new ArrayList<JmaMessage>();
+
+                        // デリゲート通知
+                        delegate.receiveData(userData);
                     }
 
-                    // チェックポイント管理用変数初期化
-                    checkpointManagedMessages = new ArrayList<JmaMessage>();
-
-                    // デリゲート通知
-                    delegate.receiveData(userData);
-
+                } else {
+                    log.severe("想定外のメッセージ種別です。 種別 -> " + msg.getMessageType());
+                    System.err.println("想定外のメッセージ種別です。 種別 -> "
+                            + msg.getMessageType());
                 }
 
             } catch (IOException e) {

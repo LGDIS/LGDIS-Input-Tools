@@ -127,8 +127,7 @@ public class JmaMessage {
     public static final String MSGTYPE_FX = "FX";
 
     /**
-     * メッセージ種別 ユーザデータ - 制御データ チェックポイント確認なし
-     * ※当メッセージ種別はJ-Alertからのみ受信
+     * メッセージ種別 ユーザデータ - 制御データ チェックポイント確認なし ※当メッセージ種別はJ-Alertからのみ受信
      */
     public static final String MSGTYPE_JL = "JL";
 
@@ -153,8 +152,7 @@ public class JmaMessage {
     public static final String MSGTYPE_fX = "fX";
 
     /**
-     * メッセージ種別 ユーザデータ - チェックポイント確認あり
-     * ※当メッセージ種別はJ-Alertからのみ受信
+     * メッセージ種別 ユーザデータ - チェックポイント確認あり ※当メッセージ種別はJ-Alertからのみ受信
      */
     public static final String MSGTYPE_jL = "jL";
 
@@ -466,6 +464,25 @@ public class JmaMessage {
         } else {
             return null;
         }
+    }
+
+    /**
+     * メッセージ種別がJMA仕様に則っているかを確認
+     * @return
+     */
+    public boolean isValidMessageType() {
+        if (this.messageType.equals(MSGTYPE_AN)
+                || this.messageType.equals(MSGTYPE_BI)
+                || this.messageType.equals(MSGTYPE_EN)
+                || this.messageType.equals(MSGTYPE_FX)
+                || this.messageType.equals(MSGTYPE_JL)
+                || this.messageType.equals(MSGTYPE_aN)
+                || this.messageType.equals(MSGTYPE_bI)
+                || this.messageType.equals(MSGTYPE_fX)
+                || this.messageType.equals(MSGTYPE_jL)) {
+            return true;
+        }
+        return false;
     }
 
 }
