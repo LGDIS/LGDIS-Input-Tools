@@ -19,22 +19,23 @@
 トラッカー: 
  Path: "/Report/Head/Headline/Information/@type"
  Type: 
-  - "緊急地震速報（地方予報区）": "気象等環境変化モデル"
-  - "タイプ2": "モデル2"
-  - "タイプ3": "モデル3"
+  - "緊急地震速報（地方予報区）": "1"
+  - "津波予報領域表現": "2"
+  - "タイプ3": "4"
 
 プロジェクト: 
  JMAプロジェクトID: "rms-project"
  河川プロジェクトID: "rms-project"
+ 訓練プロジェクトID: "training-project"
+ 通信テストプロジェクトID: "test-project"
 
 プロジェクト自動立ち上げ: 
  地震: 
-  Path: "/Report/Body/Earthquake/jmx_eb:Magnitude/text()"
+  Path: "/Report/Body/Earthquake/Magnitude/text()"
   震度: 5.1
  津波:
-  Path: 
-   - : "/Report/Body/Earthquake/jmx_eb:Magnitude/text()"
-  高さ: 5
+  Path: "/Report/Body/Tsunami/Forecast/Item/MaxHeight/TsunamiHeight/text()"
+  高さ: 0.7
  配信先: 
   - 配信先ID1
   - 配信先ID2
@@ -51,8 +52,3 @@
   - 配信先ID1
   - 配信先ID3
 
-訓練: 
- プロジェクトID: "kunren-project"
-
-通信テスト: 
- プロジェクトID: "test-project"
