@@ -5,33 +5,33 @@
 # ------------------------------------------------------------
 custom_fields: 
 # 運用種別(Status)
- "1": "/Report/Control/Status/text()"
+# "": "/Report/Control/Status/text()"
 # 編集官署名(EditorialOffice)
- "2": "/Report/Control/EditorialOffice/text()"
+# "": "/Report/Control/EditorialOffice/text()"
 # 発表官署名(PublishingOffice)
- "3": "/Report/Control/PublishingOffice/text()"
+ "22": "/Report/Control/PublishingOffice/text()"
 # 発表時刻(ReportDateTime)
- "4": "/Report/Head/ReportDateTime/text()"
+# "": "/Report/Head/ReportDateTime/text()"
 # 基点時刻(TargetDateTime)
- "5": "/Report/Head/TargetDateTime/text()"
+# "": "/Report/Head/TargetDateTime/text()"
 # 基点時刻のあいまいさ(TargetDTDubious)
- "6": "/Report/Head/TargetDTDubious/text()"
+# "": "/Report/Head/TargetDTDubious/text()"
 # 予報期間(TargetDuration)
- "7": "/Report/Head/TargetDuration/text()"
+# "": "/Report/Head/TargetDuration/text()"
 # 失効時刻(ValidDateTime)
- "8": "/Report/Head/ValidDateTime/text()"
+# "": "/Report/Head/ValidDateTime/text()"
 # 識別情報(EventID)
- "9": "/Report/Head/EventID/text()"
+# "": "/Report/Head/EventID/text()"
 # 情報形態(InfoType)
- "10": "/Report/Head/InfoType/text()"
+# "": "/Report/Head/InfoType/text()"
 # 情報番号(Serial)
- "11": "/Report/Head/Serial/text()"
+# "": "/Report/Head/Serial/text()"
 # スキーマの運用種別情報(InfoKind)
- "12": "/Report/Head/InfoKind/text()"
+# "": "/Report/Head/InfoKind/text()"
 # スキーマの運用種別情報バージョン(InfoKindVersion)
- "13": "/Report/Head/InfoKindVersion/text()"
+# "": "/Report/Head/InfoKindVersion/text()"
 # 見出し文(Text)
- "14": "/Report/Head/Headline/Text/text()"
+ "4": "/Report/Head/Headline/Text/text()"
 
 
 # ------------------------------------------------------------

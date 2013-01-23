@@ -101,7 +101,6 @@ public class JmaDataParser {
      * @return
      */
     public boolean parse(String xml) {
-        System.out.println(xml);
         try {
             // ------------------------------------------------------------------------
             // Control,Head,Body部抽出
@@ -203,10 +202,11 @@ public class JmaDataParser {
                 // カスタムフィールドに設定する値を取得
                 String customFieldValue = stringByXpath(xpath,
                         customFieldXpath, doc);
-                if (customFieldValue != null) {
+                if (StringUtils.isBlank(customFieldValue) == false) {
                     customFieldMap.put(String.valueOf(customFieldId), customFieldValue);
                 }
             }
+            System.out.println(customFieldMap);
 
             // --------------------------------------------------------
             // プロジェクト自動立ち上げ/自動配信を判定
