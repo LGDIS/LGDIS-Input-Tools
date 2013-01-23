@@ -54,16 +54,6 @@ public class JmaDataParser {
     private String projectId;
 
     /**
-     * 通信試験モードを判断するフラグ
-     */
-    private boolean isTest;
-
-    /**
-     * 訓練モードを判断するフラグ
-     */
-    private boolean isTraining;
-
-    /**
      * プロジェクト自動立ち上げ用フラグ
      */
     private boolean isAutoLaunch;
@@ -199,12 +189,6 @@ public class JmaDataParser {
             if (projectId == null) {
                 log.warning("プロジェクトIDが特定できないため処理を中断します。 Status -> " + status);
                 return false;
-            }
-            // !! Statusの値によって"test"フラグと"training"フラグを設定する
-            if ("試験".equals(status)) {
-                isTest = true;
-            } else if ("訓練".equals(status)) {
-                isTraining = true;
             }
 
             // --------------------------------------------------------
@@ -422,15 +406,6 @@ public class JmaDataParser {
             cf.addAttribute("id", key);
             Element cfe = cf.addElement("value");
             cfe.addText(customFieldMap.get(key));
-        }
-
-        // 試験/訓練モード
-        if (isTest) {
-            Element test_element = issue.addElement("test");
-            test_element.addText("1");
-        } else if (isTraining) {
-            Element training_element = issue.addElement("training");
-            training_element.addText("1");
         }
 
         return doc.asXML();
