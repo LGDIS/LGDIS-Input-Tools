@@ -11,6 +11,7 @@ package jp.lg.ishinomaki.city.mrs.parser;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import jp.lg.ishinomaki.city.mrs.AppConfig;
 
@@ -23,67 +24,92 @@ import org.ho.yaml.Yaml;
 public class ParseRule {
 
     /**
+     * 定義体ロード用の識別子定義
+     */
+    private static final String CUSTOM_FIELDS = "custom_fields";
+    private static final String TRACKERS = "trackers";
+    private static final String PROJECTS = "projects";
+    private static final String AUTO = "auto";
+    private static final String PATH = "path";
+    private static final String TYPE = "type";
+    private static final String EARTHQUAKE_THRESHOLD = "earthquake_threashold";
+    private static final String TSUNAMI_THRESHOLD = "tsunami_threashold";
+    private static final String EARTHQUAKE_PATH = "earthquake_path";
+    private static final String TSUNAMI_PATH = "tsunami_path";
+    private static final String LAUNCH = "launch";
+    private static final String SEND = "send";
+    private static final String TARGETS = "targets";
+    private static final String DEFAULT = "default";
+    
+    /**
      * yml定義内容を保持するテーブル
      */
     private HashMap<String, Object> rule;
 
-    private String statusXpath;
+    /**
+     * key:カスタムフィールドのID,value:対象のXpath
+     */
+    private Map<Integer, String> customFields;
 
-    private String editorialOfficeXpath;
+    /**
+     * key:Information type, value:トラッカーID
+     */
+    private Map<String, String> trackers;
 
-    private String publishingOfficeXpath;
+    /**
+     * トラッカーIDを引き当てるためのInfomationタグ->type属性へのXPath
+     */
+    private String trackerXpath;
 
-    private String reportDateTimeXpath;
+    /**
+     * プロジェクトIDを引き当てるためのStatusタグへのXpath
+     */
+    private String projectXpath;
 
-    private String targetDateTimeXpath;
+    /**
+     * key:status, value:プロジェクトID
+     */
+    private Map<String, String> projects;
 
-    private String targetDtDubiousXpath;
+    /**
+     * デフォルトのプロジェクトID
+     */
+    private String defaultProjectId;
 
-    private String targetDurationXpath;
+    /**
+     * 震度を示す値へのXPath
+     */
+    private String seismicIntensityXpath;
 
-    private String validDateTimeXpath;
+    /**
+     * 津波の高さを示す値へのXPath
+     */
+    private String tsunamiHeightXpath;
 
-    private String eventIdXpath;
-
-    private String infoTypeXpath;
-
-    private String serialXpath;
-
-    private String infoKindXpath;
-
-    private String infoKindVersionXpath;
-
-    private String textXpath;
-
-    private String causeXpath;
-
-    private String applyXpath;
-
-    private String informationTypeXpath;
-
-    private String jmaProjectId;
-
-    private String kasenProjectId;
-
-    private String trainingProjectId;
-    
-    private String testProjectId;
-    
-    private String autoLaunchSeismicIntensityXpath;
-
+    /**
+     * プロジェクト自動立ち上げのための震度のしきい値
+     */
     private Double autoLaunchSeismicIntensityThreashold;
 
-    private String autoLaunchTsunamiHeightXpath;
-
+    /**
+     * プロジェクト自動立ち上げのための津波の高さのしきい値
+     */
     private Double autoLaunchTsunamiHeightThreashold;
 
-    private String autoSendSeismicIntensityXpath;
-
+    /**
+     * プロジェクト自動配信のための震度のしきい値
+     */
     private Double autoSendSeismicIntensityThreashold;
 
-    private ArrayList<String> autoSendTsunamiHeightXpaths;
-
+    /**
+     * プロジェクト自動配信のための津波の高さのしきい値
+     */
     private Double autoSendTsunamiHeightThreashold;
+
+    /**
+     * プロジェクト自動配信時の配信先IDリスト
+     */
+    private ArrayList<String> autoSendTargets;
 
     /**
      * シングルトンインスタンス
@@ -120,250 +146,181 @@ public class ParseRule {
             // ymlファイルパスはアプリ構成定義から取得
             AppConfig appConfig = AppConfig.getInstance();
             String parse_rule_file = appConfig.getConfig("parse_rule_file");
+            if (parse_rule_file == null) {
+                parse_rule_file = "config/parse_rule.yml";
+            }
             Object obj = Yaml.load(new FileReader(parse_rule_file));
 
             // ymlの定義内容はMap形式であることが前提
             rule = (HashMap<String, Object>) obj;
 
             // ------------------------------------------------
-            // 各種Xpathの文字列を取得する
+            // カスタムフィールド用定義内容を保持
             // ------------------------------------------------
-            HashMap<String, String> customField = (HashMap<String, String>) rule
-                    .get("カスタムフィールド");
-
-            // Status
-            statusXpath = customField.get("Status");
-            // EditorialOffice
-            editorialOfficeXpath = customField.get("EditorialOffice");
-            // PublishingOffice
-            publishingOfficeXpath = customField.get("PublishingOffice");
-            // ReportDateTime
-            reportDateTimeXpath = customField.get("ReportDateTime");
-            // TargetDateTime
-            targetDateTimeXpath = customField.get("TargetDateTime");
-            // TargetDtDubious
-            targetDtDubiousXpath = customField.get("TargetDtDubious");
-            // TargetDuration
-            targetDurationXpath = customField.get("TargetDuration");
-            // ValidDateTime
-            validDateTimeXpath = customField.get("ValidDateTime");
-            // EventID
-            eventIdXpath = customField.get("EventID");
-            // InfoType
-            infoTypeXpath = customField.get("InfoType");
-            // Serial
-            serialXpath = customField.get("Serial");
-            // InfoKind
-            infoKindXpath = customField.get("InfoKind");
-            // InfoKindVersion
-            infoKindVersionXpath = customField.get("InfoKindVersion");
-            // Text
-            textXpath = customField.get("Text");
-            // Cause
-            causeXpath = customField.get("Cause");
-            // Apply
-            applyXpath = customField.get("Apply");
-
-            // Information Type取得パス
-            HashMap<String, Object> tracker = (HashMap<String, Object>) rule
-                    .get("トラッカー");
-            informationTypeXpath = (String) tracker.get("Path");
+            customFields = (Map<Integer, String>) rule.get(CUSTOM_FIELDS);
 
             // ------------------------------------------------
-            // プロジェクト自動立ち上げ用設定値取得
+            // トラッカー用定義
             // ------------------------------------------------
-            HashMap<String, Object> autoLaunch = (HashMap<String, Object>) rule
-                    .get("プロジェクト自動立ち上げ");
-            // 地震用
-            HashMap<String, Object> autoLaunchEarthquake = (HashMap<String, Object>) autoLaunch
-                    .get("地震");
-            autoLaunchSeismicIntensityXpath = (String) autoLaunchEarthquake
-                    .get("Path");
-            autoLaunchSeismicIntensityThreashold = (Double) autoLaunchEarthquake
-                    .get("震度");
+            // Information Type取得用のXPath
+            Map<String, Object> tracker = (HashMap<String, Object>) rule
+                    .get(TRACKERS);
+            trackerXpath = (String) tracker.get(PATH);
 
-            // 津波用
-            HashMap<String, Object> autoLaunchTsunami = (HashMap<String, Object>) autoLaunch
-                    .get("津波");
-            autoLaunchTsunamiHeightXpath = (String) autoLaunchTsunami
-                    .get("Path");
-            autoLaunchTsunamiHeightThreashold = (Double) autoLaunchTsunami
-                    .get("高さ");
+            // トラッカー用テーブル取得
+            trackers = (Map<String, String>) tracker.get(TYPE);
 
             // ------------------------------------------------
-            // プロジェクト自動配信用設定値取得
+            // プロジェクト用定義
             // ------------------------------------------------
-            HashMap<String, Object> autoSend = (HashMap<String, Object>) rule
-                    .get("プロジェクト自動配信");
-            // 地震用
-            HashMap<String, Object> autoSendEarthquake = (HashMap<String, Object>) autoSend
-                    .get("地震");
-            autoSendSeismicIntensityXpath = (String) autoSendEarthquake
-                    .get("Path");
-            autoSendSeismicIntensityThreashold = (Double) autoSendEarthquake
-                    .get("震度");
+            Map<String, Object> project = (HashMap<String, Object>) rule
+                    .get(PROJECTS);
+            projectXpath = (String) project.get(PATH);
 
-            // 津波用
-            HashMap<String, Object> autoSendTsunami = (HashMap<String, Object>) autoSend
-                    .get("津波");
-            autoSendTsunamiHeightXpaths = (ArrayList<String>) autoSendTsunami
-                    .get("Path");
-            autoSendTsunamiHeightThreashold = (Double) autoSendEarthquake
-                    .get("高さ");
+            // プロジェクト用テーブル取得
+            projects = (Map<String, String>) project.get(TYPE);
 
-            // ------------------------------------------------
-            // 固定プロジェクトID取得
-            // ------------------------------------------------
-            HashMap<String, String> project = (HashMap<String, String>) rule
-                    .get("プロジェクト");
-            jmaProjectId = project.get("JMAプロジェクトID");
-            kasenProjectId = project.get("河川プロジェクトID");
-            trainingProjectId = project.get("訓練プロジェクトID");
-            testProjectId = project.get("通信テストプロジェクトID");
+            // デフォルトのプロジェクトID取得
+            defaultProjectId = projects.get(DEFAULT);
             
+            // ------------------------------------------------
+            // プロジェクト自動立ち上げ/自動配信用設定値取得
+            // ------------------------------------------------
+            Map<String, Object> auto = (HashMap<String, Object>) rule
+                    .get(AUTO);
+
+            // 震度のXPath取得
+            seismicIntensityXpath = (String) auto.get(EARTHQUAKE_PATH);
+            // 津波のXPath取得
+            tsunamiHeightXpath = (String) auto.get(TSUNAMI_PATH);
+
+            // 自動立ち上げ用のMap取得
+            HashMap<String, Object> launchMap = (HashMap<String, Object>) auto
+                    .get(LAUNCH);
+            // 震度しきい値
+            autoLaunchSeismicIntensityThreashold = (Double) launchMap
+                    .get(EARTHQUAKE_THRESHOLD);
+            // 津波高さしきい値
+            autoLaunchTsunamiHeightThreashold = (Double) launchMap
+                    .get(TSUNAMI_THRESHOLD);
+
+            // 自動配信用のMap取得
+            HashMap<String, Object> sendMap = (HashMap<String, Object>) auto
+                    .get(SEND);
+            autoSendSeismicIntensityThreashold = (Double) sendMap
+                    .get(EARTHQUAKE_THRESHOLD);
+            autoSendTsunamiHeightThreashold = (Double) sendMap
+                    .get(TSUNAMI_THRESHOLD);
+
+            // 配信先IDのリストを取得
+            autoSendTargets = (ArrayList<String>) sendMap.get(TARGETS);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    public String getStatusXpath() {
-        return statusXpath;
+    /**
+     * カスタムフィールドテーブルを取得します
+     * 
+     * @return
+     */
+    public Map<Integer, String> getCustomFields() {
+        return customFields;
     }
 
-    public String getEditorialOfficeXpath() {
-        return editorialOfficeXpath;
+    /**
+     * 自動配信時の配信先リストを取得します
+     * 
+     * @return
+     */
+    public ArrayList<String> getAutoSendTargets() {
+        return autoSendTargets;
     }
 
-    public String getPublishingOfficeXpath() {
-        return publishingOfficeXpath;
+    /**
+     * 情報タイプからトラッカーIDを取得します。
+     * 
+     * @param infoType
+     * @return
+     */
+    public String getTrackerId(String infoType) {
+        return trackers.get(infoType);
     }
 
-    public String getReportDateTimeXpath() {
-        return reportDateTimeXpath;
+    /**
+     * 情報種別からプロジェクトIDを取得します。
+     * 
+     * @return
+     */
+    public String getProjectId(String status) {
+        String id = projects.get(status);
+        if (id == null) {
+            id = defaultProjectId;
+        }
+        return id;
+    }
+    
+    public String getTrackerXpath() {
+        return trackerXpath;
     }
 
-    public String getTargetDateTimeXpath() {
-        return targetDateTimeXpath;
-    }
-
-    public String getTargetDtDubiousXpath() {
-        return targetDtDubiousXpath;
-    }
-
-    public String getTargetDurationXpath() {
-        return targetDurationXpath;
-    }
-
-    public String getValidDateTimeXpath() {
-        return validDateTimeXpath;
-    }
-
-    public String getEventIdXpath() {
-        return eventIdXpath;
-    }
-
-    public String getInfoTypeXpath() {
-        return infoTypeXpath;
-    }
-
-    public String getSerialXpath() {
-        return serialXpath;
-    }
-
-    public String getInfoKindXpath() {
-        return infoKindXpath;
-    }
-
-    public String getInfoKindVersionXpath() {
-        return infoKindVersionXpath;
-    }
-
-    public String getTextXpath() {
-        return textXpath;
-    }
-
-    public String getCauseXpath() {
-        return causeXpath;
-    }
-
-    public String getApplyXpath() {
-        return applyXpath;
-    }
-
-    public String getInformationTypeXpath() {
-        return informationTypeXpath;
-    }
-
-    public String getJmaProjectId() {
-        return jmaProjectId;
-    }
-
-    public String getKasenProjectId() {
-        return kasenProjectId;
-    }
-
-    public String getAutoLaunchSeismicIntensityXpath() {
-        return autoLaunchSeismicIntensityXpath;
+    public String getSeismicIntensityXpath() {
+        return seismicIntensityXpath;
     }
 
     public Double getAutoLaunchSeismicIntensityThreashold() {
         return autoLaunchSeismicIntensityThreashold;
     }
 
-    public String getAutoLaunchTsunamiHeightXpath() {
-        return autoLaunchTsunamiHeightXpath;
+    public String getTsunamiHeightXpath() {
+        return tsunamiHeightXpath;
     }
 
     public Double getAutoLaunchTsunamiHeightThreashold() {
         return autoLaunchTsunamiHeightThreashold;
     }
 
-    public String getAutoSendSeismicIntensityXpath() {
-        return autoSendSeismicIntensityXpath;
-    }
-
     public Double getAutoSendSeismicIntensityThreashold() {
         return autoSendSeismicIntensityThreashold;
-    }
-
-    public ArrayList<String> getAutoSendTsunamiHeightXpaths() {
-        return autoSendTsunamiHeightXpaths;
     }
 
     public Double getAutoSendTsunamiHeightThreashold() {
         return autoSendTsunamiHeightThreashold;
     }
 
-    public String getTrainingProjectId() {
-        return trainingProjectId;
+    public Map<String, String> getTrackers() {
+        return trackers;
     }
 
-    public String getTestProjectId() {
-        return testProjectId;
+    public String getProjectXpath() {
+        return projectXpath;
     }
 
-    /**
-     * 情報タイプからトラッカーを取得します
-     * 
-     * @param infoType
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    public String getTracker(String infoType) {
-
-        HashMap<String, Object> tracker = (HashMap<String, Object>) rule
-                .get("トラッカー");
-        ArrayList<HashMap<String, String>> types = (ArrayList<HashMap<String, String>>) tracker
-                .get("Type");
-
-        // 全てのTypeを確認しヒットするものがあればそれに紐づくトラッカーIDを返却
-        for (HashMap<String, String> type : types) {
-            String trackerId = type.get(infoType);
-            if (trackerId != null) {
-                return trackerId;
-            }
-        }
-        return null;
+    public Map<String, String> getProjects() {
+        return projects;
     }
+
+    public String getDefaultProjectId() {
+        return defaultProjectId;
+    }
+
+    public static void main(String[] args) {
+        ParseRule rule = new ParseRule();
+        System.out.println(rule.getTrackerXpath());
+        System.out.println(rule.getProjectXpath());
+        System.out.println(rule.getSeismicIntensityXpath());
+        System.out.println(rule.getDefaultProjectId());
+        System.out.println(rule.getTrackerId("津波予報領域表現"));
+        System.out.println(rule.getProjectId("訓練"));
+        System.out.println(rule.getTsunamiHeightXpath());
+        System.out.println(rule.getAutoLaunchSeismicIntensityThreashold());
+        System.out.println(rule.getAutoLaunchTsunamiHeightThreashold());
+        System.out.println(rule.getAutoSendSeismicIntensityThreashold());
+        System.out.println(rule.getAutoSendTsunamiHeightThreashold());
+        System.out.println(rule.getAutoSendTargets());
+        System.out.println(rule.getCustomFields());
+    }
+
 }

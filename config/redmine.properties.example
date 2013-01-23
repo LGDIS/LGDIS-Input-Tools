@@ -14,13 +14,8 @@ target_host="host name or ip address"
 # Target post method of Redmine
 post_api=/redmine/issues.xml?format=xml
 
-
 # API key of Redmine
 api_key="apikey of redmine"
-
-
-# project_id
-static_project_id="project_id"
 
 # milli seconds
 timeout=120000

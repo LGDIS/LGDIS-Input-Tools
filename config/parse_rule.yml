@@ -1,54 +1,85 @@
-カスタムフィールド: 
- Status: "/Report/Control/Status"
- EditorialOffice: "/Report/Control/EditorialOffice/text()"
- PublishingOffice: "/Report/Control/PublishingOffice/text()"
- ReportDateTime: "abc"
- TargetDateTime: ""
- TargetDTDubious: ""
- TargetDuration: ""
- ValidDateTime: ""
- EventID: ""
- InfoType: ""
- Serial: ""
- InfoKind: ""
- InfoKindVersion: ""
- Text: ""
- Cause: ""
- Apply: ""
+# 大文字と小文字を区別するため注意して定義してください
+# ------------------------------------------------------------
+# カスタムフィールド用定義
+# key:カスタムフィールドID value:XML内から要素取得のためのXpath
+# ------------------------------------------------------------
+custom_fields: 
+# 運用種別(Status)
+ "1": "/Report/Control/Status/text()"
+# 編集官署名(EditorialOffice)
+ "2": "/Report/Control/EditorialOffice/text()"
+# 発表官署名(PublishingOffice)
+ "3": "/Report/Control/PublishingOffice/text()"
+# 発表時刻(ReportDateTime)
+ "4": "/Report/Head/ReportDateTime/text()"
+# 基点時刻(TargetDateTime)
+ "5": "/Report/Head/TargetDateTime/text()"
+# 基点時刻のあいまいさ(TargetDTDubious)
+ "6": "/Report/Head/TargetDTDubious/text()"
+# 予報期間(TargetDuration)
+ "7": "/Report/Head/TargetDuration/text()"
+# 失効時刻(ValidDateTime)
+ "8": "/Report/Head/ValidDateTime/text()"
+# 識別情報(EventID)
+ "9": "/Report/Head/EventID/text()"
+# 情報形態(InfoType)
+ "10": "/Report/Head/InfoType/text()"
+# 情報番号(Serial)
+ "11": "/Report/Head/Serial/text()"
+# スキーマの運用種別情報(InfoKind)
+ "12": "/Report/Head/InfoKind/text()"
+# スキーマの運用種別情報バージョン(InfoKindVersion)
+ "13": "/Report/Head/InfoKindVersion/text()"
+# 見出し文(Text)
+ "14": "/Report/Head/Headline/Text/text()"
 
-トラッカー: 
- Path: "/Report/Head/Headline/Information/@type"
- Type: 
-  - "緊急地震速報（地方予報区）": "1"
-  - "津波予報領域表現": "2"
-  - "タイプ3": "4"
 
-プロジェクト: 
- JMAプロジェクトID: "rms-project"
- 河川プロジェクトID: "rms-project"
- 訓練プロジェクトID: "training-project"
- 通信テストプロジェクトID: "test-project"
+# ------------------------------------------------------------
+# トラッカー用定義
+# Path: Information type 取得のためのXpath
+# Type: Information type 毎のトラッカーID定義
+# ------------------------------------------------------------
+trackers: 
+ path: "/Report/Head/Headline/Information/@type"
+ type: 
+  "緊急地震速報（地方予報区）": "1"
+  "津波予報領域表現": "2"
 
-プロジェクト自動立ち上げ: 
- 地震: 
-  Path: "/Report/Body/Earthquake/Magnitude/text()"
-  震度: 5.1
- 津波:
-  Path: "/Report/Body/Tsunami/Forecast/Item/MaxHeight/TsunamiHeight/text()"
-  高さ: 0.7
- 配信先: 
-  - 配信先ID1
-  - 配信先ID2
 
-プロジェクト自動配信: 
- 地震: 
-  Path: "/Report/Body/Earthquake/jmx_eb:Magnitude/text()"
-  震度: 5.1
- 津波: 
-  Path: 
-   - "/Report/Body/Earthquake/jmx_eb:Magnitude/text()"
-  高さ: 5
- 配信先: 
-  - 配信先ID1
-  - 配信先ID3
+# ------------------------------------------------------------
+# プロジェクト用定義
+# key: 各種プロジェクト識別子 value: プロジェクトID
+# jma -> JMA受信用プロジェクト
+# kasen -> 河川受信用プロジェクト
+# training -> 災害訓練用プロジェクト
+# test -> 通信テスト用プロジェクト
+# ------------------------------------------------------------
+projects: 
+ path: "/Report/Control/Status/text()"
+ type: 
+  "通常": "rms-project"
+  "訓練": "rms-project"
+  "試験": "test-project"
+  "default": "rms-project"
 
+
+# ------------------------------------------------------------
+# プロジェクト自動立ち上げ/自動配信用の定義
+# targetsにはLGDISのdestination_list.ymlに設定されている
+# 配信先IDをリストで指定
+# 1: 公共情報コモンズ
+# 2: 自治体職員向けメール
+# 3: まちcomi向けメール
+# 4: Twitter
+# 5: Facebook
+# ------------------------------------------------------------
+auto: 
+ earthquake_path: "/Report/Body/Earthquake/Magnitude/text()"
+ tsunami_path: "/Report/Body/Tsunami/Forecast/Item/MaxHeight/TsunamiHeight/text()"
+ launch: 
+  earthquake_threashold: 7.1
+  tsunami_threashold: 2.7
+ send: 
+  earthquake_threashold: 7.0
+  tsunami_threashold: 2.5
+  targets: ["2", "3", "4", "5"]

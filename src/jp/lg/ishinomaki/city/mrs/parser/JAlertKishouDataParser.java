@@ -11,7 +11,9 @@ package jp.lg.ishinomaki.city.mrs.parser;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.xml.xpath.XPathConstants;
@@ -38,7 +40,7 @@ public class JAlertKishouDataParser {
             .getSimpleName());
 
     // -------------------------------------------------------------------------
-    // 入力XMLから取得する項目をインスタンス変数として定義
+    // XML解析結果を保持するインスタンス変数
     // -------------------------------------------------------------------------
     /**
      * トラッカーID.<br>
@@ -47,86 +49,29 @@ public class JAlertKishouDataParser {
     private String trackerId;
 
     /**
-     * 運用種別<br>
-     * "通常","訓練","試験"の値をとる。"訓練"の場合と"試験"の場合はそれぞれ専用のプロジェクトIDを付与する。
+     * プロジェクトID.<br>
      */
-    private String status;
+    private String projectId;
 
     /**
-     * 編集官署名
+     * プロジェクト自動立ち上げ用フラグ
      */
-    private String editorialOffice;
+    private boolean isAutoLaunch;
 
     /**
-     * 発表官署名
+     * プロジェクト自動配信用フラグ
      */
-    private String publishingOffice;
+    private boolean isAutoSend;
 
     /**
-     * 発表時刻
+     * 自動配信先のIDリスト
      */
-    private String reportDateTime;
+    private List<String> sendTargetIds = new ArrayList<String>();
 
     /**
-     * 基点時刻
+     * カスタムフィールドマップ
      */
-    private String targetDateTime;
-
-    /**
-     * 基点時刻のあいまいさ
-     */
-    private String targetDtDubious;
-
-    /**
-     * 
-     */
-    private String targetDuration;
-
-    /**
-     * 失効時刻
-     */
-    private String validDateTime;
-
-    /**
-     * 識別情報
-     */
-    private String eventId;
-
-    /**
-     * 情報形態
-     */
-    private String infoType;
-
-    /**
-     * 情報番号
-     */
-    private String serial;
-
-    /**
-     * スキーマの運用種別情報
-     */
-    private String infoKind;
-
-    /**
-     * スキーマの運用種別情報のバージョン番号
-     */
-    private String infoKindVersion;
-
-    /**
-     * テキスト要素
-     */
-    private String text;
-
-    /**
-     * 地震の震度
-     */
-    private String seismicIntensity;
-
-    /**
-     * 津波の高さ.<br>
-     * 複数の値を持つことがあるためList型
-     */
-    private List<String> tsunamiHeights;
+    private Map<String, String> customFieldMap = new HashMap<String, String>();
 
     /**
      * Control部以下のXML内容を文字列として保持
@@ -189,7 +134,7 @@ public class JAlertKishouDataParser {
             }
 
             // ------------------------------------------------------------------------
-            // カスタムフィールド部抽出
+            // XPathによるXMLの解析を行う(別メソッドで行う)
             // ------------------------------------------------------------------------
             boolean ret = parseByXpath(xml);
             if (ret == false) {
@@ -224,61 +169,56 @@ public class JAlertKishouDataParser {
             // XML解析ルール取得
             ParseRule rule = ParseRule.getInstance();
 
-            // informationTypeにより紐付けられたトラッカーIDを取得
-            // トラッカーIDが取得できない場合は処理しない
+            // --------------------------------------------------------
+            // トラッカーID取得
+            // --------------------------------------------------------
             String informationType = stringByXpath(xpath,
-                    rule.getInformationTypeXpath(), doc);
-            trackerId = rule.getTracker(informationType);
+                    rule.getTrackerXpath(), doc);
+            trackerId = rule.getTrackerId(informationType);
             if (StringUtils.isBlank(trackerId)) {
-                log.warning("トラッカーIDが特定できないため処理を中断します。 InformationType -> "
+                log.warning("トラッカーIDが特定できないため処理を中断します。 Information Type -> "
                         + informationType);
                 return false;
             }
 
-            // 運用種別を取得
-            status = stringByXpath(xpath, rule.getStatusXpath(), doc);
-            // 編集官署名を取得
-            editorialOffice = stringByXpath(xpath,
-                    rule.getEditorialOfficeXpath(), doc);
-            // 発表官署名を取得
-            publishingOffice = stringByXpath(xpath,
-                    rule.getPublishingOfficeXpath(), doc);
-            // 発表時刻を取得
-            reportDateTime = stringByXpath(xpath,
-                    rule.getReportDateTimeXpath(), doc);
-            // 基点時刻を取得
-            targetDateTime = stringByXpath(xpath,
-                    rule.getTargetDateTimeXpath(), doc);
-            // 基点時刻のあいまいさを取得
-            targetDtDubious = stringByXpath(xpath,
-                    rule.getTargetDtDubiousXpath(), doc);
-            //
-            targetDuration = stringByXpath(xpath,
-                    rule.getTargetDurationXpath(), doc);
-            // 失効時刻を取得
-            validDateTime = stringByXpath(xpath, rule.getValidDateTimeXpath(),
-                    doc);
-            // 識別情報を取得
-            eventId = stringByXpath(xpath, rule.getEventIdXpath(), doc);
-            // 情報形態を取得
-            infoType = stringByXpath(xpath, rule.getInfoTypeXpath(), doc);
-            // 情報番号
-            serial = stringByXpath(xpath, rule.getSerialXpath(), doc);
-            // スキーマの運用種別情報
-            infoKind = stringByXpath(xpath, rule.getInfoKindXpath(), doc);
-            // スキーマの運用種別情報のバージョン番号
-            infoKindVersion = stringByXpath(xpath,
-                    rule.getInfoKindVersionXpath(), doc);
-            // テキスト要素
-            text = stringByXpath(xpath, rule.getTextXpath(), doc);
+            // --------------------------------------------------------
+            // プロジェクトID取得
+            // --------------------------------------------------------
+            String status = stringByXpath(xpath, rule.getProjectXpath(), doc);
+            projectId = rule.getProjectId(status);
+            if (projectId == null) {
+                log.warning("プロジェクトIDが特定できないため処理を中断します。 Status -> " + status);
+                return false;
+            }
 
-            // 地震の震度
-            seismicIntensity = stringByXpath(xpath,
-                    rule.getAutoLaunchSeismicIntensityXpath(), doc);
-            // 津波の高さ
-            // 複数保持する可能性があるためList型で保持
-            String tsunamiHeightPath = rule.getAutoLaunchTsunamiHeightXpath();
-            tsunamiHeights = new ArrayList<String>();
+            // --------------------------------------------------------
+            // カスタムフィールド取得
+            // key:カスタムフィールドID value:Xpathで取得した値
+            // の形式にしてcustomFieldMap変数に保持
+            // Xpathで値が取得できなかった場合はcusotmFieldMapに保持しない
+            // --------------------------------------------------------
+            Map<Integer, String> customFieldXpaths = rule.getCustomFields();
+            for (Integer customFieldId : customFieldXpaths.keySet()) {
+                String customFieldXpath = customFieldXpaths.get(customFieldId);
+                // カスタムフィールドに設定する値を取得
+                String customFieldValue = stringByXpath(xpath,
+                        customFieldXpath, doc);
+                if (customFieldValue != null) {
+                    customFieldMap.put(String.valueOf(customFieldId), customFieldValue);
+                }
+            }
+
+            // --------------------------------------------------------
+            // プロジェクト自動立ち上げ/自動配信を判定
+            // --------------------------------------------------------
+            // 震度を取得
+            String strSeismicIntensity = stringByXpath(xpath,
+                    rule.getSeismicIntensityXpath(), doc);
+            double seismicIntensity = Double.parseDouble(strSeismicIntensity);
+
+            // 津波の高さを取得
+            String tsunamiHeightPath = rule.getTsunamiHeightXpath();
+            List<String> tsunamiHeights = new ArrayList<String>();
             // 複数のノードが返るときはNodeListを使う
             NodeList nodes = nodelistByXpath(xpath, tsunamiHeightPath, doc);
             if (nodes != null) {
@@ -287,6 +227,46 @@ public class JAlertKishouDataParser {
                     tsunamiHeights.add(textNode.getTextContent());
                 }
             }
+
+            // 自動立ち上げの震度のしきい値取得
+            double autoLaunchSeismicIntensityThreshold = rule
+                    .getAutoLaunchSeismicIntensityThreashold().doubleValue();
+            // 自動立ち上げを判定
+            if (seismicIntensity >= autoLaunchSeismicIntensityThreshold) {
+                isAutoLaunch = true;
+            } else {
+                // 津波の高さのしきい値取得
+                double autoLaunchTsunamiHeightThreshold = rule
+                        .getAutoLaunchTsunamiHeightThreashold().doubleValue();
+                for (String sHeight : tsunamiHeights) {
+                    double dHeight = Double.parseDouble(sHeight);
+                    if (dHeight >= autoLaunchTsunamiHeightThreshold) {
+                        isAutoLaunch = true;
+                        break;
+                    }
+                }
+            }
+
+            // 自動配信の震度のしきい値取得
+            double autoSendSeismicIntensityThreshold = rule
+                    .getAutoSendSeismicIntensityThreashold().doubleValue();
+            // 自動立ち上げを判定
+            if (seismicIntensity >= autoSendSeismicIntensityThreshold) {
+                isAutoSend = true;
+            } else {
+                // 津波の高さのしきい値取得
+                double autoSendTsunamiHeightThreshold = rule
+                        .getAutoSendTsunamiHeightThreashold().doubleValue();
+                for (String sHeight : tsunamiHeights) {
+                    double dHeight = Double.parseDouble(sHeight);
+                    if (dHeight >= autoSendTsunamiHeightThreshold) {
+                        isAutoSend = true;
+                        break;
+                    }
+                }
+            }
+            // 自動配信先のIDリストを取得
+            sendTargetIds = rule.getAutoSendTargets();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -338,9 +318,6 @@ public class JAlertKishouDataParser {
      */
     public String createIssuesXmlAsString() {
 
-        // ルールファイルを使用
-        ParseRule rule = ParseRule.getInstance();
-
         Document doc = DocumentHelper.createDocument();
 
         // ルートは"issue"
@@ -348,46 +325,8 @@ public class JAlertKishouDataParser {
 
         // subject設定
         Element subject = issue.addElement("subject");
-        subject.addText("データ受信機能テスト");  // for test
+        subject.addText("データ受信機能テスト"); // for test
 
-        // ----------------------------------------------------------------
-        // プロジェクト自動立ち上げ判定
-        // ----------------------------------------------------------------
-        boolean isAutoLaunch = false;
-        // 震度による判断
-        if (StringUtils.isBlank(seismicIntensity) == false) {
-            Double threashold = rule.getAutoLaunchSeismicIntensityThreashold();
-            if (threashold != null) {
-                double dThreashold = threashold.doubleValue();
-                double value = Double.valueOf(seismicIntensity);
-                log.finest("地震時のプロジェクト自動立ち上げ判定");
-                log.finest("震度のしきい値 -> " + dThreashold);
-                log.finest("実際の震度 -> " + value);
-                if (value > dThreashold) {
-                    log.finest("プロジェクト自動立ち上げします");
-                    isAutoLaunch = true;
-                }
-            }
-        }
-        // 津波の高さによる判断
-        // 震度によるプロジェクト自動立ち上げ判定でONの場合は下記処理はスキップする
-        if (tsunamiHeights != null && tsunamiHeights.size() > 0 && isAutoLaunch == false) {
-            Double threashold = rule.getAutoLaunchTsunamiHeightThreashold();
-            if (threashold != null) {
-                double dThreashold = threashold.doubleValue();
-                log.finest("津波時のプロジェクト自動立ち上げ判定");
-                log.finest("高さのしきい値 -> " + dThreashold);
-                for (String height : tsunamiHeights) {
-                    double value = Double.valueOf(height);
-                    log.finest("実際の高さ -> " + value);
-                    if (value > dThreashold) {
-                        log.finest("プロジェクト自動立ち上げします");
-                        isAutoLaunch = true;
-                        break;
-                    }
-                }
-            }
-        }
         // プロジェクト自動立ち上げフラグがONの場合
         if (isAutoLaunch) {
             Element auto_launch = issue.addElement("auto_launch");
@@ -396,18 +335,26 @@ public class JAlertKishouDataParser {
             // 固定のプロジェクトID設定
             // プロジェクト自動立ち上げの場合は設定しない
             Element project_id = issue.addElement("project_id");
-            // 訓練の場合は訓練用のプロジェクトID設定
-            if (status.equals("訓練")) {
-                project_id.addText(rule.getTrainingProjectId());
+            project_id.addText(projectId);
+        }
+
+        // プロジェクト自動配信フラグがONの場合
+        if (isAutoSend) {
+            Element auto_send = issue.addElement("auto_send");
+            auto_send.addText("1");
+            // 自動配信先を設定
+            // カンマ区切りの文字列でIDのリストを設定
+            Element auto_send_targets = issue.addElement("auto_send_targets");
+            StringBuilder sb = new StringBuilder();
+            if (sendTargetIds != null) {
+                for (int i = 0, l = sendTargetIds.size(); i < l; i++) {
+                    sb.append(sendTargetIds.get(i));
+                    if (i != (l - 1)) {
+                        sb.append(",");
+                    }
+                }
             }
-            // 試験の場合は通信テストフラグ設定
-            else if (status.equals("試験")) {
-                project_id.addText(rule.getTestProjectId());
-            }
-            // 上記以外は固定のプロジェクトID設定
-            else {
-                project_id.addText(rule.getJmaProjectId());
-            }
+            auto_send_targets.addText(sb.toString());
         }
 
         // トラッカーID設定
@@ -431,97 +378,10 @@ public class JAlertKishouDataParser {
 
         // カスタムフィールド
         Element customFields = issue.addElement("custom_fields");
-        // statusを設定
-        if (!StringUtils.isBlank(status)) {
-            Element statusField = customFields.addElement("custom_field");
-            statusField.addAttribute("id", "1");
-            statusField.addText(status);
-        }
-        // editorialOfficeを設定
-        if (!StringUtils.isBlank(editorialOffice)) {
-            Element editorialOfficeField = customFields
-                    .addElement("custom_field");
-            editorialOfficeField.addAttribute("id", "2");
-            editorialOfficeField.addText(editorialOffice);
-        }
-        // publishingOfficeを設定
-        if (!StringUtils.isBlank(publishingOffice)) {
-            Element publishingOfficeField = customFields
-                    .addElement("custom_field");
-            publishingOfficeField.addAttribute("id", "3");
-            publishingOfficeField.addText(publishingOffice);
-        }
-        // reportDateTimeを設定
-        if (!StringUtils.isBlank(reportDateTime)) {
-            Element reportDateTimeField = customFields
-                    .addElement("custom_field");
-            reportDateTimeField.addAttribute("id", "4");
-            reportDateTimeField.addText(reportDateTime);
-        }
-        // targetDateTimeを設定
-        if (!StringUtils.isBlank(targetDateTime)) {
-            Element targetDateTimeField = customFields
-                    .addElement("custom_field");
-            targetDateTimeField.addAttribute("id", "5");
-            targetDateTimeField.addText(targetDateTime);
-        }
-        // targetDtDubiousを設定
-        if (!StringUtils.isBlank(targetDtDubious)) {
-            Element targetDtDubiousField = customFields
-                    .addElement("custom_field");
-            targetDtDubiousField.addAttribute("id", "6");
-            targetDtDubiousField.addText(targetDtDubious);
-        }
-        // targetDurationを設定
-        if (!StringUtils.isBlank(targetDuration)) {
-            Element targetDtDubiousField = customFields
-                    .addElement("custom_field");
-            targetDtDubiousField.addAttribute("id", "7");
-            targetDtDubiousField.addText(targetDuration);
-        }
-        // validDateTimeを設定
-        if (!StringUtils.isBlank(validDateTime)) {
-            Element validDateTimeField = customFields
-                    .addElement("custom_field");
-            validDateTimeField.addAttribute("id", "8");
-            validDateTimeField.addText(validDateTime);
-        }
-        // eventIdを設定
-        if (!StringUtils.isBlank(eventId)) {
-            Element eventIdField = customFields.addElement("custom_field");
-            eventIdField.addAttribute("id", "9");
-            eventIdField.addText(eventId);
-        }
-        // infoTypeを設定
-        if (!StringUtils.isBlank(infoType)) {
-            Element infoTypeField = customFields.addElement("custom_field");
-            infoTypeField.addAttribute("id", "10");
-            infoTypeField.addText(infoType);
-        }
-        // serialを設定
-        if (!StringUtils.isBlank(serial)) {
-            Element serialField = customFields.addElement("custom_field");
-            serialField.addAttribute("id", "11");
-            serialField.addText(serial);
-        }
-        // infoKindを設定
-        if (!StringUtils.isBlank(infoKind)) {
-            Element infoKindField = customFields.addElement("custom_field");
-            infoKindField.addAttribute("id", "12");
-            infoKindField.addText(serial);
-        }
-        // infoKindVersionを設定
-        if (!StringUtils.isBlank(infoKindVersion)) {
-            Element infoKindVersionField = customFields
-                    .addElement("custom_field");
-            infoKindVersionField.addAttribute("id", "13");
-            infoKindVersionField.addText(infoKindVersion);
-        }
-        // Textを設定
-        if (!StringUtils.isBlank(text)) {
-            Element textField = customFields.addElement("custom_field");
-            textField.addAttribute("id", "14");
-            textField.addText(text);
+        for (String key : customFieldMap.keySet()) {
+            Element cf = customFields.addElement("custom_field");
+            cf.addAttribute("id", key);
+            cf.addText(customFieldMap.get(key));
         }
 
         return doc.asXML();
