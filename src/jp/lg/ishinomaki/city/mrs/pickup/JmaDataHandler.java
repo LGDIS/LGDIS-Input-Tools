@@ -11,7 +11,7 @@ package jp.lg.ishinomaki.city.mrs.pickup;
 import java.io.UnsupportedEncodingException;
 import java.util.logging.Logger;
 
-import jp.lg.ishinomaki.city.mrs.parser.JAlertKishouDataParser;
+import jp.lg.ishinomaki.city.mrs.parser.JmaDataParser;
 import jp.lg.ishinomaki.city.mrs.rest.PostController;
 
 /**
@@ -19,12 +19,12 @@ import jp.lg.ishinomaki.city.mrs.rest.PostController;
  * このクラスではXMLの解析とRESTサーバへの送信処理を行います。
  * 
  */
-public class XmlDataHandler implements PickupDataHandler {
+public class JmaDataHandler implements PickupDataHandler {
 
     /**
      * ログ用
      */
-    private final Logger log = Logger.getLogger(XmlDataHandler.class
+    private final Logger log = Logger.getLogger(JmaDataHandler.class
             .getSimpleName());
 
     /**
@@ -47,7 +47,7 @@ public class XmlDataHandler implements PickupDataHandler {
         }
 
         // xmlデータを解析
-        JAlertKishouDataParser parser = new JAlertKishouDataParser();
+        JmaDataParser parser = new JmaDataParser();
         boolean isSuccess = parser.parse(xml);
         if (isSuccess == false) {
             log.severe("XMLの解析に失敗したため処理を中断します。");
@@ -56,8 +56,6 @@ public class XmlDataHandler implements PickupDataHandler {
 
         // 送信データを作成
         String sendData = parser.createIssuesXmlAsString();
-
-        // for debug
         System.err.println(sendData);
         
         // rest送信

@@ -20,12 +20,12 @@ import jp.lg.ishinomaki.city.mrs.utils.ZipHelper;
  * データをBCH、電文ヘッディング、本文に分割します。<br>
  * 
  */
-public class JAlertKishouDataAnalyzer implements DataAnalyzer {
+public class JmaDataAnalyzer implements DataAnalyzer {
 
     /**
      * 当クラスのロガーインスタンス
      */
-    private final Logger log = Logger.getLogger(JAlertKishouDataAnalyzer.class
+    private final Logger log = Logger.getLogger(JmaDataAnalyzer.class
             .getSimpleName());
 
     /**
@@ -76,7 +76,7 @@ public class JAlertKishouDataAnalyzer implements DataAnalyzer {
     /**
      * コンストラクタです。 特に処理はありません。
      */
-    public JAlertKishouDataAnalyzer() {
+    public JmaDataAnalyzer() {
         super();
     }
 

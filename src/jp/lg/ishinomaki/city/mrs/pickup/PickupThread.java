@@ -130,7 +130,7 @@ public class PickupThread extends Thread {
             DATA_TYPE dataType = getDataType(data);
             if (dataType == DATA_TYPE.XML) {
                 // XML解析クラス
-                handler = new XmlDataHandler();
+                handler = new JmaDataHandler();
             } else if (dataType == DATA_TYPE.TEXT) {
                 // テキスト解析クラス
                 handler = new TextDataHandler();

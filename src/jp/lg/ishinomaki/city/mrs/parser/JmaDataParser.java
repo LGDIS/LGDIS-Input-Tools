@@ -31,12 +31,12 @@ import org.w3c.dom.NodeList;
  * J-Alertから送信されたXMLデータを解析します。
  * 
  */
-public class JAlertKishouDataParser {
+public class JmaDataParser {
 
     /**
      * 当クラスのロガーインスタンス
      */
-    private final Logger log = Logger.getLogger(JAlertKishouDataParser.class
+    private final Logger log = Logger.getLogger(JmaDataParser.class
             .getSimpleName());
 
     // -------------------------------------------------------------------------
@@ -91,7 +91,7 @@ public class JAlertKishouDataParser {
     /**
      * コンストラクタです。
      */
-    public JAlertKishouDataParser() {
+    public JmaDataParser() {
     }
 
     /**
@@ -378,10 +378,12 @@ public class JAlertKishouDataParser {
 
         // カスタムフィールド
         Element customFields = issue.addElement("custom_fields");
+        customFields.addAttribute("type", "array");
         for (String key : customFieldMap.keySet()) {
             Element cf = customFields.addElement("custom_field");
             cf.addAttribute("id", key);
-            cf.addText(customFieldMap.get(key));
+            Element cfe = cf.addElement("value");
+            cfe.addText(customFieldMap.get(key));
         }
 
         return doc.asXML();
