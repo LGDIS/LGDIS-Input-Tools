@@ -306,21 +306,4 @@ public class ParseRule {
         return defaultProjectId;
     }
 
-    public static void main(String[] args) {
-        ParseRule rule = new ParseRule();
-        System.out.println(rule.getTrackerXpath());
-        System.out.println(rule.getProjectXpath());
-        System.out.println(rule.getSeismicIntensityXpath());
-        System.out.println(rule.getDefaultProjectId());
-        System.out.println(rule.getTrackerId("津波予報領域表現"));
-        System.out.println(rule.getProjectId("訓練"));
-        System.out.println(rule.getTsunamiHeightXpath());
-        System.out.println(rule.getAutoLaunchSeismicIntensityThreashold());
-        System.out.println(rule.getAutoLaunchTsunamiHeightThreashold());
-        System.out.println(rule.getAutoSendSeismicIntensityThreashold());
-        System.out.println(rule.getAutoSendTsunamiHeightThreashold());
-        System.out.println(rule.getAutoSendTargets());
-        System.out.println(rule.getCustomFields());
-    }
-
 }

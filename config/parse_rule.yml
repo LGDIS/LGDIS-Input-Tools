@@ -83,6 +83,6 @@ auto:
   earthquake_threashold: 7.5
   tsunami_threashold: 1.7
  send: 
-  earthquake_threashold: 5.5
+  earthquake_threashold: 7.5
   tsunami_threashold: 1.7
   targets: ["2", "3", "4", "5"]
