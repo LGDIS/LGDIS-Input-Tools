@@ -54,10 +54,12 @@ public class ParserMain implements Daemon {
         // 必要な情報を取得
         String redmine_file = config.getProperty("redmine_file");
         String parse_rule_file = config.getProperty("parse_rule_file");
+        String schema_file = config.getProperty("schema_file");
         AppConfig appConfig = AppConfig.getInstance();
         appConfig.putConfig("redmine_file", redmine_file);
         appConfig.putConfig("parse_rule_file", parse_rule_file);
-
+        appConfig.putConfig("schema_file", schema_file);
+        
         // メインクラス生成
         ParserMain main = new ParserMain();
         // クラス起動

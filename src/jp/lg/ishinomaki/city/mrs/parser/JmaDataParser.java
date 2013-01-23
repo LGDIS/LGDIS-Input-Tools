@@ -111,6 +111,7 @@ public class JmaDataParser {
      * @return
      */
     public boolean parse(String xml) {
+        System.out.println(xml);
         try {
             // ------------------------------------------------------------------------
             // Control,Head,Body部抽出

@@ -12,6 +12,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.logging.Logger;
 
 import jp.lg.ishinomaki.city.mrs.parser.JmaDataParser;
+import jp.lg.ishinomaki.city.mrs.parser.JmaSchemaChecker;
 import jp.lg.ishinomaki.city.mrs.rest.PostController;
 
 /**
@@ -46,6 +47,13 @@ public class JmaDataHandler implements PickupDataHandler {
             return;
         }
 
+        // xlmデータのスキーマチェックを実施
+        boolean isValid = JmaSchemaChecker.getInstatnce().validate(xml);
+        if (isValid == false) {
+            log.severe("XMLのスキーマチェックでNGだったため処理を中断します。");
+            return;
+        }
+        
         // xmlデータを解析
         JmaDataParser parser = new JmaDataParser();
         boolean isSuccess = parser.parse(xml);
