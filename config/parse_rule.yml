@@ -42,8 +42,11 @@ custom_fields:
 trackers: 
  path: "/Report/Head/Headline/Information/@type"
  type: 
-  "緊急地震速報（地方予報区）": "1"
-  "津波予報領域表現": "2"
+  "緊急地震速報（地方予報区）": "4"
+  "津波予報領域表現": "4"
+  "震度速報": "4"
+  "噴火警報・予報（対象火山）": "4"
+  "気象警報・注意報（府県予報区等）": "4"
 
 
 # ------------------------------------------------------------
@@ -57,10 +60,10 @@ trackers:
 projects: 
  path: "/Report/Control/Status/text()"
  type: 
-  "通常": "rms-project"
-  "訓練": "rms-project"
+  "通常": "jma-project"
+  "訓練": "training-project"
   "試験": "test-project"
-  "default": "rms-project"
+  "default": "jma-project"
 
 
 # ------------------------------------------------------------
@@ -77,9 +80,9 @@ auto:
  earthquake_path: "/Report/Body/Earthquake/Magnitude/text()"
  tsunami_path: "/Report/Body/Tsunami/Forecast/Item/MaxHeight/TsunamiHeight/text()"
  launch: 
-  earthquake_threashold: 7.1
-  tsunami_threashold: 2.7
+  earthquake_threashold: 5.5
+  tsunami_threashold: 1.7
  send: 
-  earthquake_threashold: 7.0
-  tsunami_threashold: 2.5
+  earthquake_threashold: 5.5
+  tsunami_threashold: 1.7
   targets: ["2", "3", "4", "5"]

@@ -225,12 +225,25 @@ public class JmaDataParser {
             }
 
             // --------------------------------------------------------
-            // プロジェクト自動立ち上げ/自動配信を判定
+            // プロジェクト自動立ち上げを判定
             // --------------------------------------------------------
             // 震度を取得
             String strSeismicIntensity = stringByXpath(xpath,
                     rule.getSeismicIntensityXpath(), doc);
-            double seismicIntensity = Double.parseDouble(strSeismicIntensity);
+            // 震度が取得できた場合は震度による自動立ち上げ判定実施
+            if (StringUtils.isBlank(strSeismicIntensity) == false) {
+                double seismicIntensity = Double
+                        .parseDouble(strSeismicIntensity);
+                // 自動立ち上げの震度のしきい値取得
+                double autoLaunchSeismicIntensityThreshold = rule
+                        .getAutoLaunchSeismicIntensityThreashold()
+                        .doubleValue();
+                // 自動立ち上げを判定
+                if (seismicIntensity >= autoLaunchSeismicIntensityThreshold) {
+                    isAutoLaunch = true;
+                    log.finest("震度:" + strSeismicIntensity + " しきい値:" + autoLaunchSeismicIntensityThreshold + " のため自動立ち上げON");
+                }
+            }
 
             // 津波の高さを取得
             String tsunamiHeightPath = rule.getTsunamiHeightXpath();
@@ -243,14 +256,8 @@ public class JmaDataParser {
                     tsunamiHeights.add(textNode.getTextContent());
                 }
             }
-
-            // 自動立ち上げの震度のしきい値取得
-            double autoLaunchSeismicIntensityThreshold = rule
-                    .getAutoLaunchSeismicIntensityThreashold().doubleValue();
-            // 自動立ち上げを判定
-            if (seismicIntensity >= autoLaunchSeismicIntensityThreshold) {
-                isAutoLaunch = true;
-            } else {
+            // 津波の高さが取得できた場合は高さによる自動立ち上げ判定実施
+            if (tsunamiHeights.size() > 0 && isAutoLaunch == false) {
                 // 津波の高さのしきい値取得
                 double autoLaunchTsunamiHeightThreshold = rule
                         .getAutoLaunchTsunamiHeightThreashold().doubleValue();
@@ -258,18 +265,30 @@ public class JmaDataParser {
                     double dHeight = Double.parseDouble(sHeight);
                     if (dHeight >= autoLaunchTsunamiHeightThreshold) {
                         isAutoLaunch = true;
+                        log.finest("高さ:" + sHeight + " しきい値:" + autoLaunchTsunamiHeightThreshold + " のため自動立ち上げON");
                         break;
                     }
                 }
             }
 
-            // 自動配信の震度のしきい値取得
-            double autoSendSeismicIntensityThreshold = rule
-                    .getAutoSendSeismicIntensityThreashold().doubleValue();
-            // 自動立ち上げを判定
-            if (seismicIntensity >= autoSendSeismicIntensityThreshold) {
-                isAutoSend = true;
-            } else {
+            // --------------------------------------------------------
+            // プロジェクト自動配信を判定
+            // --------------------------------------------------------
+            // 震度が取得できた場合は震度による自動配信判定実施
+            if (StringUtils.isBlank(strSeismicIntensity) == false) {
+                double seismicIntensity = Double
+                        .parseDouble(strSeismicIntensity);
+                // 自動配信の震度のしきい値取得
+                double autoSendSeismicIntensityThreshold = rule
+                        .getAutoSendSeismicIntensityThreashold().doubleValue();
+                // 自動立ち上げを判定
+                if (seismicIntensity >= autoSendSeismicIntensityThreshold) {
+                    isAutoSend = true;
+                    log.finest("震度:" + strSeismicIntensity + " しきい値:" + autoSendSeismicIntensityThreshold + " のため自動配信ON");
+                }
+            }
+            // 津波の高さが取得できた場合は高さによる自動配信判定実施
+            if (tsunamiHeights.size() > 0 && isAutoSend == false) {
                 // 津波の高さのしきい値取得
                 double autoSendTsunamiHeightThreshold = rule
                         .getAutoSendTsunamiHeightThreashold().doubleValue();
@@ -277,10 +296,12 @@ public class JmaDataParser {
                     double dHeight = Double.parseDouble(sHeight);
                     if (dHeight >= autoSendTsunamiHeightThreshold) {
                         isAutoSend = true;
+                        log.finest("高さ:" + sHeight + " しきい値:" + autoSendTsunamiHeightThreshold + " のため自動配信ON");
                         break;
                     }
                 }
             }
+
             // 自動配信先のIDリストを取得
             sendTargetIds = rule.getAutoSendTargets();
 
