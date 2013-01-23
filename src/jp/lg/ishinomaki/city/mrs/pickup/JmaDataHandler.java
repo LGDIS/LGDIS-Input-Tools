@@ -56,7 +56,6 @@ public class JmaDataHandler implements PickupDataHandler {
 
         // 送信データを作成
         String sendData = parser.createIssuesXmlAsString();
-        System.err.println(sendData);
         
         // rest送信
         PostController postController = new PostController();

@@ -206,7 +206,6 @@ public class JmaDataParser {
                     customFieldMap.put(String.valueOf(customFieldId), customFieldValue);
                 }
             }
-            System.out.println(customFieldMap);
 
             // --------------------------------------------------------
             // プロジェクト自動立ち上げ/自動配信を判定
