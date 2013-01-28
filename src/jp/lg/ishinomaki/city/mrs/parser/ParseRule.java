@@ -11,6 +11,7 @@ package jp.lg.ishinomaki.city.mrs.parser;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import jp.lg.ishinomaki.city.mrs.AppConfig;
@@ -26,8 +27,13 @@ public class ParseRule {
     /**
      * 定義体ロード用の識別子定義
      */
-    private static final String ISSUES_EXTRAS = "issues_extras";
-    private static final String ISSUES_ADDITION_DATUM_FIELDS = "issues_addition_datum_fields";
+    private static final String ISSUE_EXTRAS = "issue_extras";
+    private static final String ISSUE_ADDITION_DATUMS = "issue_addition_datums";
+    private static final String COORDINATE = "coordinate";
+    private static final String VALID_COORDINATE_TYPES = "valid_coordinate_types";
+    private static final String LINE = "line";
+    private static final String POLYGON = "polygon";
+    private static final String LOCATION = "Location";
     private static final String CUSTOM_FIELDS = "custom_fields";
     private static final String TRACKERS = "trackers";
     private static final String PROJECTS = "projects";
@@ -42,7 +48,7 @@ public class ParseRule {
     private static final String SEND = "send";
     private static final String TARGETS = "targets";
     private static final String DEFAULT = "default";
-    
+
     /**
      * yml定義内容を保持するテーブル
      */
@@ -51,12 +57,37 @@ public class ParseRule {
     /**
      * key:issuesテーブルのフィールド名,value:対象のXpath
      */
-    private Map<String, String> issuesExtras;
-    
+    private Map<String, String> issueExtras;
+
     /**
      * key:カスタムフィールドのID,value:対象のXpath
      */
     private Map<Integer, String> customFields;
+
+    /**
+     * 有効なCoordinateのタイプリスト
+     */
+    private List<String> validCoordinateTypes;
+
+    /**
+     * Coordinateを取得するためのXpathのリスト
+     */
+    private List<String> coordinateXpaths;
+
+    /**
+     * Lineを取得するためのXpathのリスト
+     */
+    private List<String> lineXpaths;
+
+    /**
+     * Polygonを取得するためのXpathのリスト
+     */
+    private List<String> polygonXpaths;
+
+    /**
+     * Locationを取得するためのXpathのリスト
+     */
+    private List<String> locationXpaths;
 
     /**
      * key:Information type, value:トラッカーID
@@ -164,13 +195,32 @@ public class ParseRule {
             // ------------------------------------------------
             // Issuesテーブル拡張フィールド用定義内容を保持
             // ------------------------------------------------
-            issuesExtras = (Map<String, String>) rule.get(ISSUES_EXTRAS);
-            
+            issueExtras = (Map<String, String>) rule.get(ISSUE_EXTRAS);
+
             // ------------------------------------------------
             // カスタムフィールド用定義内容を保持
             // ------------------------------------------------
             customFields = (Map<Integer, String>) rule.get(CUSTOM_FIELDS);
 
+            // ------------------------------------------------
+            // Issues_addition_datum用定義内容を保持
+            // それぞれの位置情報毎にXpathのリストを保持する
+            // ------------------------------------------------
+            Map<String, List<String>> issueAdditionDatum = (HashMap<String, List<String>>) rule
+                    .get(ISSUE_ADDITION_DATUMS);
+            // Coordinateを取得するためのXpathリスト
+            coordinateXpaths = issueAdditionDatum.get(COORDINATE);
+            // Lineを取得するためのXpathリスト
+            lineXpaths = issueAdditionDatum.get(LINE);
+            // Polygonを取得するためのXpathリスト
+            polygonXpaths = issueAdditionDatum.get(POLYGON);
+            // Locationを取得するためのXpathリスト
+            locationXpaths = issueAdditionDatum.get(LOCATION);
+            
+            // coordinateの有効なタイプを定義したリストを取得
+            validCoordinateTypes = (ArrayList<String>) issueAdditionDatum
+                    .get(VALID_COORDINATE_TYPES);
+            
             // ------------------------------------------------
             // トラッカー用定義
             // ------------------------------------------------
@@ -194,12 +244,11 @@ public class ParseRule {
 
             // デフォルトのプロジェクトID取得
             defaultProjectId = projects.get(DEFAULT);
-            
+
             // ------------------------------------------------
             // プロジェクト自動立ち上げ/自動配信用設定値取得
             // ------------------------------------------------
-            Map<String, Object> auto = (HashMap<String, Object>) rule
-                    .get(AUTO);
+            Map<String, Object> auto = (HashMap<String, Object>) rule.get(AUTO);
 
             // 震度のXPath取得
             seismicIntensityXpath = (String) auto.get(EARTHQUAKE_PATH);
@@ -235,12 +284,13 @@ public class ParseRule {
 
     /**
      * Issues拡張カラムに設定するカラム名とXpathのテーブルを取得します
+     * 
      * @return
      */
-    public Map<String, String> getIssuesExtras() {
-        return issuesExtras;
+    public Map<String, String> getIssueExtras() {
+        return issueExtras;
     }
-    
+
     /**
      * カスタムフィールドテーブルを取得します
      * 
@@ -281,7 +331,23 @@ public class ParseRule {
         }
         return id;
     }
-    
+
+    public List<String> getCoordinateXpaths() {
+        return coordinateXpaths;
+    }
+
+    public List<String> getLineXpaths() {
+        return lineXpaths;
+    }
+
+    public List<String> getPolygonXpaths() {
+        return polygonXpaths;
+    }
+
+    public List<String> getLocationXpaths() {
+        return locationXpaths;
+    }
+
     public String getTrackerXpath() {
         return trackerXpath;
     }
@@ -324,6 +390,10 @@ public class ParseRule {
 
     public String getDefaultProjectId() {
         return defaultProjectId;
+    }
+
+    public List<String> getValidCoordinateTypes() {
+        return validCoordinateTypes;
     }
 
 }

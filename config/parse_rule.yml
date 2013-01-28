@@ -3,7 +3,7 @@
 # Issuesテーブルの拡張フィールド用定義
 # key:カラム名 value:XML内から要素取得のためのXpath
 # ------------------------------------------------------------
-issues_extras: 
+issue_extras: 
 # 運用種別(Status)
  "xml_control_status": "/Report/Control/Status/text()"
 # 編集官署名(EditorialOffice)
@@ -42,9 +42,35 @@ issues_extras:
 # Issues_addition_datumテーブルのフィールド用定義
 # key:カスタムフィールドID value:XML内から要素取得のためのXpath
 # ------------------------------------------------------------
-issues_addition_datum_fields: 
+issue_addition_datums: 
+ "coordinate": 
+  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Coordinate"
+  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Circle/BasePoint/Coordinate"
+  - "/Report/Body/MeteorologicalInfos/TimeSeriesInfo/Item/Station/Coordinate"
+  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/CenterPart/Coordinate"
+  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/CoordinatePart/Coordinate"
+  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/CenterPart/ProbabilityCircle/Circle/BasePoint/Coordinate"
+  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/WarningAreaPart/Circle/BasePoint/Coordinate"
+  - "/Report/Body/Earthquake/Hypocenter/Area/HypoArea/Coordinate"
+  - "/Report/Body/VolcanoInfo/Item/Areas/Area/Coordinate/Coordinate"
+  - "/Report/Body/VolcanoInfo/Item/Areas/Area/CraterCoordinate/Coordinate"
+ "line": 
+  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Line/text()"
+  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/CoordinatePart/Line/text()"
+  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/IsobarPart/Line/text()"
+ "polygon": 
+  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Polygon/text()"
+  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/CoordinatePart/Polygon/text()"
+  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/IsobarPart/Polygon/text()"
+ "Location": 
+  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Station/Location/text()"
+  - "/Report/Body/MeteorologicalInfos/TimeSeriesInfo/Item/Station/Location/text()"
+  - "/Report/Body/Waring/Item/Stations/Station/Location/text()"
+  - "/Report/Body/Waring/Item/Stations/Station/Location/text()"
+  - "/Report/Body/AdditionalInfo/FloodForecastAddition/HydrometricStationPart/Area/Location/text()"
+ "valid_coordinate_types": ["観測所の位置", "中心位置（度）", "実況位置（度）", "１２時間後位置（度）", "２４時間後位置（度）", "位置（度）", "予想位置　１２時間後（度）", "予想位置　２４時間後（度）", "中心位置（度）", "震源位置（度）", "火山の位置", "火口の位置"]
 
- 
+
 # ------------------------------------------------------------
 # カスタムフィールド用定義
 # key:カスタムフィールドID value:XML内から要素取得のためのXpath

@@ -24,6 +24,7 @@ import org.dom4j.CDATA;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -69,15 +70,20 @@ public class JmaDataParser {
     private List<String> sendTargetIds = new ArrayList<String>();
 
     /**
-     * Issues拡張データマップ
+     * issue拡張データマップ
      */
-    private Map<String, String> issuesExtraMap = new HashMap<String, String>();
+    private Map<String, String> issueExtraMap = new HashMap<String, String>();
 
     /**
      * カスタムフィールドマップ
      */
     private Map<String, String> customFieldMap = new HashMap<String, String>();
 
+    /**
+     * Issus_addtion_datumに格納するデータのリスト
+     */
+    private List<Map<String, String>> issueAdditionDatumMap = new ArrayList<Map<String, String>>();
+    
     /**
      * Control部以下のXML内容を文字列として保持
      */
@@ -198,17 +204,17 @@ public class JmaDataParser {
             // --------------------------------------------------------
             // Issues拡張カラム用のデータ取得
             // key:Issuesテーブルのカラム名 value:Xpathで取得した値
-            // の形式にしてissuesExtraMap変数に保持
-            // Xpathで値が取得できなかった場合はissuesExtraMapに保持しない
+            // の形式にしてissueExtraMap変数に保持
+            // Xpathで値が取得できなかった場合はissueExtraMapに保持しない
             // --------------------------------------------------------
-            Map<String, String> issuesExtraXpaths = rule.getIssuesExtras();
-            if (issuesExtraXpaths != null) {
-                for (String fieldName : issuesExtraXpaths.keySet()) {
-                    String fieldXpath = issuesExtraXpaths.get(fieldName);
+            Map<String, String> issueExtraXpaths = rule.getIssueExtras();
+            if (issueExtraXpaths != null) {
+                for (String fieldName : issueExtraXpaths.keySet()) {
+                    String fieldXpath = issueExtraXpaths.get(fieldName);
                     // Issues拡張フィールドに設定する値を取得
                     String fieldValue = stringByXpath(xpath, fieldXpath, doc);
                     if (StringUtils.isBlank(fieldValue) == false) {
-                        issuesExtraMap.put(String.valueOf(fieldName), fieldValue);
+                        issueExtraMap.put(String.valueOf(fieldName), fieldValue);
                     }
                 }
             }
@@ -229,6 +235,102 @@ public class JmaDataParser {
                     if (StringUtils.isBlank(customFieldValue) == false) {
                         customFieldMap.put(String.valueOf(customFieldId),
                                 customFieldValue);
+                    }
+                }
+            }
+
+            // --------------------------------------------------------
+            // Issues拡張カラム用のデータ取得
+            // key:Issuesテーブルのカラム名 value:Xpathで取得した値
+            // の形式にしてissuesExtraMap変数に保持
+            // Xpathで値が取得できなかった場合はissuesExtraMapに保持しない
+            // --------------------------------------------------------
+            // Coordinateのデータを取得
+            List<String> validCoordinateTypes = rule.getValidCoordinateTypes();
+            List<String> coordinateXpaths = rule.getCoordinateXpaths();
+            if (coordinateXpaths != null && validCoordinateTypes != null) {
+                for (String path: coordinateXpaths) {
+                    // すべての"Coordinate"ノードを取得
+                    NodeList nodes = nodelistByXpath(xpath, path, doc);
+                    if (nodes != null) {
+                        // ノードを1つづつ処理
+                        for (int i = 0; i < nodes.getLength(); i++) {
+                            // ノードのtype属性により有効な(使用可能な)データであるか判定
+                            Node anNode = nodes.item(i);
+                            NamedNodeMap nodeMap = anNode.getAttributes();
+                            Node type = nodeMap.getNamedItem("datum");
+                            if (type == null) {
+                                continue;
+                            }
+                            String typeAttr = type.getNodeValue();
+                            for (String validType : validCoordinateTypes) {
+                                if (validType.equals(typeAttr)) {
+                                    // 測地系(datum),緯度(latitude),経度(longitude)を設定
+                                    Map<String, String> additionDatum = new HashMap<String, String>();
+                                    additionDatum.put("datum", typeAttr);
+                                    // TODO 緯度、経度情報も保存
+                                    issueAdditionDatumMap.add(additionDatum);
+                                }
+                            }
+                            
+                        }
+                    }
+                }
+            }
+            // Polygonのデータを取得
+            List<String> polygonXpaths = rule.getPolygonXpaths();
+            if (polygonXpaths != null) {
+                for (String path: polygonXpaths) {
+                    // すべての"Polygon"ノードを取得
+                    NodeList nodes = nodelistByXpath(xpath, path, doc);
+                    if (nodes != null) {
+                        // ノードを1つづつ処理
+                        for (int i = 0; i < nodes.getLength(); i++) {
+                            Node anNode = nodes.item(i);
+                            String polygon = anNode.getNodeValue();
+                            // ノードのテキストを登録
+                            Map<String, String> additionDatum = new HashMap<String, String>();
+                            additionDatum.put("polygon", polygon);
+                            issueAdditionDatumMap.add(additionDatum);
+                        }
+                    }
+                }
+            }
+            // Lineのデータを取得
+            List<String> lineXpaths = rule.getLineXpaths();
+            if (lineXpaths != null) {
+                for (String path: lineXpaths) {
+                    // すべての"Line"ノードを取得
+                    NodeList nodes = nodelistByXpath(xpath, path, doc);
+                    if (nodes != null) {
+                        // ノードを1つづつ処理
+                        for (int i = 0; i < nodes.getLength(); i++) {
+                            Node anNode = nodes.item(i);
+                            String line = anNode.getNodeValue();
+                            // ノードのテキストを登録
+                            Map<String, String> additionDatum = new HashMap<String, String>();
+                            additionDatum.put("line", line);
+                            issueAdditionDatumMap.add(additionDatum);
+                        }
+                    }
+                }
+            }
+            // Locationのデータを取得
+            List<String> locationXpaths = rule.getLocationXpaths();
+            if (locationXpaths != null) {
+                for (String path: locationXpaths) {
+                    // すべての"Location"ノードを取得
+                    NodeList nodes = nodelistByXpath(xpath, path, doc);
+                    if (nodes != null) {
+                        // ノードを1つづつ処理
+                        for (int i = 0; i < nodes.getLength(); i++) {
+                            Node anNode = nodes.item(i);
+                            String location = anNode.getNodeValue();
+                            // ノードのテキストを登録
+                            Map<String, String> additionDatum = new HashMap<String, String>();
+                            additionDatum.put("Location", location);
+                            issueAdditionDatumMap.add(additionDatum);
+                        }
                     }
                 }
             }
@@ -425,9 +527,9 @@ public class JmaDataParser {
         xml_body_element.add(bodyCDATA);
 
         // Issues拡張カラム用データ設定
-        for (String key : issuesExtraMap.keySet()) {
+        for (String key : issueExtraMap.keySet()) {
             Element element = issue.addElement(key);
-            element.addText(issuesExtraMap.get(key));
+            element.addText(issueExtraMap.get(key));
         }
 
         // カスタムフィールド
@@ -439,6 +541,19 @@ public class JmaDataParser {
                 cf.addAttribute("id", key);
                 Element cfe = cf.addElement("value");
                 cfe.addText(customFieldMap.get(key));
+            }
+        }
+        
+        // issues_addition_datumのデータを設定
+        if (issueAdditionDatumMap.size() > 0) {
+            Element issueAddtionDatums = issue.addElement("issue_addition_datums");
+            issueAddtionDatums.addAttribute("type", "array");
+            for (Map<String, String> datum : issueAdditionDatumMap) {
+                Element issueAdditionDatum = issueAddtionDatums.addElement("issue_addition_datum");
+                for (String key : datum.keySet()) {
+                    Element e = issueAdditionDatum.addElement(key);
+                    e.addText(datum.get(key));
+                }
             }
         }
 
