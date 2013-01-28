@@ -26,6 +26,8 @@ public class ParseRule {
     /**
      * 定義体ロード用の識別子定義
      */
+    private static final String ISSUES_EXTRAS = "issues_extras";
+    private static final String ISSUES_ADDITION_DATUM_FIELDS = "issues_addition_datum_fields";
     private static final String CUSTOM_FIELDS = "custom_fields";
     private static final String TRACKERS = "trackers";
     private static final String PROJECTS = "projects";
@@ -46,6 +48,11 @@ public class ParseRule {
      */
     private HashMap<String, Object> rule;
 
+    /**
+     * key:issuesテーブルのフィールド名,value:対象のXpath
+     */
+    private Map<String, String> issuesExtras;
+    
     /**
      * key:カスタムフィールドのID,value:対象のXpath
      */
@@ -155,6 +162,11 @@ public class ParseRule {
             rule = (HashMap<String, Object>) obj;
 
             // ------------------------------------------------
+            // Issuesテーブル拡張フィールド用定義内容を保持
+            // ------------------------------------------------
+            issuesExtras = (Map<String, String>) rule.get(ISSUES_EXTRAS);
+            
+            // ------------------------------------------------
             // カスタムフィールド用定義内容を保持
             // ------------------------------------------------
             customFields = (Map<Integer, String>) rule.get(CUSTOM_FIELDS);
@@ -221,6 +233,14 @@ public class ParseRule {
 
     }
 
+    /**
+     * Issues拡張カラムに設定するカラム名とXpathのテーブルを取得します
+     * @return
+     */
+    public Map<String, String> getIssuesExtras() {
+        return issuesExtras;
+    }
+    
     /**
      * カスタムフィールドテーブルを取得します
      * 

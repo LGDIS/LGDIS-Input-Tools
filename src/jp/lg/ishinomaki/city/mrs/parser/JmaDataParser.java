@@ -69,6 +69,11 @@ public class JmaDataParser {
     private List<String> sendTargetIds = new ArrayList<String>();
 
     /**
+     * Issues拡張データマップ
+     */
+    private Map<String, String> issuesExtraMap = new HashMap<String, String>();
+
+    /**
      * カスタムフィールドマップ
      */
     private Map<String, String> customFieldMap = new HashMap<String, String>();
@@ -191,20 +196,40 @@ public class JmaDataParser {
             }
 
             // --------------------------------------------------------
+            // Issues拡張カラム用のデータ取得
+            // key:Issuesテーブルのカラム名 value:Xpathで取得した値
+            // の形式にしてissuesExtraMap変数に保持
+            // Xpathで値が取得できなかった場合はissuesExtraMapに保持しない
+            // --------------------------------------------------------
+            Map<String, String> issuesExtraXpaths = rule.getIssuesExtras();
+            if (issuesExtraXpaths != null) {
+                for (String fieldName : issuesExtraXpaths.keySet()) {
+                    String fieldXpath = issuesExtraXpaths.get(fieldName);
+                    // Issues拡張フィールドに設定する値を取得
+                    String fieldValue = stringByXpath(xpath, fieldXpath, doc);
+                    if (StringUtils.isBlank(fieldValue) == false) {
+                        issuesExtraMap.put(String.valueOf(fieldName), fieldValue);
+                    }
+                }
+            }
+
+            // --------------------------------------------------------
             // カスタムフィールド取得
             // key:カスタムフィールドID value:Xpathで取得した値
             // の形式にしてcustomFieldMap変数に保持
             // Xpathで値が取得できなかった場合はcusotmFieldMapに保持しない
             // --------------------------------------------------------
             Map<Integer, String> customFieldXpaths = rule.getCustomFields();
-            for (Integer customFieldId : customFieldXpaths.keySet()) {
-                String customFieldXpath = customFieldXpaths.get(customFieldId);
-                // カスタムフィールドに設定する値を取得
-                String customFieldValue = stringByXpath(xpath,
-                        customFieldXpath, doc);
-                if (StringUtils.isBlank(customFieldValue) == false) {
-                    customFieldMap.put(String.valueOf(customFieldId),
-                            customFieldValue);
+            if (customFieldXpaths != null) {
+                for (Integer customFieldId : customFieldXpaths.keySet()) {
+                    String customFieldXpath = customFieldXpaths.get(customFieldId);
+                    // カスタムフィールドに設定する値を取得
+                    String customFieldValue = stringByXpath(xpath,
+                            customFieldXpath, doc);
+                    if (StringUtils.isBlank(customFieldValue) == false) {
+                        customFieldMap.put(String.valueOf(customFieldId),
+                                customFieldValue);
+                    }
                 }
             }
 
@@ -225,7 +250,9 @@ public class JmaDataParser {
                 // 自動立ち上げを判定
                 if (seismicIntensity >= autoLaunchSeismicIntensityThreshold) {
                     isAutoLaunch = true;
-                    log.finest("震度:" + strSeismicIntensity + " しきい値:" + autoLaunchSeismicIntensityThreshold + " のため自動立ち上げON");
+                    log.finest("震度:" + strSeismicIntensity + " しきい値:"
+                            + autoLaunchSeismicIntensityThreshold
+                            + " のため自動立ち上げON");
                 }
             }
 
@@ -249,7 +276,9 @@ public class JmaDataParser {
                     double dHeight = Double.parseDouble(sHeight);
                     if (dHeight >= autoLaunchTsunamiHeightThreshold) {
                         isAutoLaunch = true;
-                        log.finest("高さ:" + sHeight + " しきい値:" + autoLaunchTsunamiHeightThreshold + " のため自動立ち上げON");
+                        log.finest("高さ:" + sHeight + " しきい値:"
+                                + autoLaunchTsunamiHeightThreshold
+                                + " のため自動立ち上げON");
                         break;
                     }
                 }
@@ -268,7 +297,8 @@ public class JmaDataParser {
                 // 自動立ち上げを判定
                 if (seismicIntensity >= autoSendSeismicIntensityThreshold) {
                     isAutoSend = true;
-                    log.finest("震度:" + strSeismicIntensity + " しきい値:" + autoSendSeismicIntensityThreshold + " のため自動配信ON");
+                    log.finest("震度:" + strSeismicIntensity + " しきい値:"
+                            + autoSendSeismicIntensityThreshold + " のため自動配信ON");
                 }
             }
             // 津波の高さが取得できた場合は高さによる自動配信判定実施
@@ -280,7 +310,8 @@ public class JmaDataParser {
                     double dHeight = Double.parseDouble(sHeight);
                     if (dHeight >= autoSendTsunamiHeightThreshold) {
                         isAutoSend = true;
-                        log.finest("高さ:" + sHeight + " しきい値:" + autoSendTsunamiHeightThreshold + " のため自動配信ON");
+                        log.finest("高さ:" + sHeight + " しきい値:"
+                                + autoSendTsunamiHeightThreshold + " のため自動配信ON");
                         break;
                     }
                 }
@@ -344,10 +375,6 @@ public class JmaDataParser {
         // ルートは"issue"
         Element issue = doc.addElement("issue");
 
-        // subject設定
-        Element subject = issue.addElement("subject");
-        subject.addText("データ受信機能テスト"); // for test
-
         // プロジェクト自動立ち上げフラグがONの場合
         if (isAutoLaunch) {
             Element auto_launch = issue.addElement("auto_launch");
@@ -397,14 +424,22 @@ public class JmaDataParser {
         CDATA bodyCDATA = DocumentHelper.createCDATA(xml_body);
         xml_body_element.add(bodyCDATA);
 
+        // Issues拡張カラム用データ設定
+        for (String key : issuesExtraMap.keySet()) {
+            Element element = issue.addElement(key);
+            element.addText(issuesExtraMap.get(key));
+        }
+
         // カスタムフィールド
-        Element customFields = issue.addElement("custom_fields");
-        customFields.addAttribute("type", "array");
-        for (String key : customFieldMap.keySet()) {
-            Element cf = customFields.addElement("custom_field");
-            cf.addAttribute("id", key);
-            Element cfe = cf.addElement("value");
-            cfe.addText(customFieldMap.get(key));
+        if (customFieldMap.size() > 0) {
+            Element customFields = issue.addElement("custom_fields");
+            customFields.addAttribute("type", "array");
+            for (String key : customFieldMap.keySet()) {
+                Element cf = customFields.addElement("custom_field");
+                cf.addAttribute("id", key);
+                Element cfe = cf.addElement("value");
+                cfe.addText(customFieldMap.get(key));
+            }
         }
 
         return doc.asXML();

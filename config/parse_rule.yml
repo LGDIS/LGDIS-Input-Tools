@@ -1,37 +1,55 @@
 # 大文字と小文字を区別するため注意して定義してください
 # ------------------------------------------------------------
+# Issuesテーブルの拡張フィールド用定義
+# key:カラム名 value:XML内から要素取得のためのXpath
+# ------------------------------------------------------------
+issues_extras: 
+# 運用種別(Status)
+ "xml_control_status": "/Report/Control/Status/text()"
+# 編集官署名(EditorialOffice)
+ "xml_control_editorialoffice": "/Report/Control/EditorialOffice/text()"
+# 発表官署名(PublishingOffice)
+ "xml_control_publishingoffice": "/Report/Control/PublishingOffice/text()"
+# 標題
+ "xml_head_title": "/Report/Head/Title/text()"
+# 題名
+ "subject": "/Report/Head/Title/text()"
+# 発表時刻(ReportDateTime)
+ "xml_head_reportdatetime": "/Report/Head/ReportDateTime/text()"
+# 基点時刻(TargetDateTime)
+ "xml_head_targetdatetime": "/Report/Head/TargetDateTime/text()"
+# 基点時刻のあいまいさ(TargetDTDubious)
+ "xml_head_targetdtdubious": "/Report/Head/TargetDTDubious/text()"
+# 基点時刻からとりうる時間(TargetDuration)
+ "xml_head_targetsuration": "/Report/Head/TargetDuration/text()"
+# 失効時刻(ValidDateTime)
+ "xml_head_validdatetime": "/Report/Head/ValidDateTime/text()"
+# 識別情報(EventID)
+ "xml_head_eventid": "/Report/Head/EventID/text()"
+# 情報形態(InfoType)
+ "xml_head_infotype": "/Report/Head/InfoType/text()"
+# 情報番号(Serial)
+ "xml_head_serial": "/Report/Head/Serial/text()"
+# スキーマの運用種別情報(InfoKind)
+ "xml_head_infokind": "/Report/Head/InfoKind/text()"
+# スキーマの運用種別情報バージョン(InfoKindVersion)
+ "xml_head_infokindversion": "/Report/Head/InfoKindVersion/text()"
+# 見出し文(Text)
+ "xml_head_text": "/Report/Head/Headline/Text/text()"
+
+
+# ------------------------------------------------------------
+# Issues_addition_datumテーブルのフィールド用定義
+# key:カスタムフィールドID value:XML内から要素取得のためのXpath
+# ------------------------------------------------------------
+issues_addition_datum_fields: 
+
+ 
+# ------------------------------------------------------------
 # カスタムフィールド用定義
 # key:カスタムフィールドID value:XML内から要素取得のためのXpath
 # ------------------------------------------------------------
 custom_fields: 
-# 運用種別(Status)
-# "": "/Report/Control/Status/text()"
-# 編集官署名(EditorialOffice)
-# "": "/Report/Control/EditorialOffice/text()"
-# 発表官署名(PublishingOffice)
- "22": "/Report/Control/PublishingOffice/text()"
-# 発表時刻(ReportDateTime)
-# "": "/Report/Head/ReportDateTime/text()"
-# 基点時刻(TargetDateTime)
-# "": "/Report/Head/TargetDateTime/text()"
-# 基点時刻のあいまいさ(TargetDTDubious)
-# "": "/Report/Head/TargetDTDubious/text()"
-# 予報期間(TargetDuration)
-# "": "/Report/Head/TargetDuration/text()"
-# 失効時刻(ValidDateTime)
-# "": "/Report/Head/ValidDateTime/text()"
-# 識別情報(EventID)
-# "": "/Report/Head/EventID/text()"
-# 情報形態(InfoType)
-# "": "/Report/Head/InfoType/text()"
-# 情報番号(Serial)
-# "": "/Report/Head/Serial/text()"
-# スキーマの運用種別情報(InfoKind)
-# "": "/Report/Head/InfoKind/text()"
-# スキーマの運用種別情報バージョン(InfoKindVersion)
-# "": "/Report/Head/InfoKindVersion/text()"
-# 見出し文(Text)
- "4": "/Report/Head/Headline/Text/text()"
 
 
 # ------------------------------------------------------------
