@@ -8,10 +8,10 @@
 
 package jp.lg.ishinomaki.city.mrs;
 
-import java.io.FileReader;
-import java.util.Properties;
+import java.io.FileNotFoundException;
 import java.util.logging.Logger;
 
+import jp.lg.ishinomaki.city.mrs.receiver.ReceiverConfig;
 import jp.lg.ishinomaki.city.mrs.receiver.ReceiverThreadManager;
 
 import org.apache.commons.daemon.Daemon;
@@ -26,6 +26,11 @@ import org.apache.commons.daemon.DaemonInitException;
 public class ReceiverMain implements Daemon {
 
     /**
+     * 設定ファイルパス格納用変数
+     */
+    static String fileName;
+    
+    /**
      * ログ用
      */
     private final Logger log = Logger.getLogger(ReceiverMain.class
@@ -37,27 +42,9 @@ public class ReceiverMain implements Daemon {
     private ReceiverThreadManager threadManager = null;
 
     /**
-     * デフォルトコンストラクタ 特に処理なし daemon から呼ばれる?
+     * コンストラクタ
      */
     public ReceiverMain() {
-    }
-
-    /**
-     * スレッド管理クラスを取得します
-     * 
-     * @return
-     */
-    public ReceiverThreadManager getThreadManager() {
-        return threadManager;
-    }
-
-    /**
-     * スレッド管理クラスを設定します
-     * 
-     * @param threadManager
-     */
-    public void setThreadManager(ReceiverThreadManager threadManager) {
-        this.threadManager = threadManager;
     }
 
     /**
@@ -75,26 +62,12 @@ public class ReceiverMain implements Daemon {
             return;
         }
 
-        // configファイルの内容をAppConfigに保存
-        Properties config = new Properties();
-        try {
-            config.load(new FileReader(args[0]));
-        } catch (Exception e) {
-            return;
-        }
-        // 必要な情報を取得
-        String threads_file = config.getProperty("threads_file");
-        String bch_file = config.getProperty("bch_file");
-        
-        AppConfig appConfig = AppConfig.getInstance();
-        appConfig.putConfig("threads_file", threads_file);
-        appConfig.putConfig("bch_file", bch_file);
+        // 設定ファイル名を保存
+        fileName =args[0];
 
         // メインクラス生成
         ReceiverMain main = new ReceiverMain();
-
-        // スレッド管理インスタンス生成
-        main.setThreadManager(new ReceiverThreadManager(threads_file));
+        // 処理開始
         main.start();
     }
 
@@ -111,24 +84,9 @@ public class ReceiverMain implements Daemon {
             log.severe("パラメータにはプロパティファイルのパスをフルパスで指定してください。");
             return;
         }
+        
+        fileName = args[0];
 
-        // configファイルの内容をAppConfigに保存
-        Properties config = new Properties();
-        try {
-            config.load(new FileReader(args[0]));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-        // 必要な情報を取得
-        String threads_file = config.getProperty("threads_file");
-        String bch_file = config.getProperty("bch_file");
-        AppConfig appConfig = AppConfig.getInstance();
-        appConfig.putConfig("threads_file", threads_file);
-        appConfig.putConfig("bch_file", bch_file);
-
-        // スレッド管理インスタンス生成
-        setThreadManager(new ReceiverThreadManager(threads_file));
     }
 
     /**
@@ -137,7 +95,20 @@ public class ReceiverMain implements Daemon {
     @Override
     public void start() {
         log.info("データ受信機能を開始します");
-        this.threadManager.start();
+        
+        // 構成ファイル読み込み
+        ReceiverConfig config = ReceiverConfig.getInstance();
+        try {
+            config.loadYml(fileName);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        // スレッド管理インスタンス生成
+        threadManager = new ReceiverThreadManager();
+        // 受信スレッド開始
+        threadManager.start();
     }
 
     /**
@@ -146,7 +117,8 @@ public class ReceiverMain implements Daemon {
     @Override
     public void stop() {
         log.info("データ受信機能を停止します");
-        this.threadManager.stop();
+        threadManager.stop();
+        threadManager = null;
     }
 
     /**
@@ -155,6 +127,10 @@ public class ReceiverMain implements Daemon {
     @Override
     public void destroy() {
         log.info("データ受信機能を破棄します");
+        if (threadManager != null) {
+            threadManager.stop();
+            threadManager = null;
+        }
     }
 
 }

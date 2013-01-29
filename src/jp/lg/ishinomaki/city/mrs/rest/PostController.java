@@ -8,13 +8,12 @@
 
 package jp.lg.ishinomaki.city.mrs.rest;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Properties;
+import java.util.Map;
 import java.util.logging.Logger;
 
-import jp.lg.ishinomaki.city.mrs.AppConfig;
+import jp.lg.ishinomaki.city.mrs.parser.ParserConfig;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpEntity;
@@ -87,53 +86,22 @@ public class PostController implements ResponseHandler<String> {
     private String basicauthPassword;
 
     /**
-     * HTTP接続時のタイムアウトのデフォルト値
-     */
-    private final static int TIMEOUT_DEFAULT = 120 * 1000;
-
-    /**
      * コンストラクタ
      */
     public PostController() {
 
-        // コンストラクタ内でプロパティファイル読み込み
-        try {
-            // プロパティファイル読み込み
-            AppConfig appConfig = AppConfig.getInstance();
-            String redmine_file = appConfig.getConfig("redmine_file");
-            Properties prop = new Properties();
-            prop.load(new FileReader(redmine_file));
-
-            // 各種設定をインスタンス変数に保存
-            protocol = prop.getProperty("protocol");
-            targetHost = prop.getProperty("target_host");
-            targetPort = prop.getProperty("target_port");
-            postApi = prop.getProperty("post_api");
-            apiKey = prop.getProperty("api_key");
-            basicauthId = prop.getProperty("basicauth_id");
-            basicauthPassword = prop.getProperty("basicauth_password");
-
-            // タイムアウト
-            String strTimeout = prop.getProperty("timeout");
-            if (strTimeout == null) {
-                // プロパティにタイムアウトの設定がない場合はデフォルトのタイムアウト値を使用
-                timeout = TIMEOUT_DEFAULT;
-            } else {
-                timeout = Integer.parseInt(strTimeout);
-            }
-
-            // リトライ回数
-            String strRetryCount = prop.getProperty("retry_count");
-            if (strRetryCount == null) {
-                retryCount = 0;
-            } else {
-                retryCount = Integer.parseInt(strRetryCount);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        // Redmine送信用の定義を取得
+        Map<String, Object> redmine = ParserConfig.getInstance().getRedmine();
+        protocol = (String) redmine.get(ParserConfig.PROTOCOL);
+        targetHost = (String) redmine.get(ParserConfig.TARGET_HOST);
+        targetPort = (String) redmine.get(ParserConfig.TARGET_PORT);
+        postApi = (String) redmine.get(ParserConfig.TARGET_PORT);
+        apiKey = (String) redmine.get(ParserConfig.API_KEY);
+        basicauthId = (String) redmine.get(ParserConfig.BASICAUTH_ID);
+        basicauthPassword = (String) redmine
+                .get(ParserConfig.BASICAUTH_PASSWORD);
+        timeout = (Integer) redmine.get(ParserConfig.TIMEOUT);
+        retryCount = (Integer) redmine.get(ParserConfig.RETRY_COUNT);
     }
 
     /**

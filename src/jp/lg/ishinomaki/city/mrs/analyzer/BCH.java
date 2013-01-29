@@ -10,12 +10,10 @@ package jp.lg.ishinomaki.city.mrs.analyzer;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
-import jp.lg.ishinomaki.city.mrs.AppConfig;
-import jp.lg.ishinomaki.city.mrs.utils.LinkedProperties;
+import jp.lg.ishinomaki.city.mrs.receiver.ReceiverConfig;
 
 /**
  * 電文制御ヘッダー(BCH)インスタンス<br>
@@ -403,25 +401,20 @@ public class BCH {
         this.strBch = sb.toString();
 
         // format定義に従って分割しMapに保存
-        AppConfig appConfig = AppConfig.getInstance();
-        String bch_file = appConfig.getConfig("bch_file");
-        LinkedProperties properties = new LinkedProperties(bch_file);
-        LinkedHashMap<String, String> format = properties.getProperties();
+        List<Map<String, Integer>> divider = (List<Map<String, Integer>>) ReceiverConfig
+                .getInstance().getBch_divider();
 
         int cursor = 0;
-
-        for (Iterator<String> i = format.keySet().iterator(); i.hasNext();) {
+        for (Map<String, Integer> map : divider) {
             // フォーマットプロパティからキー名称と対応するレングス取得
-            String formatKey = (String) i.next();
-            String formatVal = format.get(formatKey);
-
-            int length = Integer.parseInt(formatVal);
+            String key = map.keySet().iterator().next();
+            Integer length = map.get(key);
 
             // BCH全体の文字列から該当部分を取り出してMapに保存
             // このときのキー名称はフォーマットプロパティのものを使用する
-            int endoffset = cursor + length;
-            String bchVal = strBch.substring(cursor, endoffset);
-            bchMap.put(formatKey, bchVal);
+            int endoffset = cursor + length.intValue();
+            String val = strBch.substring(cursor, endoffset);
+            bchMap.put(key, val);
 
             // カーソル位置更新
             cursor = endoffset;

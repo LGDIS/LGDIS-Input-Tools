@@ -1,0 +1,57 @@
+# ------------------------------------------------------------
+# 受信待ちスレッド用定義
+# key:スレッド名称 value:スレッド起動時に使用するパラメータ
+# analyzersにはJMAデータタイプ毎の解析クラス名を定義
+# ここに指定のないJMAデータタイプは処理されない
+# input_idはキューに登録する際にヘッダとして付与される入力元識別子
+# 2バイト固定のため注意して定義してください
+# ------------------------------------------------------------
+threads: 
+ JAlert-Kishou(HONBAN): 
+  ip: "localhost"
+  port: "36000"
+  output: "/Users/igakuratakayuki/JmaOutput"
+  analyzers: 
+   "BI": "jp.lg.ishinomaki.city.mrs.analyzer.JmaDataAnalyzer"
+  input_id: "JA"
+ JAlert-Naikaku(HONBAN): 
+  ip: "localhost"
+  port: "36001"
+  output: "/Users/igakuratakayuki/JmaOutput"
+  analyzers: 
+   "BI": "jp.lg.ishinomaki.city.mrs.analyzer.JmaDataAnalyzer"
+  input_id: "JA"
+
+
+# ------------------------------------------------------------
+# BCH分割用定義
+# BCH内のデータ並び順で配列定義
+# 配列の内容はkey:識別子 value:データ長
+# ------------------------------------------------------------
+bch_divider:
+ - versionNo: 4
+ - bchLength: 4
+ - reserve1: 4
+ - sequenceNo: 20
+ - relayType: 1
+ - emergencyType: 1
+ - reserve2: 1
+ - testType: 1
+ - xmlType: 2
+ - classificationLevel: 2
+ - dataAttribute: 4
+ - agency: 4
+ - dataType: 8
+ - reserve3: 8
+ - bifResendType: 1
+ - bifDataAttribute: 3
+ - bifDataType: 4
+ - anLength: 8
+ - qcChecksum: 16
+ - sendNoClassification: 2
+ - sendNoIdentifier: 14
+ - sendNoTerminal: 16
+ - receiveNoClassification: 2
+ - receiveNoIdentifier: 14
+ - receiveNoTerminal: 16
+ 

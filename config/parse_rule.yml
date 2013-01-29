@@ -10,9 +10,9 @@ issue_extras:
  "xml_control_editorialoffice": "/Report/Control/EditorialOffice/text()"
 # 発表官署名(PublishingOffice)
  "xml_control_publishingoffice": "/Report/Control/PublishingOffice/text()"
-# 標題
+# 標題(Title)
  "xml_head_title": "/Report/Head/Title/text()"
-# 題名
+# 題名(Title)
  "subject": "/Report/Head/Title/text()"
 # 発表時刻(ReportDateTime)
  "xml_head_reportdatetime": "/Report/Head/ReportDateTime/text()"
@@ -39,8 +39,13 @@ issue_extras:
 
 
 # ------------------------------------------------------------
-# Issues_addition_datumテーブルのフィールド用定義
-# key:カスタムフィールドID value:XML内から要素取得のためのXpath
+# Issues_addition_datumテーブルに保存する位置系データ取得用定義
+# coordinate,line,polygon,Locationの種類毎にXpathを複数定義可能
+# 指定したXpathで取得できたものを全てissues_addtion_datumテーブルに格納する
+# valid_coordinate_typesにはCoordinate要素のtype属性名を指定
+# ここに指定されているtypeの場合のみデータを取得する
+# coordinateは上記のようにtypeによる判定が必要なため/Text()を含まない
+# Xpathを定義する。type属性による判定をロジックで行うため。
 # ------------------------------------------------------------
 issue_addition_datums: 
  "coordinate": 
@@ -80,17 +85,79 @@ custom_fields:
 
 # ------------------------------------------------------------
 # トラッカー用定義
-# Path: Information type 取得のためのXpath
-# Type: Information type 毎のトラッカーID定義
+# Path: トラッカー判別用テキスト取得のためのXpath
+# Type: トラッカーID定義
+# ここに定義のないtypeに関しては全て"気象情報（警報・注意報）"トラッカーID:4を使用する
 # ------------------------------------------------------------
 trackers: 
- path: "/Report/Head/Headline/Information/@type"
+ path: "/Report/Control/Title/text()"
  type: 
-  "緊急地震速報（地方予報区）": "4"
-  "津波予報領域表現": "4"
-  "震度速報": "4"
-  "噴火警報・予報（対象火山）": "4"
-  "気象警報・注意報（府県予報区等）": "4"
+  "季節観測": "4"
+  "生物季節観測": "4"
+  "特殊気象報": "4"
+  "紫外線観測データ": "4"
+  "全般台風情報": "4"
+  "全般台風情報（定型）": "4"
+  "全般台風情報（詳細）": "4"
+  "台風解析・予報情報（３日予報）": "3"
+  "台風解析・予報情報（５日予報）": "3"
+  "全般海上警報（定時）": "4"
+  "全般海上警報（臨時）": "4"
+  "地方海上警報": "4"
+  "地方海上予報": "4"
+  "気象警報・注意報": "3"
+  "指定河川洪水予報": "3"
+  "記録的短時間大雨情報": "4"
+  "竜巻注意情報": "3"
+  "全般気象情報": "4"
+  "地方気象情報": "4"
+  "府県気象情報": "4"
+  "府県天気概況": "4"
+  "府県天気予報": "4"
+  "全般週間天気予報": "4"
+  "地方週間天気予報": "4"
+  "府県週間天気予報": "4"
+  "スモッグ気象情報": "4"
+  "地方天候情報": "4"
+  "震源に関する情報": "3"
+  "震源・震度に関する情報": "3"
+  "震度速報": "3"
+  "地震の活動状況等に関する情報": "4"
+  "地震回数に関する情報": "4"
+  "津波警報・注意報・予報": "3"
+  "津波警報・注意報・予報a": "3"
+  "緊急地震速報（予報）": "3"
+  "緊急地震速報（警報）": "3"
+  "東海地震観測情報": "4"
+  "東海地震注意情報": "4"
+  "東海地震予知情報": "4"
+  "地震・津波に関するお知らせ": "4"
+  "火山に関するお知らせ": "4"
+  "噴火警報・予報": "4"
+  "火山の状況に関する解説情報": "4"
+  "噴火に関する火山観測報": "4"
+  "火山現象に関する海上警報・海上予報": "4"
+  "府県海氷予報": "4"
+  "全般潮位情報": "4"
+  "地方潮位情報": "4"
+  "府県潮位情報": "4"
+  "緊急地震速報配信テスト": "4"
+  "全般スモッグ気象情報": "4"
+  "地方高温注意情報": "4"
+  "府県高温注意情報": "4"
+  "地上実況図": "4"
+  "地上２４時間予想図": "4"
+  "地上４８時間予想図": "4"
+  "沖合の津波観測に関する情報": "4"
+  "全般天候情報": "4"
+  "府県天候情報": "4"
+  "全般１か月予報": "4"
+  "全般３か月予報": "4"
+  "全般暖・寒候期予報": "4"
+  "地方１か月予報": "4"
+  "地方３か月予報": "4"
+  "地方暖・寒候期予報": "4"
+  "異常天候早期警戒情報": "4"
 
 
 # ------------------------------------------------------------
@@ -124,7 +191,7 @@ auto:
  earthquake_path: "/Report/Body/Earthquake/Magnitude/text()"
  tsunami_path: "/Report/Body/Tsunami/Forecast/Item/MaxHeight/TsunamiHeight/text()"
  launch: 
-  earthquake_threashold: 7.5
+  earthquake_threashold: 5.5
   tsunami_threashold: 1.7
  send: 
   earthquake_threashold: 7.5

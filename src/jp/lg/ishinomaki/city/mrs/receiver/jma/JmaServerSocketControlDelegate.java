@@ -27,6 +27,6 @@ public interface JmaServerSocketControlDelegate {
      * 
      * @param data 受信データ中のユーザデータ部
      */
-    public void receiveData(byte[] data);
+    public void receiveData(String type, byte[] data);
     
 }

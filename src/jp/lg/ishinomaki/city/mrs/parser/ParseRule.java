@@ -14,8 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jp.lg.ishinomaki.city.mrs.AppConfig;
-
 import org.ho.yaml.Yaml;
 
 /**
@@ -182,12 +180,8 @@ public class ParseRule {
         try {
             // ymlファイルを読み込み、定義内容を解析
             // ymlファイルパスはアプリ構成定義から取得
-            AppConfig appConfig = AppConfig.getInstance();
-            String parse_rule_file = appConfig.getConfig("parse_rule_file");
-            if (parse_rule_file == null) {
-                parse_rule_file = "config/parse_rule.yml";
-            }
-            Object obj = Yaml.load(new FileReader(parse_rule_file));
+            String ruleFilePath = ParserConfig.getInstance().getRuleFilePath();
+            Object obj = Yaml.load(new FileReader(ruleFilePath));
 
             // ymlの定義内容はMap形式であることが前提
             rule = (HashMap<String, Object>) obj;

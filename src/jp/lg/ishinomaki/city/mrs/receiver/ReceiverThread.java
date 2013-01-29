@@ -9,6 +9,7 @@
 package jp.lg.ishinomaki.city.mrs.receiver;
 
 import java.net.Socket;
+import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.logging.Logger;
@@ -50,8 +51,8 @@ public class ReceiverThread extends Thread implements
      * データ解析クラスインスタンス.<br>
      * 1スレッドに対して1つのデータ解析クラスをのデータ受信機能の起動プロパティで指定
      */
-    private DataAnalyzer analyzer = null;
-
+    private Map<String, DataAnalyzer> analyzers = null;
+    
     /**
      * コンストラクタです。
      * 
@@ -59,7 +60,7 @@ public class ReceiverThread extends Thread implements
      */
     public ReceiverThread(String threadName,
             JmaServerSocketControl serverSocketControl, String outputPath,
-            DataAnalyzer analyzer) {
+            Map<String, DataAnalyzer> analyzers) {
 
         // スレッド名保存
         this.threadName = threadName;
@@ -74,7 +75,7 @@ public class ReceiverThread extends Thread implements
         this.outputPath = outputPath;
         
         // データ解析クラス
-        this.analyzer = analyzer;
+        this.analyzers = analyzers;
     }
 
     /**
@@ -86,10 +87,18 @@ public class ReceiverThread extends Thread implements
 
     /**
      * デリゲートメソッド クライアントからデータを受信した際にコールされます。
+     * 
+     * @param type JMA指定のデータタイプ
+     * @param data 生データ
      */
-    public void receiveData(byte[] data) {
-        log.finest("receiveData");
-
+    public void receiveData(String type, byte[] data) {
+        // analyzersテーブルからdataTypeで解析クラスインスタンスを引き当て
+        // クラスインスタンスが取得できない場合は処理しない
+        DataAnalyzer analyzer = analyzers.get(type);
+        if (analyzer == null) {
+            log.severe("指定のデータ種別に対して解析クラスが定義されていません。 データ種別 -> [" + type + "]");
+            return;
+        }
         // 解析用タスク実行(別スレッドで実施するため)
         ReceiverDataAnalyzeTask task = new ReceiverDataAnalyzeTask(data);
         // 解析結果出力パスと解析用クラスを設定

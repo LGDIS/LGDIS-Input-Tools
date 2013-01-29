@@ -20,6 +20,12 @@ import jp.lg.ishinomaki.city.mrs.utils.FileUtilities;
  */
 public class ReceiverDataAnalyzeTask implements Runnable {
 
+    public static final byte XML_HEADER = (byte)0x00;
+    
+    public static final byte TEXT_HEADER = (byte)0x01;
+    
+    public static final byte BINARY_HEADER = (byte)0x02;
+    
     /**
      * ロガーインスタンス
      */
@@ -104,7 +110,14 @@ public class ReceiverDataAnalyzeTask implements Runnable {
         // キュー管理インスタンス取得
         QueuePushClient queuePushClient = new QueuePushClient();
         try {
-            queuePushClient.push(contents);
+            // cotentsのバイト配列先頭にデータ種別を表す識別子(1byte)を付与する
+            byte[] data = new byte[contents.length + 1];
+            // 配列の先頭にヘッダを付与
+            data[0] = XML_HEADER;
+            // ヘッダ以降にcontentsのバイト配列を設定
+            System.arraycopy(contents, 0, data, 1, contents.length);
+            // キューにデータをセット
+            queuePushClient.push(data);
         } catch (Exception e) {
             e.printStackTrace();
             log.severe("キュー機能へのデータ登録に失敗しました。キュー機能が正常に稼働しているか確認してください。");

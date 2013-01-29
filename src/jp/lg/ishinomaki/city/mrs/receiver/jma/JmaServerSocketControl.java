@@ -582,7 +582,7 @@ public class JmaServerSocketControl {
                         checkpointManagedMessages = new ArrayList<JmaMessage>();
 
                         // デリゲート通知
-                        delegate.receiveData(userData);
+                        delegate.receiveData( msg.getMessageType(), userData);
                     }
 
                 } else {

@@ -8,10 +8,9 @@
 
 package jp.lg.ishinomaki.city.mrs;
 
-import java.io.FileReader;
-import java.util.Properties;
 import java.util.logging.Logger;
 
+import jp.lg.ishinomaki.city.mrs.parser.ParserConfig;
 import jp.lg.ishinomaki.city.mrs.pickup.PickupThread;
 
 import org.apache.commons.daemon.Daemon;
@@ -23,6 +22,11 @@ import org.apache.commons.daemon.DaemonInitException;
  * main()関数からのアプリ起動とjsvcからのデーモン起動のどちらにも対応しています。<br>
  */
 public class ParserMain implements Daemon {
+
+    /**
+     * 設定ファイルパスの格納用変数
+     */
+    static String fileName = null;
 
     /**
      * ログ用
@@ -39,27 +43,11 @@ public class ParserMain implements Daemon {
         // 引数は1つでconfigファイルが指定されているはず
         if (args == null || args.length != 1) {
             System.err.println("パラメータが不正です。");
-            System.err.println("パラメータにはプロパティファイルのパスをフルパスで指定してください。");
+            System.err.println("パラメータには設定ファイルのパスをフルパスで指定してください。");
             return;
         }
 
-        // configファイルの内容をAppConfigに保存
-        Properties config = new Properties();
-        try {
-            config.load(new FileReader(args[0]));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-        // 必要な情報を取得
-        String redmine_file = config.getProperty("redmine_file");
-        String parse_rule_file = config.getProperty("parse_rule_file");
-        String schema_file = config.getProperty("schema_file");
-        AppConfig appConfig = AppConfig.getInstance();
-        appConfig.putConfig("redmine_file", redmine_file);
-        appConfig.putConfig("parse_rule_file", parse_rule_file);
-        appConfig.putConfig("schema_file", schema_file);
-        
+        fileName = args[0];
         // メインクラス生成
         ParserMain main = new ParserMain();
         // クラス起動
@@ -82,26 +70,10 @@ public class ParserMain implements Daemon {
         String[] args = dc.getArguments();
         if (args == null || args.length != 1) {
             log.severe("パラメータが不正です。");
-            log.severe("パラメータにはconfigファイルのパスをフルパスで指定してください。");
+            log.severe("パラメータには設定ファイルのパスをフルパスで指定してください。");
             return;
         }
-
-        // configファイルの内容をAppConfigに保存
-        Properties config = new Properties();
-        try {
-            config.load(new FileReader(args[0]));
-        } catch (Exception e) {
-            log.severe("configファイルの読み込みに失敗しました。");
-            e.printStackTrace();
-            return;
-        }
-        // 必要な情報を取得
-        String redmine_file = config.getProperty("redmine_file");
-        String parse_rule_file = config.getProperty("parse_rule_file");
-        AppConfig appConfig = AppConfig.getInstance();
-        appConfig.putConfig("redmine_file", redmine_file);
-        appConfig.putConfig("parse_rule_file", parse_rule_file);
-
+        fileName = args[0];
     }
 
     /**
@@ -110,6 +82,16 @@ public class ParserMain implements Daemon {
     @Override
     public void start() {
         log.info("パーサ機能を開始します");
+        
+        // 構成ファイル読み込み
+        ParserConfig config = ParserConfig.getInstance();
+        try {
+            config.loadYml(fileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.severe("設定ファイルの読み込みに失敗しました。処理を中断します。");
+            return;
+        }
 
         // PickupThread起動
         try {
