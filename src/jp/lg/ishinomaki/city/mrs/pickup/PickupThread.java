@@ -125,21 +125,23 @@ public class PickupThread extends Thread {
             System.arraycopy(data, 3, contents, 0, contents.length);
 
             String strDataType = new String(dataType); // dataTypeをString型に変換
+
             log.finest("キューから取得したデータの種類 -> [" + strDataType + "]");
-            
+
             // データタイプにより処理クラスを変更する
             PickupDataHandler handler = null;
             // データ種別がXMLの場合
             if (strDataType.equals(Consts.QUEUE_DATA_TYPE_XML)) {
-                // XML解析クラス
-                handler = new JmaDataHandler();
+                // XML用ハンドルクラス
+                handler = new XmlDataHandler();
             } else if (strDataType.equals(Consts.QUEUE_DATA_TYPE_TXT)) {
-                // テキスト解析クラス
+                // テキスト用ハンドルクラス
                 handler = new TextDataHandler();
             } else if (strDataType.equals(Consts.QUEUE_DATA_TYPE_PDF)) {
-                // PDF用テキスト解析クラス
+                // PDF用ハンドルクラス
+                handler = new PdfDataHandler();
             } else {
-                log.warning("取得したデータが想定外のデータタイプです。後続処理を行いません。");
+                log.warning("キューから取得したデータのデータ種類に対して処理クラスが設定されていません。");
                 continue;
             }
 

@@ -13,19 +13,19 @@ import java.util.logging.Logger;
 
 import jp.lg.ishinomaki.city.mrs.parser.JmaDataParser;
 import jp.lg.ishinomaki.city.mrs.parser.JmaSchemaChecker;
-import jp.lg.ishinomaki.city.mrs.rest.PostController;
+import jp.lg.ishinomaki.city.mrs.rest.IssuesPostController;
 
 /**
  * J-Alertから受信した本文データを取り扱います。<br>
  * このクラスではXMLの解析とRESTサーバへの送信処理を行います。
  * 
  */
-public class JmaDataHandler implements PickupDataHandler {
+public class XmlDataHandler implements PickupDataHandler {
 
     /**
      * ログ用
      */
-    private final Logger log = Logger.getLogger(JmaDataHandler.class
+    private final Logger log = Logger.getLogger(XmlDataHandler.class
             .getSimpleName());
 
     /**
@@ -53,7 +53,7 @@ public class JmaDataHandler implements PickupDataHandler {
             log.severe("XMLのスキーマチェックでNGだったため処理を中断します。");
             return;
         }
-        
+
         // xmlデータを解析
         JmaDataParser parser = new JmaDataParser();
         boolean isSuccess = parser.parse(xml);
@@ -64,9 +64,9 @@ public class JmaDataHandler implements PickupDataHandler {
 
         // 送信データを作成
         String sendData = parser.createIssuesXmlAsString();
-        
-        // rest送信
-        PostController postController = new PostController();
+
+        // RedmineのRestApi(Post)実行
+        IssuesPostController postController = new IssuesPostController();
         postController.post(sendData);
     }
 

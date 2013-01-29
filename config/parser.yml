@@ -5,7 +5,10 @@ redmine:
  protocol: "http"
  target_host: "203.138.187.88"
 # target_port: "3000"   # ポート番号を指定する場合のみ使用する
- post_api: "/redmine/issues.xml?format=xml"
+ issues_post_api: "/redmine/issues.xml?format=xml"
+ uploads_post_api: "/redmine/uploads.xml?format=xml"
+ issues_post_content_type: "text/xml; charset=UTF-8"
+ uploads_post_content_type: "application/octet-stream"
  api_key: "871cbf8868511fea61f06d09383b612d2fbbb4b7"
  timeout: 120000
  retry_count: 5
@@ -19,7 +22,11 @@ redmine:
 # ------------------------------------------------------------
 pdf_attachment_statics: 
  subject: "PDFファイル"
+ project_id: "jma-project"
  tracker_id: "4"
+ filename: "jma.pdf"
+ description: "This is pdf file."
+ content_type: "application/pdf"
 
 
 # ------------------------------------------------------------
@@ -28,7 +35,11 @@ pdf_attachment_statics:
 # ------------------------------------------------------------
 text_attachment_statics: 
  subject: "Textファイル"
+ project_id: "jma-project"
  tracker_id: "4"
+ filename: "jma.txt"
+ description: "This is text file."
+ content_type: "text/plain"
 
 
 # ------------------------------------------------------------

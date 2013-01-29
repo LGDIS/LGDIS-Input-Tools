@@ -9,11 +9,7 @@
 package jp.lg.ishinomaki.city.mrs.rest;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.Map;
 import java.util.logging.Logger;
-
-import jp.lg.ishinomaki.city.mrs.parser.ParserConfig;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpEntity;
@@ -23,17 +19,18 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
 /**
- * サーバへPost要求を発行します。
+ * サーバへPost要求を発行します。<br>
+ * このクラスは抽象クラスです。このクラスを継承し、コンストラクタと<code>createHttpEntity()</code>
+ * メソッドをオーバーライドしてください。
  * 
  */
-public class PostController implements ResponseHandler<String> {
+public abstract class PostController implements ResponseHandler<String> {
 
     // ログ用
     private final Logger log = Logger.getLogger(PostController.class
@@ -42,67 +39,71 @@ public class PostController implements ResponseHandler<String> {
     /**
      * プロトコル
      */
-    private String protocol;
+    protected String protocol;
 
     /**
      * Post先のホスト名もしくはIPアドレス
      */
-    private String targetHost;
+    protected String targetHost;
 
     /**
      * Post先のポート番号(なければnull)
      */
-    private String targetPort;
+    protected String targetPort;
 
     /**
      * Post時に使用するAPI
      */
-    private String postApi;
+    protected String postApi;
 
     /**
      * Post時に使用するAPIキー
      */
-    private String apiKey;
+    protected String apiKey;
 
     /**
      * Http接続のタイムアウト値<br>
      * この値は接続確立までのタイムアウトとPostリクエスト時のタイムアウトに使用されます
      */
-    private int timeout;
+    protected int timeout;
 
     /**
      * Postエラー時のリトライ回数
      */
-    private int retryCount = 0;
+    protected int retryCount = 0;
 
     /**
      * Basic認証時に必要なID
      */
-    private String basicauthId;
+    protected String basicauthId;
 
     /**
      * Basic認証時に必要なパスワード
      */
-    private String basicauthPassword;
+    protected String basicauthPassword;
+
+    /**
+     * コンテンツタイプ
+     */
+    protected String contentType;
 
     /**
      * コンストラクタ
      */
     public PostController() {
-
-        // Redmine送信用の定義を取得
-        Map<String, Object> redmine = ParserConfig.getInstance().getRedmine();
-        protocol = (String) redmine.get(ParserConfig.PROTOCOL);
-        targetHost = (String) redmine.get(ParserConfig.TARGET_HOST);
-        targetPort = (String) redmine.get(ParserConfig.TARGET_PORT);
-        postApi = (String) redmine.get(ParserConfig.POST_API);
-        apiKey = (String) redmine.get(ParserConfig.API_KEY);
-        basicauthId = (String) redmine.get(ParserConfig.BASICAUTH_ID);
-        basicauthPassword = (String) redmine
-                .get(ParserConfig.BASICAUTH_PASSWORD);
-        timeout = (Integer) redmine.get(ParserConfig.TIMEOUT);
-        retryCount = (Integer) redmine.get(ParserConfig.RETRY_COUNT);
+        // -----------------------------------------------------------
+        // 継承先のクラスで各種インスタンス変数に値を設定してください。
+        // -----------------------------------------------------------
     }
+
+    /**
+     * HttpEntityの作成.<br>
+     * 継承先のクラスで実際のデータを設定してください。
+     * 
+     * @param data
+     * @return
+     */
+    abstract HttpEntity createHttpEntity(Object data);
 
     /**
      * RestなサーバへのPost処理です。<br>
@@ -110,13 +111,15 @@ public class PostController implements ResponseHandler<String> {
      * 
      * @param sendData
      *            送信データです。チケット情報作成用のxml文字列を指定してください。
+     * @return
      */
-    public void post(String sendData) {
+    public String post(Object data) {
 
+        String response = null;
         // 引数チェック
-        if (sendData == null || sendData.length() == 0) {
+        if (data == null) {
             log.warning("送信データがありません");
-            return;
+            return response;
         }
 
         // Http接続用クライアント
@@ -144,7 +147,7 @@ public class PostController implements ResponseHandler<String> {
         HttpPost httpPost = new HttpPost(url.toString());
 
         // RedmineのRestはxml形式のため
-        httpPost.setHeader("Content-Type", "text/xml; charset=UTF-8");
+        httpPost.setHeader("Content-Type", contentType);
 
         // Basic認証用
         if (basicauthId != null && basicauthId.length() > 0
@@ -156,15 +159,10 @@ public class PostController implements ResponseHandler<String> {
                                     Base64.encodeBase64((basicauthId + ":" + basicauthPassword)
                                             .getBytes())));
         }
-        try {
-            // 送信データ(XML)を設定
-            HttpEntity entity = new StringEntity(sendData, "UTF-8");
-            httpPost.setEntity(entity);
 
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return;
-        }
+        // 送信データを設定
+        HttpEntity entity = createHttpEntity(data);
+        httpPost.setEntity(entity);
 
         // --------------------------------------
         // POST実行
@@ -175,7 +173,7 @@ public class PostController implements ResponseHandler<String> {
         while (true) {
             try {
                 log.info("Http Post Request !");
-                httpClient.execute(httpPost, this);
+                response = httpClient.execute(httpPost, this);
                 break;
             } catch (ClientProtocolException e) {
                 e.printStackTrace();
@@ -203,6 +201,7 @@ public class PostController implements ResponseHandler<String> {
         // HttpClientの破棄
         httpClient.getConnectionManager().shutdown();
 
+        return response;
     }
 
     /**

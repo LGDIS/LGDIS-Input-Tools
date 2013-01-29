@@ -27,7 +27,10 @@ public class ParserConfig {
     public static final String PROTOCOL = "protocol";
     public static final String TARGET_HOST = "target_host";
     public static final String TARGET_PORT = "target_port";
-    public static final String POST_API = "post_api";
+    public static final String ISSUES_POST_API = "issues_post_api";
+    public static final String UPLOADS_POST_API = "uploads_post_api";
+    public static final String ISSUES_POST_CONTENT_TYPE = "issues_post_content_type";
+    public static final String UPLOADS_POST_CONTENT_TYPE = "uploads_post_content_type";
     public static final String API_KEY = "api_key";
     public static final String TIMEOUT = "timeout";
     public static final String RETRY_COUNT = "retry_count";
@@ -38,8 +41,12 @@ public class ParserConfig {
     public static final String PDF_ATTACHMENT_STATICS = "pdf_attachment_statics";
     public static final String TEXT_ATTACHMENT_STATICS = "text_attachment_statics";
     public static final String SUBJECT = "subject";
+    public static final String PROJECT_ID = "project_id";
     public static final String TRACKER_ID = "tracker_id";
-    
+    public static final String FILENAME = "filename";
+    public static final String DESCRIPTION = "description";
+    public static final String CONTENT_TYPE = "content_type";
+
     /**
      * Redmine用設定情報
      */
