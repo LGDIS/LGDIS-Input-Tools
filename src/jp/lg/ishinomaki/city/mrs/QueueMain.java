@@ -30,13 +30,15 @@ public class QueueMain implements Daemon {
     private final Logger log = Logger
             .getLogger(QueueMain.class.getSimpleName());
 
+    private QueuePushServer pushServer = null;
+    private QueuePopServer popServer = null;
+    
     /**
      * アプリケーションのメイン関数
      * 
      * @param args
      */
     public static void main(String[] args) {
-        System.out.println("Called main method.");
         QueueMain main = new QueueMain();
         try {
             main.init(null);
@@ -68,15 +70,20 @@ public class QueueMain implements Daemon {
     @Override
     public void start() {
         log.info("キュー管理機能を開始します");
-
+        if (pushServer == null) {
+            pushServer = new QueuePushServer();
+        }
+        if (popServer == null) {
+            popServer = new QueuePopServer();
+        }
         try {
             // キューサーバを起動
-            new QueuePushServer().start();
-            new QueuePopServer().start();
+            pushServer.start();
+            popServer.start();
             
         } catch (Exception e) {
             e.printStackTrace();
-            log.severe("RMIサーバで割り込みが発生した可能性があります。キュー管理機能を再起動してください。");
+            log.severe("キュースレッドに対して割り込みが発生した可能性があります。キュー管理機能を再起動してください。");
         }
 
     }
@@ -87,6 +94,10 @@ public class QueueMain implements Daemon {
     @Override
     public void stop() {
         log.info("キュー管理機能を停止します");
+        pushServer.interrupt();
+        popServer.interrupt();
+        pushServer = null;
+        popServer = null;
     }
 
     /**
@@ -95,6 +106,14 @@ public class QueueMain implements Daemon {
     @Override
     public void destroy() {
         log.info("キュー管理機能を破棄します");
+        if (pushServer != null) {
+            pushServer.interrupt();
+            pushServer = null;
+        }
+        if (popServer != null) {
+            popServer.interrupt();
+            popServer = null;
+        }
     }
 
 }
