@@ -14,6 +14,9 @@ package jp.lg.ishinomaki.city.mrs.analyzer;
  *
  */
 public interface DataAnalyzer {
+    
+    
+    
     /**
      * 引数で与えられた電文の内容を解析して内容を自インスタンスに保持します。<br>
      * 解析後のデータは各getterメソッドで取得してください。
@@ -23,45 +26,6 @@ public interface DataAnalyzer {
     public void analyze(byte[] data);
     
     /**
-     * BCHヘッダー部を取得します。
-     * 
-     * @return BCH BCHインスタンス
-     */
-    public BCH getBCH();
-    
-    /**
-     * 冒頭符部分を取得します。<br>
-     * 冒頭符が存在しない場合はnullを返却します。
-     * 
-     * @return String 冒頭符
-     */
-    public String getHeaderCode();
-    
-    /**
-     * 発信官署名を取得します。<br>
-     * 発信官署名が存在しない場合はnullを返却します。
-     * 
-     * @return String 発信官署名
-     */
-    public String getSenderSign();
-    
-    /**
-     * 観測日時刻を取得します。<br>
-     * 観測日時刻が存在しない場合はnullを返却します。
-     * 
-     * @return String 観測日時刻
-     */
-    public String getObservationDate();
-    
-    /**
-     * 指定コードを取得します。<br>
-     * 指定コードが存在しない場合はnullを返却します。
-     * 
-     * @return String 指定コード
-     */
-    public String getAppointCode();
-    
-    /**
      * 本文を取得します。<br>
      * 存在しない場合はnullを返却します。
      * 
@@ -69,5 +33,12 @@ public interface DataAnalyzer {
      */
     public byte[] getContents();
     
-    
+    /**
+     * データ種別を取得します。<br>
+     * データ種別は3バイト文字列でキューに登録するデータのヘッダとして使用されます。<br>
+     * 使用される3バイト文字列は<code>Consts</code>クラスに定義しています。
+     * 
+     * @return
+     */
+    public String getDataType();
 }

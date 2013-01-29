@@ -95,7 +95,7 @@ public class PostController implements ResponseHandler<String> {
         protocol = (String) redmine.get(ParserConfig.PROTOCOL);
         targetHost = (String) redmine.get(ParserConfig.TARGET_HOST);
         targetPort = (String) redmine.get(ParserConfig.TARGET_PORT);
-        postApi = (String) redmine.get(ParserConfig.TARGET_PORT);
+        postApi = (String) redmine.get(ParserConfig.POST_API);
         apiKey = (String) redmine.get(ParserConfig.API_KEY);
         basicauthId = (String) redmine.get(ParserConfig.BASICAUTH_ID);
         basicauthPassword = (String) redmine

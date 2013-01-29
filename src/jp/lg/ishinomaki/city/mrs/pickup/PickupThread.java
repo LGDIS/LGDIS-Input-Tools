@@ -12,9 +12,9 @@ import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.util.logging.Logger;
 
+import jp.lg.ishinomaki.city.mrs.Consts;
 import jp.lg.ishinomaki.city.mrs.queue.QueuePopClient;
 
-import org.dom4j.DocumentHelper;
 import org.newsclub.net.unix.AFUNIXSocketException;
 
 /**
@@ -22,13 +22,6 @@ import org.newsclub.net.unix.AFUNIXSocketException;
  * 
  */
 public class PickupThread extends Thread {
-
-    /**
-     * 電文のデータタイプ
-     */
-    private enum DATA_TYPE {
-        XML, TEXT, UNKNOWN
-    };
 
     /**
      * 当クラスのロガーインスタンス
@@ -125,53 +118,34 @@ public class PickupThread extends Thread {
             // ----------------------------------------------------
             log.info("キューからデータを取得しました");
 
+            // 先頭3バイトがデータ種別を表すヘッダ部分のためヘッダ部とコンテンツ部に分割する
+            byte[] dataType = new byte[3];
+            byte[] contents = new byte[data.length - 3];
+            System.arraycopy(data, 0, dataType, 0, dataType.length);
+            System.arraycopy(data, 3, contents, 0, contents.length);
+
+            String strDataType = new String(dataType); // dataTypeをString型に変換
+            log.finest("キューから取得したデータの種類 -> [" + strDataType + "]");
+            
             // データタイプにより処理クラスを変更する
             PickupDataHandler handler = null;
-            DATA_TYPE dataType = getDataType(data);
-            if (dataType == DATA_TYPE.XML) {
+            // データ種別がXMLの場合
+            if (strDataType.equals(Consts.QUEUE_DATA_TYPE_XML)) {
                 // XML解析クラス
                 handler = new JmaDataHandler();
-            } else if (dataType == DATA_TYPE.TEXT) {
+            } else if (strDataType.equals(Consts.QUEUE_DATA_TYPE_TXT)) {
                 // テキスト解析クラス
                 handler = new TextDataHandler();
-            } else if (dataType == DATA_TYPE.UNKNOWN) {
+            } else if (strDataType.equals(Consts.QUEUE_DATA_TYPE_PDF)) {
+                // PDF用テキスト解析クラス
+            } else {
                 log.warning("取得したデータが想定外のデータタイプです。後続処理を行いません。");
                 continue;
             }
 
             // ハンドラーに処理依頼
-            handler.handle(data);
+            handler.handle(contents);
         }
-    }
-
-    /**
-     * データのタイプを取得します.<br>
-     * タイプの判定方法は、引数データがXMLドキュメントオブジェクトに変換できる場合はXML、変換できない場合はテキストであるとします。
-     * 
-     * @param data
-     * @return DATA_TYPE UNKNOWN or TEXT or XML
-     */
-    private DATA_TYPE getDataType(byte[] data) {
-
-        // String に変換
-        String str = null;
-        try {
-            str = new String(data, "utf-8");
-        } catch (Exception e) {
-            log.finest("データをStringに変換するのに失敗。データタイプ[UNKNOWN]を返却。");
-            return DATA_TYPE.UNKNOWN;
-        }
-
-        // xmlドキュメントに変換可能か確認
-        // 変換不可であればテキスト形式と判断する
-        try {
-            DocumentHelper.parseText(str);
-        } catch (Exception e) {
-            log.finest("データをXMLに変換するのに失敗。データタイプ[TEXT]を返却。");
-            return DATA_TYPE.TEXT;
-        }
-
-        return DATA_TYPE.XML;
     }
 
 }

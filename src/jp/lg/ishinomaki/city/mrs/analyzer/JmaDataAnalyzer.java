@@ -12,6 +12,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
+import jp.lg.ishinomaki.city.mrs.Consts;
 import jp.lg.ishinomaki.city.mrs.utils.BCHChecksumHelper;
 import jp.lg.ishinomaki.city.mrs.utils.ZipHelper;
 
@@ -93,8 +94,8 @@ public class JmaDataAnalyzer implements DataAnalyzer {
         // -----------------------------------
         // BCH作成
         // -----------------------------------
-        this.bch = new BCH(data);
-        log.finest(this.bch.getStrBch());
+        bch = new BCH(data);
+        log.finest(bch.getStrBch()); // デバッグ用ログ
 
         // -----------------------------------
         // BCHのチェックサム
@@ -334,60 +335,6 @@ public class JmaDataAnalyzer implements DataAnalyzer {
     }
 
     /**
-     * BCHヘッダー部を取得します。
-     * 
-     * @return BCH BCHインスタンス
-     */
-    @Override
-    public BCH getBCH() {
-        return this.bch;
-    }
-
-    /**
-     * 冒頭符部分を取得します。<br>
-     * 冒頭符が存在しない場合はnullを返却します。
-     * 
-     * @return String 冒頭符
-     */
-    @Override
-    public String getHeaderCode() {
-        return this.headerCode;
-    }
-
-    /**
-     * 発信官署名を取得します。<br>
-     * 発信官署名が存在しない場合はnullを返却します。
-     * 
-     * @return String 発信官署名
-     */
-    @Override
-    public String getSenderSign() {
-        return this.senderSign;
-    }
-
-    /**
-     * 観測日時刻を取得します。<br>
-     * 観測日時刻が存在しない場合はnullを返却します。
-     * 
-     * @return String 観測日時刻
-     */
-    @Override
-    public String getObservationDate() {
-        return this.observationDate;
-    }
-
-    /**
-     * 指定コードを取得します。<br>
-     * 指定コードが存在しない場合はnullを返却します。
-     * 
-     * @return String 指定コード
-     */
-    @Override
-    public String getAppointCode() {
-        return this.appointCode;
-    }
-
-    /**
      * 本文を取得します。<br>
      * 存在しない場合はnullを返却します。
      * 
@@ -398,4 +345,13 @@ public class JmaDataAnalyzer implements DataAnalyzer {
         return this.contents;
     }
 
+    /**
+     * データ解析結果からデータの種類を返却します。<br>
+     * データ種類は<code>Consts</code>クラスに定義しているものを使用する。<br>
+     */
+    @Override
+    public String getDataType() {
+        // TODO 現時点ではXML固定
+        return Consts.QUEUE_DATA_TYPE_XML;
+    }
 }

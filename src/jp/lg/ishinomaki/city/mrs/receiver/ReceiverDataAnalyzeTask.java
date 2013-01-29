@@ -20,12 +20,6 @@ import jp.lg.ishinomaki.city.mrs.utils.FileUtilities;
  */
 public class ReceiverDataAnalyzeTask implements Runnable {
 
-    public static final byte XML_HEADER = (byte)0x00;
-    
-    public static final byte TEXT_HEADER = (byte)0x01;
-    
-    public static final byte BINARY_HEADER = (byte)0x02;
-    
     /**
      * ロガーインスタンス
      */
@@ -90,9 +84,8 @@ public class ReceiverDataAnalyzeTask implements Runnable {
         // -------------------------------------------
         if (outputPath != null) {
             // ファイル名生成
-            // ファイル名はとりあえずデータ種別(大分類)を使用する
-            String majorType = analyzer.getBCH().getMajorDataTypeString();
-            String fileName = FileUtilities.genFileName(majorType);
+            // ファイル名はとりあえず"test"としておく
+            String fileName = FileUtilities.genFileName("test");
 
             // ファイル生成
             boolean isSuccessSaveFile = FileUtilities.saveContentsAsFile(
@@ -110,12 +103,13 @@ public class ReceiverDataAnalyzeTask implements Runnable {
         // キュー管理インスタンス取得
         QueuePushClient queuePushClient = new QueuePushClient();
         try {
-            // cotentsのバイト配列先頭にデータ種別を表す識別子(1byte)を付与する
-            byte[] data = new byte[contents.length + 1];
+            // cotentsのバイト配列先頭にデータ種別を表す識別子(3byte)を付与する
+            byte[] type = analyzer.getDataType().getBytes();
+            byte[] data = new byte[contents.length + type.length];
             // 配列の先頭にヘッダを付与
-            data[0] = XML_HEADER;
+            System.arraycopy(type, 0, data, 0, type.length);
             // ヘッダ以降にcontentsのバイト配列を設定
-            System.arraycopy(contents, 0, data, 1, contents.length);
+            System.arraycopy(contents, 0, data, type.length, contents.length);
             // キューにデータをセット
             queuePushClient.push(data);
         } catch (Exception e) {

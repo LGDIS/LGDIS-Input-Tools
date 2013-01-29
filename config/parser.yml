@@ -4,7 +4,7 @@
 redmine: 
  protocol: "http"
  target_host: "203.138.187.88"
- target_port: "3000"
+# target_port: "3000"   # ポート番号を指定する場合のみ使用する
  post_api: "/redmine/issues.xml?format=xml"
  api_key: "871cbf8868511fea61f06d09383b612d2fbbb4b7"
  timeout: 120000
