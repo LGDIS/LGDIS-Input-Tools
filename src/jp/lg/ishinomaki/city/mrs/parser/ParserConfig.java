@@ -1,3 +1,11 @@
+//
+//  ParserConfig.java
+//  LGDIS-Input-Tools
+//
+//  Copyright (C) 2012 ISHINOMAKI CITY OFFICE.
+//
+//
+
 package jp.lg.ishinomaki.city.mrs.parser;
 
 import java.io.FileNotFoundException;
@@ -12,6 +20,9 @@ import org.ho.yaml.Yaml;
  */
 public class ParserConfig {
 
+    // -------------------------------------------------------
+    // 設定ファイルから値を取得する際の識別子定義
+    // -------------------------------------------------------
     public static final String REDMINE = "redmine";
     public static final String PROTOCOL = "protocol";
     public static final String TARGET_HOST = "target_host";
@@ -24,13 +35,36 @@ public class ParserConfig {
     public static final String BASICAUTH_PASSWORD = "basicauth_password";
     public static final String RULE_FILE = "rule_file";
     public static final String SCHEMA_FILE = "schema_file";
-
+    public static final String PDF_ATTACHMENT_STATICS = "pdf_attachment_statics";
+    public static final String TEXT_ATTACHMENT_STATICS = "text_attachment_statics";
+    public static final String SUBJECT = "subject";
+    public static final String TRACKER_ID = "tracker_id";
+    
+    /**
+     * Redmine用設定情報
+     */
     private Map<String, Object> redmine;
 
+    /**
+     * XML解析ルール定義ファイルのパス
+     */
     private String ruleFilePath;
 
+    /**
+     * XML解析スキーマファイルのパス
+     */
     private String schemaFilePath;
 
+    /**
+     * PDF添付の用チケット情報
+     */
+    private Map<String, String> pdfAttachmentStatics;
+    
+    /**
+     * Text添付チケット用の情報
+     */
+    private Map<String, String> textAttachmentStatics;
+    
     /**
      * シングルトン設計
      */
@@ -70,6 +104,17 @@ public class ParserConfig {
         // スキーマファイルパスを読み込み
         // --------------------------------------------------------
         schemaFilePath = (String) yml.get(SCHEMA_FILE);
+        
+        // --------------------------------------------------------
+        // PDF添付チケット用の情報
+        // --------------------------------------------------------
+        pdfAttachmentStatics = (Map<String, String>)yml.get(PDF_ATTACHMENT_STATICS);
+        
+        // --------------------------------------------------------
+        // TextF添付チケット用の情報
+        // --------------------------------------------------------
+        textAttachmentStatics = (Map<String, String>)yml.get(TEXT_ATTACHMENT_STATICS);
+        
     }
 
     public Map<String, Object> getRedmine() {
@@ -82,6 +127,14 @@ public class ParserConfig {
 
     public String getSchemaFilePath() {
         return schemaFilePath;
+    }
+
+    public Map<String, String> getPdfAttachmentStatics() {
+        return pdfAttachmentStatics;
+    }
+
+    public Map<String, String> getTextAttachmentStatics() {
+        return textAttachmentStatics;
     }
 
 }

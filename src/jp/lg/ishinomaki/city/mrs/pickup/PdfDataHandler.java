@@ -1,6 +1,6 @@
 package jp.lg.ishinomaki.city.mrs.pickup;
 
-public class BinaryDataHandler implements PickupDataHandler {
+public class PdfDataHandler implements PickupDataHandler {
 
     /**
      * JMAソケット通信で取得した本文データに対する処理を行います。

@@ -7,20 +7,27 @@
 # 2バイト固定のため注意して定義してください
 # ------------------------------------------------------------
 threads: 
- JAlert-Kishou(HONBAN): 
+ JAlert-Kishou: 
   ip: "localhost"
   port: "36000"
   output: "/Users/igakuratakayuki/JmaOutput"
   analyzers: 
    "BI": "jp.lg.ishinomaki.city.mrs.analyzer.JmaDataAnalyzer"
-  input_id: "JA"
- JAlert-Naikaku(HONBAN): 
+  input_id: "JAL"
+ JAlert-Naikaku: 
   ip: "localhost"
   port: "36001"
   output: "/Users/igakuratakayuki/JmaOutput"
   analyzers: 
    "BI": "jp.lg.ishinomaki.city.mrs.analyzer.JmaDataAnalyzer"
-  input_id: "JA"
+  input_id: "JAL"
+ JMA: 
+  ip: "localhost"
+  port: "36002"
+  output: "/Users/igakuratakayuki/JmaOutput"
+  analyzers: 
+   "BI": "jp.lg.ishinomaki.city.mrs.analyzer.JmaDataAnalyzer"
+  input_id: "JMA"
 
 
 # ------------------------------------------------------------
