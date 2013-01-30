@@ -95,7 +95,7 @@ public class JmaDataAnalyzer implements DataAnalyzer {
         // BCH作成
         // -----------------------------------
         bch = new BCH(data);
-        log.finest(bch.getStrBch()); // デバッグ用ログ
+        log.finest(bch.toString()); // デバッグ用ログ
 
         // -----------------------------------
         // BCHのチェックサム
@@ -351,7 +351,19 @@ public class JmaDataAnalyzer implements DataAnalyzer {
      */
     @Override
     public String getDataType() {
-        // TODO 現時点ではXML固定
+        // JMA受信電文のデータタイプは 'XML' 'PDF' BUF' GRI' のいずれか
+        // BCHヘッダの内容で上記のいずれかを判定する
+        int majorDataType = bch.getMajorDataType();
+        int minorDataType = bch.getMinorDataType();
+        if (majorDataType == 6) {
+            if (minorDataType == 3) {
+                return Consts.QUEUE_DATA_TYPE_BUF;
+            } else if (minorDataType == 4) {
+                return Consts.QUEUE_DATA_TYPE_GRI;
+            }
+        }
+        // TODO PDFの判定方法は？
+        
         return Consts.QUEUE_DATA_TYPE_XML;
     }
 }

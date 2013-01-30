@@ -6,6 +6,6 @@ public class Consts {
     public static final String QUEUE_DATA_TYPE_TXT = "TXT";
     public static final String QUEUE_DATA_TYPE_PDF = "PDF";
     public static final String QUEUE_DATA_TYPE_BUF = "BUF";
-    public static final String QUEUE_DATA_TYPE_GRB = "GRB";
+    public static final String QUEUE_DATA_TYPE_GRI = "GRI";
     
 }
