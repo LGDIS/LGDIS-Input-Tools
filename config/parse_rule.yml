@@ -47,32 +47,91 @@ issue_extras:
 # coordinateは上記のようにtypeによる判定が必要なため/Text()を含まない
 # Xpathを定義する。type属性による判定をロジックで行うため。
 # ------------------------------------------------------------
-issue_addition_datums: 
+issue_geographys: 
  "coordinate": 
-  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Coordinate"
-  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Circle/BasePoint/Coordinate"
-  - "/Report/Body/MeteorologicalInfos/TimeSeriesInfo/Item/Station/Coordinate"
-  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/CenterPart/Coordinate"
-  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/CoordinatePart/Coordinate"
-  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/CenterPart/ProbabilityCircle/Circle/BasePoint/Coordinate"
-  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/WarningAreaPart/Circle/BasePoint/Coordinate"
-  - "/Report/Body/Earthquake/Hypocenter/Area/HypoArea/Coordinate"
-  - "/Report/Body/VolcanoInfo/Item/Areas/Area/Coordinate/Coordinate"
-  - "/Report/Body/VolcanoInfo/Item/Areas/Area/CraterCoordinate/Coordinate"
+  - # 全般海上警報
+   basePath: "/Repot/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/"
+   relativePath: "Coordinate/text()"
+   remarksPaths: ["Name/text()", "/@type"]
+  - # 台風解析・予報情報, 全般海上警報, 地上実況図, 地上予想図
+   basePath: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/"
+   relativePath: "Circle/BasePoint/Coordinate/text()"
+   remarksPaths: ["Name/text()", "/@type"]
+  - # 紫外線観測データ
+   basePath: "/Report/Body/MeteorologicalInfos/TimeSeriesInfo/Item/Station/"
+   relativePath: "Coordinate/text()"
+   remarksPaths: ["Name/text()"]
+  - # 台風解析・予報情報, 全般海上警報, 地上実況図, 地上予想図
+   basePath: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/"
+   relativePath: "CenterPart/Coordinate/text()"
+   remarksPaths: ["Coordinate/Type/text()"]
+  - # 全般海上警報
+   basePath: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/"
+   relativePath: "CenterPart/ProbabilityCircle/Circle/BasePoint/Coordinate/text()"
+   remarksPaths: ["Coordinate/Type/text()"]
+  - # 台風解析・予報情報, 全般海上警報
+   basePath: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/CoordinatePart/"
+   relativePath: "Coordinate/text()"
+   remarksPaths: ["Type/text()"]
+  - # 台風解析・予報情報, 全般海上警報
+   basePath: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/"
+   relativePath: "WarningAreaPart/Circle/BasePoint/Coordinate/text()"
+   remarksPaths: ["Coordinate/Type/text()"]
+  - # 地震関連, 津波関連
+   basePath: "/Report/Body/Earthquake/Hypocenter/Area/HypoArea/Coordinate/"
+   relativePath: "text()"
+   static_remarks: "震源位置"
+  - # 噴火関連
+   basePath: "/Report/Body/VolcanoInfo/Item/Areas/Area/"
+   relativePath: "Coordinate/Coordinate/text()"
+   remarksPaths: ["Area/Name/text()"]
+  - # 噴火関連
+   basePath: "/Report/Body/VolcanoInfo/Item/Areas/Area/CraterCoordinate/Coordinate/"
+   relativePath: "text()"
+   static_remarks: "火口の位置"
  "line": 
-  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Line/text()"
-  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/CoordinatePart/Line/text()"
-  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/IsobarPart/Line/text()"
+  - # 全般海上警報
+   basePath: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/"
+   relativePath: "Area/Line/text()"
+   remarksPaths: ["Kind/Name/text()"]
+  - # 全般海上警報
+   basePath: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/"
+   relativePath: "Kind/Property/CoordinatePart/Line/text()"
+   remarksPaths: ["Kind/Name/text()"]
+  - # 地上実況図, 地上予想図
+   basePath: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/"
+   relativePath: "Kind/Property/IsobarPart/Line/text()"
+   remarksPaths: ["Kind/Name/text()"]
  "polygon": 
-  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Polygon/text()"
-  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/CoordinatePart/Polygon/text()"
-  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/IsobarPart/Polygon/text()"
+  - # 全般海上警報
+   basePath: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/"
+   relativePath: "Area/Polygon/text()"
+   remarksPaths: ["Kind/Name/text()"]
+  - # 全般海上警報
+   basePath: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/"
+   relativePath: "Kind/Property/CoordinatePart/Polygon/text()"
+   remarksPaths: ["Kind/Name/text()"]
+  - # 地上予想図, 地上実況図
+   basePath: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/"
+   relativePath: "Kind/Property/IsobarPart/Polygon/text()"
+   remarksPaths: ["Kind/Name/text()"]
  "Location": 
-  - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Station/Location/text()"
-  - "/Report/Body/MeteorologicalInfos/TimeSeriesInfo/Item/Station/Location/text()"
-  - "/Report/Body/Waring/Item/Stations/Station/Location/text()"
-  - "/Report/Body/Waring/Item/Stations/Station/Location/text()"
-  - "/Report/Body/AdditionalInfo/FloodForecastAddition/HydrometricStationPart/Area/Location/text()"
+  - # 特殊気象報
+   basePath: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/"
+   relativePath: "Kind/Property/IsobarPart/Polygon/text()"
+   remarksPaths: ["Kind/Name/text()"]
+  - # 紫外線観測データ
+   basePath: "/Report/Body/MeteorologicalInfos/TimeSeriesInfo/Item/Station/"
+   relativePath: "Location/text()"
+   remarksPaths: ["Name/text()"]
+  - # 指定河川洪水予報
+   basePath: "/Report/Body/Waring/Item/Stations/Station/"
+   relativePath: "Location/text()"
+   remarksPaths: ["Name/text()"]
+  - # 指定河川洪水予報
+   basePath: "/Report/Body/AdditionalInfo/FloodForecastAddition/HydrometricStationPart/Area/"
+   relativePath: "Location/text()"
+   remarksPaths: ["Name/text()"]
  "valid_coordinate_types": ["観測所の位置", "中心位置（度）", "実況位置（度）", "１２時間後位置（度）", "２４時間後位置（度）", "位置（度）", "予想位置　１２時間後（度）", "予想位置　２４時間後（度）", "中心位置（度）", "震源位置（度）", "火山の位置", "火口の位置"]
 
 
