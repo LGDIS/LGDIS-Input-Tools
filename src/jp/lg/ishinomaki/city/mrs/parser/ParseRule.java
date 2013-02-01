@@ -26,7 +26,12 @@ public class ParseRule {
      * 定義体ロード用の識別子定義
      */
     private static final String ISSUE_EXTRAS = "issue_extras";
-    private static final String ISSUE_ADDITION_DATUMS = "issue_addition_datums";
+    private static final String ISSUE_GEOGRAPHIES = "issue_geographyies";
+    public static final String BASE_PATH = "base_path";
+    public static final String RELATIVE_PATH = "relative_path";
+    public static final String RELATIVE_TYPE_PATH = "relative_type_path";
+    public static final String REMARKS_PATHS = "remarks_paths";
+    public static final String STATICS_REMARKS_PATH = "static_remark_path";
     private static final String COORDINATE = "coordinate";
     private static final String VALID_COORDINATE_TYPES = "valid_coordinate_types";
     private static final String LINE = "line";
@@ -70,22 +75,22 @@ public class ParseRule {
     /**
      * Coordinateを取得するためのXpathのリスト
      */
-    private List<String> coordinateXpaths;
+    private List<Map<String, Object>> coordinateInfos;
 
     /**
      * Lineを取得するためのXpathのリスト
      */
-    private List<String> lineXpaths;
+    private List<Map<String, Object>> lineInfos;
 
     /**
      * Polygonを取得するためのXpathのリスト
      */
-    private List<String> polygonXpaths;
+    private List<Map<String, Object>> polygonInfos;
 
     /**
      * Locationを取得するためのXpathのリスト
      */
-    private List<String> locationXpaths;
+    private List<Map<String, Object>> locationInfos;
 
     /**
      * key:Information type, value:トラッカーID
@@ -175,7 +180,7 @@ public class ParseRule {
     /**
      * yml定義ファイルを読み込み内容を取得するメソッド
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public void loadYml() {
         try {
             // ymlファイルを読み込み、定義内容を解析
@@ -197,24 +202,27 @@ public class ParseRule {
             customFields = (Map<Integer, String>) rule.get(CUSTOM_FIELDS);
 
             // ------------------------------------------------
-            // Issues_addition_datum用定義内容を保持
+            // issue_geographyies用定義内容を保持
             // それぞれの位置情報毎にXpathのリストを保持する
             // ------------------------------------------------
-            Map<String, List<String>> issueAdditionDatum = (HashMap<String, List<String>>) rule
-                    .get(ISSUE_ADDITION_DATUMS);
-            // Coordinateを取得するためのXpathリスト
-            coordinateXpaths = issueAdditionDatum.get(COORDINATE);
+            Map issueGeoGrahyies = (Map<String, List<Object>>) rule
+                    .get(ISSUE_GEOGRAPHIES);
+            // Coordinateを取得するための情報リストを取得
+            coordinateInfos = (List<Map<String, Object>>) issueGeoGrahyies
+                    .get(COORDINATE);
             // Lineを取得するためのXpathリスト
-            lineXpaths = issueAdditionDatum.get(LINE);
+            lineInfos = (List<Map<String, Object>>) issueGeoGrahyies.get(LINE);
             // Polygonを取得するためのXpathリスト
-            polygonXpaths = issueAdditionDatum.get(POLYGON);
+            polygonInfos = (List<Map<String, Object>>) issueGeoGrahyies
+                    .get(POLYGON);
             // Locationを取得するためのXpathリスト
-            locationXpaths = issueAdditionDatum.get(LOCATION);
-            
+            locationInfos = (List<Map<String, Object>>) issueGeoGrahyies
+                    .get(LOCATION);
+
             // coordinateの有効なタイプを定義したリストを取得
-            validCoordinateTypes = (ArrayList<String>) issueAdditionDatum
+            validCoordinateTypes = (ArrayList<String>) issueGeoGrahyies
                     .get(VALID_COORDINATE_TYPES);
-            
+
             // ------------------------------------------------
             // トラッカー用定義
             // ------------------------------------------------
@@ -326,20 +334,20 @@ public class ParseRule {
         return id;
     }
 
-    public List<String> getCoordinateXpaths() {
-        return coordinateXpaths;
+    public List<Map<String, Object>> getCoordinateInfos() {
+        return coordinateInfos;
     }
 
-    public List<String> getLineXpaths() {
-        return lineXpaths;
+    public List<Map<String, Object>> getLineInfos() {
+        return lineInfos;
     }
 
-    public List<String> getPolygonXpaths() {
-        return polygonXpaths;
+    public List<Map<String, Object>> getPolygonInfos() {
+        return polygonInfos;
     }
 
-    public List<String> getLocationXpaths() {
-        return locationXpaths;
+    public List<Map<String, Object>> getLocationInfos() {
+        return locationInfos;
     }
 
     public String getTrackerXpath() {
@@ -390,4 +398,21 @@ public class ParseRule {
         return validCoordinateTypes;
     }
 
+    // for test
+    public static void main(String[] args) {
+        
+        ParserConfig config = ParserConfig.getInstance();
+        try {
+            config.loadYml("config/parser.yml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(config.getRuleFilePath());
+        
+        ParseRule rule = new ParseRule();
+        System.out.println(rule.getCoordinateInfos());
+        System.out.println(rule.getLineInfos());
+        System.out.println(rule.getPolygonInfos());
+        System.out.println(rule.getLocationInfos());
+    }
 }

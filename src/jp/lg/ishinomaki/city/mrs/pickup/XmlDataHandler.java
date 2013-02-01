@@ -64,7 +64,7 @@ public class XmlDataHandler implements PickupDataHandler {
 
         // 送信データを作成
         String sendData = parser.createIssuesXmlAsString();
-
+System.out.println(sendData);
         // RedmineのRestApi(Post)実行
         IssuesPostController postController = new IssuesPostController();
         postController.post(sendData);

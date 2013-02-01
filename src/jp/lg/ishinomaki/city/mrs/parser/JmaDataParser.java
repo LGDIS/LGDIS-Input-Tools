@@ -24,7 +24,6 @@ import org.dom4j.CDATA;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -80,10 +79,10 @@ public class JmaDataParser {
     private Map<String, String> customFieldMap = new HashMap<String, String>();
 
     /**
-     * Issus_addtion_datumに格納するデータのリスト
+     * issue_geographyに格納するデータのリスト
      */
-    private List<Map<String, String>> issueAdditionDatumMap = new ArrayList<Map<String, String>>();
-    
+    private List<Map<String, String>> issueGeographyMaps = new ArrayList<Map<String, String>>();
+
     /**
      * Control部以下のXML内容を文字列として保持
      */
@@ -214,7 +213,8 @@ public class JmaDataParser {
                     // Issues拡張フィールドに設定する値を取得
                     String fieldValue = stringByXpath(xpath, fieldXpath, doc);
                     if (StringUtils.isBlank(fieldValue) == false) {
-                        issueExtraMap.put(String.valueOf(fieldName), fieldValue);
+                        issueExtraMap
+                                .put(String.valueOf(fieldName), fieldValue);
                     }
                 }
             }
@@ -228,7 +228,8 @@ public class JmaDataParser {
             Map<Integer, String> customFieldXpaths = rule.getCustomFields();
             if (customFieldXpaths != null) {
                 for (Integer customFieldId : customFieldXpaths.keySet()) {
-                    String customFieldXpath = customFieldXpaths.get(customFieldId);
+                    String customFieldXpath = customFieldXpaths
+                            .get(customFieldId);
                     // カスタムフィールドに設定する値を取得
                     String customFieldValue = stringByXpath(xpath,
                             customFieldXpath, doc);
@@ -240,100 +241,26 @@ public class JmaDataParser {
             }
 
             // --------------------------------------------------------
-            // Issues拡張カラム用のデータ取得
-            // key:Issuesテーブルのカラム名 value:Xpathで取得した値
-            // の形式にしてissuesExtraMap変数に保持
-            // Xpathで値が取得できなかった場合はissuesExtraMapに保持しない
+            // issue_geographies用のデータ取得
             // --------------------------------------------------------
-            // Coordinateのデータを取得
-            List<String> validCoordinateTypes = rule.getValidCoordinateTypes();
-            List<String> coordinateXpaths = rule.getCoordinateXpaths();
-            if (coordinateXpaths != null && validCoordinateTypes != null) {
-                for (String path: coordinateXpaths) {
-                    // すべての"Coordinate"ノードを取得
-                    NodeList nodes = nodelistByXpath(xpath, path, doc);
-                    if (nodes != null) {
-                        // ノードを1つづつ処理
-                        for (int i = 0; i < nodes.getLength(); i++) {
-                            // ノードのtype属性により有効な(使用可能な)データであるか判定
-                            Node anNode = nodes.item(i);
-                            NamedNodeMap nodeMap = anNode.getAttributes();
-                            Node type = nodeMap.getNamedItem("datum");
-                            if (type == null) {
-                                continue;
-                            }
-                            String typeAttr = type.getNodeValue();
-                            for (String validType : validCoordinateTypes) {
-                                if (validType.equals(typeAttr)) {
-                                    // 測地系(datum),緯度(latitude),経度(longitude)を設定
-                                    Map<String, String> additionDatum = new HashMap<String, String>();
-                                    additionDatum.put("datum", typeAttr);
-                                    // TODO 緯度、経度情報も保存
-                                    issueAdditionDatumMap.add(additionDatum);
-                                }
-                            }
-                            
-                        }
-                    }
-                }
-            }
-            // Polygonのデータを取得
-            List<String> polygonXpaths = rule.getPolygonXpaths();
-            if (polygonXpaths != null) {
-                for (String path: polygonXpaths) {
-                    // すべての"Polygon"ノードを取得
-                    NodeList nodes = nodelistByXpath(xpath, path, doc);
-                    if (nodes != null) {
-                        // ノードを1つづつ処理
-                        for (int i = 0; i < nodes.getLength(); i++) {
-                            Node anNode = nodes.item(i);
-                            String polygon = anNode.getNodeValue();
-                            // ノードのテキストを登録
-                            Map<String, String> additionDatum = new HashMap<String, String>();
-                            additionDatum.put("polygon", polygon);
-                            issueAdditionDatumMap.add(additionDatum);
-                        }
-                    }
-                }
-            }
-            // Lineのデータを取得
-            List<String> lineXpaths = rule.getLineXpaths();
-            if (lineXpaths != null) {
-                for (String path: lineXpaths) {
-                    // すべての"Line"ノードを取得
-                    NodeList nodes = nodelistByXpath(xpath, path, doc);
-                    if (nodes != null) {
-                        // ノードを1つづつ処理
-                        for (int i = 0; i < nodes.getLength(); i++) {
-                            Node anNode = nodes.item(i);
-                            String line = anNode.getNodeValue();
-                            // ノードのテキストを登録
-                            Map<String, String> additionDatum = new HashMap<String, String>();
-                            additionDatum.put("line", line);
-                            issueAdditionDatumMap.add(additionDatum);
-                        }
-                    }
-                }
-            }
+            // 妥当性チェック用配列取得
+            List<String> validTypes = rule.getValidCoordinateTypes();
+
+            // Corrdinateの情報をpointに設定
+            List<Map<String, Object>> coordinateInfos = rule
+                    .getCoordinateInfos();
+            parseGeography(coordinateInfos, validTypes, xpath, doc, "point");
+            // Polygonの情報をpolygonに設定
+            List<Map<String, Object>> polygonInfos = rule.getPolygonInfos();
+            parseGeography(polygonInfos, validTypes, xpath, doc, "line");
+
+            // lineのデータを取得
+            List<Map<String, Object>> lineInfos = rule.getLineInfos();
+            parseGeography(lineInfos, validTypes, xpath, doc, "line");
+
             // Locationのデータを取得
-            List<String> locationXpaths = rule.getLocationXpaths();
-            if (locationXpaths != null) {
-                for (String path: locationXpaths) {
-                    // すべての"Location"ノードを取得
-                    NodeList nodes = nodelistByXpath(xpath, path, doc);
-                    if (nodes != null) {
-                        // ノードを1つづつ処理
-                        for (int i = 0; i < nodes.getLength(); i++) {
-                            Node anNode = nodes.item(i);
-                            String location = anNode.getNodeValue();
-                            // ノードのテキストを登録
-                            Map<String, String> additionDatum = new HashMap<String, String>();
-                            additionDatum.put("Location", location);
-                            issueAdditionDatumMap.add(additionDatum);
-                        }
-                    }
-                }
-            }
+            List<Map<String, Object>> locationInfos = rule.getLocationInfos();
+            parseGeography(locationInfos, validTypes, xpath, doc, "Location");
 
             // --------------------------------------------------------
             // プロジェクト自動立ち上げを判定
@@ -429,6 +356,99 @@ public class JmaDataParser {
         return true;
     }
 
+    @SuppressWarnings("unchecked")
+    private void parseGeography(List<Map<String, Object>> infos,
+            List<String> validTypes, javax.xml.xpath.XPath xpath,
+            org.w3c.dom.Document doc, String geoKey) {
+
+        if (infos == null) {
+            return;
+        }
+
+        try {
+            // coordinateで定義されている情報を元に位置系情報取得
+            for (Map<String, Object> info : infos) {
+
+                // 取得に使用するXpath取り出し
+                String basePath = (String) info.get(ParseRule.BASE_PATH);
+                String relativePath = (String) info
+                        .get(ParseRule.RELATIVE_PATH);
+                String relativeTypePath = (String) info
+                        .get(ParseRule.RELATIVE_TYPE_PATH);
+                List<String> remarksPaths = (List<String>) info
+                        .get(ParseRule.REMARKS_PATHS);
+                String staticRemarksPath = (String) info
+                        .get(ParseRule.STATICS_REMARKS_PATH);
+
+                // まずはベースとなるNode(Element)を取得
+                Node base = nodeByXpath(xpath, basePath, doc);
+                // Nodeが取得できない場合は次のデータへ
+                if (base == null) {
+                    continue;
+                }
+                
+                // -----------------------------------------------------
+                // 設定されているtypeが妥当かどうかを確認
+                // -----------------------------------------------------
+                if (relativeTypePath != null) {
+                    String coordinateType = stringByXpath(xpath,
+                            relativeTypePath, base);
+                    boolean isValid = false;
+                    for (String validType : validTypes) {
+                        if (coordinateType.equals(validType)) {
+                            isValid = true;
+                            break;
+                        }
+                    }
+                    if (isValid == false) {
+                        continue;
+                    }
+                }
+
+                // 相対パスでGeo情報取得
+                String geoInfo = stringByXpath(xpath, relativePath, base);
+                // Geo情報が設定されていない場合は次のデータへ
+                if (geoInfo == null) {
+                    continue;
+                }
+                
+                // -----------------------------------------------------
+                // 備考用文字列取得
+                // parseRuleにREMARKS_PATHSが設定されている場合は配列に設定
+                // されているXpathを使用して備考文字列を取得する
+                // 設定されていない場合はSTATIC_REMARKS_PATHを使用して
+                // 備考文字列を取得する
+                // -----------------------------------------------------
+                // 固定の備考文字列が設定ファイルに定義されている場合はそれを使用
+                String remarks = null;
+                if (staticRemarksPath != null) {
+                    remarks = stringByXpath(xpath, staticRemarksPath, base);
+                } else {
+                    // 相対パスで備考文字列取得
+                    for (String anRemarksPath : remarksPaths) {
+                        // 相対パスで備考文字列取得
+                        String anRemarks = stringByXpath(xpath, anRemarksPath,
+                                base);
+                        // 備考文字列は複数ある場合に半角スペースで連結する
+                        remarks = remarks + anRemarks + " ";
+                    }
+                }
+
+                // Map型に格納してissueGeographyMapに追加
+                Map<String, String> map = new HashMap<String, String>();
+                map.put(geoKey, geoInfo);
+                if (remarks != null) {
+                    map.put("remarks", remarks);
+                }
+
+                issueGeographyMaps.add(map);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     /**
      * Documentからxpathで指定したテキストを取得します.<br>
      * 
@@ -454,6 +474,42 @@ public class JmaDataParser {
      * @param path
      * @param doc
      * @return String 取得テキスト xpath上にテキストがない場合はnullを返却
+     */
+    private String stringByXpath(javax.xml.xpath.XPath xpath, String path,
+            Node node) {
+        String ret = null;
+        try {
+            ret = xpath.evaluate(path, node);
+        } catch (Exception e) {
+        }
+        return ret;
+    }
+
+    /**
+     * Documentからxpathで指定したNodeのリストを取得します.<br>
+     * 
+     * @param xpath
+     * @param path
+     * @param doc
+     * @return NodeList Nodeのリスト xpath上にテキストがない場合はnullを返却
+     */
+    private Node nodeByXpath(javax.xml.xpath.XPath xpath, String path,
+            org.w3c.dom.Document doc) {
+        Node ret = null;
+        try {
+            ret = (Node) xpath.evaluate(path, doc, XPathConstants.NODE);
+        } catch (Exception e) {
+        }
+        return ret;
+    }
+
+    /**
+     * Documentからxpathで指定したNodeのリストを取得します.<br>
+     * 
+     * @param xpath
+     * @param path
+     * @param doc
+     * @return NodeList Nodeのリスト xpath上にテキストがない場合はnullを返却
      */
     private NodeList nodelistByXpath(javax.xml.xpath.XPath xpath, String path,
             org.w3c.dom.Document doc) {
@@ -543,16 +599,17 @@ public class JmaDataParser {
                 cfe.addText(customFieldMap.get(key));
             }
         }
-        
-        // issues_addition_datumのデータを設定
-        if (issueAdditionDatumMap.size() > 0) {
-            Element issueAddtionDatums = issue.addElement("issue_addition_datums");
-            issueAddtionDatums.addAttribute("type", "array");
-            for (Map<String, String> datum : issueAdditionDatumMap) {
-                Element issueAdditionDatum = issueAddtionDatums.addElement("issue_addition_datum");
-                for (String key : datum.keySet()) {
-                    Element e = issueAdditionDatum.addElement(key);
-                    e.addText(datum.get(key));
+
+        // issues_geographiesにデータを設定
+        if (issueGeographyMaps.size() > 0) {
+            Element issueGeographies = issue.addElement("issue_geographies");
+            issueGeographies.addAttribute("type", "array");
+            for (Map<String, String> issueGeographyMap : issueGeographyMaps) {
+                Element issueGeography = issueGeographies
+                        .addElement("issue_geography");
+                for (String key : issueGeographyMap.keySet()) {
+                    Element e = issueGeography.addElement(key);
+                    e.addText(issueGeographyMap.get(key));
                 }
             }
         }
