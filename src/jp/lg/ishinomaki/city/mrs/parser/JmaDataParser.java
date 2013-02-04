@@ -14,16 +14,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
 
 import jp.lg.ishinomaki.city.mrs.utils.StringUtils;
 
-import org.dom4j.CDATA;
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -86,17 +90,17 @@ public class JmaDataParser {
     /**
      * Control部以下のXML内容を文字列として保持
      */
-    private String xml_control;
+    private String xmlControl;
 
     /**
      * Head部以下のXML内容を文字列として保持
      */
-    private String xml_head;
+    private String xmlHead;
 
     /**
      * Body部以下のXML内容を文字列として保持
      */
-    private String xml_body;
+    private String xmlBody;
 
     /**
      * コンストラクタです。
@@ -114,31 +118,32 @@ public class JmaDataParser {
         try {
             // ------------------------------------------------------------------------
             // Control,Head,Body部抽出
+            // 抽出にはDom4jを使用する
             // ------------------------------------------------------------------------
-            Document doc = DocumentHelper.parseText(xml);
-            Element controlElement = null;
-            Element headElement = null;
-            Element bodyElement = null;
+            org.dom4j.Document doc = org.dom4j.DocumentHelper.parseText(xml);
+            org.dom4j.Element controlElement = null;
+            org.dom4j.Element headElement = null;
+            org.dom4j.Element bodyElement = null;
             // Root要素(Report)取得
-            Element rootElement = doc.getRootElement();
+            org.dom4j.Element rootElement = doc.getRootElement();
             // Root配下の3要素(Control,Head,Body)取得
             @SuppressWarnings("unchecked")
-            List<Element> elements = rootElement.elements();
-            for (Element anElement : elements) {
+            List<org.dom4j.Element> elements = rootElement.elements();
+            for (org.dom4j.Element anElement : elements) {
                 // Control部以下を全て取得
                 if (anElement.getName().equals("Control")) {
                     controlElement = anElement;
-                    xml_control = controlElement.asXML();
+                    xmlControl = controlElement.asXML();
                 }
                 // Head部以下を全て取得
                 else if (anElement.getName().equals("Head")) {
                     headElement = anElement;
-                    xml_head = headElement.asXML();
+                    xmlHead = headElement.asXML();
                 }
                 // Body部以下を全て取得
                 else if (anElement.getName().equals("Body")) {
                     bodyElement = anElement;
-                    xml_body = bodyElement.asXML();
+                    xmlBody = bodyElement.asXML();
                 }
             }
 
@@ -167,13 +172,11 @@ public class JmaDataParser {
 
         // XPath使用準備
         InputStream bis = new ByteArrayInputStream(xml.getBytes());
-        javax.xml.parsers.DocumentBuilder db;
+        DocumentBuilder db;
         try {
-            db = javax.xml.parsers.DocumentBuilderFactory.newInstance()
-                    .newDocumentBuilder();
-            org.w3c.dom.Document doc = db.parse(bis);
-            javax.xml.xpath.XPath xpath = javax.xml.xpath.XPathFactory
-                    .newInstance().newXPath();
+            db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            Document doc = db.parse(bis);
+            XPath xpath = XPathFactory.newInstance().newXPath();
 
             // XML解析ルール取得
             ParseRule rule = ParseRule.getInstance();
@@ -243,24 +246,23 @@ public class JmaDataParser {
             // --------------------------------------------------------
             // issue_geographies用のデータ取得
             // --------------------------------------------------------
-            // 妥当性チェック用配列取得
-            List<String> validTypes = rule.getValidCoordinateTypes();
 
             // Corrdinateの情報をpointに設定
             List<Map<String, Object>> coordinateInfos = rule
                     .getCoordinateInfos();
-            parseGeography(coordinateInfos, validTypes, xpath, doc, "point");
+            parseGeography(coordinateInfos, xpath, doc, "point");
+
             // Polygonの情報をpolygonに設定
             List<Map<String, Object>> polygonInfos = rule.getPolygonInfos();
-            parseGeography(polygonInfos, validTypes, xpath, doc, "line");
+            parseGeography(polygonInfos, xpath, doc, "polygon");
 
             // lineのデータを取得
             List<Map<String, Object>> lineInfos = rule.getLineInfos();
-            parseGeography(lineInfos, validTypes, xpath, doc, "line");
+            parseGeography(lineInfos, xpath, doc, "line");
 
             // Locationのデータを取得
             List<Map<String, Object>> locationInfos = rule.getLocationInfos();
-            parseGeography(locationInfos, validTypes, xpath, doc, "Location");
+            parseGeography(locationInfos, xpath, doc, "Location");
 
             // --------------------------------------------------------
             // プロジェクト自動立ち上げを判定
@@ -356,10 +358,25 @@ public class JmaDataParser {
         return true;
     }
 
+    /**
+     * 位置情報の解析処理を行う内部メソッド
+     * 
+     * @param infos
+     *            位置情報解析ルール(parse_rule.ymlに
+     *            "issue_geographyies/coordinate,line,polygon,Location"をキーに定義
+     * @param validTypes
+     *            typeの妥当性チェック(parse_rule.ymlに"issue_geographyies/valid_types"
+     *            をキーに定義)
+     * @param xpath
+     *            Xpath変数
+     * @param doc
+     *            ルートからのDocument全体
+     * @param geoKey
+     *            coordinate or line or polygon or Location
+     */
     @SuppressWarnings("unchecked")
-    private void parseGeography(List<Map<String, Object>> infos,
-            List<String> validTypes, javax.xml.xpath.XPath xpath,
-            org.w3c.dom.Document doc, String geoKey) {
+    private void parseGeography(List<Map<String, Object>> infos, XPath xpath,
+            Document doc, String geoKey) {
 
         if (infos == null) {
             return;
@@ -373,80 +390,205 @@ public class JmaDataParser {
                 String basePath = (String) info.get(ParseRule.BASE_PATH);
                 String relativePath = (String) info
                         .get(ParseRule.RELATIVE_PATH);
-                String relativeTypePath = (String) info
-                        .get(ParseRule.RELATIVE_TYPE_PATH);
                 List<String> remarksPaths = (List<String>) info
                         .get(ParseRule.REMARKS_PATHS);
                 String staticRemarksPath = (String) info
                         .get(ParseRule.STATICS_REMARKS_PATH);
 
-                // まずはベースとなるNode(Element)を取得
-                Node base = nodeByXpath(xpath, basePath, doc);
-                // Nodeが取得できない場合は次のデータへ
-                if (base == null) {
+                System.out.println("basePath -> " + basePath);
+                System.out.println("relativePath -> " + relativePath);
+                System.out.println("remarksPaths ->" + remarksPaths);
+                System.out.println("staticRemarksPath -> " + staticRemarksPath);
+                // まずはベースとなるNodeListを取得
+                NodeList nodes = nodelistByXpath(xpath, basePath, doc);
+                // NodeListが取得できない場合は次のデータへ
+                if (nodes == null) {
+                    System.out.println("basePathでNodeのリストが取得できないため処理中断");
                     continue;
                 }
-                
-                // -----------------------------------------------------
-                // 設定されているtypeが妥当かどうかを確認
-                // -----------------------------------------------------
-                if (relativeTypePath != null) {
-                    String coordinateType = stringByXpath(xpath,
-                            relativeTypePath, base);
-                    boolean isValid = false;
-                    for (String validType : validTypes) {
-                        if (coordinateType.equals(validType)) {
-                            isValid = true;
-                            break;
+                System.out.println("basePathで取得したNodeのリスト数 -> "
+                        + nodes.getLength());
+
+                // 取得した全てのNodeに対して処理を行う
+                for (int i = 0; i < nodes.getLength(); i++) {
+                    // 1つのNodeを取得して処理
+                    Node aNode = nodes.item(i);
+                    System.out.println("[ループ1]----------------------------");
+                    System.out.println("[ループ1] 処理対象のNode -> "
+                            + aNode.getNodeName());
+
+                    // 相対パスでGeo情報取得
+                    if (StringUtils.isBlank(relativePath) == false) {
+                        System.out.println("[ループ1] 相対パス指定あり");
+                        // 相対パスでNodeのリストを取得
+                        NodeList relativeNodes = nodelistByXpath(xpath,
+                                relativePath, aNode);
+                        System.out
+                                .println("[ループ1] relativePathで取得したNodeのリスト数 -> "
+                                        + relativeNodes.getLength());
+                        // 上記で取得した全てのNodeに対してvalueと@datumを取得
+                        for (int j = 0; j < relativeNodes.getLength(); j++) {
+                            // Nodeに対してValueと@datumを取得
+                            Node aRelativeNode = relativeNodes.item(j);
+                            String val = stringByXpath(xpath, "text()",
+                                    aRelativeNode);
+                            System.out
+                                    .println("[ループ2]----------------------------");
+                            System.out.println("[ループ2] 処理対象のNode -> "
+                                    + aRelativeNode.getNodeName());
+                            System.out.println("[ループ2] 処理対象のNodeValue -> "
+                                    + val);
+                            if (StringUtils.isBlank(val)) {
+                                System.out
+                                        .println("[ループ2] NodeValueがNullのためループ終了");
+                                continue;
+                            }
+
+                            // 測地系情報取得
+                            String datum = stringByXpath(xpath, "@datum",
+                                    aRelativeNode);
+                            System.out.println("[ループ2] 測地系情報(datum) -> "
+                                    + datum);
+
+                            // -----------------------------------------------------
+                            // 備考用文字列取得
+                            // parseRuleにREMARKS_PATHSが設定されている場合は配列に設定
+                            // されているXpathを使用して備考文字列を取得する
+                            // 設定されていない場合はSTATIC_REMARKS_PATHを使用して
+                            // 備考文字列を取得する
+                            // -----------------------------------------------------
+                            // 固定の備考文字列が設定ファイルに定義されている場合はそれを使用
+                            String remarks = null;
+                            if (StringUtils.isBlank(staticRemarksPath)) {
+                                System.out
+                                        .println("[ループ2] 固定の備考文字がないためXMLから備考文字を取得");
+                                // 相対パスで備考文字列取得
+                                for (String anRemarksPath : remarksPaths) {
+                                    System.out.println("[ループ2] 備考文字取得用パス -> "
+                                            + anRemarksPath);
+                                    // 相対パスで備考文字列取得
+                                    String anRemarks = stringByXpath(xpath,
+                                            anRemarksPath, aNode);
+                                    System.out.println("[ループ2] 備考文字列 -> "
+                                            + anRemarks);
+                                    if (StringUtils.isBlank(anRemarks) == false) {
+                                        if (StringUtils.isBlank(remarks)) {
+                                            remarks = anRemarks;
+                                        } else {
+                                            // 備考文字列は複数ある場合に半角スペースで連結する
+                                            remarks = remarks + " " + anRemarks;
+                                        }
+                                        System.out
+                                                .println("[ループ2] 連結後の備考文字列 -> "
+                                                        + remarks);
+                                    }
+                                }
+                            } else {
+                                remarks = stringByXpath(xpath,
+                                        staticRemarksPath, aNode);
+                                System.out.println("[ループ2] 固定の備考文字列 -> "
+                                        + remarks);
+                            }
+                            // Map型に格納してissueGeographyMapに追加
+                            Map<String, String> map = new HashMap<String, String>();
+                            // 位置情報をRest用に変換して格納
+                            if (geoKey.equals("point")) {
+                                val = this.convertPoint(val);
+                            } else if (geoKey.equals("polygon")) {
+                                val = this.convertPolygon(val);
+                            } else if (geoKey.equals("line")) {
+                                val = this.convertLine(val);
+                            }
+                            map.put(geoKey, val);
+                            // 備考情報を格納
+                            if (StringUtils.isBlank(remarks) == false) {
+                                map.put("remarks", remarks);
+                            }
+                            // 測地系情報を格納
+                            if (StringUtils.isBlank(datum) == false) {
+                                map.put("datum", datum);
+                            }
+                            issueGeographyMaps.add(map);
                         }
                     }
-                    if (isValid == false) {
-                        continue;
+                    // 相対パスの設定がない場合はbasePathからGeo情報取得
+                    else {
+                        System.out.println("[ループ1] 相対パス指定なし");
+                        String val = stringByXpath(xpath, "text()", aNode);
+                        System.out.println("[ループ1] 取得したNodeValue -> " + val);
+
+                        // Geo情報が設定されていない場合は次のデータへ
+                        if (StringUtils.isBlank(val)) {
+                            continue;
+                        }
+                        // 測地系情報取得
+                        String datum = stringByXpath(xpath, "@datum", aNode);
+                        System.out.println("[ループ1] 測地系情報(datum) -> " + datum);
+
+                        // -----------------------------------------------------
+                        // 備考用文字列取得
+                        // parseRuleにREMARKS_PATHSが設定されている場合は配列に設定
+                        // されているXpathを使用して備考文字列を取得する
+                        // 設定されていない場合はSTATIC_REMARKS_PATHを使用して
+                        // 備考文字列を取得する
+                        // -----------------------------------------------------
+                        // 固定の備考文字列が設定ファイルに定義されている場合はそれを使用
+                        String remarks = null;
+                        if (StringUtils.isBlank(staticRemarksPath)) {
+                            System.out
+                                    .println("[ループ1] 固定の備考文字がないためXMLから備考文字を取得");
+                            // 相対パスで備考文字列取得
+                            for (String anRemarksPath : remarksPaths) {
+                                System.out.println("[ループ1] 備考文字取得用パス -> "
+                                        + anRemarksPath);
+                                // 相対パスで備考文字列取得
+                                String anRemarks = stringByXpath(xpath,
+                                        anRemarksPath, aNode);
+                                System.out.println("[ループ1] 備考文字列 -> "
+                                        + anRemarks);
+                                if (StringUtils.isBlank(anRemarks) == false) {
+                                    if (StringUtils.isBlank(remarks)) {
+                                        remarks = anRemarks;
+                                    } else {
+                                        // 備考文字列は複数ある場合に半角スペースで連結する
+                                        remarks = remarks + " " + anRemarks;
+                                    }
+                                }
+                                System.out.println("[ループ1] 連結後の備考文字列 -> "
+                                        + remarks);
+                            }
+                        } else {
+                            remarks = stringByXpath(xpath, staticRemarksPath,
+                                    aNode);
+                        }
+                        // Map型に格納してissueGeographyMapに追加
+                        Map<String, String> map = new HashMap<String, String>();
+                        // 位置情報をRest用に変換して格納
+                        if (geoKey.equals("point")) {
+                            val = this.convertPoint(val);
+                        } else if (geoKey.equals("polygon")) {
+                            val = this.convertPolygon(val);
+                        } else if (geoKey.equals("line")) {
+                            val = this.convertLine(val);
+                        }
+                        map.put(geoKey, val);
+                        // 備考情報を格納
+                        if (StringUtils.isBlank(remarks) == false) {
+                            map.put("remarks", remarks);
+                        }
+                        // 測地系情報を格納
+                        if (StringUtils.isBlank(datum) == false) {
+                            map.put("datum", datum);
+                        }
+                        issueGeographyMaps.add(map);
                     }
                 }
-
-                // 相対パスでGeo情報取得
-                String geoInfo = stringByXpath(xpath, relativePath, base);
-                // Geo情報が設定されていない場合は次のデータへ
-                if (geoInfo == null) {
-                    continue;
-                }
-                
-                // -----------------------------------------------------
-                // 備考用文字列取得
-                // parseRuleにREMARKS_PATHSが設定されている場合は配列に設定
-                // されているXpathを使用して備考文字列を取得する
-                // 設定されていない場合はSTATIC_REMARKS_PATHを使用して
-                // 備考文字列を取得する
-                // -----------------------------------------------------
-                // 固定の備考文字列が設定ファイルに定義されている場合はそれを使用
-                String remarks = null;
-                if (staticRemarksPath != null) {
-                    remarks = stringByXpath(xpath, staticRemarksPath, base);
-                } else {
-                    // 相対パスで備考文字列取得
-                    for (String anRemarksPath : remarksPaths) {
-                        // 相対パスで備考文字列取得
-                        String anRemarks = stringByXpath(xpath, anRemarksPath,
-                                base);
-                        // 備考文字列は複数ある場合に半角スペースで連結する
-                        remarks = remarks + anRemarks + " ";
-                    }
-                }
-
-                // Map型に格納してissueGeographyMapに追加
-                Map<String, String> map = new HashMap<String, String>();
-                map.put(geoKey, geoInfo);
-                if (remarks != null) {
-                    map.put("remarks", remarks);
-                }
-
-                issueGeographyMaps.add(map);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        System.out.println("解析後の地理系情報 -> " + issueGeographyMaps);
     }
 
     /**
@@ -457,30 +599,12 @@ public class JmaDataParser {
      * @param doc
      * @return String 取得テキスト xpath上にテキストがない場合はnullを返却
      */
-    private String stringByXpath(javax.xml.xpath.XPath xpath, String path,
-            org.w3c.dom.Document doc) {
+    private String stringByXpath(XPath xpath, String path, Object item) {
         String ret = null;
         try {
-            ret = xpath.evaluate(path, doc);
+            ret = xpath.evaluate(path, item);
         } catch (Exception e) {
-        }
-        return ret;
-    }
-
-    /**
-     * Documentからxpathで指定したテキストを取得します.<br>
-     * 
-     * @param xpath
-     * @param path
-     * @param doc
-     * @return String 取得テキスト xpath上にテキストがない場合はnullを返却
-     */
-    private String stringByXpath(javax.xml.xpath.XPath xpath, String path,
-            Node node) {
-        String ret = null;
-        try {
-            ret = xpath.evaluate(path, node);
-        } catch (Exception e) {
+            // ログは不要
         }
         return ret;
     }
@@ -493,128 +617,163 @@ public class JmaDataParser {
      * @param doc
      * @return NodeList Nodeのリスト xpath上にテキストがない場合はnullを返却
      */
-    private Node nodeByXpath(javax.xml.xpath.XPath xpath, String path,
-            org.w3c.dom.Document doc) {
-        Node ret = null;
-        try {
-            ret = (Node) xpath.evaluate(path, doc, XPathConstants.NODE);
-        } catch (Exception e) {
-        }
-        return ret;
-    }
-
-    /**
-     * Documentからxpathで指定したNodeのリストを取得します.<br>
-     * 
-     * @param xpath
-     * @param path
-     * @param doc
-     * @return NodeList Nodeのリスト xpath上にテキストがない場合はnullを返却
-     */
-    private NodeList nodelistByXpath(javax.xml.xpath.XPath xpath, String path,
-            org.w3c.dom.Document doc) {
+    private NodeList nodelistByXpath(XPath xpath, String path, Object item) {
         NodeList ret = null;
         try {
-            ret = (NodeList) xpath.evaluate(path, doc, XPathConstants.NODESET);
+            ret = (NodeList) xpath.evaluate(path, item, XPathConstants.NODESET);
         } catch (Exception e) {
+            // ログは不要
         }
         return ret;
     }
 
+    // ----------------------------------------------------
+    // 各種変数用のgetterメソッド
+    // ----------------------------------------------------
+
+    public String getTrackerId() {
+        return trackerId;
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public boolean isAutoLaunch() {
+        return isAutoLaunch;
+    }
+
+    public boolean isAutoSend() {
+        return isAutoSend;
+    }
+
+    public List<String> getSendTargetIds() {
+        return sendTargetIds;
+    }
+
+    public Map<String, String> getIssueExtraMap() {
+        return issueExtraMap;
+    }
+
+    public Map<String, String> getCustomFieldMap() {
+        return customFieldMap;
+    }
+
+    public List<Map<String, String>> getIssueGeographyMaps() {
+        return issueGeographyMaps;
+    }
+
+    public String getXmlControl() {
+        return xmlControl;
+    }
+
+    public String getXmlHead() {
+        return xmlHead;
+    }
+
+    public String getXmlBody() {
+        return xmlBody;
+    }
+
     /**
-     * Issuesに渡すxmlデータを作成します
+     * point情報をRest用文字列に変換する内部メソッド.<br>
+     * +21.2+135.5/ -> (135.5,21.2)<br>
+     * 深さの値は捨てる<br>
      * 
      * @return
      */
-    public String createIssuesXmlAsString() {
-
-        Document doc = DocumentHelper.createDocument();
-
-        // ルートは"issue"
-        Element issue = doc.addElement("issue");
-
-        // プロジェクト自動立ち上げフラグがONの場合
-        if (isAutoLaunch) {
-            Element auto_launch = issue.addElement("auto_launch");
-            auto_launch.addText("1");
+    String convertPoint(String val) {
+        if (StringUtils.isBlank(val)) {
+            return null;
+        }
+        // 正規表現を利用
+        Pattern p = Pattern.compile("([¥+¥-][0-9.]+)");
+        Matcher m = p.matcher(val);
+        String lat = null;
+        String lng = null;
+        // 1つ目の要素は緯度
+        if (m.find()) {
+            lat = m.group();
         } else {
-            // 固定のプロジェクトID設定
-            // プロジェクト自動立ち上げの場合は設定しない
-            Element project_id = issue.addElement("project_id");
-            project_id.addText(projectId);
+            return null;
+        }
+        // 2つ目の要素は経度
+        if (m.find()) {
+            lng = m.group();
+        } else {
+            return null;
+        }
+        // !3つ目に深さの要素が存在する場合があるが深さは使用しないため無視する
+
+        // (+136,+35)形式の文字列を作成
+        StringBuilder sb = new StringBuilder();
+        sb.append("(").append(lng).append(",").append(lat).append(")");
+        return sb.toString();
+    }
+
+    /**
+     * line情報をRest用文字列に変換する内部メソッド.<br>
+     * +35+138/+36+138/+37+138/+38+138/ -> [(138,35),(36,138),(37,138),(38,138)]<br>
+     * 深さの値は捨てる<br>
+     * 
+     * @return
+     */
+    String convertLine(String val) {
+        return convertPointArray(val, "[", "]");
+    }
+
+    /**
+     * point情報をRest用文字列に変換する内部メソッド.<br>
+     * +35+138/+36+138/+37+138/+38+138/ -> ((138,35),(138,36),(138,37),(138,38))<br>
+     * 深さの値は捨てる<br>
+     * 
+     * @return
+     */
+    String convertPolygon(String val) {
+        return convertPointArray(val, "(", ")");
+    }
+
+    /**
+     * 
+     * @param val
+     *            +35+135/+36+136/
+     * @param beginMark
+     *            "["や"("など
+     * @param endMark
+     *            "]"や")"など
+     * @return ((+135,+35),(+136,+36))
+     */
+    String convertPointArray(String val, String beginMark, String endMark) {
+        if (StringUtils.isBlank(val) || StringUtils.isBlank(beginMark)
+                || StringUtils.isBlank(endMark)) {
+            return null;
         }
 
-        // プロジェクト自動配信フラグがONの場合
-        if (isAutoSend) {
-            Element auto_send = issue.addElement("auto_send");
-            auto_send.addText("1");
-            // 自動配信先を設定
-            // カンマ区切りの文字列でIDのリストを設定
-            Element auto_send_targets = issue.addElement("auto_send_targets");
+        // この変数内に地理系情報(文字列)を格納する
+        ArrayList<String> points = new ArrayList<String>();
+
+        // 位置情報を"/"で区切る
+        StringTokenizer slashTokenizer = new StringTokenizer(val, "/");
+        while (slashTokenizer.hasMoreTokens()) {
+            String point = slashTokenizer.nextToken();
+            String convertedPoint = convertPoint(point);
+            points.add(convertedPoint);
+        }
+
+        if (points.size() > 0) {
             StringBuilder sb = new StringBuilder();
-            if (sendTargetIds != null) {
-                for (int i = 0, l = sendTargetIds.size(); i < l; i++) {
-                    sb.append(sendTargetIds.get(i));
-                    if (i != (l - 1)) {
-                        sb.append(",");
-                    }
+            sb.append(beginMark);
+            for (int i = 0; i < points.size(); i++) {
+                sb.append(points.get(i));
+                if (i != (points.size() - 1)) {
+                    sb.append(",");
                 }
             }
-            auto_send_targets.addText(sb.toString());
+            sb.append(endMark);
+
+            return sb.toString();
         }
-
-        // トラッカーID設定
-        Element tracker_id = issue.addElement("tracker_id");
-        tracker_id.addText(trackerId);
-
-        // control部
-        Element xml_control_element = issue.addElement("xml_control");
-        CDATA controlCDATA = DocumentHelper.createCDATA(xml_control);
-        xml_control_element.add(controlCDATA);
-
-        // head部
-        Element xml_head_element = issue.addElement("xml_head");
-        CDATA headCDATA = DocumentHelper.createCDATA(xml_head);
-        xml_head_element.add(headCDATA);
-
-        // body部
-        Element xml_body_element = issue.addElement("xml_body");
-        CDATA bodyCDATA = DocumentHelper.createCDATA(xml_body);
-        xml_body_element.add(bodyCDATA);
-
-        // Issues拡張カラム用データ設定
-        for (String key : issueExtraMap.keySet()) {
-            Element element = issue.addElement(key);
-            element.addText(issueExtraMap.get(key));
-        }
-
-        // カスタムフィールド
-        if (customFieldMap.size() > 0) {
-            Element customFields = issue.addElement("custom_fields");
-            customFields.addAttribute("type", "array");
-            for (String key : customFieldMap.keySet()) {
-                Element cf = customFields.addElement("custom_field");
-                cf.addAttribute("id", key);
-                Element cfe = cf.addElement("value");
-                cfe.addText(customFieldMap.get(key));
-            }
-        }
-
-        // issues_geographiesにデータを設定
-        if (issueGeographyMaps.size() > 0) {
-            Element issueGeographies = issue.addElement("issue_geographies");
-            issueGeographies.addAttribute("type", "array");
-            for (Map<String, String> issueGeographyMap : issueGeographyMaps) {
-                Element issueGeography = issueGeographies
-                        .addElement("issue_geography");
-                for (String key : issueGeographyMap.keySet()) {
-                    Element e = issueGeography.addElement(key);
-                    e.addText(issueGeographyMap.get(key));
-                }
-            }
-        }
-
-        return doc.asXML();
+        return null;
     }
 
 }
