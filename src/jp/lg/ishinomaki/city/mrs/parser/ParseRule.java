@@ -29,11 +29,9 @@ public class ParseRule {
     private static final String ISSUE_GEOGRAPHIES = "issue_geographyies";
     public static final String BASE_PATH = "base_path";
     public static final String RELATIVE_PATH = "relative_path";
-    public static final String RELATIVE_TYPE_PATH = "relative_type_path";
     public static final String REMARKS_PATHS = "remarks_paths";
     public static final String STATICS_REMARKS_PATH = "static_remark_path";
     private static final String COORDINATE = "coordinate";
-    private static final String VALID_COORDINATE_TYPES = "valid_coordinate_types";
     private static final String LINE = "line";
     private static final String POLYGON = "polygon";
     private static final String LOCATION = "Location";
@@ -66,11 +64,6 @@ public class ParseRule {
      * key:カスタムフィールドのID,value:対象のXpath
      */
     private Map<Integer, String> customFields;
-
-    /**
-     * 有効なCoordinateのタイプリスト
-     */
-    private List<String> validCoordinateTypes;
 
     /**
      * Coordinateを取得するためのXpathのリスト
@@ -218,10 +211,6 @@ public class ParseRule {
             // Locationを取得するためのXpathリスト
             locationInfos = (List<Map<String, Object>>) issueGeoGrahyies
                     .get(LOCATION);
-
-            // coordinateの有効なタイプを定義したリストを取得
-            validCoordinateTypes = (ArrayList<String>) issueGeoGrahyies
-                    .get(VALID_COORDINATE_TYPES);
 
             // ------------------------------------------------
             // トラッカー用定義
@@ -392,27 +381,5 @@ public class ParseRule {
 
     public String getDefaultProjectId() {
         return defaultProjectId;
-    }
-
-    public List<String> getValidCoordinateTypes() {
-        return validCoordinateTypes;
-    }
-
-    // for test
-    public static void main(String[] args) {
-        
-        ParserConfig config = ParserConfig.getInstance();
-        try {
-            config.loadYml("config/parser.yml");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println(config.getRuleFilePath());
-        
-        ParseRule rule = new ParseRule();
-        System.out.println(rule.getCoordinateInfos());
-        System.out.println(rule.getLineInfos());
-        System.out.println(rule.getPolygonInfos());
-        System.out.println(rule.getLocationInfos());
     }
 }
