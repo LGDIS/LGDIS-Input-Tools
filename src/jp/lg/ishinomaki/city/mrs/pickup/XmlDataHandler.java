@@ -8,12 +8,23 @@
 
 package jp.lg.ishinomaki.city.mrs.pickup;
 
+import java.io.FileWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import jp.lg.ishinomaki.city.mrs.parser.JmaDataParser;
 import jp.lg.ishinomaki.city.mrs.parser.JmaSchemaChecker;
+import jp.lg.ishinomaki.city.mrs.parser.ParserConfig;
 import jp.lg.ishinomaki.city.mrs.rest.IssuesPostController;
+import jp.lg.ishinomaki.city.mrs.utils.FileUtilities;
+
+import org.dom4j.CDATA;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.io.XMLWriter;
 
 /**
  * J-Alertから受信した本文データを取り扱います。<br>
@@ -27,6 +38,25 @@ public class XmlDataHandler implements PickupDataHandler {
      */
     private final Logger log = Logger.getLogger(XmlDataHandler.class
             .getSimpleName());
+
+    /**
+     * 動作モード 0:通常 1:訓練 2:試験
+     */
+    private int mode = 0;
+
+    public XmlDataHandler() {
+        this(0);
+    }
+
+    /**
+     * コンストラクタ.<br>
+     * 引数で動作モードを指定
+     * 
+     * @param mode
+     */
+    public XmlDataHandler(int mode) {
+        this.mode = mode;
+    }
 
     /**
      * JMAソケット通信で取得した本文データに対する処理を行います。
@@ -63,11 +93,152 @@ public class XmlDataHandler implements PickupDataHandler {
         }
 
         // 送信データを作成
-        String sendData = parser.createIssuesXmlAsString();
-System.out.println(sendData);
+        String sendData = createIssuesXmlAsString(parser);
+
+        System.out.println(sendData);
+
         // RedmineのRestApi(Post)実行
         IssuesPostController postController = new IssuesPostController();
         postController.post(sendData);
     }
 
+    /**
+     * Issuesに渡すxmlデータを作成します
+     * 
+     * @return
+     */
+    String createIssuesXmlAsString(JmaDataParser parser) {
+
+        Document doc = DocumentHelper.createDocument();
+
+        // ルートは"issue"
+        Element issue = doc.addElement("issue");
+
+        // 動作モードが訓練or試験の場合は専用のプロジェクトIDを使用する
+        if (mode == 1) {
+            Element project_id = issue.addElement("project_id");
+            project_id.addText(ParserConfig.getInstance()
+                    .getTrainingProjectId());
+        } else if (mode == 2) {
+            Element project_id = issue.addElement("project_id");
+            project_id.addText(ParserConfig.getInstance().getTestProjectId());
+        } else {
+            // プロジェクト自動立ち上げフラグがONの場合
+            if (parser.isAutoLaunch()) {
+                Element auto_launch = issue.addElement("auto_launch");
+                auto_launch.addText("1");
+            } else {
+                // 固定のプロジェクトID設定
+                // プロジェクト自動立ち上げの場合は設定しない
+                Element project_id = issue.addElement("project_id");
+                project_id.addText(parser.getProjectId());
+            }
+        }
+
+        // プロジェクト自動配信フラグがONの場合
+        if (parser.isAutoSend()) {
+            Element auto_send = issue.addElement("auto_send");
+            auto_send.addText("1");
+            // 自動配信先を設定
+            // カンマ区切りの文字列でIDのリストを設定
+            Element auto_send_targets = issue.addElement("auto_send_targets");
+            StringBuilder sb = new StringBuilder();
+            List<String> sendTargetIds = parser.getSendTargetIds();
+            if (sendTargetIds != null) {
+                for (int i = 0, l = sendTargetIds.size(); i < l; i++) {
+                    sb.append(sendTargetIds.get(i));
+                    if (i != (l - 1)) {
+                        sb.append(",");
+                    }
+                }
+            }
+            auto_send_targets.addText(sb.toString());
+        }
+
+        // トラッカーID設定
+        Element tracker_id = issue.addElement("tracker_id");
+        tracker_id.addText(parser.getTrackerId());
+
+        // control部
+        Element xml_control_element = issue.addElement("xml_control");
+        CDATA controlCDATA = DocumentHelper.createCDATA(parser.getXmlControl());
+        xml_control_element.add(controlCDATA);
+
+        // head部
+        Element xml_head_element = issue.addElement("xml_head");
+        CDATA headCDATA = DocumentHelper.createCDATA(parser.getXmlHead());
+        xml_head_element.add(headCDATA);
+
+        // body部
+        Element xml_body_element = issue.addElement("xml_body");
+        CDATA bodyCDATA = DocumentHelper.createCDATA(parser.getXmlBody());
+        xml_body_element.add(bodyCDATA);
+
+        // Issues拡張カラム用データ設定
+        Map<String, String> issueExtraMap = parser.getIssueExtraMap();
+        for (String key : issueExtraMap.keySet()) {
+            Element element = issue.addElement(key);
+            element.addText(issueExtraMap.get(key));
+        }
+
+        // カスタムフィールド
+        Map<String, String> customFieldMap = parser.getCustomFieldMap();
+        if (customFieldMap.size() > 0) {
+            Element customFields = issue.addElement("custom_fields");
+            customFields.addAttribute("type", "array");
+            for (String key : customFieldMap.keySet()) {
+                Element cf = customFields.addElement("custom_field");
+                cf.addAttribute("id", key);
+                Element cfe = cf.addElement("value");
+                cfe.addText(customFieldMap.get(key));
+            }
+        }
+
+        // issues_geographiesにデータを設定
+        List<Map<String, String>> issueGeographyMaps = parser
+                .getIssueGeographyMaps();
+        if (issueGeographyMaps.size() > 0) {
+            Element issueGeographies = issue.addElement("issue_geographies");
+            issueGeographies.addAttribute("type", "array");
+            for (Map<String, String> issueGeographyMap : issueGeographyMaps) {
+                Element issueGeography = issueGeographies
+                        .addElement("issue_geography");
+                for (String key : issueGeographyMap.keySet()) {
+                    Element e = issueGeography.addElement(key);
+                    e.addText(issueGeographyMap.get(key));
+                }
+            }
+        }
+
+        // for test ------------------------------------
+        String subject = issueExtraMap.get("subject");
+        toXmlFile(doc,subject);
+        // for test ------------------------------------
+        
+        return doc.asXML();
+    }
+
+    /**
+     * テスト用メソッド.<br>
+     * createIssuesXmlAsStringメソッドで作成したXMLをファイルに出力する
+     */
+    private void toXmlFile(Document doc, String subject) {
+        XMLWriter xw = null;
+        try {
+            // ファイル名
+            String fileName = FileUtilities.genFileName(subject);
+            xw = new XMLWriter(new FileWriter(fileName));
+            xw.write(doc);
+            xw.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (xw != null) {
+                try {
+                    xw.close();
+                } catch (Exception e) {
+                }
+            }
+        }
+    }
 }

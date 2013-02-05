@@ -32,6 +32,28 @@ public class PdfDataHandler implements PickupDataHandler {
             .getSimpleName());
 
     /**
+     * 動作モード 0:通常 1:訓練 2:試験
+     */
+    private int mode = 0;
+
+    /**
+     * コンストラクタ
+     */
+    public PdfDataHandler() {
+        this(0);
+    }
+
+    /**
+     * コンストラクタ
+     * 
+     * @param mode
+     *            動作モード
+     */
+    public PdfDataHandler(int mode) {
+        this.mode = mode;
+    }
+
+    /**
      * データハンドリングメソッド
      */
     @Override
@@ -93,7 +115,15 @@ public class PdfDataHandler implements PickupDataHandler {
                 .getPdfAttachmentStatics();
         String subject = map.get(ParserConfig.SUBJECT);
         String trackerId = map.get(ParserConfig.TRACKER_ID);
-        String projectId = map.get(ParserConfig.PROJECT_ID);
+        String projectId = null;
+        // 動作モードによりプロジェクトIDを指定
+        if (mode == 1) {
+            projectId = ParserConfig.getInstance().getTrainingProjectId();
+        } else if (mode == 2) {
+            projectId = ParserConfig.getInstance().getTestProjectId();
+        } else {
+            projectId = map.get(ParserConfig.PROJECT_ID);
+        }
 
         Document doc = DocumentHelper.createDocument();
         // ルートは"issue"

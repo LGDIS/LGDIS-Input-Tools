@@ -46,13 +46,24 @@ public class ReceiverThread extends Thread implements
      * サーバソケット制御インスタンス
      */
     private JmaServerSocketControl serverSocketControl = null;
-    
+
     /**
      * データ解析クラスインスタンス.<br>
      * 1スレッドに対して1つのデータ解析クラスをのデータ受信機能の起動プロパティで指定
      */
     private Map<String, DataAnalyzer> analyzers = null;
-    
+
+    /**
+     * 入力元を示す識別子.<br>
+     * recerver.ymlに定義されている。3文字固定
+     */
+    private String inputId = null;
+
+    /**
+     * ポートのモード(通常or訓練or試験)
+     */
+    private int mode = 0;
+
     /**
      * コンストラクタです。
      * 
@@ -60,7 +71,7 @@ public class ReceiverThread extends Thread implements
      */
     public ReceiverThread(String threadName,
             JmaServerSocketControl serverSocketControl, String outputPath,
-            Map<String, DataAnalyzer> analyzers) {
+            Map<String, DataAnalyzer> analyzers, String inputId, int mode) {
 
         // スレッド名保存
         this.threadName = threadName;
@@ -70,12 +81,14 @@ public class ReceiverThread extends Thread implements
         this.serverSocketControl.setThreadName(threadName);
         // デリゲート設定
         this.serverSocketControl.setDelegate(this);
-
         // 本文ファイル出力先保存
         this.outputPath = outputPath;
-        
         // データ解析クラス
         this.analyzers = analyzers;
+        // 入力元識別子
+        this.inputId = inputId;
+        // モード
+        this.mode = mode;
     }
 
     /**
@@ -88,8 +101,10 @@ public class ReceiverThread extends Thread implements
     /**
      * デリゲートメソッド クライアントからデータを受信した際にコールされます。
      * 
-     * @param type JMA指定のデータタイプ
-     * @param data 生データ
+     * @param type
+     *            JMA指定のデータタイプ
+     * @param data
+     *            生データ
      */
     public void receiveData(String type, byte[] data) {
         // analyzersテーブルからdataTypeで解析クラスインスタンスを引き当て
@@ -100,11 +115,9 @@ public class ReceiverThread extends Thread implements
             return;
         }
         // 解析用タスク実行(別スレッドで実施するため)
-        ReceiverDataAnalyzeTask task = new ReceiverDataAnalyzeTask(data);
-        // 解析結果出力パスと解析用クラスを設定
-        task.setOutputPath(outputPath);
-        task.setAnalyzer(analyzer);
-        
+        ReceiverDataAnalyzeTask task = new ReceiverDataAnalyzeTask(data,
+                outputPath, analyzer, inputId, mode);
+
         // Executorオブジェクトの生成
         Executor executor = Executors.newSingleThreadExecutor();
         // タスクの実行

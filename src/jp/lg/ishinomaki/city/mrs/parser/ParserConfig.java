@@ -42,6 +42,8 @@ public class ParserConfig {
     public static final String TEXT_ATTACHMENT_STATICS = "text_attachment_statics";
     public static final String SUBJECT = "subject";
     public static final String PROJECT_ID = "project_id";
+    public static final String TRAINING_PROJECT_ID = "training_project_id";
+    public static final String TEST_PROJECT_ID = "test_project_id";
     public static final String TRACKER_ID = "tracker_id";
     public static final String FILENAME = "filename";
     public static final String DESCRIPTION = "description";
@@ -66,12 +68,22 @@ public class ParserConfig {
      * PDF添付の用チケット情報
      */
     private Map<String, String> pdfAttachmentStatics;
-    
+
     /**
      * Text添付チケット用の情報
      */
     private Map<String, String> textAttachmentStatics;
-    
+
+    /**
+     * 訓練用の固定プロジェクトID
+     */
+    private String trainingProjectId;
+
+    /**
+     * 通信試験用の固定プロジェクトID
+     */
+    private String testProjectId;
+
     /**
      * シングルトン設計
      */
@@ -111,17 +123,24 @@ public class ParserConfig {
         // スキーマファイルパスを読み込み
         // --------------------------------------------------------
         schemaFilePath = (String) yml.get(SCHEMA_FILE);
-        
+
         // --------------------------------------------------------
         // PDF添付チケット用の情報
         // --------------------------------------------------------
-        pdfAttachmentStatics = (Map<String, String>)yml.get(PDF_ATTACHMENT_STATICS);
-        
+        pdfAttachmentStatics = (Map<String, String>) yml
+                .get(PDF_ATTACHMENT_STATICS);
+
         // --------------------------------------------------------
         // TextF添付チケット用の情報
         // --------------------------------------------------------
-        textAttachmentStatics = (Map<String, String>)yml.get(TEXT_ATTACHMENT_STATICS);
-        
+        textAttachmentStatics = (Map<String, String>) yml
+                .get(TEXT_ATTACHMENT_STATICS);
+
+        // --------------------------------------------------------
+        // 固定プロジェクトID取得
+        // --------------------------------------------------------
+        trainingProjectId = (String) yml.get(TRAINING_PROJECT_ID);
+        testProjectId = (String) yml.get(TEST_PROJECT_ID);
     }
 
     public Map<String, Object> getRedmine() {
@@ -142,6 +161,14 @@ public class ParserConfig {
 
     public Map<String, String> getTextAttachmentStatics() {
         return textAttachmentStatics;
+    }
+
+    public String getTrainingProjectId() {
+        return trainingProjectId;
+    }
+
+    public String getTestProjectId() {
+        return testProjectId;
     }
 
 }

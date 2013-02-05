@@ -5,6 +5,7 @@
 # ここに指定のないJMAデータタイプは処理されない
 # input_idはキューに登録する際にヘッダとして付与される入力元識別子
 # 2バイト固定のため注意して定義してください
+# modeには動作モード(0:通常,1:訓練,2:試験)を指定
 # ------------------------------------------------------------
 threads: 
  JAlert-Kishou: 
@@ -14,6 +15,7 @@ threads:
   analyzers: 
    "BI": "jp.lg.ishinomaki.city.mrs.analyzer.JmaDataAnalyzer"
   input_id: "JAL"
+  mode: 0
  JAlert-Naikaku: 
   ip: "localhost"
   port: "36001"
@@ -21,6 +23,7 @@ threads:
   analyzers: 
    "BI": "jp.lg.ishinomaki.city.mrs.analyzer.JmaDataAnalyzer"
   input_id: "JAL"
+  mode: 1
  JMA: 
   ip: "localhost"
   port: "36002"
@@ -28,6 +31,7 @@ threads:
   analyzers: 
    "BI": "jp.lg.ishinomaki.city.mrs.analyzer.JmaDataAnalyzer"
   input_id: "JMA"
+  mode: 2
 
 
 # ------------------------------------------------------------

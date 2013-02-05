@@ -8,8 +8,6 @@
 
 package jp.lg.ishinomaki.city.mrs.pickup;
 
-import java.io.IOException;
-import java.rmi.NotBoundException;
 import java.util.logging.Logger;
 
 import jp.lg.ishinomaki.city.mrs.Consts;
@@ -42,11 +40,8 @@ public class PickupThread extends Thread {
 
     /**
      * コンストラクタです.<br>
-     * RMIサーバのキューインスタンスを取得します。<br>
-     * インスタンスの取得に失敗した場合は例外を投げます。<br>
-     * このコンストラクタを呼ぶ前に必ずRMIサーバプロセスを起動しておいてください。
      */
-    public PickupThread() throws IOException, NotBoundException {
+    public PickupThread() {
     }
 
     /**
@@ -118,36 +113,86 @@ public class PickupThread extends Thread {
             // ----------------------------------------------------
             log.info("キューからデータを取得しました");
 
-            // 先頭3バイトがデータ種別を表すヘッダ部分のためヘッダ部とコンテンツ部に分割する
-            byte[] dataType = new byte[3];
-            byte[] contents = new byte[data.length - 3];
-            System.arraycopy(data, 0, dataType, 0, dataType.length);
-            System.arraycopy(data, 3, contents, 0, contents.length);
-
-            String strDataType = new String(dataType); // dataTypeをString型に変換
-
-            log.finest("キューから取得したデータの種類 -> [" + strDataType + "]");
-
+            String dataType = getDataType(data);
+            int mode = getMode(data);
             // データタイプにより処理クラスを変更する
             PickupDataHandler handler = null;
             // データ種別がXMLの場合
-            if (strDataType.equals(Consts.QUEUE_DATA_TYPE_XML)) {
+            if (dataType.equals(Consts.QUEUE_DATA_TYPE_XML)) {
                 // XML用ハンドルクラス
-                handler = new XmlDataHandler();
-            } else if (strDataType.equals(Consts.QUEUE_DATA_TYPE_TXT)) {
+                handler = new XmlDataHandler(mode);
+            } else if (dataType.equals(Consts.QUEUE_DATA_TYPE_TXT)) {
                 // テキスト用ハンドルクラス
-                handler = new TextDataHandler();
-            } else if (strDataType.equals(Consts.QUEUE_DATA_TYPE_PDF)) {
+                handler = new TextDataHandler(mode);
+            } else if (dataType.equals(Consts.QUEUE_DATA_TYPE_PDF)) {
                 // PDF用ハンドルクラス
-                handler = new PdfDataHandler();
+                handler = new PdfDataHandler(mode);
             } else {
                 log.warning("キューから取得したデータのデータ種類に対して処理クラスが設定されていません。");
                 continue;
             }
 
+            byte[] contents = getContents(data);
             // ハンドラーに処理依頼
             handler.handle(contents);
+
         }
+    }
+
+    /**
+     * キューから取得したデータの稼働モードを取得する内部メソッド
+     * 
+     * @param data
+     * @return
+     */
+    int getMode(byte[] data) {
+        byte[] mode = new byte[1];
+        System.arraycopy(data, 0, mode, 0, 1);
+        String strMode = new String(mode);
+        log.finest("キューから取得したデータのモード -> [" + strMode + "]");
+        // モードを数値型に変換
+        int iMode = Integer.parseInt(strMode);
+        return iMode;
+    }
+
+    /**
+     * キューから取得したデータの入力元識別子を取得する内部メソッド
+     * 
+     * @param data
+     * @return
+     */
+    String getInputId(byte[] data) {
+        byte[] inputId = new byte[3];
+        System.arraycopy(data, 1, inputId, 0, 3);
+        String strInputId = new String(inputId);
+        log.finest("キューから取得した入力識別ID -> [" + strInputId + "]");
+        return strInputId;
+    }
+
+    /**
+     * キューから取得したデータの種別を取得する内部メソッド
+     * 
+     * @param data
+     * @return
+     */
+    String getDataType(byte[] data) {
+        byte[] dataType = new byte[3];
+        System.arraycopy(data, 4, dataType, 0, 3);
+        String strDataType = new String(dataType);
+        log.finest("キューから取得したデータ種別 -> [" + strDataType + "]");
+        return strDataType;
+    }
+
+    /**
+     * キューから取得したデータの本文部分を取得する内部メソッド
+     * 
+     * @param data
+     * @return
+     */
+    byte[] getContents(byte[] data) {
+        byte[] contents = new byte[data.length - 7];
+        System.arraycopy(data, 7, contents, 0, contents.length);
+        return contents;
     }
 
 }

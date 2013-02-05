@@ -19,11 +19,10 @@ public class ReceiverConfig {
     public static final String OUTPUT = "output";
     public static final String ANALYZERS = "analyzers";
     public static final String INPUT_ID = "input_id";
+    public static final String MODE = "mode";
     public static final String BCH_DIVIDER = "bch_divider";
-
     
     private Map<String, Object> threads;
-    
     private List<Map<String, Integer>> bch_divider;
     
     /**
