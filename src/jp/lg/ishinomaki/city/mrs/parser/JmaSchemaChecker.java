@@ -63,6 +63,7 @@ public class JmaSchemaChecker {
             schema = factory.newSchema(schemaLocation);
         } catch (SAXException e) {
             e.printStackTrace();
+            return;
         }
 
         // 3. Get a validator from the schema.
