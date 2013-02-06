@@ -102,6 +102,7 @@ public class JmaTestTool {
      * @param args
      */
     public static void main(String[] args) {
+        JFrame.setDefaultLookAndFeelDecorated(false);
         // コンストラクタ実行
         // 画面表示
         new JmaTestTool();

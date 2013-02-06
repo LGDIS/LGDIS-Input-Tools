@@ -36,7 +36,7 @@ public class KsnTestTool {
         }
 
         // メインフレーム
-        mainFrame = new JFrame("JMAテストツール"); // フレームタイトル
+        mainFrame = new JFrame("河川テストツール"); // フレームタイトル
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 閉じるボタンでアプリ終了
         // スクリーンサイズから表示位置を決定する
         int frameWidth = 400;
@@ -94,6 +94,7 @@ public class KsnTestTool {
      * @param args
      */
     public static void main(String[] args) {
+        JFrame.setDefaultLookAndFeelDecorated(false);
         // コンストラクタ実行
         // 画面表示
         new KsnTestTool();
