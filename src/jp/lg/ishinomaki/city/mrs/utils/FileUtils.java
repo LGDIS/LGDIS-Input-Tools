@@ -18,7 +18,7 @@ import java.util.Date;
  * ファイル関連のユーティリティメソッドを集めたクラスです。
  * 
  */
-public class FileUtilities {
+public class FileUtils {
 
     /**
      * 第一引数で指定したデータをを第二,第三引数で指定したパスのファイルに出力します。 出力する際に使用する文字コードは"utf-8"を使用します。

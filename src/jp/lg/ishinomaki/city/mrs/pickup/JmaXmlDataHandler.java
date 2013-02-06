@@ -18,7 +18,7 @@ import jp.lg.ishinomaki.city.mrs.parser.JmaXmlDataParser;
 import jp.lg.ishinomaki.city.mrs.parser.JmaSchemaChecker;
 import jp.lg.ishinomaki.city.mrs.parser.ParserConfig;
 import jp.lg.ishinomaki.city.mrs.rest.IssuesPostController;
-import jp.lg.ishinomaki.city.mrs.utils.FileUtilities;
+import jp.lg.ishinomaki.city.mrs.utils.FileUtils;
 
 import org.dom4j.CDATA;
 import org.dom4j.Document;
@@ -199,7 +199,7 @@ public class JmaXmlDataHandler implements PickupDataHandler {
         XMLWriter xw = null;
         try {
             // ファイル名
-            String fileName = FileUtilities.genFileName(subject);
+            String fileName = FileUtils.genFileName(subject);
             xw = new XMLWriter(new FileWriter(fileName));
             xw.write(doc);
             xw.flush();

@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 import jp.lg.ishinomaki.city.mrs.Consts;
 import jp.lg.ishinomaki.city.mrs.utils.BCHChecksumHelper;
-import jp.lg.ishinomaki.city.mrs.utils.ZipHelper;
+import jp.lg.ishinomaki.city.mrs.utils.ZipUtils;
 
 /**
  * J-Alertから受信する気象庁データの解析クラスです。<br>
@@ -249,11 +249,11 @@ public class JmaDataAnalyzer implements DataAnalyzer {
 
         // gzip圧縮のファイルの場合は解凍処理
         if (this.bch.getXmlType() == BCH.XMLTYPE_XML_ON_GZIP) {
-            this.contents = ZipHelper.ungzip(work_contents);
+            this.contents = ZipUtils.ungzip(work_contents);
         }
         // zip圧縮のファイルの場合も解凍処理
         else if (this.bch.getXmlType() == BCH.XMLTYPE_XML_ON_ZIP) {
-            this.contents = ZipHelper.unzip(work_contents);
+            this.contents = ZipUtils.unzip(work_contents);
         }
     }
 

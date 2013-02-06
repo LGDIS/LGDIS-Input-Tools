@@ -17,7 +17,7 @@ import java.io.OutputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipInputStream;
 
-public class ZipHelper {
+public class ZipUtils {
 
     /**
      * gzip形式のバイト配列を解凍しバイト配列形式で返却

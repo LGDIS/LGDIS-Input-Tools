@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 import jp.lg.ishinomaki.city.mrs.analyzer.DataAnalyzer;
 import jp.lg.ishinomaki.city.mrs.queue.QueuePushClient;
-import jp.lg.ishinomaki.city.mrs.utils.FileUtilities;
+import jp.lg.ishinomaki.city.mrs.utils.FileUtils;
 
 /**
  * 受信データを解析しキューへ登録するためのクラスです.<br>
@@ -100,10 +100,10 @@ public class ReceiverDataAnalyzeTask implements Runnable {
         if (outputPath != null) {
             // ファイル名生成
             // ファイル名はとりあえず"test"としておく
-            String fileName = FileUtilities.genFileName("test");
+            String fileName = FileUtils.genFileName("test");
 
             // ファイル生成
-            boolean isSuccessSaveFile = FileUtilities.saveContentsAsFile(
+            boolean isSuccessSaveFile = FileUtils.saveContentsAsFile(
                     contents, outputPath, fileName);
             log.finest("ファイル生成結果 -> [" + isSuccessSaveFile + "]");
             if (isSuccessSaveFile == false) {
