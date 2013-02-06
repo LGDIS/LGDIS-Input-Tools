@@ -1,0 +1,127 @@
+<?xml version="1.0"?><xs:schema targetNamespace=http://wrtrpt.unify.river.go.jp xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://wrtrpt.unify.river.go.jp">
+<xs:import namespace=http://www.w3.org/XML/1998/namespace schemaLocation="http://www.w3.org/2001/xml.xsd"/>
+<xs:element name="Name" type="NameType"/>
+<xs:simpleType name="NameType">
+<xs:restriction base="xs:string">
+<xs:maxLength value="24"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="officeinttype">
+<xs:restriction base="xs:nonNegativeInteger">
+<xs:minInclusive value="0101"/>
+<xs:maxInclusive value="91255"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="RiverSect" type="RiverSectType"/>
+<xs:complexType name="RiverSectType">
+<xs:choice minOccurs="0" maxOccurs="unbounded">
+<xs:element ref="Name" minOccurs="0"/>
+</xs:choice>
+<xs:attribute name="riverSectCode" type="xs:int" use="required"/>
+</xs:complexType>
+<xs:element name="JursdctnOffice" type="JursdctnOfficeType"/>
+<xs:complexType name="JursdctnOfficeType">
+<xs:choice minOccurs="0" maxOccurs="unbounded">
+<xs:element ref="Name" minOccurs="0"/>
+<xs:element ref="RvrSys" minOccurs="0" maxOccurs="unbounded"/>
+</xs:choice>
+<xs:attribute name="jursdctnOfficeCode" type="officeinttype" use="optional"/>
+</xs:complexType>
+<xs:element name="AnnOffice" type="AnnOfficeType"/>
+<xs:complexType name="AnnOfficeType">
+<xs:choice minOccurs="0" maxOccurs="unbounded">
+<xs:element ref="Name" minOccurs="0"/>
+</xs:choice>
+<xs:attribute name="annOfficeCode" type="officeinttype" use="required"/>
+<xs:attribute name="annOfficeSerialNo" type="xs:int" use="optional"/>
+</xs:complexType>
+<xs:element name="ObsrvtnPoint" type="ObsrvtnPointType"/>
+<xs:complexType name="ObsrvtnPointType">
+<xs:choice minOccurs="0" maxOccurs="unbounded">
+<xs:element ref="Name" minOccurs="0"/>
+</xs:choice>
+<xs:attribute name="obsrvtnPointCode" type="xs:int" use="required"/>
+<xs:attribute name="obsrvtnPointKind" type="xs:int" use="optional"/>
+</xs:complexType>
+<xs:element name="RvrSys" type="RvrSysType"/>
+<xs:complexType name="RvrSysType">
+<xs:choice minOccurs="0" maxOccurs="unbounded">
+<xs:element ref="Name" minOccurs="0"/>
+<xs:element ref="River" minOccurs="0"/>
+<xs:element ref="ObsrvtnPoint" minOccurs="0" maxOccurs="unbounded"/>
+</xs:choice> 21
+<xs:attribute name="rvrSysCode" type="xs:int" use="required"/>
+</xs:complexType>
+<xs:element name="River" type="RiverType"/>
+<xs:complexType name="RiverType">
+<xs:choice minOccurs="0" maxOccurs="unbounded">
+<xs:element ref="Name" minOccurs="0"/>
+<xs:element ref="RiverSect" minOccurs="0"/>
+</xs:choice>
+<xs:attribute name="riverCode" type="xs:int" use="required"/>
+</xs:complexType>
+<xs:element name="Time" type="TimeType"/>
+<xs:complexType name="TimeType">
+<xs:attribute name="time" type="xs:dateTime"/>
+</xs:complexType>
+<xs:element name="Text">
+<xs:complexType>
+<xs:simpleContent>
+<xs:extension base="xs:string">
+<xs:attribute ref="xml:space" use="optional"/>
+</xs:extension>
+</xs:simpleContent>
+</xs:complexType>
+</xs:element>
+<xs:element name="Summary" type="SummaryType"/>
+<xs:complexType name="SummaryType">
+<xs:choice minOccurs="0" maxOccurs="unbounded">
+<xs:element ref="JursdctnOffice"/>
+<xs:element ref="AnnOffice" minOccurs="0"/>
+<xs:element ref="Text" minOccurs="0"/>
+<xs:element ref="Time"/>
+<xs:element ref="ReportNo"/>
+<xs:element ref="ReportKind"/>
+<xs:element ref="Alarm"/>
+</xs:choice>
+</xs:complexType>
+<xs:element name="Detail" type="DetailType"/>
+<xs:complexType name="DetailType">
+<xs:choice minOccurs="0" maxOccurs="unbounded">
+<xs:element ref="Text" minOccurs="0"/>
+<xs:element name="AttchmntFileFolderUri" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+</xs:choice>
+</xs:complexType>
+<xs:element name="WarningReport">
+<xs:complexType>
+<xs:choice minOccurs="0" maxOccurs="unbounded">
+<xs:element ref="Summary" minOccurs="0"/>
+<xs:element ref="Detail" minOccurs="0"/>
+</xs:choice>
+<xs:attribute name="cause" type="xs:int" use="required"/>
+<xs:attribute name="apply" type="xs:int" use="required"/>
+</xs:complexType>
+</xs:element>
+<xs:element name="ReportKind" type="ReportKindType"/>
+<xs:complexType name="ReportKindType">
+<xs:sequence>
+<xs:element ref="Name"/>
+</xs:sequence> 22
+<xs:attribute name="reportKindCode" type="xs:int"/>
+</xs:complexType>
+<xs:element name="ReportNo" type="ReportNoType"/>
+<xs:element name="Alarm" type="AlarmType"/>
+<xs:complexType name="AlarmType">
+<xs:sequence>
+<xs:element ref="Name"/>
+</xs:sequence>
+<xs:attribute name="alarmCode" type="xs:int"/>
+</xs:complexType>
+<xs:complexType name="ReportNoType">
+<xs:simpleContent>
+<xs:extension base="xs:string">
+<xs:attribute name="reportNoCode" type="xs:int" use="required"/>
+</xs:extension>
+</xs:simpleContent>
+</xs:complexType>
+</xs:schema>

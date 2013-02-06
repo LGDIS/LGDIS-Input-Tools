@@ -38,7 +38,8 @@ public class ParserConfig {
     public static final String BASICAUTH_PASSWORD = "basicauth_password";
     public static final String JMA_RULE_FILE = "jma_rule_file";
     public static final String KSN_RULE_FILE = "ksn_rule_file";
-    public static final String SCHEMA_FILE = "schema_file";
+    public static final String JMA_SCHEMA_FILE = "jma_schema_file";
+    public static final String KSN_SCHEMA_FILE = "ksn_schema_file";
     public static final String TAR_ATTACHMENT_STATICS = "tar_attachment_statics";
     public static final String PDF_ATTACHMENT_STATICS = "pdf_attachment_statics";
     public static final String TEXT_ATTACHMENT_STATICS = "text_attachment_statics";
@@ -67,9 +68,14 @@ public class ParserConfig {
     private String ksnRuleFilePath;
 
     /**
-     * XML解析スキーマファイルのパス
+     * JMAXML解析スキーマファイルのパス
      */
-    private String schemaFilePath;
+    private String jmaSchemaFilePath;
+
+    /**
+     * 河川XML解析スキーマファイルのパス
+     */
+    private String ksnSchemaFilePath;
 
     /**
      * PDF添付の用チケット情報
@@ -135,7 +141,8 @@ public class ParserConfig {
         // --------------------------------------------------------
         // スキーマファイルパスを読み込み
         // --------------------------------------------------------
-        schemaFilePath = (String) yml.get(SCHEMA_FILE);
+        jmaSchemaFilePath = (String) yml.get(JMA_SCHEMA_FILE);
+        ksnSchemaFilePath = (String) yml.get(KSN_SCHEMA_FILE);
 
         // --------------------------------------------------------
         // PDF添付チケット用の情報
@@ -174,8 +181,12 @@ public class ParserConfig {
         return ksnRuleFilePath;
     }
 
-    public String getSchemaFilePath() {
-        return schemaFilePath;
+    public String getJmaSchemaFilePath() {
+        return jmaSchemaFilePath;
+    }
+
+    public String getKsnSchemaFilePath() {
+        return ksnSchemaFilePath;
     }
 
     public Map<String, String> getPdfAttachmentStatics() {
