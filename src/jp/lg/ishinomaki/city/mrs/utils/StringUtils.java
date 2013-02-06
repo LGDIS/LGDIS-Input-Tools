@@ -8,10 +8,22 @@
 
 package jp.lg.ishinomaki.city.mrs.utils;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Node;
 
 /**
  * String関連のユーティリティメソッドを集めたクラスです。
@@ -44,7 +56,7 @@ public class StringUtils {
      * @return
      */
     public static boolean compareSeismicIntensity(String str1, String str2) {
-        
+
         double d1 = convertSeismicIntensityToDouble(str1);
         double d2 = convertSeismicIntensityToDouble(str2);
         if (d1 >= d2) {
@@ -53,7 +65,7 @@ public class StringUtils {
             return false;
         }
     }
-    
+
     /**
      * 震度を表す文字列をdouble型数値に変換.<br>
      * 5-は4.5、5+は5.5といった変換を行う
@@ -70,7 +82,7 @@ public class StringUtils {
         } else if (str.length() == 2) {
             if (str.substring(1, 2).equals("+")) {
                 d = Float.parseFloat(str.substring(0, 1)) + 0.5;
-            } else if (str.substring(1,2).equals("-")) {
+            } else if (str.substring(1, 2).equals("-")) {
                 d = Float.parseFloat(str.substring(0, 1)) - 0.5;
             }
         }
@@ -177,5 +189,50 @@ public class StringUtils {
             return sb.toString();
         }
         return null;
+    }
+
+    /**
+     * ノードの要素値を文字列に変換します。 ノード内にタグが含まれている場合、そのタグは自動整形されます。
+     * 
+     * @param node
+     *            変換対象の文字列
+     * @return 変換後文字列
+     * @throws TransformerException
+     *             XML規約に違反している場合に発生する例外
+     */
+    public static String convertToString(Node node) throws TransformerException {
+        // ノードをXMLとして定義します
+        DOMSource source = new DOMSource(node);
+        // 文字列生成用ストリーム
+        StringWriter swriter = new StringWriter();
+        StreamResult result = new StreamResult(swriter);
+        // XMLを文字列に変換します
+        transform(source, result);
+        return swriter.toString();
+    }
+
+    /**
+     * XML変換エンジン呼び出しです。
+     * 
+     * @param source
+     *            変換対象のXML
+     * @param result
+     *            変換後文字列
+     * @throws TransformerException
+     *             XML規約に違反している場合に発生する例外
+     */
+    private static void transform(Source source, Result result)
+            throws TransformerException {
+        // 変換エンジンを取得します
+        Transformer transformer = TransformerFactory.newInstance()
+                .newTransformer();
+        // XML変換のルールを設定します
+        // XML宣言
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        // 文字コード
+        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        
+        // 変換
+        transformer.transform(source, result);
     }
 }

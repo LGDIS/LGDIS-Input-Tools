@@ -119,8 +119,15 @@ public class PickupThread extends Thread {
             PickupDataHandler handler = null;
             // データ種別がXMLの場合
             if (dataType.equals(Consts.QUEUE_DATA_TYPE_XML)) {
-                // XML用ハンドルクラス
-                handler = new XmlDataHandler(mode);
+                // データ入力元がJMAまたはJ-Alertの場合
+                String inputId = getInputId(data);
+                if (Consts.INPUT_ID_JAL.equals(inputId) || Consts.INPUT_ID_JMA.equals(inputId)) {
+                    // JMA用のXMLハンドルクラス
+                    handler = new JmaXmlDataHandler(mode);
+                } else if (Consts.INPUT_ID_KSN.equals(inputId)) {
+                    // 河川用のXMLハンドルクラス
+                    handler = new KsnXmlDataHandler(mode);
+                }
             } else if (dataType.equals(Consts.QUEUE_DATA_TYPE_TXT)) {
                 // テキスト用ハンドルクラス
                 handler = new TextDataHandler(mode);

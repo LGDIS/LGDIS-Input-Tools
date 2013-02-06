@@ -2,7 +2,7 @@ package jp.lg.ishinomaki.city.mrs.pickup;
 
 import java.lang.reflect.Field;
 
-import jp.lg.ishinomaki.city.mrs.parser.JmaDataParser;
+import jp.lg.ishinomaki.city.mrs.parser.JmaXmlDataParser;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -31,7 +31,7 @@ public class XmlDataHandlerTest {
     @Test
     public void XMLデータ作成1() throws Exception {
         
-        JmaDataParser parser = new JmaDataParser();
+        JmaXmlDataParser parser = new JmaXmlDataParser();
         
         Field projectIdField = parser.getClass().getDeclaredField("projectId");
         projectIdField.setAccessible(true);

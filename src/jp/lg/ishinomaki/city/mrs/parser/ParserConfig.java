@@ -36,7 +36,8 @@ public class ParserConfig {
     public static final String RETRY_COUNT = "retry_count";
     public static final String BASICAUTH_ID = "basicauth_id";
     public static final String BASICAUTH_PASSWORD = "basicauth_password";
-    public static final String RULE_FILE = "rule_file";
+    public static final String JMA_RULE_FILE = "jma_rule_file";
+    public static final String KSN_RULE_FILE = "ksn_rule_file";
     public static final String SCHEMA_FILE = "schema_file";
     public static final String PDF_ATTACHMENT_STATICS = "pdf_attachment_statics";
     public static final String TEXT_ATTACHMENT_STATICS = "text_attachment_statics";
@@ -55,10 +56,15 @@ public class ParserConfig {
     private Map<String, Object> redmine;
 
     /**
-     * XML解析ルール定義ファイルのパス
+     * JMA用のXML解析ルール定義ファイルのパス
      */
-    private String ruleFilePath;
-
+    private String jmaRuleFilePath;
+    
+    /**
+     * 河川用のXML解析ルール定義ファイルのパス
+     */
+    private String ksnRuleFilePath;
+    
     /**
      * XML解析スキーマファイルのパス
      */
@@ -117,8 +123,9 @@ public class ParserConfig {
         // --------------------------------------------------------
         // 解析ルールファイルパスを読み込み
         // --------------------------------------------------------
-        ruleFilePath = (String) yml.get(RULE_FILE);
-
+        jmaRuleFilePath = (String) yml.get(JMA_RULE_FILE);
+        ksnRuleFilePath = (String) yml.get(KSN_RULE_FILE);
+        
         // --------------------------------------------------------
         // スキーマファイルパスを読み込み
         // --------------------------------------------------------
@@ -147,8 +154,12 @@ public class ParserConfig {
         return redmine;
     }
 
-    public String getRuleFilePath() {
-        return ruleFilePath;
+    public String getJmaRuleFilePath() {
+        return jmaRuleFilePath;
+    }
+    
+    public String getKsnRuleFilePath() {
+        return ksnRuleFilePath;
     }
 
     public String getSchemaFilePath() {

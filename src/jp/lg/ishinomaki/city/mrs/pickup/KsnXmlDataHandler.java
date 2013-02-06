@@ -10,12 +10,11 @@ package jp.lg.ishinomaki.city.mrs.pickup;
 
 import java.io.FileWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import jp.lg.ishinomaki.city.mrs.parser.JmaXmlDataParser;
 import jp.lg.ishinomaki.city.mrs.parser.JmaSchemaChecker;
+import jp.lg.ishinomaki.city.mrs.parser.KsnXmlDataParser;
 import jp.lg.ishinomaki.city.mrs.parser.ParserConfig;
 import jp.lg.ishinomaki.city.mrs.rest.IssuesPostController;
 import jp.lg.ishinomaki.city.mrs.utils.FileUtilities;
@@ -27,16 +26,16 @@ import org.dom4j.Element;
 import org.dom4j.io.XMLWriter;
 
 /**
- * J-Alertから受信した本文データを取り扱います。<br>
+ * 河川統一受信した本文データを取り扱います。<br>
  * このクラスではXMLの解析とRESTサーバへの送信処理を行います。
  * 
  */
-public class JmaXmlDataHandler implements PickupDataHandler {
+public class KsnXmlDataHandler implements PickupDataHandler {
 
     /**
      * ログ用
      */
-    private final Logger log = Logger.getLogger(JmaXmlDataHandler.class
+    private final Logger log = Logger.getLogger(KsnXmlDataHandler.class
             .getSimpleName());
 
     /**
@@ -44,7 +43,7 @@ public class JmaXmlDataHandler implements PickupDataHandler {
      */
     private int mode = 0;
 
-    public JmaXmlDataHandler() {
+    public KsnXmlDataHandler() {
         this(0);
     }
 
@@ -54,7 +53,7 @@ public class JmaXmlDataHandler implements PickupDataHandler {
      * 
      * @param mode
      */
-    public JmaXmlDataHandler(int mode) {
+    public KsnXmlDataHandler(int mode) {
         this.mode = mode;
     }
 
@@ -78,14 +77,14 @@ public class JmaXmlDataHandler implements PickupDataHandler {
         }
 
         // xlmデータのスキーマチェックを実施
-        boolean isValid = JmaSchemaChecker.getInstatnce().validate(xml);
-        if (isValid == false) {
-            log.severe("XMLのスキーマチェックでNGだったため処理を中断します。");
-            return;
-        }
+        //boolean isValid = JmaSchemaChecker.getInstatnce().validate(xml);
+        //if (isValid == false) {
+        //    log.severe("XMLのスキーマチェックでNGだったため処理を中断します。");
+        //    return;
+        //}
 
         // xmlデータを解析
-        JmaXmlDataParser parser = new JmaXmlDataParser();
+        KsnXmlDataParser parser = new KsnXmlDataParser();
         boolean isSuccess = parser.parse(xml);
         if (isSuccess == false) {
             log.severe("XMLの解析に失敗したため処理を中断します。");
@@ -107,7 +106,7 @@ public class JmaXmlDataHandler implements PickupDataHandler {
      * 
      * @return
      */
-    String createIssuesXmlAsString(JmaXmlDataParser parser) {
+    String createIssuesXmlAsString(KsnXmlDataParser parser) {
 
         Document doc = DocumentHelper.createDocument();
 
@@ -123,32 +122,13 @@ public class JmaXmlDataHandler implements PickupDataHandler {
             Element project_id = issue.addElement("project_id");
             project_id.addText(ParserConfig.getInstance().getTestProjectId());
         } else {
-            // プロジェクト自動立ち上げフラグがONの場合
-            if (parser.isAutoLaunch()) {
-                Element auto_launch = issue.addElement("auto_launch");
-                auto_launch.addText("1");
-            } else {
-                // 固定のプロジェクトID設定
-                // プロジェクト自動立ち上げの場合は設定しない
-                Element project_id = issue.addElement("project_id");
-                project_id.addText(parser.getProjectId());
-            }
-        }
-
-        // プロジェクト自動配信フラグがONの場合
-        if (parser.isAutoSend()) {
-            Element auto_send = issue.addElement("auto_send");
-            auto_send.addText("1");
+            Element project_id = issue.addElement("project_id");
+            project_id.addText(parser.getProjectId());
         }
 
         // トラッカーID設定
         Element tracker_id = issue.addElement("tracker_id");
         tracker_id.addText(parser.getTrackerId());
-
-        // control部
-        Element xml_control_element = issue.addElement("xml_control");
-        CDATA controlCDATA = DocumentHelper.createCDATA(parser.getXmlControl());
-        xml_control_element.add(controlCDATA);
 
         // head部
         Element xml_head_element = issue.addElement("xml_head");
@@ -165,22 +145,6 @@ public class JmaXmlDataHandler implements PickupDataHandler {
         for (String key : issueExtraMap.keySet()) {
             Element element = issue.addElement(key);
             element.addText(issueExtraMap.get(key));
-        }
-
-        // issues_geographiesにデータを設定
-        List<Map<String, String>> issueGeographyMaps = parser
-                .getIssueGeographyMaps();
-        if (issueGeographyMaps.size() > 0) {
-            Element issueGeographies = issue.addElement("issue_geographies");
-            issueGeographies.addAttribute("type", "array");
-            for (Map<String, String> issueGeographyMap : issueGeographyMaps) {
-                Element issueGeography = issueGeographies
-                        .addElement("issue_geography");
-                for (String key : issueGeographyMap.keySet()) {
-                    Element e = issueGeography.addElement(key);
-                    e.addText(issueGeographyMap.get(key));
-                }
-            }
         }
 
         // for test ------------------------------------
