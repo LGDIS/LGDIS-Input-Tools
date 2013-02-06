@@ -39,6 +39,7 @@ public class ParserConfig {
     public static final String JMA_RULE_FILE = "jma_rule_file";
     public static final String KSN_RULE_FILE = "ksn_rule_file";
     public static final String SCHEMA_FILE = "schema_file";
+    public static final String TAR_ATTACHMENT_STATICS = "tar_attachment_statics";
     public static final String PDF_ATTACHMENT_STATICS = "pdf_attachment_statics";
     public static final String TEXT_ATTACHMENT_STATICS = "text_attachment_statics";
     public static final String SUBJECT = "subject";
@@ -59,12 +60,12 @@ public class ParserConfig {
      * JMA用のXML解析ルール定義ファイルのパス
      */
     private String jmaRuleFilePath;
-    
+
     /**
      * 河川用のXML解析ルール定義ファイルのパス
      */
     private String ksnRuleFilePath;
-    
+
     /**
      * XML解析スキーマファイルのパス
      */
@@ -79,6 +80,11 @@ public class ParserConfig {
      * Text添付チケット用の情報
      */
     private Map<String, String> textAttachmentStatics;
+
+    /**
+     * Tar添付チケット用の情報
+     */
+    private Map<String, String> tarAttachmentStatics;
 
     /**
      * 訓練用の固定プロジェクトID
@@ -125,7 +131,7 @@ public class ParserConfig {
         // --------------------------------------------------------
         jmaRuleFilePath = (String) yml.get(JMA_RULE_FILE);
         ksnRuleFilePath = (String) yml.get(KSN_RULE_FILE);
-        
+
         // --------------------------------------------------------
         // スキーマファイルパスを読み込み
         // --------------------------------------------------------
@@ -144,6 +150,12 @@ public class ParserConfig {
                 .get(TEXT_ATTACHMENT_STATICS);
 
         // --------------------------------------------------------
+        // TextF添付チケット用の情報
+        // --------------------------------------------------------
+        tarAttachmentStatics = (Map<String, String>) yml
+                .get(TAR_ATTACHMENT_STATICS);
+
+        // --------------------------------------------------------
         // 固定プロジェクトID取得
         // --------------------------------------------------------
         trainingProjectId = (String) yml.get(TRAINING_PROJECT_ID);
@@ -157,7 +169,7 @@ public class ParserConfig {
     public String getJmaRuleFilePath() {
         return jmaRuleFilePath;
     }
-    
+
     public String getKsnRuleFilePath() {
         return ksnRuleFilePath;
     }
@@ -172,6 +184,10 @@ public class ParserConfig {
 
     public Map<String, String> getTextAttachmentStatics() {
         return textAttachmentStatics;
+    }
+
+    public Map<String, String> getTarAttachmentStatics() {
+        return tarAttachmentStatics;
     }
 
     public String getTrainingProjectId() {

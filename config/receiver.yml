@@ -8,7 +8,7 @@
 # modeには動作モード(0:通常,1:訓練,2:試験)を指定
 # ------------------------------------------------------------
 threads: 
- JAlert-Kishou: 
+ JAlert-Meteorological: 
   ip: "localhost"
   port: "36000"
   output: "/Users/igakuratakayuki/JmaOutput"
@@ -16,14 +16,14 @@ threads:
    "BI": "jp.lg.ishinomaki.city.mrs.analyzer.JmaDataAnalyzer"
   input_id: "JAL"
   mode: 0
- JAlert-Naikaku: 
+ JAlert-Cabinet: 
   ip: "localhost"
   port: "36001"
   output: "/Users/igakuratakayuki/JmaOutput"
   analyzers: 
-   "BI": "jp.lg.ishinomaki.city.mrs.analyzer.JmaDataAnalyzer"
+   "JL": "jp.lg.ishinomaki.city.mrs.analyzer.CabinetDataAnalyzer"
   input_id: "JAL"
-  mode: 1
+  mode: 0
  JMA: 
   ip: "localhost"
   port: "36002"

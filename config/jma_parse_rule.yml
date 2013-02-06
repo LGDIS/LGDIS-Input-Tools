@@ -65,18 +65,6 @@ issue_geographyies:
    remarks_paths: ["../../Name/text()"]
    allow_type: "観測所の位置"
   - 
-   path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/CenterPart/Coordinate[@type=\"中心位置（度）\" or @type=\"実況位置（度）\" or @type=\"実況位置（度分）\" or @type=\"１２時間後位置（度）\" or @type=\"２４時間後位置（度）\" or @type=\"位置（度）\" or @type=\"予想位置　１２時間後（度）\" or @type=\"予想位置　２４時間後（度）\"]/text()"
-   remarks_paths: ["../../../Coordinate/Type/text()"]
-  - 
-   path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/CenterPart/ProbabilityCircle/Circle/BasePoint/Coordinate[@type=\"中心位置（度）\" or @type=\"実況位置（度）\" or @type=\"実況位置（度分）\" or @type=\"１２時間後位置（度）\" or @type=\"２４時間後位置（度）\" or @type=\"位置（度）\" or @type=\"予想位置　１２時間後（度）\" or @type=\"予想位置　２４時間後（度）\"]/text()"
-   remarks_paths: ["../../../../../../Coordinate/Type/text()"]
-  - 
-   path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/CoordinatePart/Coordinate[@type=\"中心位置（度）\" or @type=\"実況位置（度）\" or @type=\"実況位置（度分）\" or @type=\"１２時間後位置（度）\" or @type=\"２４時間後位置（度）\" or @type=\"位置（度）\" or @type=\"予想位置　１２時間後（度）\" or @type=\"予想位置　２４時間後（度）\"]/text()"
-   remarks_paths: ["../../Type/text()"]
-  - 
-   path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/WarningAreaPart/Circle/BasePoint/Coordinate[@type=\"中心位置（度）\" or @type=\"実況位置（度）\" or @type=\"実況位置（度分）\" or @type=\"１２時間後位置（度）\" or @type=\"２４時間後位置（度）\" or @type=\"位置（度）\" or @type=\"予想位置　１２時間後（度）\" or @type=\"予想位置　２４時間後（度）\"]/text()"
-   remarks_paths: ["../../../../../Coordinate/Type/text()"]
-  - 
    path: "/Report/Body/Earthquake/Hypocenter/Area/Coordinate[@type=\"震源位置（度）\"]/text()"
    static_remarks: "震源位置"
   - 
@@ -108,10 +96,6 @@ issue_geographyies:
  "Location": 
   - 
    path: "Body/MeteorologicalInfos/MeteorologicalInfo/Item/Station/Location/text()"
-   remarks_paths: ["../../Name/text()"]
-   allow_type: "観測所の位置"
-  - 
-   path: "/Report/Body/MeteorologicalInfos/TimeSeriesInfo/Item/Station/Location/text()"
    remarks_paths: ["../../Name/text()"]
    allow_type: "観測所の位置"
   - 
@@ -207,10 +191,10 @@ trackers:
 projects: 
  path: "/Report/Control/Status/text()"
  type: 
-  "通常": "jma-project"
+  "通常": "I04202000000000000001"
   "訓練": "training-project"
   "試験": "test-project"
-  "default": "jma-project"
+  "default": "I04202000000000000001"
 
 # ------------------------------------------------------------
 # プロジェクト自動立ち上げ/自動配信用の定義

@@ -1,5 +1,5 @@
 //
-//  ZipHelper.java
+//  ArchiveUtils.java
 //  LGDIS-Input-Tools
 //
 //  Copyright (C) 2012 ISHINOMAKI CITY OFFICE.
@@ -17,7 +17,14 @@ import java.io.OutputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipInputStream;
 
-public class ZipUtils {
+import org.apache.tools.tar.TarEntry;
+import org.apache.tools.tar.TarInputStream;
+
+/**
+ * アーカイブファイルの解凍・圧縮用メソッド集
+ * 
+ */
+public class ArchiveUtils {
 
     /**
      * gzip形式のバイト配列を解凍しバイト配列形式で返却
@@ -33,19 +40,19 @@ public class ZipUtils {
             ByteArrayOutputStream ba = new ByteArrayOutputStream();
             OutputStream os = new BufferedOutputStream(ba);
             int c;
-            while((c = is.read()) != -1) {
+            while ((c = is.read()) != -1) {
                 os.write(c);
             }
             os.flush();
-            
+
             result = ba.toByteArray();
-            
+
             is.close();
             os.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return result;
     }
 
@@ -63,13 +70,13 @@ public class ZipUtils {
             ByteArrayOutputStream ba = new ByteArrayOutputStream();
             OutputStream os = new BufferedOutputStream(ba);
             int c;
-            while((c = is.read()) != -1) {
+            while ((c = is.read()) != -1) {
                 os.write(c);
             }
             os.flush();
-            
+
             result = ba.toByteArray();
-            
+
             is.close();
             os.close();
         } catch (Exception e) {
@@ -77,4 +84,5 @@ public class ZipUtils {
         }
         return result;
     }
+
 }

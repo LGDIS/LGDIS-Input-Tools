@@ -118,22 +118,26 @@ public class PickupThread extends Thread {
             // データタイプにより処理クラスを変更する
             PickupDataHandler handler = null;
             // データ種別がXMLの場合
-            if (dataType.equals(Consts.QUEUE_DATA_TYPE_XML)) {
+            if (dataType.equals(Consts.DATA_TYPE_XML)) {
                 // データ入力元がJMAまたはJ-Alertの場合
                 String inputId = getInputId(data);
-                if (Consts.INPUT_ID_JAL.equals(inputId) || Consts.INPUT_ID_JMA.equals(inputId)) {
+                if (Consts.INPUT_ID_JAL.equals(inputId)
+                        || Consts.INPUT_ID_JMA.equals(inputId)) {
                     // JMA用のXMLハンドルクラス
                     handler = new JmaXmlDataHandler(mode);
                 } else if (Consts.INPUT_ID_KSN.equals(inputId)) {
                     // 河川用のXMLハンドルクラス
                     handler = new KsnXmlDataHandler(mode);
                 }
-            } else if (dataType.equals(Consts.QUEUE_DATA_TYPE_TXT)) {
+            } else if (dataType.equals(Consts.DATA_TYPE_TXT)) {
                 // テキスト用ハンドルクラス
                 handler = new TextDataHandler(mode);
-            } else if (dataType.equals(Consts.QUEUE_DATA_TYPE_PDF)) {
+            } else if (dataType.equals(Consts.DATA_TYPE_PDF)) {
                 // PDF用ハンドルクラス
                 handler = new PdfDataHandler(mode);
+            } else if (dataType.equals(Consts.DATA_TYPE_TAR)) {
+                // TAR用ハンドルクラス
+                handler = new TarDataHandler(mode);
             } else {
                 log.warning("キューから取得したデータのデータ種類に対して処理クラスが設定されていません。");
                 continue;

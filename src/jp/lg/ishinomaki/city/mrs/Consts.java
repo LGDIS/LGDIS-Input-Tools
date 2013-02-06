@@ -20,27 +20,32 @@ public class Consts {
     /**
      * XML
      */
-    public static final String QUEUE_DATA_TYPE_XML = "XML";
+    public static final String DATA_TYPE_XML = "XML";
     
     /**
      * TXT
      */
-    public static final String QUEUE_DATA_TYPE_TXT = "TXT";
+    public static final String DATA_TYPE_TXT = "TXT";
+    
+    /**
+     * TAR
+     */
+    public static final String DATA_TYPE_TAR = "TAR";
     
     /**
      * PDF
      */
-    public static final String QUEUE_DATA_TYPE_PDF = "PDF";
+    public static final String DATA_TYPE_PDF = "PDF";
     
     /**
      * BUF
      */
-    public static final String QUEUE_DATA_TYPE_BUF = "BUF";
+    public static final String DATA_TYPE_BUF = "BUF";
     
     /**
      * GRI
      */
-    public static final String QUEUE_DATA_TYPE_GRI = "GRI";
+    public static final String DATA_TYPE_GRI = "GRI";
     
     // -----------------------------------------------------
     // キューに登録する際にデータのヘッダに付与するデータ入力元
