@@ -24,6 +24,8 @@ public class CabinetDataAnalyzer implements DataAnalyzer {
     @Override
     public void analyze(byte[] data) {
         // tar形式のデータをそのまま使用するため特に解析は行わない
+        // [注意]ここではtarの解凍は行わない
+        // 内容を解析する必要がないためparser側で処理を行う
         contents = data;
     }
 
