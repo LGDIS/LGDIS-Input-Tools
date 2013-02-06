@@ -94,6 +94,11 @@ public class JmaParseRule {
     private String trackerXpath;
 
     /**
+     * デフォルトのプロジェクトID
+     */
+    private String defaultTrackerId;
+    
+    /**
      * プロジェクトIDを引き当てるためのStatusタグへのXpath
      */
     private String projectXpath;
@@ -221,6 +226,9 @@ public class JmaParseRule {
             // トラッカー用テーブル取得
             trackers = (Map<String, String>) tracker.get(TYPE);
 
+            // デフォルトのトラッカーID取得
+            defaultTrackerId = (String)tracker.get(DEFAULT);
+            
             // ------------------------------------------------
             // プロジェクト用定義
             // ------------------------------------------------
@@ -232,8 +240,8 @@ public class JmaParseRule {
             projects = (Map<String, String>) project.get(TYPE);
 
             // デフォルトのプロジェクトID取得
-            defaultProjectId = projects.get(DEFAULT);
-
+            defaultProjectId = (String)project.get(DEFAULT);
+            
             // ------------------------------------------------
             // プロジェクト自動立ち上げ/自動配信用設定値取得
             // ------------------------------------------------
@@ -284,7 +292,12 @@ public class JmaParseRule {
      * @return
      */
     public String getTrackerId(String infoType) {
-        return trackers.get(infoType);
+        String id = trackers.get(infoType);
+        if (id == null) {
+            // ルールから取得できなかった場合はデフォルトのトラッカーIDを使用する
+            id = defaultTrackerId;
+        }
+        return id;
     }
 
     /**
@@ -295,6 +308,7 @@ public class JmaParseRule {
     public String getProjectId(String status) {
         String id = projects.get(status);
         if (id == null) {
+            // ルールから取得できなかった場合はデフォルトのプロジェクトIDを使用する
             id = defaultProjectId;
         }
         return id;
@@ -370,6 +384,10 @@ public class JmaParseRule {
 
     public String getXmlBodyPath() {
         return xmlBodyPath;
+    }
+
+    public String getDefaultTrackerId() {
+        return defaultTrackerId;
     }
 
 }

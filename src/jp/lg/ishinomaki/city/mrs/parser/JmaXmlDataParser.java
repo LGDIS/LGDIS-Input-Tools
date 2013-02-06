@@ -269,7 +269,7 @@ public class JmaXmlDataParser extends XmlDataParser {
         String status = stringByXpath(xpath, rule.getProjectXpath(), doc);
         projectId = rule.getProjectId(status);
         if (projectId == null) {
-            log.warning("プロジェクトIDが特定できないため処理を中断します。 Status -> " + status);
+            log.warning("プロジェクトIDが特定できません Status -> " + status);
             return false;
         }
         return true;
@@ -410,7 +410,7 @@ public class JmaXmlDataParser extends XmlDataParser {
             if (StringUtils.compareSeismicIntensity(intensity, threshold)) {
                 log.finest("震度:" + intensity + " しきい値:" + threshold
                         + " のため自動立ち上げON");
-                isAutoLaunch = true;
+                isAutoSend = true;
                 return true;
             }
         }
