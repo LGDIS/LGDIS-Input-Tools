@@ -18,7 +18,7 @@ import jp.lg.ishinomaki.city.mrs.pickup.PdfDataHandler;
 import jp.lg.ishinomaki.city.mrs.pickup.TextDataHandler;
 import jp.lg.ishinomaki.city.mrs.pickup.JmaXmlDataHandler;
 
-public class TestTool {
+public class JmaTestTool {
 
     private JFrame mainFrame = null;
     private JFileChooser fileChooser = null;
@@ -26,7 +26,7 @@ public class TestTool {
     /**
      * コンストラクタ
      */
-    public TestTool() {
+    public JmaTestTool() {
 
         // 構成ファイル読み込み
         ParserConfig config = ParserConfig.getInstance();
@@ -73,7 +73,7 @@ public class TestTool {
                     // -------------------------------------------
                     // 拡張子によりデータを渡すハンドラークラスを分ける
                     // -------------------------------------------
-                    byte[] contents = TestTool.byteFromFile(file);
+                    byte[] contents = JmaTestTool.byteFromFile(file);
                     String fn = file.getName();
                     if (fn.endsWith("xml") || fn.endsWith("XML")) {
                         JmaXmlDataHandler handler = new JmaXmlDataHandler(0);
@@ -104,7 +104,7 @@ public class TestTool {
     public static void main(String[] args) {
         // コンストラクタ実行
         // 画面表示
-        new TestTool();
+        new JmaTestTool();
     }
 
     /**

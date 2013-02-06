@@ -546,13 +546,16 @@ public class JmaXmlDataParser extends XmlDataParser {
                     // Map型に格納してissueGeographyMapに追加
                     Map<String, String> map = new HashMap<String, String>();
                     String convertedGeoInfo = null;
-                    // 位置情報をRest用に変換して格納
+                    // 位置情報をRest用に座標変換して格納
                     if (geoKey.equals("point")) {
                         convertedGeoInfo = StringUtils.convertPoint(geoInfo);
                     } else if (geoKey.equals("polygon")) {
                         convertedGeoInfo = StringUtils.convertPolygon(geoInfo);
                     } else if (geoKey.equals("line")) {
                         convertedGeoInfo = StringUtils.convertLine(geoInfo);
+                    } else {
+                        // 座標変換の不要なものはそのまま(Location)
+                        convertedGeoInfo = geoInfo;
                     }
                     map.put(geoKey, convertedGeoInfo);
                     // 備考情報を格納
