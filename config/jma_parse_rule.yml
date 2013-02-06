@@ -29,7 +29,7 @@ issue_extras:
 # 基点時刻のあいまいさ(TargetDTDubious)
  "xml_head_targetdtdubious": "/Report/Head/TargetDTDubious/text()"
 # 基点時刻からとりうる時間(TargetDuration)
- "xml_head_targetsuration": "/Report/Head/TargetDuration/text()"
+ "xml_head_targetduration": "/Report/Head/TargetDuration/text()"
 # 失効時刻(ValidDateTime)
  "xml_head_validdatetime": "/Report/Head/ValidDateTime/text()"
 # 識別情報(EventID)
