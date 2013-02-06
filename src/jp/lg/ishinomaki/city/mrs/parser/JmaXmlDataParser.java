@@ -482,10 +482,12 @@ public class JmaXmlDataParser extends XmlDataParser {
                         .get(JmaParseRule.REMARKS_PATHS);
                 String staticRemarksPath = (String) info
                         .get(JmaParseRule.STATICS_REMARKS_PATH);
+                String allowType = (String) info.get(JmaParseRule.ALLOW_TYPE);
 
                 System.out.println("path -> " + path);
                 System.out.println("remarksPaths ->" + remarksPaths);
                 System.out.println("staticRemarksPath -> " + staticRemarksPath);
+                System.out.println("allowType -> " + allowType);
 
                 // 地理情報のNode/text()を取得
                 // この要素は複数ある可能性があるためNodeListで取得する
@@ -502,6 +504,18 @@ public class JmaXmlDataParser extends XmlDataParser {
                 for (int i = 0; i < nodes.getLength(); i++) {
                     // 1つのNodeを取得して処理
                     Node aNode = nodes.item(i);
+
+                    // まずは該当Nodeを地理情報として使用できるかallowTypeを使用して確認
+                    if (allowType != null) {
+                        String type = stringByXpath(xpath, "../@type", aNode);
+                        if (type != null) {
+                            if (!type.equals(allowType)) {
+                                // type属性値が許可指定の値と異なるためこのデータはスキップします
+                                continue;
+                            }
+                        }
+                    }
+
                     // まずは地理情報を取得
                     String geoInfo = aNode.getNodeValue();
 

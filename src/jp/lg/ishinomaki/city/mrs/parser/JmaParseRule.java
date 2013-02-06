@@ -47,6 +47,7 @@ public class JmaParseRule {
     public static final String LAUNCH = "launch";
     public static final String SEND = "send";
     public static final String DEFAULT = "default";
+    public static final String ALLOW_TYPE = "allow_type";
 
     /**
      * yml定義内容を保持するテーブル
@@ -56,7 +57,7 @@ public class JmaParseRule {
     private String xmlControlPath;
     private String xmlHeadPath;
     private String xmlBodyPath;
-    
+
     /**
      * key:issuesテーブルのフィールド名,value:対象のXpath
      */
@@ -170,21 +171,22 @@ public class JmaParseRule {
         try {
             // ymlファイルを読み込み、定義内容を解析
             // ymlファイルパスはアプリ構成定義から取得
-            String ruleFilePath = ParserConfig.getInstance().getJmaRuleFilePath();
+            String ruleFilePath = ParserConfig.getInstance()
+                    .getJmaRuleFilePath();
             Object obj = Yaml.load(new FileReader(ruleFilePath));
 
             // ymlの定義内容はMap形式であることが前提
             rule = (HashMap<String, Object>) obj;
 
             // xmlControlを取得するためのXPath
-            xmlControlPath = (String)rule.get(XML_CONTROL);
-            
+            xmlControlPath = (String) rule.get(XML_CONTROL);
+
             // xmlHeadを取得するためのXPath
-            xmlHeadPath = (String)rule.get(XML_HEAD);
-            
+            xmlHeadPath = (String) rule.get(XML_HEAD);
+
             // xmlBodyを取得するためのXPath
-            xmlBodyPath = (String)rule.get(XML_BODY);
-            
+            xmlBodyPath = (String) rule.get(XML_BODY);
+
             // ------------------------------------------------
             // Issuesテーブル拡張フィールド用定義内容を保持
             // ------------------------------------------------
