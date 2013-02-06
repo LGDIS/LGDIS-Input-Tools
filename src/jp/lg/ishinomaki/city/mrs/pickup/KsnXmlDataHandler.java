@@ -13,9 +13,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import jp.lg.ishinomaki.city.mrs.parser.JmaSchemaChecker;
 import jp.lg.ishinomaki.city.mrs.parser.KsnXmlDataParser;
 import jp.lg.ishinomaki.city.mrs.parser.ParserConfig;
+import jp.lg.ishinomaki.city.mrs.parser.XmlSchemaChecker;
 import jp.lg.ishinomaki.city.mrs.rest.IssuesPostController;
 import jp.lg.ishinomaki.city.mrs.utils.FileUtils;
 
@@ -77,11 +77,14 @@ public class KsnXmlDataHandler implements PickupDataHandler {
         }
 
         // xlmデータのスキーマチェックを実施
-        //boolean isValid = JmaSchemaChecker.getInstatnce().validate(xml);
-        //if (isValid == false) {
-        //    log.severe("XMLのスキーマチェックでNGだったため処理を中断します。");
-        //    return;
-        //}
+        // スキーマファイル名取得
+        String schemaFilePath = ParserConfig.getInstance().getKsnSchemaFilePath();
+        boolean isValid = XmlSchemaChecker.getInstatnce(schemaFilePath)
+                .validate(xml);
+        if (isValid == false) {
+            log.severe("XMLのスキーマチェックでNGだったため処理を中断します。");
+            return;
+        }
 
         // xmlデータを解析
         KsnXmlDataParser parser = new KsnXmlDataParser();
