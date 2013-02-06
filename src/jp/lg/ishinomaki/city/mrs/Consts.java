@@ -41,5 +41,24 @@ public class Consts {
      * GRI
      */
     public static final String QUEUE_DATA_TYPE_GRI = "GRI";
-
+    
+    // -----------------------------------------------------
+    // キューに登録する際にデータのヘッダに付与するデータ入力元
+    // -----------------------------------------------------
+    /**
+     * JMA
+     */
+    public static final String INPUT_ID_JMA = "JMA";
+    
+    /**
+     * J-Alert
+     */
+    public static final String INPUT_ID_JAL = "JAL";
+    
+    /**
+     * 河川統一
+     */
+    public static final String INPUT_ID_KSN = "KSN";
+    
+    
 }
