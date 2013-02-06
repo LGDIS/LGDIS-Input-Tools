@@ -277,11 +277,13 @@ public class JmaMessage {
     }
 
     /**
-     * 現在保持しているデータに引数データを結合する チェックポイント管理用
+     * 現在保持しているデータに引数データを結合する.<br>
+     * チェックポイントではなくてもデータが分割されて送られてくることがあるためこのメソッドでデータを結合する<br>
      * 
      * @param appendData
+     * @return boolean データを結合
      */
-    public void appendData(byte[] appendData) {
+    public boolean appendData(byte[] appendData) {
 
         // 配列を連結するためのロジック(参考)
         // T[] concat(T[] A, T[] B) {
@@ -300,14 +302,18 @@ public class JmaMessage {
         // 結合後データを保持
         this.data = newData;
 
-        // 電文ヘッダに記されているメッセージレングスと実際のユーザデータレングスが異なる場合は
-        // データ完全性フラグをOFF
-        if (getUserDataLength() != getMessageLength()) {
-            this.isComplete = false;
-        } else {
+        // 電文ヘッダに記されているメッセージレングスと実際のユーザデータレングスが一致したらデータ完全性フラグON
+        if (getUserDataLength() == getMessageLength()) {
             this.isComplete = true;
+            return true;
+        } else if (getUserDataLength() > getMessageLength()){
+            // データ長がヘッダの示すものより大きくなっている場合は結果falseをリターン
+            this.isComplete = false;
+            return false;
+        } else {
+            this.isComplete = false;
+            return true;
         }
-
     }
 
     /**

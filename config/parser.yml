@@ -22,7 +22,7 @@ redmine:
 # ------------------------------------------------------------
 pdf_attachment_statics: 
  subject: "PDFファイル"
- project_id: "jma-project"
+ project_id: "I04202000000000000001"
  tracker_id: "4"
  filename: "jma.pdf"
  description: "This is pdf file."
@@ -35,7 +35,7 @@ pdf_attachment_statics:
 # ------------------------------------------------------------
 text_attachment_statics: 
  subject: "JMA"
- project_id: "jma-project"
+ project_id: "I04202000000000000001"
  tracker_id: "4"
  filename: "jma.txt"
  description: "This is text file."
@@ -48,7 +48,7 @@ text_attachment_statics:
 # ------------------------------------------------------------
 tar_attachment_statics: 
  subject: "内閣官房"
- project_id: "jma-project"
+ project_id: "I04202000000000000001"
  tracker_id: "4"
  filename: "内閣官房.tar"
  description: "内閣官房ファイル"

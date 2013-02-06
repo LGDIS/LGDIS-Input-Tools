@@ -506,7 +506,12 @@ public class JmaServerSocketControl {
                     log.finest("[" + threadName + "] 電文分割受信中のため受信データを保存データに結合]");
 
                     // 保存されているチェックポイントデータにデータ追加
-                    savedMessage.appendData(data);
+                    boolean result = savedMessage.appendData(data);
+                    if (result == false) {
+                        // データの結合に失敗した場合はデータ自体破棄
+                        log.warning("[" + threadName + "] 結合データサイズがヘッダに記載のサイズより大きくなったためデータを破棄して処理中断");
+                        return false;
+                    }
                     msg = savedMessage;
 
                 } else {
