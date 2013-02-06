@@ -126,41 +126,13 @@ public class StringUtils {
     }
 
     /**
-     * line情報をRest用文字列に変換する内部メソッド.<br>
-     * +35+138/+36+138/+37+138/+38+138/ -> [(138,35),(36,138),(37,138),(38,138)]<br>
-     * 深さの値は捨てる<br>
-     * 
-     * @return
-     */
-    public static String convertLine(String val) {
-        return convertPointArray(val, "[", "]");
-    }
-
-    /**
-     * point情報をRest用文字列に変換する内部メソッド.<br>
-     * +35+138/+36+138/+37+138/+38+138/ -> ((138,35),(138,36),(138,37),(138,38))<br>
-     * 深さの値は捨てる<br>
-     * 
-     * @return
-     */
-    public static String convertPolygon(String val) {
-        return convertPointArray(val, "(", ")");
-    }
-
-    /**
      * 
      * @param val
      *            +35+135/+36+136/
-     * @param beginMark
-     *            "["や"("など
-     * @param endMark
-     *            "]"や")"など
      * @return ((+135,+35),(+136,+36))
      */
-    public static String convertPointArray(String val, String beginMark,
-            String endMark) {
-        if (StringUtils.isBlank(val) || StringUtils.isBlank(beginMark)
-                || StringUtils.isBlank(endMark)) {
+    public static String convertPointArray(String val) {
+        if (StringUtils.isBlank(val)) {
             return null;
         }
 
@@ -177,14 +149,14 @@ public class StringUtils {
 
         if (points.size() > 0) {
             StringBuilder sb = new StringBuilder();
-            sb.append(beginMark);
+            sb.append("(");
             for (int i = 0; i < points.size(); i++) {
                 sb.append(points.get(i));
                 if (i != (points.size() - 1)) {
                     sb.append(",");
                 }
             }
-            sb.append(endMark);
+            sb.append(")");
 
             return sb.toString();
         }
@@ -231,7 +203,7 @@ public class StringUtils {
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         // 文字コード
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-        
+
         // 変換
         transformer.transform(source, result);
     }

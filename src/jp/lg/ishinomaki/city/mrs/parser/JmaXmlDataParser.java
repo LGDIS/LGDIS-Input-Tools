@@ -564,9 +564,9 @@ public class JmaXmlDataParser extends XmlDataParser {
                     if (geoKey.equals("point")) {
                         convertedGeoInfo = StringUtils.convertPoint(geoInfo);
                     } else if (geoKey.equals("polygon")) {
-                        convertedGeoInfo = StringUtils.convertPolygon(geoInfo);
+                        convertedGeoInfo = StringUtils.convertPointArray(geoInfo);
                     } else if (geoKey.equals("line")) {
-                        convertedGeoInfo = StringUtils.convertLine(geoInfo);
+                        convertedGeoInfo = StringUtils.convertPointArray(geoInfo);
                     } else {
                         // 座標変換の不要なものはそのまま(Location)
                         convertedGeoInfo = geoInfo;
