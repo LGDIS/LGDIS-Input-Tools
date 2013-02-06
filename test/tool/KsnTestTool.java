@@ -14,11 +14,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import jp.lg.ishinomaki.city.mrs.parser.ParserConfig;
-import jp.lg.ishinomaki.city.mrs.pickup.PdfDataHandler;
-import jp.lg.ishinomaki.city.mrs.pickup.TextDataHandler;
-import jp.lg.ishinomaki.city.mrs.pickup.JmaXmlDataHandler;
+import jp.lg.ishinomaki.city.mrs.pickup.KsnXmlDataHandler;
 
-public class TestTool {
+public class KsnTestTool {
 
     private JFrame mainFrame = null;
     private JFileChooser fileChooser = null;
@@ -26,7 +24,7 @@ public class TestTool {
     /**
      * コンストラクタ
      */
-    public TestTool() {
+    public KsnTestTool() {
 
         // 構成ファイル読み込み
         ParserConfig config = ParserConfig.getInstance();
@@ -36,7 +34,7 @@ public class TestTool {
             e.printStackTrace();
             return;
         }
-        
+
         // メインフレーム
         mainFrame = new JFrame("JMAテストツール"); // フレームタイトル
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 閉じるボタンでアプリ終了
@@ -73,16 +71,10 @@ public class TestTool {
                     // -------------------------------------------
                     // 拡張子によりデータを渡すハンドラークラスを分ける
                     // -------------------------------------------
-                    byte[] contents = TestTool.byteFromFile(file);
+                    byte[] contents = KsnTestTool.byteFromFile(file);
                     String fn = file.getName();
                     if (fn.endsWith("xml") || fn.endsWith("XML")) {
-                        JmaXmlDataHandler handler = new JmaXmlDataHandler(0);
-                        handler.handle(contents);
-                    } else if (fn.endsWith("pdf") || fn.endsWith("PDF")) {
-                        PdfDataHandler handler = new PdfDataHandler(0);
-                        handler.handle(contents);
-                    } else if (fn.endsWith("txt") || fn.endsWith("TXT")) {
-                        TextDataHandler handler = new TextDataHandler(0);
+                        KsnXmlDataHandler handler = new KsnXmlDataHandler(0);
                         handler.handle(contents);
                     }
                 }
@@ -104,7 +96,7 @@ public class TestTool {
     public static void main(String[] args) {
         // コンストラクタ実行
         // 画面表示
-        new TestTool();
+        new KsnTestTool();
     }
 
     /**
