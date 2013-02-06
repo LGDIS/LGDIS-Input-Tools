@@ -1,5 +1,5 @@
-<?xml version="1.0"?><xs:schema targetNamespace=http://wrtrpt.unify.river.go.jp xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://wrtrpt.unify.river.go.jp">
-<xs:import namespace=http://www.w3.org/XML/1998/namespace schemaLocation="http://www.w3.org/2001/xml.xsd"/>
+<?xml version="1.0"?><xs:schema targetNamespace="http://wrtrpt.unify.river.go.jp" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://wrtrpt.unify.river.go.jp">
+<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd"/>
 <xs:element name="Name" type="NameType"/>
 <xs:simpleType name="NameType">
 <xs:restriction base="xs:string">
@@ -49,7 +49,7 @@
 <xs:element ref="Name" minOccurs="0"/>
 <xs:element ref="River" minOccurs="0"/>
 <xs:element ref="ObsrvtnPoint" minOccurs="0" maxOccurs="unbounded"/>
-</xs:choice> 21
+</xs:choice>
 <xs:attribute name="rvrSysCode" type="xs:int" use="required"/>
 </xs:complexType>
 <xs:element name="River" type="RiverType"/>
@@ -106,7 +106,7 @@
 <xs:complexType name="ReportKindType">
 <xs:sequence>
 <xs:element ref="Name"/>
-</xs:sequence> 22
+</xs:sequence>
 <xs:attribute name="reportKindCode" type="xs:int"/>
 </xs:complexType>
 <xs:element name="ReportNo" type="ReportNoType"/>
