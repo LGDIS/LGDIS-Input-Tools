@@ -46,8 +46,8 @@ text_attachment_statics:
 # XMLの解析を行うためのルールを定義したファイルを指定
 # 定義内容が多いため外出しのファイルとする
 # ------------------------------------------------------------
-rule_file: "config/parse_rule.yml"
-
+jma_rule_file: "config/jma_parse_rule.yml"
+ksn_rule_file: "config/ksn_parse_rule.yml"
 
 # ------------------------------------------------------------
 # XMLの妥当性チェックを行う際に使用するスキーマファイルへのパス
