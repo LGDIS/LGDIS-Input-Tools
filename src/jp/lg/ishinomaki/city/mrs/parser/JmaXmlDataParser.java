@@ -506,8 +506,9 @@ public class JmaXmlDataParser extends XmlDataParser {
                     Node aNode = nodes.item(i);
 
                     // まずは該当Nodeを地理情報として使用できるかallowTypeを使用して確認
+                    String type = null;
                     if (allowType != null) {
-                        String type = stringByXpath(xpath, "../@type", aNode);
+                        type = stringByXpath(xpath, "../@type", aNode);
                         if (type != null) {
                             if (!type.equals(allowType)) {
                                 // type属性値が許可指定の値と異なるためこのデータはスキップします
@@ -557,6 +558,16 @@ public class JmaXmlDataParser extends XmlDataParser {
                         remarks = stringByXpath(xpath, staticRemarksPath, aNode);
                         System.out.println("[ループ2] 固定の備考文字列 -> " + remarks);
                     }
+                    
+                    // 備考の最後に@typeで取得したデータ種類も追加する
+                    if (StringUtils.isBlank(type) == false) {
+                        if (StringUtils.isBlank(remarks)) {
+                            remarks = type;
+                        } else {
+                            remarks = remarks + " " + type;
+                        }
+                    }
+                    
                     // Map型に格納してissueGeographyMapに追加
                     Map<String, String> map = new HashMap<String, String>();
                     String convertedGeoInfo = null;
