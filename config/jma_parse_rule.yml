@@ -68,13 +68,13 @@ issue_geographyies:
    remarks_paths: ["../../Name/text()"]
    allow_type: "観測所の位置"
   - 
-   path: "/Report/Body/Earthquake/Hypocenter/Area/Coordinate[@type=\"震源位置（度）\"]/text()"
+   path: "/Report/Body/Earthquake/Hypocenter/Area/Coordinate/text()"
    static_remarks: "震源位置"
   - 
-   path: "/Report/Body/VolcanoInfo/Item/Areas/Area/Coordinate/Coordinate[@type=\"火山の位置\"]/text()"
+   path: "/Report/Body/VolcanoInfo/Item/Areas/Area/Coordinate/Coordinate/text()"
    remarks_paths: ["../../../Name/text()"]
   - 
-   path: "/Report/Body/VolcanoInfo/Item/Areas/Area/CraterCoordinate/Coordinate[@type=\"火口の位置\"]/text()"
+   path: "/Report/Body/VolcanoInfo/Item/Areas/Area/CraterCoordinate/Coordinate/text()"
    static_remarks: "火口の位置"
  "line": 
   - 
