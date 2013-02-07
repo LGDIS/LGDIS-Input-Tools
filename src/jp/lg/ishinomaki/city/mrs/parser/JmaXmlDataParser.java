@@ -506,18 +506,16 @@ public class JmaXmlDataParser extends XmlDataParser {
                     Node aNode = nodes.item(i);
 
                     // まずは該当Nodeを地理情報として使用できるかallowTypeを使用して確認
-                    String type = null;
-                    if (allowType != null) {
-                        type = stringByXpath(xpath, "../@type", aNode);
-                        if (type != null) {
-                            if (!type.equals(allowType)) {
-                                // type属性値が許可指定の値と異なるためこのデータはスキップします
+                    String type = stringByXpath(xpath, "../@type", aNode);  // Nodeの@typeを取得
+                    if (StringUtils.isBlank(type) == false) {               // typeが設定されている場合は許可されたtypeか確認
+                        if (StringUtils.isBlank(allowType) == false) {      // allowTypeの設定がない場合は全てOK
+                            if (type.equals(allowType) == false) {          // type属性値が許可された値と異なるためこのデータはスキップ
                                 continue;
                             }
                         }
                     }
 
-                    // まずは地理情報を取得
+                    // 次に地理情報を取得
                     String geoInfo = aNode.getNodeValue();
 
                     // 次に測地系を取得

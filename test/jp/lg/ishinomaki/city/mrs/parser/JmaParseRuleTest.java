@@ -186,7 +186,7 @@ public class JmaParseRuleTest {
         String path = (String) info.get(JmaParseRule.PATH);
         assertThat(
                 path,
-                is("Body/MeteorologicalInfos/MeteorologicalInfo/Item/Station/Location/text()"));
+                is("/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Station/Location/text()"));
 
         List<String> remarks = (List<String>) info
                 .get(JmaParseRule.REMARKS_PATHS);

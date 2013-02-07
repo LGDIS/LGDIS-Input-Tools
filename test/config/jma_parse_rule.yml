@@ -98,7 +98,7 @@ issue_geographyies:
    remarks_paths: ["../../../../Name/text()"]
  "Location": 
   - 
-   path: "Body/MeteorologicalInfos/MeteorologicalInfo/Item/Station/Location/text()"
+   path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Station/Location/text()"
    remarks_paths: ["../../Name/text()"]
    allow_type: "観測所の位置"
   - 
