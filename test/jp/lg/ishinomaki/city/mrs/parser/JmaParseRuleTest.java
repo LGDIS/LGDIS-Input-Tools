@@ -117,7 +117,6 @@ public class JmaParseRuleTest {
         assertThat(dactual, is(1.7));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void 位置情報関連() {
         List<Map<String, Object>> infos = rule.getCoordinateInfos();
@@ -129,14 +128,12 @@ public class JmaParseRuleTest {
         String path = (String) info.get(JmaParseRule.PATH);
         assertThat(
                 path,
-                is("/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Coordinate[@type=\"中心位置（度）\" or @type=\"実況位置（度）\" or @type=\"実況位置（度分）\" or @type=\"１２時間後位置（度）\" or @type=\"２４時間後位置（度）\" or @type=\"位置（度）\" or @type=\"予想位置　１２時間後（度）\" or @type=\"予想位置　２４時間後（度）\"]/text()"));
+                is("/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Coordinate[@type=\"中心位置（度）\" or @type=\"実況位置（度）\" or @type=\"１２時間後位置（度）\" or @type=\"２４時間後位置（度）\" or @type=\"位置（度）\" or @type=\"予想位置　１２時間後（度）\" or @type=\"予想位置　２４時間後（度）\"]/text()"));
 
-        List<String> remarks = (List<String>) info
-                .get(JmaParseRule.REMARKS_PATHS);
-        assertThat(remarks.get(0), is("../../Name/text()"));
+        String remarks = (String) info.get(JmaParseRule.REMARKS_PATH);
+        assertThat(remarks, is("../../Name/text()"));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void ライン情報関連() {
         List<Map<String, Object>> infos = rule.getLineInfos();
@@ -150,12 +147,10 @@ public class JmaParseRuleTest {
                 path,
                 is("/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Line[@type=\"位置（度）\" or @type=\"前線（度）\"]/text()"));
 
-        List<String> remarks = (List<String>) info
-                .get(JmaParseRule.REMARKS_PATHS);
-        assertThat(remarks.get(0), is("../../../Kind/Name/text()"));
+        String remarks = (String) info.get(JmaParseRule.REMARKS_PATH);
+        assertThat(remarks, is("../../../Kind/Name/text()"));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void ポリゴン情報関連() {
         List<Map<String, Object>> infos = rule.getPolygonInfos();
@@ -169,12 +164,10 @@ public class JmaParseRuleTest {
                 path,
                 is("/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Polygon[@type=\"位置（度）\" or @type=\"領域（度）\"]/text()"));
 
-        List<String> remarks = (List<String>) info
-                .get(JmaParseRule.REMARKS_PATHS);
-        assertThat(remarks.get(0), is("../../../Kind/Name/text()"));
+        String remarks = (String) info.get(JmaParseRule.REMARKS_PATH);
+        assertThat(remarks, is("../../../Name/text()"));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void ロケーション情報関連() {
         List<Map<String, Object>> infos = rule.getLocationInfos();
@@ -188,9 +181,8 @@ public class JmaParseRuleTest {
                 path,
                 is("/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Station/Location/text()"));
 
-        List<String> remarks = (List<String>) info
-                .get(JmaParseRule.REMARKS_PATHS);
-        assertThat(remarks.get(0), is("../../Name/text()"));
+        String remarks = (String) info.get(JmaParseRule.REMARKS_PATH);
+        assertThat(remarks, is("../../Name/text()"));
     }
 
     @Test

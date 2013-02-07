@@ -29,8 +29,8 @@ public class JmaParseRule {
     public static final String XML_BODY = "xml_body";
     public static final String ISSUE_EXTRAS = "issue_extras";
     public static final String ISSUE_GEOGRAPHIES = "issue_geographyies";
-    public static final String REMARKS_PATHS = "remarks_paths";
-    public static final String STATICS_REMARKS_PATH = "static_remark_path";
+    public static final String REMARKS_PATH = "remarks_path";
+    public static final String STATICS_REMARKS = "static_remarks";
     public static final String COORDINATE = "coordinate";
     public static final String LINE = "line";
     public static final String POLYGON = "polygon";

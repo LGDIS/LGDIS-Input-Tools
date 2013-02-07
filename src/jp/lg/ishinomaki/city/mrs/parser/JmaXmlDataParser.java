@@ -478,27 +478,26 @@ public class JmaXmlDataParser extends XmlDataParser {
 
                 // 取得に使用するXpath取り出し
                 String path = (String) info.get(JmaParseRule.PATH);
-                List<String> remarksPaths = (List<String>) info
-                        .get(JmaParseRule.REMARKS_PATHS);
-                String staticRemarksPath = (String) info
-                        .get(JmaParseRule.STATICS_REMARKS_PATH);
+                String remarksPath = (String) info
+                        .get(JmaParseRule.REMARKS_PATH);
+                String staticRemarks = (String) info
+                        .get(JmaParseRule.STATICS_REMARKS);
                 String allowType = (String) info.get(JmaParseRule.ALLOW_TYPE);
 
-                System.out.println("path -> " + path);
-                System.out.println("remarksPaths ->" + remarksPaths);
-                System.out.println("staticRemarksPath -> " + staticRemarksPath);
-                System.out.println("allowType -> " + allowType);
+                log.finest("path -> " + path);
+                log.finest("remarksPath ->" + remarksPath);
+                log.finest("staticRemarks -> " + staticRemarks);
+                log.finest("allowType -> " + allowType);
 
                 // 地理情報のNode/text()を取得
                 // この要素は複数ある可能性があるためNodeListで取得する
                 NodeList nodes = nodelistByXpath(xpath, path, doc);
                 // NodeListが取得できない場合は次のデータへ
                 if (nodes == null) {
-                    System.out.println("paathでNodeのリストが取得できないため処理中断");
+                    log.finest("paathでNodeのリストが取得できないため処理中断");
                     continue;
                 }
-                System.out
-                        .println("pathで取得したNodeのリスト数 -> " + nodes.getLength());
+                log.finest("pathで取得したNodeのリスト数 -> " + nodes.getLength());
 
                 // 取得した全てのNodeに対して処理を行う
                 for (int i = 0; i < nodes.getLength(); i++) {
@@ -506,10 +505,10 @@ public class JmaXmlDataParser extends XmlDataParser {
                     Node aNode = nodes.item(i);
 
                     // まずは該当Nodeを地理情報として使用できるかallowTypeを使用して確認
-                    String type = stringByXpath(xpath, "../@type", aNode);  // Nodeの@typeを取得
-                    if (StringUtils.isBlank(type) == false) {               // typeが設定されている場合は許可されたtypeか確認
-                        if (StringUtils.isBlank(allowType) == false) {      // allowTypeの設定がない場合は全てOK
-                            if (type.equals(allowType) == false) {          // type属性値が許可された値と異なるためこのデータはスキップ
+                    String type = stringByXpath(xpath, "../@type", aNode); // Nodeの@typeを取得
+                    if (StringUtils.isBlank(type) == false) { // typeが設定されている場合は許可されたtypeか確認
+                        if (StringUtils.isBlank(allowType) == false) { // allowTypeの設定がない場合は全てOK
+                            if (type.equals(allowType) == false) { // type属性値が許可された値と異なるためこのデータはスキップ
                                 continue;
                             }
                         }
@@ -526,37 +525,24 @@ public class JmaXmlDataParser extends XmlDataParser {
                     // 備考用文字列取得
                     // parseRuleにREMARKS_PATHSが設定されている場合は配列に設定
                     // されているXpathを使用して備考文字列を取得する
-                    // 設定されていない場合はSTATIC_REMARKS_PATHを使用して
-                    // 備考文字列を取得する
+                    // 設定されていない場合はSTATIC_REMARKSを使用して備考文字列を取得する
                     // -----------------------------------------------------
-                    // 固定の備考文字列が設定ファイルに定義されている場合はそれを使用
                     String remarks = null;
-                    if (StringUtils.isBlank(staticRemarksPath)) {
-                        System.out.println("[ループ2] 固定の備考文字がないためXMLから備考文字を取得");
-                        // 相対パスで備考文字列取得
-                        for (String anRemarksPath : remarksPaths) {
-                            System.out.println("[ループ2] 備考文字取得用パス -> "
-                                    + anRemarksPath);
-                            // 相対パスで備考文字列取得
-                            String anRemarks = stringByXpath(xpath,
-                                    anRemarksPath, aNode);
-                            System.out.println("[ループ2] 備考文字列 -> " + anRemarks);
-                            if (StringUtils.isBlank(anRemarks) == false) {
-                                if (StringUtils.isBlank(remarks)) {
-                                    remarks = anRemarks;
-                                } else {
-                                    // 備考文字列は複数ある場合に半角スペースで連結する
-                                    remarks = remarks + " " + anRemarks;
-                                }
-                                System.out.println("[ループ2] 連結後の備考文字列 -> "
-                                        + remarks);
-                            }
-                        }
+                    if (StringUtils.isBlank(staticRemarks) == false) {
+                        // 固定文字を使用
+                        remarks = staticRemarks;
+                        log.finest("固定の備考文字列 -> " + remarks);
                     } else {
-                        remarks = stringByXpath(xpath, staticRemarksPath, aNode);
-                        System.out.println("[ループ2] 固定の備考文字列 -> " + remarks);
+                        log.finest("固定の備考文字がないためXMLから備考文字を取得");
+                        if (StringUtils.isBlank(remarksPath)) {
+                            log.finest("備考文字取得用のパスが設定されていないため備考文字取得なし");
+                        } else {
+                            log.finest("備考文字取得用パス -> " + remarksPath);
+                            remarks = stringByXpath(xpath, remarksPath, aNode);
+                            log.finest("取得した備考文字列 -> " + remarks);
+                        }
                     }
-                    
+
                     // 備考の最後に@typeで取得したデータ種類も追加する
                     if (StringUtils.isBlank(type) == false) {
                         if (StringUtils.isBlank(remarks)) {
@@ -565,7 +551,7 @@ public class JmaXmlDataParser extends XmlDataParser {
                             remarks = remarks + " " + type;
                         }
                     }
-                    
+
                     // Map型に格納してissueGeographyMapに追加
                     Map<String, String> map = new HashMap<String, String>();
                     String convertedGeoInfo = null;
@@ -573,9 +559,11 @@ public class JmaXmlDataParser extends XmlDataParser {
                     if (geoKey.equals("point")) {
                         convertedGeoInfo = StringUtils.convertPoint(geoInfo);
                     } else if (geoKey.equals("polygon")) {
-                        convertedGeoInfo = StringUtils.convertPointArray(geoInfo);
+                        convertedGeoInfo = StringUtils
+                                .convertPointArray(geoInfo);
                     } else if (geoKey.equals("line")) {
-                        convertedGeoInfo = StringUtils.convertPointArray(geoInfo);
+                        convertedGeoInfo = StringUtils
+                                .convertPointArray(geoInfo);
                     } else {
                         // 座標変換の不要なものはそのまま(Location)
                         convertedGeoInfo = geoInfo;
@@ -596,7 +584,7 @@ public class JmaXmlDataParser extends XmlDataParser {
             e.printStackTrace();
         }
 
-        System.out.println("解析後の地理系情報 -> " + issueGeographyMaps);
+        log.finest("解析後の地理系情報 -> " + issueGeographyMaps);
     }
 
     // ----------------------------------------------------
