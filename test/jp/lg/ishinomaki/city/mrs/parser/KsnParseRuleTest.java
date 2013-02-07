@@ -13,10 +13,13 @@ import org.junit.Test;
 
 public class KsnParseRuleTest {
 
+    static KsnParseRule rule;
+
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         ParserConfig config = ParserConfig.getInstance();
         config.loadYml("test/config/parser.yml");
+        rule = KsnParseRule.getInstance();
     }
 
     @AfterClass
@@ -32,31 +35,46 @@ public class KsnParseRuleTest {
     }
 
     @Test
-    public void 全ての定義内容が正しくロードできていることを確認() {
-        KsnParseRule rule = KsnParseRule.getInstance();
-
+    public void デフォルトのプロジェクトID() {
         String actual = rule.getDefaultProjectId();
         assertThat(actual, is("I04202000000000000001"));
+    }
 
+    @Test
+    public void Issue拡張テーブル() {
         Map<String, String> issueExtras = rule.getIssueExtras();
-        actual = issueExtras.get("xml_control_cause");
+        String actual = issueExtras.get("xml_control_cause");
         assertThat(actual, is("/WarningReport/@cause"));
+    }
 
-        actual = rule.getProjectId("2");
+    @Test
+    public void プロジェクトID() {
+        String actual = rule.getProjectId("2");
         assertThat(actual, is("training-project"));
+    }
 
-        actual = rule.getProjectXpath();
+    @Test
+    public void プロジェクト取得用のXPath() {
+        String actual = rule.getProjectXpath();
         assertThat(actual, is("/WarningReport/@cause"));
+    }
 
-        actual = rule.getTrackerId();
+    @Test
+    public void トラッカーID() {
+        String actual = rule.getTrackerId();
         assertThat(actual, is("6"));
+    }
 
-        actual = rule.getXmlBodyPath();
+    @Test
+    public void Body部取得用XPath() {
+        String actual = rule.getXmlBodyPath();
         assertThat(actual, is("/WarningReport/Detail/Text"));
+    }
 
-        actual = rule.getXmlHeadPath();
+    @Test
+    public void Head部取得用XPath() {
+        String actual = rule.getXmlHeadPath();
         assertThat(actual, is("/WarningReport/Summary"));
-
     }
 
 }

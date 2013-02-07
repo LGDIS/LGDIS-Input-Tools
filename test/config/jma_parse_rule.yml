@@ -58,6 +58,9 @@ issue_geographyies:
    path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Coordinate[@type=\"中心位置（度）\" or @type=\"実況位置（度）\" or @type=\"実況位置（度分）\" or @type=\"１２時間後位置（度）\" or @type=\"２４時間後位置（度）\" or @type=\"位置（度）\" or @type=\"予想位置　１２時間後（度）\" or @type=\"予想位置　２４時間後（度）\"]/text()"
    remarks_paths: ["../../Name/text()", "../../@type"]
   - 
+   path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Circle/BasePoint[@type=\"中心位置（度）\" or @type=\"実況位置（度）\" or @type=\"実況位置（度分）\" or @type=\"１２時間後位置（度）\" or @type=\"２４時間後位置（度）\" or @type=\"位置（度）\" or @type=\"予想位置　１２時間後（度）\" or @type=\"予想位置　２４時間後（度）\"]/text()"
+   remarks_paths: ["../../Name/text()", "../../@type"]
+  - 
    path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Circle/BasePoint/Coordinate[@type=\"中心位置（度）\" or @type=\"実況位置（度）\" or @type=\"実況位置（度分）\" or @type=\"１２時間後位置（度）\" or @type=\"２４時間後位置（度）\" or @type=\"位置（度）\" or @type=\"予想位置　１２時間後（度）\" or @type=\"予想位置　２４時間後（度）\"]/text()"
    remarks_paths: ["../../Name/text()", "../../@type"]
   - 
