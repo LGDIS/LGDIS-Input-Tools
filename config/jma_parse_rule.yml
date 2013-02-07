@@ -71,10 +71,10 @@ issue_geographyies:
    path: "/Report/Body/Earthquake/Hypocenter/Area/Coordinate/text()"
    static_remarks: "震源位置"
   - 
-   path: "/Report/Body/VolcanoInfo/Item/Areas/Area/Coordinate/Coordinate/text()"
+   path: "/Report/Body/VolcanoInfo/Item/Areas/Area/Coordinate/text()"
    remarks_path: "../../../Name/text()"
   - 
-   path: "/Report/Body/VolcanoInfo/Item/Areas/Area/CraterCoordinate/Coordinate/text()"
+   path: "/Report/Body/VolcanoInfo/Item/Areas/Area/Crater/Coordinate/text()"
    static_remarks: "火口の位置"
  "line": 
   - 
