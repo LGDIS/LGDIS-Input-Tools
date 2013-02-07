@@ -27,7 +27,10 @@ public class KsnParseRule {
     public static final String XML_BODY = "xml_body";
     public static final String ISSUE_EXTRAS = "issue_extras";
     public static final String TRACKER = "tracker";
-    public static final String PROJECT = "project";
+    public static final String PROJECTS = "projects";
+    public static final String PATH = "path";
+    public static final String TYPE = "type";
+    public static final String DEFAULT = "default";
 
     /**
      * yml定義内容を保持するテーブル
@@ -55,9 +58,19 @@ public class KsnParseRule {
     private String trackerId;
 
     /**
-     * 河川のプロジェクトID
+     * プロジェクトIDを引き当てるためのStatusタグへのXpath
      */
-    private String projectId;
+    private String projectXpath;
+
+    /**
+     * key:status, value:プロジェクトID
+     */
+    private Map<String, String> projects;
+
+    /**
+     * デフォルトのプロジェクトID
+     */
+    private String defaultProjectId;
 
     /**
      * シングルトンインスタンス
@@ -119,8 +132,15 @@ public class KsnParseRule {
             // ------------------------------------------------
             // プロジェクト用定義
             // ------------------------------------------------
-            // 河川用プロジェクトID
-            projectId = (String) rule.get(PROJECT);
+            Map<String, Object> project = (HashMap<String, Object>) rule
+                    .get(PROJECTS);
+            projectXpath = (String) project.get(PATH);
+
+            // プロジェクト用テーブル取得
+            projects = (Map<String, String>) project.get(TYPE);
+
+            // デフォルトのプロジェクトID取得
+            defaultProjectId = (String) project.get(DEFAULT);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -144,8 +164,38 @@ public class KsnParseRule {
         return trackerId;
     }
 
-    public String getProjectId() {
-        return projectId;
+    /**
+     * 情報種別からプロジェクトIDを取得します。<br>
+     * 
+     * @return
+     */
+    public String getProjectId(String status) {
+        String id = projects.get(status);
+        if (id == null) {
+            // ルールから取得できなかった場合はstatusをIntegerに変換して再度取得
+            try {
+                Integer intStatus = Integer.parseInt(status);
+                id = projects.get(intStatus);
+            } catch (Exception e) {
+            }
+            if (id == null) {
+                // ルールから取得できなかった場合はデフォルトのプロジェクトIDを使用する
+                id = defaultProjectId;
+            }
+        }
+        return id;
+    }
+
+    public String getProjectXpath() {
+        return projectXpath;
+    }
+
+    public Map<String, String> getProjects() {
+        return projects;
+    }
+
+    public String getDefaultProjectId() {
+        return defaultProjectId;
     }
 
 }

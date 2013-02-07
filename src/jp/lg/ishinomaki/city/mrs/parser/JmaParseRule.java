@@ -54,8 +54,19 @@ public class JmaParseRule {
      */
     private HashMap<String, Object> rule;
 
+    /**
+     * xml_controlに設定する要素を取得するXPath
+     */
     private String xmlControlPath;
+    
+    /**
+     * xml_headに設定する要素を取得するXPath
+     */
     private String xmlHeadPath;
+    
+    /**
+     * xml_bodyに設定する要素を取得するXPath
+     */
     private String xmlBodyPath;
 
     /**
@@ -94,7 +105,7 @@ public class JmaParseRule {
     private String trackerXpath;
 
     /**
-     * デフォルトのプロジェクトID
+     * デフォルトのトラッカーID
      */
     private String defaultTrackerId;
     

@@ -12,6 +12,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -24,6 +25,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 public class KsnXmlDataParser extends XmlDataParser {
+
+    /**
+     * 当クラスのロガーインスタンス
+     */
+    private final Logger log = Logger.getLogger(KsnXmlDataParser.class
+            .getSimpleName());
 
     // -------------------------------------------------------------------------
     // XML解析結果を保持するインスタンス変数
@@ -80,15 +87,17 @@ public class KsnXmlDataParser extends XmlDataParser {
                 return false;
             }
 
+            // プロジェクトID
+            if (parseProjectId(doc, xpath, rule) == false) {
+                return false;
+            }
+
             // Issue拡張テーブル用定義取得
             Map<String, String> issueExtraXpaths = rule.getIssueExtras();
             parseIssueExtraMap(doc, xpath, issueExtraXpaths);
 
             // トラッカーIDは固定
             trackerId = rule.getTrackerId();
-
-            // プロジェクトIDは固定
-            projectId = rule.getProjectId();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -167,6 +176,24 @@ public class KsnXmlDataParser extends XmlDataParser {
                     issueExtraMap.put(String.valueOf(fieldName), fieldValue);
                 }
             }
+        }
+        return true;
+    }
+
+    /**
+     * プロジェクトIDを解析する内部メソッド.
+     * 
+     * @param doc
+     * @param xpath
+     * @param rule
+     * @return
+     */
+    boolean parseProjectId(Document doc, XPath xpath, KsnParseRule rule) {
+        String status = stringByXpath(xpath, rule.getProjectXpath(), doc);
+        projectId = rule.getProjectId(status);
+        if (StringUtils.isBlank(projectId)) {
+            log.warning("プロジェクトIDが特定できません Status -> " + status);
+            return false;
         }
         return true;
     }

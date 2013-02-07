@@ -206,7 +206,7 @@ auto:
  tsunami_path: "/Report/Body/Tsunami/Estimation/Item[Arear/Name/text()=\"宮城金華山沖\"]/MaxHeight/TsunamiHeight/text()"
  launch: 
   earthquake_threashold: "5+"
-  tsunami_threashold: 1.7
+  tsunami_threashold: 2.2
  send: 
   earthquake_threashold: "6-"
   tsunami_threashold: 1.7

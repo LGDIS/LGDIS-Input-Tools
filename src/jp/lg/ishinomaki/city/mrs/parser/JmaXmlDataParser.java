@@ -268,7 +268,7 @@ public class JmaXmlDataParser extends XmlDataParser {
     boolean parseProjectId(Document doc, XPath xpath, JmaParseRule rule) {
         String status = stringByXpath(xpath, rule.getProjectXpath(), doc);
         projectId = rule.getProjectId(status);
-        if (projectId == null) {
+        if (StringUtils.isBlank(projectId)) {
             log.warning("プロジェクトIDが特定できません Status -> " + status);
             return false;
         }
