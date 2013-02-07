@@ -79,23 +79,23 @@ issue_geographyies:
  "line": 
   - 
    path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Line[@type=\"位置（度）\" or @type=\"前線（度）\"]/text()"
-   remarks_path: "../../../Kind/Name/text()"
+   remarks_path: "../../../Kind/Property/Type/text()"
   - 
    path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/CoordinatePart/Line[@type=\"位置（度）\" or @type=\"前線（度）\"]/text()"
-   remarks_path: "../../../../Name/text()"
+   remarks_path: "../../../Type/text()"
   - 
    path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/IsobarPart/Line[@type=\"位置（度）\" or @type=\"前線（度）\"]/text()"
-   remarks_path: "../../../../Name/text()"
+   remarks_path: "../../../Type/text()"
  "polygon": 
   - 
    path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Polygon[@type=\"位置（度）\" or @type=\"領域（度）\"]/text()"
-   remarks_path: "../../../Name/text()"
+   remarks_path: "../../../Kind/Property/Type/text()"
   - 
    path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/CoordinatePart/Polygon[@type=\"位置（度）\" or @type=\"領域（度）\"]/text()"
-   remarks_path: "../../../../Name/text()"
+   remarks_path: "../../../Type/text()"
   - 
    path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/IsobarPart/Polygon[@type=\"位置（度）\" or @type=\"領域（度）\"]/text()"
-   remarks_path: "../../../../Name/text()"
+   remarks_path: "../../../Type/text()"
  "Location": 
   - 
    path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Station/Location/text()"
