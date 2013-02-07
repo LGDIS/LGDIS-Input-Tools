@@ -56,13 +56,13 @@ issue_geographyies:
  "coordinate": 
   - 
    path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Coordinate[@type=\"中心位置（度）\" or @type=\"実況位置（度）\" or @type=\"実況位置（度分）\" or @type=\"１２時間後位置（度）\" or @type=\"２４時間後位置（度）\" or @type=\"位置（度）\" or @type=\"予想位置　１２時間後（度）\" or @type=\"予想位置　２４時間後（度）\"]/text()"
-   remarks_paths: ["../../Name/text()", "../../@type"]
+   remarks_paths: ["../../Name/text()"]
   - 
    path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Circle/BasePoint[@type=\"中心位置（度）\" or @type=\"実況位置（度）\" or @type=\"実況位置（度分）\" or @type=\"１２時間後位置（度）\" or @type=\"２４時間後位置（度）\" or @type=\"位置（度）\" or @type=\"予想位置　１２時間後（度）\" or @type=\"予想位置　２４時間後（度）\"]/text()"
-   remarks_paths: ["../../Name/text()", "../../@type"]
+   remarks_paths: ["../../../Name/text()"]
   - 
    path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Circle/BasePoint/Coordinate[@type=\"中心位置（度）\" or @type=\"実況位置（度）\" or @type=\"実況位置（度分）\" or @type=\"１２時間後位置（度）\" or @type=\"２４時間後位置（度）\" or @type=\"位置（度）\" or @type=\"予想位置　１２時間後（度）\" or @type=\"予想位置　２４時間後（度）\"]/text()"
-   remarks_paths: ["../../Name/text()", "../../@type"]
+   remarks_paths: ["../../../../Name/text()"]
   - 
    path: "/Report/Body/MeteorologicalInfos/TimeSeriesInfo/Item/Station/Coordinate/text()"
    remarks_paths: ["../../Name/text()"]
@@ -72,7 +72,7 @@ issue_geographyies:
    static_remarks: "震源位置"
   - 
    path: "/Report/Body/VolcanoInfo/Item/Areas/Area/Coordinate/Coordinate[@type=\"火山の位置\"]/text()"
-   remarks_paths: ["../../../Area/Name/text()"]
+   remarks_paths: ["../../../Name/text()"]
   - 
    path: "/Report/Body/VolcanoInfo/Item/Areas/Area/CraterCoordinate/Coordinate[@type=\"火口の位置\"]/text()"
    static_remarks: "火口の位置"
@@ -82,14 +82,14 @@ issue_geographyies:
    remarks_paths: ["../../../Kind/Name/text()"]
   - 
    path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/CoordinatePart/Line[@type=\"位置（度）\" or @type=\"前線（度）\"]/text()"
-   remarks_paths: ["../../../../../Kind/Name/text()"]
+   remarks_paths: ["../../../../Name/text()"]
   - 
    path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/IsobarPart/Line[@type=\"位置（度）\" or @type=\"前線（度）\"]/text()"
    remarks_paths: ["../../../../Name/text()"]
  "polygon": 
   - 
    path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Polygon[@type=\"位置（度）\" or @type=\"領域（度）\"]/text()"
-   remarks_paths: ["../../../Kind/Name/text()"]
+   remarks_paths: ["../../../Name/text()"]
   - 
    path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property/CoordinatePart/Polygon[@type=\"位置（度）\" or @type=\"領域（度）\"]/text()"
    remarks_paths: ["../../../../Name/text()"]
