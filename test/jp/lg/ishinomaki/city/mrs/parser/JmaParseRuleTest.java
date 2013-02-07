@@ -19,7 +19,7 @@ public class JmaParseRuleTest {
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         ParserConfig config = ParserConfig.getInstance();
-        config.loadYml("test/config/parser.yml");
+        config.loadYml("test/config/parser_JmaParseRuleTest.yml");
         rule = JmaParseRule.getInstance();
     }
 

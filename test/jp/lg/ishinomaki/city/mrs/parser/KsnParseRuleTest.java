@@ -18,7 +18,7 @@ public class KsnParseRuleTest {
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         ParserConfig config = ParserConfig.getInstance();
-        config.loadYml("test/config/parser.yml");
+        config.loadYml("test/config/parser_KsnParseRuleTest.yml");
         rule = KsnParseRule.getInstance();
     }
 

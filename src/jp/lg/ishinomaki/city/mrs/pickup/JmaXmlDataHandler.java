@@ -67,6 +67,11 @@ public class JmaXmlDataHandler implements PickupDataHandler {
     @Override
     public void handle(byte[] data) {
 
+        // データなしの場合は処理しない
+        if (data == null || data.length == 0) {
+            return;
+        }
+        
         // 本文データをxml化
         String xml = null;
         try {
@@ -99,7 +104,9 @@ public class JmaXmlDataHandler implements PickupDataHandler {
         // 送信データを作成
         String sendData = createIssuesXmlAsString(parser);
 
-        System.out.println(sendData);
+        log.finest("------------------------Redmineへの送信データ------------------------\n"
+                + sendData
+                + "\n--------------------------------------------------------------------");
 
         // RedmineのRestApi(Post)実行
         IssuesPostController postController = new IssuesPostController();

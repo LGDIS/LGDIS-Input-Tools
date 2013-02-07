@@ -28,7 +28,7 @@ public class JmaXmlDataParserTest {
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         ParserConfig config = ParserConfig.getInstance();
-        config.loadYml("test/config/parser.yml");   // テスト用のconfigファイル置き場
+        config.loadYml("test/config/parser_JmaXmlDataParserTest.yml");   // テスト用のconfigファイル置き場
         xpath = XPathFactory.newInstance().newXPath();
         rule = JmaParseRule.getInstance();
     }
