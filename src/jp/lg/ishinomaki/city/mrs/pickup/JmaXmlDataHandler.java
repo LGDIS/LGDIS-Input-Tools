@@ -19,6 +19,7 @@ import jp.lg.ishinomaki.city.mrs.parser.ParserConfig;
 import jp.lg.ishinomaki.city.mrs.parser.XmlSchemaChecker;
 import jp.lg.ishinomaki.city.mrs.rest.IssuesPostController;
 import jp.lg.ishinomaki.city.mrs.utils.FileUtils;
+import jp.lg.ishinomaki.city.mrs.utils.StringUtils;
 
 import org.dom4j.CDATA;
 import org.dom4j.Document;
@@ -86,13 +87,16 @@ public class JmaXmlDataHandler implements PickupDataHandler {
         // スキーマファイル名取得
         String schemaFilePath = ParserConfig.getInstance()
                 .getJmaSchemaFilePath();
-        boolean isValid = XmlSchemaChecker.getInstatnce(schemaFilePath)
-                .validate(xml);
-        if (isValid == false) {
-            log.severe("XMLのスキーマチェックでNGだったため処理を中断します。");
-            return;
-        }
-
+        // スキーマファイルの設定がある場合はスキーマチェック
+        if (StringUtils.isBlank(schemaFilePath) == false) {
+            boolean isValid = XmlSchemaChecker.getInstatnce(schemaFilePath)
+                    .validate(xml);
+            if (isValid == false) {
+                log.severe("XMLのスキーマチェックでNGだったため処理を中断します。");
+                return;
+            }
+       }
+ 
         // xmlデータを解析
         JmaXmlDataParser parser = new JmaXmlDataParser();
         boolean isSuccess = parser.parse(xml);

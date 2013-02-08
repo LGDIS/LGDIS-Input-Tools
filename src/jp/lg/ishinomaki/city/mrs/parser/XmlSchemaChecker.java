@@ -1,5 +1,5 @@
 //
-//  SchemaChecker.java
+//  XmlSchemaChecker.java
 //  LGDIS-Input-Tools
 //
 //  Copyright (C) 2012 ISHINOMAKI CITY OFFICE.
@@ -10,6 +10,8 @@ package jp.lg.ishinomaki.city.mrs.parser;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.xml.transform.Source;
@@ -17,8 +19,6 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
-
-import jp.lg.ishinomaki.city.mrs.utils.StringUtils;
 
 import org.xml.sax.SAXException;
 
@@ -32,11 +32,10 @@ public class XmlSchemaChecker {
     private static Logger log = Logger.getLogger(XmlSchemaChecker.class
             .getSimpleName());
 
-    /**
-     * シングルトン設計.<br>
-     * 自インスタンス変数
-     */
-    private static XmlSchemaChecker instance;
+    private static Map<String, XmlSchemaChecker> instanceMap;
+    static {
+        instanceMap = new HashMap<String, XmlSchemaChecker>();
+    }
 
     /**
      * XLMスキーマチェック用インスタンス
@@ -46,33 +45,25 @@ public class XmlSchemaChecker {
     public static Validator validator;
 
     /**
-     * XMLスキーマチェック不要フラグ. XMLスキーマファイル名が定義ファイルに定義されていない場合はチェックを行いません。
-     */
-    boolean disused = false;
-
-    /**
      * インスタンス取得
      * 
      * @return
      */
     public static XmlSchemaChecker getInstatnce(String schemaFilePath) {
+
+        XmlSchemaChecker instance = instanceMap.get(schemaFilePath);
         if (instance == null) {
             instance = new XmlSchemaChecker(schemaFilePath);
         }
+        instanceMap.put(schemaFilePath, instance);
+
         return instance;
     }
 
     /**
-     * シングルトン設計のためプライベートなコンストラクタ.
-     * 引数にスキーマファイルを指定する
+     * シングルトン設計のためプライベートなコンストラクタ. 引数にスキーマファイルを指定する
      */
     private XmlSchemaChecker(String schemaFilePath) {
-
-        // スキーマファイル名が定義ファイルに定義されていない場合はチェック不要フラグON
-        if (StringUtils.isBlank(schemaFilePath)) {
-            disused = true;
-            return;
-        }
 
         // 1. Lookup a factory for the W3C XML Schema language
         factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
@@ -97,11 +88,6 @@ public class XmlSchemaChecker {
      * @return
      */
     public boolean validate(String xml) {
-
-        // スキーマチェック不要フラグONの場合はチェック不要
-        if (disused) {
-            return true;
-        }
 
         // 4. Parse the document you want to check.
         Source source = new StreamSource(new ByteArrayInputStream(

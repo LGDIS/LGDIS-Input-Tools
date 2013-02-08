@@ -18,6 +18,7 @@ import jp.lg.ishinomaki.city.mrs.parser.ParserConfig;
 import jp.lg.ishinomaki.city.mrs.parser.XmlSchemaChecker;
 import jp.lg.ishinomaki.city.mrs.rest.IssuesPostController;
 import jp.lg.ishinomaki.city.mrs.utils.FileUtils;
+import jp.lg.ishinomaki.city.mrs.utils.StringUtils;
 
 import org.dom4j.CDATA;
 import org.dom4j.Document;
@@ -79,11 +80,14 @@ public class KsnXmlDataHandler implements PickupDataHandler {
         // xlmデータのスキーマチェックを実施
         // スキーマファイル名取得
         String schemaFilePath = ParserConfig.getInstance().getKsnSchemaFilePath();
-        boolean isValid = XmlSchemaChecker.getInstatnce(schemaFilePath)
-                .validate(xml);
-        if (isValid == false) {
-            log.severe("XMLのスキーマチェックでNGだったため処理を中断します。");
-            return;
+        // スキーマファイルの設定がある場合はスキーマチェック
+        if (StringUtils.isBlank(schemaFilePath) == false) {
+            boolean isValid = XmlSchemaChecker.getInstatnce(schemaFilePath)
+                    .validate(xml);
+            if (isValid == false) {
+                log.severe("XMLのスキーマチェックでNGだったため処理を中断します。");
+                return;
+            }
         }
 
         // xmlデータを解析
@@ -97,7 +101,7 @@ public class KsnXmlDataHandler implements PickupDataHandler {
         // 送信データを作成
         String sendData = createIssuesXmlAsString(parser);
 
-        System.out.println(sendData);
+        log.finest(sendData);
 
         // RedmineのRestApi(Post)実行
         IssuesPostController postController = new IssuesPostController();
