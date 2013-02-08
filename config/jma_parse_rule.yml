@@ -210,8 +210,6 @@ auto:
  launch: 
   earthquake_threashold: "3"
   tsunami_threashold: 2.2
-  title_header: "緊急プロジェクト"
-  identifier_header: "emergency"
  send: 
   earthquake_threashold: "6-"
   tsunami_threashold: 1.7

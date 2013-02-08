@@ -10,13 +10,10 @@ package jp.lg.ishinomaki.city.mrs.pickup;
 
 import java.io.FileWriter;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import jp.lg.ishinomaki.city.mrs.parser.JmaParseRule;
 import jp.lg.ishinomaki.city.mrs.parser.JmaXmlDataParser;
 import jp.lg.ishinomaki.city.mrs.parser.ParserConfig;
 import jp.lg.ishinomaki.city.mrs.parser.XmlSchemaChecker;
@@ -75,7 +72,7 @@ public class JmaXmlDataHandler implements PickupDataHandler {
         if (data == null || data.length == 0) {
             return;
         }
-        
+
         // 本文データをxml化
         String xml = null;
         try {
@@ -98,8 +95,8 @@ public class JmaXmlDataHandler implements PickupDataHandler {
                 log.severe("XMLのスキーマチェックでNGだったため処理を中断します。");
                 return;
             }
-       }
- 
+        }
+
         // xmlデータを解析
         JmaXmlDataParser parser = new JmaXmlDataParser();
         boolean isSuccess = parser.parse(xml);
@@ -141,21 +138,15 @@ public class JmaXmlDataHandler implements PickupDataHandler {
             Element project_id = issue.addElement("project_id");
             project_id.addText(ParserConfig.getInstance().getTestProjectId());
         } else {
-            // プロジェクト自動立ち上げフラグがONの場合
-            if (parser.isAutoLaunch()) {
-                // プロジェクト自動立ち上げフラグON
-                Element auto_launch = issue.addElement("auto_launch");
-                auto_launch.addText("1");
-                // プロジェクト識別子
-                Element project_id = issue.addElement("project_id");
-                project_id.addText(genProjectIdentifier(JmaParseRule.getInstance().getAutoLaunchIdentifierHeader()));
-                // TODO プロジェクトタイトルはパラメータ決定後に設定
-            } else {
-                // 固定のプロジェクトID設定
-                // プロジェクト自動立ち上げの場合は設定しない
-                Element project_id = issue.addElement("project_id");
-                project_id.addText(parser.getProjectId());
-            }
+            // 通常モードの場合はルールから取得したプロジェクトIDを設定
+            Element project_id = issue.addElement("project_id");
+            project_id.addText(parser.getProjectId());
+        }
+
+        // プロジェクト自動立ち上げフラグがONの場合
+        if (parser.isAutoLaunch()) {
+            Element auto_launch = issue.addElement("auto_launch");
+            auto_launch.addText("1");
         }
 
         // プロジェクト自動配信フラグがONの場合
@@ -213,24 +204,7 @@ public class JmaXmlDataHandler implements PickupDataHandler {
 
         return doc.asXML();
     }
-    
-    /**
-     * プロジェクト識別子の作成メソッド.<br>
-     * プロジェクト自動立ち上げ時のプロジェクト識別子を作成します
-     * 
-     * @param header
-     * @return
-     */
-    private String genProjectIdentifier(String header) {
-        Date nowDate = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        String dateString = sdf.format(nowDate);
-        if (header == null) {
-            return dateString;
-        }
-        return header + dateString;
-    }
-    
+
     /**
      * テスト用メソッド.<br>
      * createIssuesXmlAsStringメソッドで作成したXMLをファイルに出力する
