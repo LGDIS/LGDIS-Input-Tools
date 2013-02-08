@@ -504,10 +504,10 @@ public class JmaXmlDataParser extends XmlDataParser {
                     Node aNode = nodes.item(i);
 
                     // まずは該当Nodeを地理情報として使用できるかallowTypeを使用して確認
-                    String type = stringByXpath(xpath, "../@type", aNode); // Nodeの@typeを取得
-                    if (StringUtils.isBlank(type) == false) { // typeが設定されている場合は許可されたtypeか確認
-                        if (StringUtils.isBlank(allowType) == false) { // allowTypeの設定がない場合は全てOK
-                            if (type.equals(allowType) == false) { // type属性値が許可された値と異なるためこのデータはスキップ
+                    String type = stringByXpath(xpath, "../@type", aNode);  // Nodeの@typeを取得
+                    if (StringUtils.isBlank(type) == false) {               // typeが設定されている場合は許可されたtypeか確認
+                        if (StringUtils.isBlank(allowType) == false) {      // allowTypeの設定がない場合は全てOK
+                            if (type.equals(allowType) == false) {          // type属性値が許可された値と異なるためこのデータはスキップ
                                 continue;
                             }
                         }
