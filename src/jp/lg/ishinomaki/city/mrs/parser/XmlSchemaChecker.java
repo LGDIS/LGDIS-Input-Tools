@@ -40,9 +40,9 @@ public class XmlSchemaChecker {
     /**
      * XLMスキーマチェック用インスタンス
      */
-    public static SchemaFactory factory;
-    public static Schema schema;
-    public static Validator validator;
+    private SchemaFactory factory;
+    private Schema schema;
+    private Validator validator;
 
     /**
      * インスタンス取得
@@ -79,6 +79,7 @@ public class XmlSchemaChecker {
 
         // 3. Get a validator from the schema.
         validator = schema.newValidator();
+
     }
 
     /**
