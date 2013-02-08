@@ -10,10 +10,13 @@ package jp.lg.ishinomaki.city.mrs.pickup;
 
 import java.io.FileWriter;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import jp.lg.ishinomaki.city.mrs.parser.JmaParseRule;
 import jp.lg.ishinomaki.city.mrs.parser.JmaXmlDataParser;
 import jp.lg.ishinomaki.city.mrs.parser.ParserConfig;
 import jp.lg.ishinomaki.city.mrs.parser.XmlSchemaChecker;
@@ -140,8 +143,13 @@ public class JmaXmlDataHandler implements PickupDataHandler {
         } else {
             // プロジェクト自動立ち上げフラグがONの場合
             if (parser.isAutoLaunch()) {
+                // プロジェクト自動立ち上げフラグON
                 Element auto_launch = issue.addElement("auto_launch");
                 auto_launch.addText("1");
+                // プロジェクト識別子
+                Element project_id = issue.addElement("project_id");
+                project_id.addText(genProjectIdentifier(JmaParseRule.getInstance().getAutoLaunchIdentifierHeader()));
+                // TODO プロジェクトタイトルはパラメータ決定後に設定
             } else {
                 // 固定のプロジェクトID設定
                 // プロジェクト自動立ち上げの場合は設定しない
@@ -205,7 +213,24 @@ public class JmaXmlDataHandler implements PickupDataHandler {
 
         return doc.asXML();
     }
-
+    
+    /**
+     * プロジェクト識別子の作成メソッド.<br>
+     * プロジェクト自動立ち上げ時のプロジェクト識別子を作成します
+     * 
+     * @param header
+     * @return
+     */
+    private String genProjectIdentifier(String header) {
+        Date nowDate = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        String dateString = sdf.format(nowDate);
+        if (header == null) {
+            return dateString;
+        }
+        return header + dateString;
+    }
+    
     /**
      * テスト用メソッド.<br>
      * createIssuesXmlAsStringメソッドで作成したXMLをファイルに出力する

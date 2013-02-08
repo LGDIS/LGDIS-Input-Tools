@@ -464,7 +464,6 @@ public class JmaXmlDataParser extends XmlDataParser {
      * @param geoKey
      *            coordinate or line or polygon or Location
      */
-    @SuppressWarnings("unchecked")
     private void parseGeography(List<Map<String, Object>> infos, XPath xpath,
             Document doc, String geoKey) {
 

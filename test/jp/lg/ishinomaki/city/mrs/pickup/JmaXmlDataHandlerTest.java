@@ -4,10 +4,21 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 import jp.lg.ishinomaki.city.mrs.parser.JmaXmlDataParser;
 import jp.lg.ishinomaki.city.mrs.parser.ParserConfig;
@@ -18,6 +29,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 public class JmaXmlDataHandlerTest {
 
@@ -40,7 +54,8 @@ public class JmaXmlDataHandlerTest {
     }
 
     @Test
-    public void 通常モード指定() {
+    public void 通常モード指定() throws ParserConfigurationException, SAXException,
+            IOException, XPathExpressionException {
         // モード=0を指定
         JmaXmlDataHandler target = new JmaXmlDataHandler(0);
 
@@ -55,7 +70,7 @@ public class JmaXmlDataHandlerTest {
         when(mock.getXmlHead()).thenReturn("head");
         Map<String, String> issueExtraMap = new HashMap<String, String>();
         issueExtraMap.put("abc", "def");
-        issueExtraMap.put("012", "345");
+        issueExtraMap.put("ghk", "lmn");
         when(mock.getIssueExtraMap()).thenReturn(issueExtraMap);
         List<Map<String, String>> issueGeographyMaps = new ArrayList<Map<String, String>>();
         Map<String, String> geoMap1 = new HashMap<String, String>();
@@ -72,13 +87,33 @@ public class JmaXmlDataHandlerTest {
         issueGeographyMaps.add(geoMap4);
         when(mock.getIssueGeographyMaps()).thenReturn(issueGeographyMaps);
 
+        // 送信用XMLデータ
         String actual = target.createIssuesXmlAsString(mock);
-        String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<issue><project_id>10000</project_id><tracker_id>20000</tracker_id><xml_control><![CDATA[control]]></xml_control><xml_head><![CDATA[head]]></xml_head><xml_body><![CDATA[body]]></xml_body><abc>def</abc><012>345</012><issue_geographies type=\"array\"><issue_geography><geo1>日本</geo1></issue_geography><issue_geography><geo1>アメリカ</geo1></issue_geography><issue_geography><geo2>フランス</geo2></issue_geography><issue_geography><geo2>カナダ</geo2></issue_geography></issue_geographies></issue>";
-        assertThat(actual, is(expected));
+        
+        // 送信用XMLデータの検証
+        InputStream bis = new ByteArrayInputStream(actual.getBytes());
+        DocumentBuilder db = DocumentBuilderFactory.newInstance()
+                .newDocumentBuilder();
+        Document doc = db.parse(bis);
+        XPath xpath = XPathFactory.newInstance().newXPath();
+        
+        assertThat(xpath.evaluate("/issue/project_id/text()", doc), is("10000"));
+        assertThat(xpath.evaluate("/issue/tracker_id/text()", doc), is("20000"));
+        assertThat(xpath.evaluate("/issue/xml_control/text()", doc), is("control"));
+        assertThat(xpath.evaluate("/issue/xml_head/text()", doc), is("head"));
+        assertThat(xpath.evaluate("/issue/xml_body/text()", doc), is("body"));
+        assertThat(xpath.evaluate("/issue/abc/text()", doc), is("def"));
+        assertThat(xpath.evaluate("/issue/ghk/text()", doc), is("lmn"));
+        NodeList geoNodes = (NodeList)xpath.evaluate("/issue/issue_geographies/issue_geography/geo1/text()", doc, XPathConstants.NODESET);
+        assertThat(geoNodes.item(0).getNodeValue(), is("日本"));
+        assertThat(geoNodes.item(1).getNodeValue(), is("アメリカ"));
+        NodeList geoNodes2 = (NodeList)xpath.evaluate("/issue/issue_geographies/issue_geography/geo2/text()", doc, XPathConstants.NODESET);
+        assertThat(geoNodes2.item(0).getNodeValue(), is("フランス"));
+        assertThat(geoNodes2.item(1).getNodeValue(), is("カナダ"));
     }
 
     @Test
-    public void 訓練モード指定() {
+    public void 訓練モード指定() throws Exception {
         // モード=1を指定
         JmaXmlDataHandler target = new JmaXmlDataHandler(1);
 
@@ -92,7 +127,7 @@ public class JmaXmlDataHandlerTest {
         when(mock.getXmlHead()).thenReturn("head");
         Map<String, String> issueExtraMap = new HashMap<String, String>();
         issueExtraMap.put("abc", "def");
-        issueExtraMap.put("012", "345");
+        issueExtraMap.put("ghk", "lmn");
         when(mock.getIssueExtraMap()).thenReturn(issueExtraMap);
         List<Map<String, String>> issueGeographyMaps = new ArrayList<Map<String, String>>();
         Map<String, String> geoMap1 = new HashMap<String, String>();
@@ -112,14 +147,31 @@ public class JmaXmlDataHandlerTest {
         // 訓練のプロジェクトID
         String projectId = ParserConfig.getInstance().getTrainingProjectId();
         String actual = target.createIssuesXmlAsString(mock);
-        String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<issue><project_id>"
-                + projectId
-                + "</project_id><tracker_id>1</tracker_id><xml_control><![CDATA[control]]></xml_control><xml_head><![CDATA[head]]></xml_head><xml_body><![CDATA[body]]></xml_body><abc>def</abc><012>345</012><issue_geographies type=\"array\"><issue_geography><geo1>日本</geo1></issue_geography><issue_geography><geo1>アメリカ</geo1></issue_geography><issue_geography><geo2>フランス</geo2></issue_geography><issue_geography><geo2>カナダ</geo2></issue_geography></issue_geographies></issue>";
-        assertThat(actual, is(expected));
+        
+        // 送信用XMLデータの検証
+        InputStream bis = new ByteArrayInputStream(actual.getBytes());
+        DocumentBuilder db = DocumentBuilderFactory.newInstance()
+                .newDocumentBuilder();
+        Document doc = db.parse(bis);
+        XPath xpath = XPathFactory.newInstance().newXPath();
+        
+        assertThat(xpath.evaluate("/issue/project_id/text()", doc), is(projectId));
+        assertThat(xpath.evaluate("/issue/tracker_id/text()", doc), is("1"));
+        assertThat(xpath.evaluate("/issue/xml_control/text()", doc), is("control"));
+        assertThat(xpath.evaluate("/issue/xml_head/text()", doc), is("head"));
+        assertThat(xpath.evaluate("/issue/xml_body/text()", doc), is("body"));
+        assertThat(xpath.evaluate("/issue/abc/text()", doc), is("def"));
+        assertThat(xpath.evaluate("/issue/ghk/text()", doc), is("lmn"));
+        NodeList geoNodes = (NodeList)xpath.evaluate("/issue/issue_geographies/issue_geography/geo1/text()", doc, XPathConstants.NODESET);
+        assertThat(geoNodes.item(0).getNodeValue(), is("日本"));
+        assertThat(geoNodes.item(1).getNodeValue(), is("アメリカ"));
+        NodeList geoNodes2 = (NodeList)xpath.evaluate("/issue/issue_geographies/issue_geography/geo2/text()", doc, XPathConstants.NODESET);
+        assertThat(geoNodes2.item(0).getNodeValue(), is("フランス"));
+        assertThat(geoNodes2.item(1).getNodeValue(), is("カナダ"));
     }
 
     @Test
-    public void 試験モード指定() {
+    public void 試験モード指定() throws ParserConfigurationException, XPathExpressionException, SAXException, IOException {
         // モード=2を指定
         JmaXmlDataHandler target = new JmaXmlDataHandler(2);
 
@@ -133,7 +185,7 @@ public class JmaXmlDataHandlerTest {
         when(mock.getXmlHead()).thenReturn("head");
         Map<String, String> issueExtraMap = new HashMap<String, String>();
         issueExtraMap.put("abc", "def");
-        issueExtraMap.put("012", "345");
+        issueExtraMap.put("ghk", "lmn");
         when(mock.getIssueExtraMap()).thenReturn(issueExtraMap);
         List<Map<String, String>> issueGeographyMaps = new ArrayList<Map<String, String>>();
         Map<String, String> geoMap1 = new HashMap<String, String>();
@@ -153,10 +205,27 @@ public class JmaXmlDataHandlerTest {
         // 試験のプロジェクトID
         String projectId = ParserConfig.getInstance().getTestProjectId();
         String actual = target.createIssuesXmlAsString(mock);
-        String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<issue><project_id>"
-                + projectId
-                + "</project_id><tracker_id>1</tracker_id><xml_control><![CDATA[control]]></xml_control><xml_head><![CDATA[head]]></xml_head><xml_body><![CDATA[body]]></xml_body><abc>def</abc><012>345</012><issue_geographies type=\"array\"><issue_geography><geo1>日本</geo1></issue_geography><issue_geography><geo1>アメリカ</geo1></issue_geography><issue_geography><geo2>フランス</geo2></issue_geography><issue_geography><geo2>カナダ</geo2></issue_geography></issue_geographies></issue>";
-        assertThat(actual, is(expected));
+        
+        // 送信用XMLデータの検証
+        InputStream bis = new ByteArrayInputStream(actual.getBytes());
+        DocumentBuilder db = DocumentBuilderFactory.newInstance()
+                .newDocumentBuilder();
+        Document doc = db.parse(bis);
+        XPath xpath = XPathFactory.newInstance().newXPath();
+        
+        assertThat(xpath.evaluate("/issue/project_id/text()", doc), is(projectId));
+        assertThat(xpath.evaluate("/issue/tracker_id/text()", doc), is("1"));
+        assertThat(xpath.evaluate("/issue/xml_control/text()", doc), is("control"));
+        assertThat(xpath.evaluate("/issue/xml_head/text()", doc), is("head"));
+        assertThat(xpath.evaluate("/issue/xml_body/text()", doc), is("body"));
+        assertThat(xpath.evaluate("/issue/abc/text()", doc), is("def"));
+        assertThat(xpath.evaluate("/issue/ghk/text()", doc), is("lmn"));
+        NodeList geoNodes = (NodeList)xpath.evaluate("/issue/issue_geographies/issue_geography/geo1/text()", doc, XPathConstants.NODESET);
+        assertThat(geoNodes.item(0).getNodeValue(), is("日本"));
+        assertThat(geoNodes.item(1).getNodeValue(), is("アメリカ"));
+        NodeList geoNodes2 = (NodeList)xpath.evaluate("/issue/issue_geographies/issue_geography/geo2/text()", doc, XPathConstants.NODESET);
+        assertThat(geoNodes2.item(0).getNodeValue(), is("フランス"));
+        assertThat(geoNodes2.item(1).getNodeValue(), is("カナダ"));
     }
 
     @Test
@@ -173,7 +242,7 @@ public class JmaXmlDataHandlerTest {
         when(mock.getXmlHead()).thenReturn("head");
         Map<String, String> issueExtraMap = new HashMap<String, String>();
         issueExtraMap.put("abc", "def");
-        issueExtraMap.put("012", "345");
+        issueExtraMap.put("ghk", "lmn");
         when(mock.getIssueExtraMap()).thenReturn(issueExtraMap);
         List<Map<String, String>> issueGeographyMaps = new ArrayList<Map<String, String>>();
         Map<String, String> geoMap1 = new HashMap<String, String>();
@@ -191,8 +260,32 @@ public class JmaXmlDataHandlerTest {
         when(mock.getIssueGeographyMaps()).thenReturn(issueGeographyMaps);
 
         String actual = target.createIssuesXmlAsString(mock);
-        String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<issue><auto_launch>1</auto_launch><auto_send>1</auto_send><tracker_id>1</tracker_id><xml_control><![CDATA[control]]></xml_control><xml_head><![CDATA[head]]></xml_head><xml_body><![CDATA[body]]></xml_body><abc>def</abc><012>345</012><issue_geographies type=\"array\"><issue_geography><geo1>日本</geo1></issue_geography><issue_geography><geo1>アメリカ</geo1></issue_geography><issue_geography><geo2>フランス</geo2></issue_geography><issue_geography><geo2>カナダ</geo2></issue_geography></issue_geographies></issue>";
-        assertThat(actual, is(expected));
+        
+        // 送信用XMLデータの検証
+        InputStream bis = new ByteArrayInputStream(actual.getBytes());
+        DocumentBuilder db = DocumentBuilderFactory.newInstance()
+                .newDocumentBuilder();
+        Document doc = db.parse(bis);
+        XPath xpath = XPathFactory.newInstance().newXPath();
+        
+        assertThat(xpath.evaluate("/issue/auto_launch/text()", doc), is("1"));
+        assertThat(xpath.evaluate("/issue/auto_send/text()", doc), is("1"));
+        assertThat(xpath.evaluate("/issue/tracker_id/text()", doc), is("1"));
+        assertThat(xpath.evaluate("/issue/xml_control/text()", doc), is("control"));
+        assertThat(xpath.evaluate("/issue/xml_head/text()", doc), is("head"));
+        assertThat(xpath.evaluate("/issue/xml_body/text()", doc), is("body"));
+        assertThat(xpath.evaluate("/issue/abc/text()", doc), is("def"));
+        assertThat(xpath.evaluate("/issue/ghk/text()", doc), is("lmn"));
+        NodeList geoNodes = (NodeList)xpath.evaluate("/issue/issue_geographies/issue_geography/geo1/text()", doc, XPathConstants.NODESET);
+        assertThat(geoNodes.item(0).getNodeValue(), is("日本"));
+        assertThat(geoNodes.item(1).getNodeValue(), is("アメリカ"));
+        NodeList geoNodes2 = (NodeList)xpath.evaluate("/issue/issue_geographies/issue_geography/geo2/text()", doc, XPathConstants.NODESET);
+        assertThat(geoNodes2.item(0).getNodeValue(), is("フランス"));
+        assertThat(geoNodes2.item(1).getNodeValue(), is("カナダ"));
+        
+        // プロジェクトIDは時刻を含む自動生成文字列のため存在のみ確認
+        assertThat(xpath.evaluate("/issue/project_id/text()", doc), is(notNullValue()));
+
     }
 
     @Test
@@ -210,7 +303,7 @@ public class JmaXmlDataHandlerTest {
         when(mock.getXmlHead()).thenReturn("head");
         Map<String, String> issueExtraMap = new HashMap<String, String>();
         issueExtraMap.put("abc", "def");
-        issueExtraMap.put("012", "345");
+        issueExtraMap.put("ghk", "lmn");
         when(mock.getIssueExtraMap()).thenReturn(issueExtraMap);
         List<Map<String, String>> issueGeographyMaps = new ArrayList<Map<String, String>>();
         Map<String, String> geoMap1 = new HashMap<String, String>();
@@ -228,8 +321,29 @@ public class JmaXmlDataHandlerTest {
         when(mock.getIssueGeographyMaps()).thenReturn(issueGeographyMaps);
 
         String actual = target.createIssuesXmlAsString(mock);
-        String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<issue><project_id>10000</project_id><tracker_id>20000</tracker_id><xml_control><![CDATA[control]]></xml_control><xml_head><![CDATA[head]]></xml_head><xml_body><![CDATA[body]]></xml_body><abc>def</abc><012>345</012><issue_geographies type=\"array\"><issue_geography><geo1>日本</geo1></issue_geography><issue_geography><geo1>アメリカ</geo1></issue_geography><issue_geography><geo2>フランス</geo2></issue_geography><issue_geography><geo2>カナダ</geo2></issue_geography></issue_geographies></issue>";
-        assertThat(actual, is(expected));
+
+        // 送信用XMLデータの検証
+        InputStream bis = new ByteArrayInputStream(actual.getBytes());
+        DocumentBuilder db = DocumentBuilderFactory.newInstance()
+                .newDocumentBuilder();
+        Document doc = db.parse(bis);
+        XPath xpath = XPathFactory.newInstance().newXPath();
+        
+        assertThat(xpath.evaluate("/issue/auto_launch/text()", doc), is(""));
+        assertThat(xpath.evaluate("/issue/auto_send/text()", doc), is(""));
+        assertThat(xpath.evaluate("/issue/project_id/text()", doc), is("10000"));
+        assertThat(xpath.evaluate("/issue/tracker_id/text()", doc), is("20000"));
+        assertThat(xpath.evaluate("/issue/xml_control/text()", doc), is("control"));
+        assertThat(xpath.evaluate("/issue/xml_head/text()", doc), is("head"));
+        assertThat(xpath.evaluate("/issue/xml_body/text()", doc), is("body"));
+        assertThat(xpath.evaluate("/issue/abc/text()", doc), is("def"));
+        assertThat(xpath.evaluate("/issue/ghk/text()", doc), is("lmn"));
+        NodeList geoNodes = (NodeList)xpath.evaluate("/issue/issue_geographies/issue_geography/geo1/text()", doc, XPathConstants.NODESET);
+        assertThat(geoNodes.item(0).getNodeValue(), is("日本"));
+        assertThat(geoNodes.item(1).getNodeValue(), is("アメリカ"));
+        NodeList geoNodes2 = (NodeList)xpath.evaluate("/issue/issue_geographies/issue_geography/geo2/text()", doc, XPathConstants.NODESET);
+        assertThat(geoNodes2.item(0).getNodeValue(), is("フランス"));
+        assertThat(geoNodes2.item(1).getNodeValue(), is("カナダ"));
     }
 
 }

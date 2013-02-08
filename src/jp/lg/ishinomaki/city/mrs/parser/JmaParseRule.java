@@ -48,7 +48,10 @@ public class JmaParseRule {
     public static final String SEND = "send";
     public static final String DEFAULT = "default";
     public static final String ALLOW_TYPE = "allow_type";
-
+    public static final String TITLE_HEADER = "title_header";
+    public static final String IDENTIFIER_HEADER = "identifier_header";
+    
+    
     /**
      * yml定義内容を保持するテーブル
      */
@@ -154,6 +157,18 @@ public class JmaParseRule {
      */
     private Double autoSendTsunamiHeightThreashold;
 
+    /**
+     * プロジェクト自動立ち上げ時のプロジェクト名ヘッダー部.<br>
+     * ヘッダー部のあとに日時を付与して一意な名前とする
+     */
+    private String autoLaunchTitleHeader;
+    
+    /**
+     * プロジェクト自動立ち上げ時のプロジェクト識別子ヘッダー部.<br>
+     * ヘッダー部のあとに日時を付与して一意な名前とする
+     */
+    private String autoLaunchIdentifierHeader;
+    
     /**
      * シングルトンインスタンス
      */
@@ -281,6 +296,11 @@ public class JmaParseRule {
             autoSendTsunamiHeightThreashold = (Double) sendMap
                     .get(TSUNAMI_THRESHOLD);
 
+            // プロジェクト名称のヘッダー部
+            autoLaunchTitleHeader = (String) launchMap.get(TITLE_HEADER);
+            // プロジェクト識別子のヘッダー部
+            autoLaunchIdentifierHeader = (String) launchMap.get(IDENTIFIER_HEADER);
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -399,6 +419,14 @@ public class JmaParseRule {
 
     public String getDefaultTrackerId() {
         return defaultTrackerId;
+    }
+
+    public String getAutoLaunchTitleHeader() {
+        return autoLaunchTitleHeader;
+    }
+
+    public String getAutoLaunchIdentifierHeader() {
+        return autoLaunchIdentifierHeader;
     }
 
 }
