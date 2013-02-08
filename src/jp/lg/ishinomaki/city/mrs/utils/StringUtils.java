@@ -119,10 +119,49 @@ public class StringUtils {
         }
         // !3つ目に深さの要素が存在する場合があるが深さは使用しないため無視する
 
+        // 度分の形式の場合は度形式に変換する
+        // 度分か度かの見分けは緯度の整数部が3桁以上あるかで判断する
+        // 3桁以上 -> 度分 それ以外は度
+        boolean isDOFUNBYOU = isDOFUNBYOUbyLatitude(lat);
+        if (isDOFUNBYOU) {
+            lat = convertDOFUNBYOUtoDO(lat);
+            lng = convertDOFUNBYOUtoDO(lng);
+        }
         // (+136,+35)形式の文字列を作成
         StringBuilder sb = new StringBuilder();
         sb.append("(").append(lng).append(",").append(lat).append(")");
         return sb.toString();
+    }
+
+    /**
+     * 引数の文字列が度分秒の形式か度の形式かを判定.<br>
+     * 引数で与えられる文字列は緯度のみを想定.<br>
+     * 文字列の整数部が3桁以上の場合は度分秒形式、それ以外の場合は度形式と判断する
+     * 
+     * @param val
+     * @return
+     */
+    public static boolean isDOFUNBYOUbyLatitude(String lat) {
+        // まずは先頭の符号を除去
+        if (lat.startsWith("+") || lat.startsWith("-")) {
+            lat = lat.substring(1);
+        }
+
+        int indexPeriod = lat.indexOf(".");
+        if (indexPeriod == -1) {
+            if (lat.length() >= 3) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            String integerPart = lat.substring(0, indexPeriod);
+            if (integerPart.length() >= 3) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 
     /**
@@ -184,6 +223,63 @@ public class StringUtils {
     }
 
     /**
+     * 位置情報の度分を度に変換
+     * 
+     * @param str
+     * @return
+     */
+    public static String convertDOFUNBYOUtoDO(String str) {
+
+        // 簡単な引数チェック
+        if (StringUtils.isBlank(str)) {
+            return null;
+        }
+
+        // 符号付きの場合は符号を対比
+        String sign = "";
+        if (str.startsWith("+") || str.startsWith("-")) {
+            sign = str.substring(0, 1);
+            str = str.substring(1);
+        }
+
+        String sDO; // 度を保存する変数
+        String sFUN; // 分を保存する変数
+        String sBYOU; // 秒を保存する変数
+        int indexPeriod = str.indexOf("."); // 小数点のインデックス
+        // 度と分と秒部分を取得
+        if (indexPeriod == -1) {
+            sDO = str.substring(0, str.length() - 2);
+            sFUN = str.substring(str.length() - 2);
+            sBYOU = "00";
+        } else {
+            sDO = str.substring(0, indexPeriod - 2);
+            sFUN = str.substring(indexPeriod - 2, indexPeriod);
+            sBYOU = str.substring(indexPeriod + 1);
+        }
+
+        double dDO = Double.parseDouble(sDO);
+        // 分を60で割る
+        double dFUN = Double.parseDouble(sFUN);
+        dFUN = dFUN / 60;
+        // 秒を3600で割る
+        double dBYOU = Double.parseDouble(sBYOU);
+        dBYOU = dBYOU / 3600;
+
+        // 度分秒を全て足して度のみの情報として文字列化
+        double dDegree = dDO + dFUN + dBYOU;
+        String sDegree = String.valueOf(dDegree);
+        // 小数点2桁目で文字列を切る
+        int indexPeriod2 = sDegree.indexOf(".");
+        if (indexPeriod2 == -1) {
+            return sign + sDegree;
+        } else if (indexPeriod2 + 3 > sDegree.length()) {
+            return sign + sDegree;
+        } else {
+            return sign + sDegree.substring(0, indexPeriod2 + 3);
+        }
+    }
+
+    /**
      * XML変換エンジン呼び出しです。
      * 
      * @param source
@@ -199,7 +295,6 @@ public class StringUtils {
         Transformer transformer = TransformerFactory.newInstance()
                 .newTransformer();
         // XML変換のルールを設定します
-        // XML宣言
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         // 文字コード
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
