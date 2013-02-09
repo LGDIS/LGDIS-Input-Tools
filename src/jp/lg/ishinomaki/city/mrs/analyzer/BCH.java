@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import jp.lg.ishinomaki.city.mrs.receiver.ReceiverConfig;
+import jp.lg.ishinomaki.city.mrs.utils.StringUtils;
 
 /**
  * 電文制御ヘッダー(BCH)インスタンス<br>
@@ -22,11 +23,6 @@ import jp.lg.ishinomaki.city.mrs.receiver.ReceiverConfig;
  * 
  */
 public class BCH {
-
-    /**
-     * BCHのバイト配列
-     */
-    private byte[] byteBch = null;
 
     /**
      * BCHのビット符号文字列表現
@@ -53,11 +49,6 @@ public class BCH {
     public final static String KEY_BCHLENGTH = "bchLength";
 
     /**
-     * 予備1
-     */
-    public final static String KEY_RESERVE1 = "reserve1";
-
-    /**
      * 電文順序番号
      */
     public final static String KEY_SEQUENCENO = "sequenceNo";
@@ -71,11 +62,6 @@ public class BCH {
      * 地震フラグ
      */
     public final static String KEY_EMERGENCYTYPE = "emergencyType";
-
-    /**
-     * 予備2
-     */
-    public final static String KEY_RESERVE2 = "reserve2";
 
     /**
      * テストフラグ
@@ -106,11 +92,6 @@ public class BCH {
      * データ種別
      */
     public final static String KEY_DATATYPE = "dataType";
-
-    /**
-     * 未使用
-     */
-    public final static String KEY_RESERVE3 = "reserve3";
 
     /**
      * 電文情報(BIF) 再送フラグ
@@ -388,18 +369,10 @@ public class BCH {
         bchMap = new HashMap<String, String>();
 
         // 引数データから先頭20オクテットを取得(この部分がBCHの領域)
-        this.byteBch = Arrays.copyOf(data, 20);
-
-        // byte[]を2進数文字列に変換
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < byteBch.length; i++) {
-            // byte 値 b を、符号拡張なしで
-            // charへ変換したい場合には、符号拡張を行わないようにするために、ビットマスクを使用しなければなりません。
-            int c = byteBch[i] & 0xff;
-            sb.append(fullZero(Integer.toBinaryString(c), 8));
-        }
-        this.strBch = sb.toString();
-
+        byte[] byteBch = Arrays.copyOf(data, 20);
+        // byte[]を2進数表現の文字列に変換
+        this.strBch = StringUtils.toBinaryString(byteBch);
+        
         // format定義に従って分割しMapに保存
         List<Map<String, Integer>> divider = (List<Map<String, Integer>>) ReceiverConfig
                 .getInstance().getBch_divider();
@@ -422,15 +395,6 @@ public class BCH {
     }
 
     /**
-     * BCHのbyte配列表現を取得します。
-     * 
-     * @return byte[] BCH内容
-     */
-    public byte[] getByteBch() {
-        return this.byteBch;
-    }
-
-    /**
      * BCHの文字列表現を取得します。
      * 
      * @return String BCH内容
@@ -439,21 +403,6 @@ public class BCH {
         return this.strBch;
     }
 
-    /**
-     * 0埋め処理用ユーティリティメソッド
-     * 
-     * @param tgt
-     * @param figure
-     * @return
-     */
-    private static String fullZero(String tgt, int figure) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < figure - tgt.length(); i++) {
-            sb.append("0");
-        }
-        sb.append(tgt);
-        return sb.toString();
-    }
 
     /**
      * メッセージの文字列表現

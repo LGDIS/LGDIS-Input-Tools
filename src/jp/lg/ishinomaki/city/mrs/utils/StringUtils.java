@@ -31,6 +31,38 @@ import org.w3c.dom.Node;
 public class StringUtils {
 
     /**
+     * byte[]配列を2進数文字列に変換
+     * @param data
+     * @return
+     */
+    public static String toBinaryString(byte[] data) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < data.length; i++) {
+            // byte 値 b を、符号拡張なしで
+            // charへ変換したい場合には、符号拡張を行わないようにするために、ビットマスクを使用しなければなりません。
+            int c = data[i] & 0xff;
+            sb.append(fillZero(Integer.toBinaryString(c), 8));
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 0埋め処理用ユーティリティメソッド
+     * 
+     * @param tgt
+     * @param figure
+     * @return
+     */
+    public static String fillZero(String str, int figure) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < figure - str.length(); i++) {
+            sb.append("0");
+        }
+        sb.append(str);
+        return sb.toString();
+    }
+
+    /**
      * 引数の文字列がnullまたは空文字または空白文字だけの場合はtrueを返却します。
      * 
      * @param s
