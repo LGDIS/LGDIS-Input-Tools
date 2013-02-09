@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
+import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.apache.tools.tar.TarEntry;
@@ -31,60 +32,76 @@ import org.apache.tools.tar.TarInputStream;
 public class ArchiveUtils {
 
     /**
-     * gzip形式のバイト配列を解凍しバイト配列形式で返却
+     * gzip形式のバイト配列を解凍しバイト配列形式で返却.<br>
+     * ファイルがgzip圧縮されていることを想定(ディレクトリのgzip圧縮は想定外)
      * 
      * @param raw
      * @return
      */
     public static byte[] ungzip(byte[] raw) {
         byte[] result = null;
+        InputStream is = null;
+        OutputStream os = null;
         try {
-            InputStream is = new BufferedInputStream(new GZIPInputStream(
+            is = new BufferedInputStream(new GZIPInputStream(
                     new ByteArrayInputStream(raw)));
             ByteArrayOutputStream ba = new ByteArrayOutputStream();
-            OutputStream os = new BufferedOutputStream(ba);
+            os = new BufferedOutputStream(ba);
             int c;
             while ((c = is.read()) != -1) {
                 os.write(c);
             }
             os.flush();
-
             result = ba.toByteArray();
-
-            is.close();
-            os.close();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+                os.close();
+            } catch (Exception e) {
+            }
         }
-
         return result;
     }
 
     /**
-     * zip形式のバイト配列を解凍しバイト配列形式で返却
+     * zip形式のバイト配列を解凍しバイト配列形式で返却.<br>
+     * ファイルがzip圧縮されていることを想定(ディレクトリのzip圧縮は想定外)
      * 
      * @param raw
      * @return
      */
-    public static byte[] unzip(byte[] raw) {
+    public static byte[] unzip(byte[] data) {
         byte[] result = null;
+        ZipInputStream zis = null;
+        OutputStream os = null;
         try {
-            InputStream is = new BufferedInputStream(new ZipInputStream(
-                    new ByteArrayInputStream(raw)));
-            ByteArrayOutputStream ba = new ByteArrayOutputStream();
-            OutputStream os = new BufferedOutputStream(ba);
-            int c;
-            while ((c = is.read()) != -1) {
-                os.write(c);
+            // zipファイルを読み込み
+            zis = new ZipInputStream(new ByteArrayInputStream(data));
+            // zip内のファイルを処理
+            // ！ディレクトリを想定していないためzip内にはファイルが1つであることを想定！
+            ZipEntry entry = zis.getNextEntry();
+            if (entry != null) {
+                ByteArrayOutputStream ba = new ByteArrayOutputStream();
+                os = new BufferedOutputStream(ba);
+                int c;
+                while ((c = zis.read()) != -1) {
+                    os.write(c);
+                }
+                os.flush();
+
+                result = ba.toByteArray();
+
             }
-            os.flush();
-
-            result = ba.toByteArray();
-
-            is.close();
-            os.close();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                zis.close();
+                os.close();
+            } catch (Exception e) {
+            }
         }
         return result;
     }

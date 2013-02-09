@@ -89,25 +89,30 @@ public class JmaXmlDataHandlerTest {
 
         // 送信用XMLデータ
         String actual = target.createIssuesXmlAsString(mock);
-        
+
         // 送信用XMLデータの検証
         InputStream bis = new ByteArrayInputStream(actual.getBytes());
         DocumentBuilder db = DocumentBuilderFactory.newInstance()
                 .newDocumentBuilder();
         Document doc = db.parse(bis);
         XPath xpath = XPathFactory.newInstance().newXPath();
-        
+
         assertThat(xpath.evaluate("/issue/project_id/text()", doc), is("10000"));
         assertThat(xpath.evaluate("/issue/tracker_id/text()", doc), is("20000"));
-        assertThat(xpath.evaluate("/issue/xml_control/text()", doc), is("control"));
+        assertThat(xpath.evaluate("/issue/xml_control/text()", doc),
+                is("control"));
         assertThat(xpath.evaluate("/issue/xml_head/text()", doc), is("head"));
         assertThat(xpath.evaluate("/issue/xml_body/text()", doc), is("body"));
         assertThat(xpath.evaluate("/issue/abc/text()", doc), is("def"));
         assertThat(xpath.evaluate("/issue/ghk/text()", doc), is("lmn"));
-        NodeList geoNodes = (NodeList)xpath.evaluate("/issue/issue_geographies/issue_geography/geo1/text()", doc, XPathConstants.NODESET);
+        NodeList geoNodes = (NodeList) xpath.evaluate(
+                "/issue/issue_geographies/issue_geography/geo1/text()", doc,
+                XPathConstants.NODESET);
         assertThat(geoNodes.item(0).getNodeValue(), is("日本"));
         assertThat(geoNodes.item(1).getNodeValue(), is("アメリカ"));
-        NodeList geoNodes2 = (NodeList)xpath.evaluate("/issue/issue_geographies/issue_geography/geo2/text()", doc, XPathConstants.NODESET);
+        NodeList geoNodes2 = (NodeList) xpath.evaluate(
+                "/issue/issue_geographies/issue_geography/geo2/text()", doc,
+                XPathConstants.NODESET);
         assertThat(geoNodes2.item(0).getNodeValue(), is("フランス"));
         assertThat(geoNodes2.item(1).getNodeValue(), is("カナダ"));
     }
@@ -147,31 +152,38 @@ public class JmaXmlDataHandlerTest {
         // 訓練のプロジェクトID
         String projectId = ParserConfig.getInstance().getTrainingProjectId();
         String actual = target.createIssuesXmlAsString(mock);
-        
+
         // 送信用XMLデータの検証
         InputStream bis = new ByteArrayInputStream(actual.getBytes());
         DocumentBuilder db = DocumentBuilderFactory.newInstance()
                 .newDocumentBuilder();
         Document doc = db.parse(bis);
         XPath xpath = XPathFactory.newInstance().newXPath();
-        
-        assertThat(xpath.evaluate("/issue/project_id/text()", doc), is(projectId));
+
+        assertThat(xpath.evaluate("/issue/project_id/text()", doc),
+                is(projectId));
         assertThat(xpath.evaluate("/issue/tracker_id/text()", doc), is("1"));
-        assertThat(xpath.evaluate("/issue/xml_control/text()", doc), is("control"));
+        assertThat(xpath.evaluate("/issue/xml_control/text()", doc),
+                is("control"));
         assertThat(xpath.evaluate("/issue/xml_head/text()", doc), is("head"));
         assertThat(xpath.evaluate("/issue/xml_body/text()", doc), is("body"));
         assertThat(xpath.evaluate("/issue/abc/text()", doc), is("def"));
         assertThat(xpath.evaluate("/issue/ghk/text()", doc), is("lmn"));
-        NodeList geoNodes = (NodeList)xpath.evaluate("/issue/issue_geographies/issue_geography/geo1/text()", doc, XPathConstants.NODESET);
+        NodeList geoNodes = (NodeList) xpath.evaluate(
+                "/issue/issue_geographies/issue_geography/geo1/text()", doc,
+                XPathConstants.NODESET);
         assertThat(geoNodes.item(0).getNodeValue(), is("日本"));
         assertThat(geoNodes.item(1).getNodeValue(), is("アメリカ"));
-        NodeList geoNodes2 = (NodeList)xpath.evaluate("/issue/issue_geographies/issue_geography/geo2/text()", doc, XPathConstants.NODESET);
+        NodeList geoNodes2 = (NodeList) xpath.evaluate(
+                "/issue/issue_geographies/issue_geography/geo2/text()", doc,
+                XPathConstants.NODESET);
         assertThat(geoNodes2.item(0).getNodeValue(), is("フランス"));
         assertThat(geoNodes2.item(1).getNodeValue(), is("カナダ"));
     }
 
     @Test
-    public void 試験モード指定() throws ParserConfigurationException, XPathExpressionException, SAXException, IOException {
+    public void 試験モード指定() throws ParserConfigurationException,
+            XPathExpressionException, SAXException, IOException {
         // モード=2を指定
         JmaXmlDataHandler target = new JmaXmlDataHandler(2);
 
@@ -205,25 +217,31 @@ public class JmaXmlDataHandlerTest {
         // 試験のプロジェクトID
         String projectId = ParserConfig.getInstance().getTestProjectId();
         String actual = target.createIssuesXmlAsString(mock);
-        
+
         // 送信用XMLデータの検証
         InputStream bis = new ByteArrayInputStream(actual.getBytes());
         DocumentBuilder db = DocumentBuilderFactory.newInstance()
                 .newDocumentBuilder();
         Document doc = db.parse(bis);
         XPath xpath = XPathFactory.newInstance().newXPath();
-        
-        assertThat(xpath.evaluate("/issue/project_id/text()", doc), is(projectId));
+
+        assertThat(xpath.evaluate("/issue/project_id/text()", doc),
+                is(projectId));
         assertThat(xpath.evaluate("/issue/tracker_id/text()", doc), is("1"));
-        assertThat(xpath.evaluate("/issue/xml_control/text()", doc), is("control"));
+        assertThat(xpath.evaluate("/issue/xml_control/text()", doc),
+                is("control"));
         assertThat(xpath.evaluate("/issue/xml_head/text()", doc), is("head"));
         assertThat(xpath.evaluate("/issue/xml_body/text()", doc), is("body"));
         assertThat(xpath.evaluate("/issue/abc/text()", doc), is("def"));
         assertThat(xpath.evaluate("/issue/ghk/text()", doc), is("lmn"));
-        NodeList geoNodes = (NodeList)xpath.evaluate("/issue/issue_geographies/issue_geography/geo1/text()", doc, XPathConstants.NODESET);
+        NodeList geoNodes = (NodeList) xpath.evaluate(
+                "/issue/issue_geographies/issue_geography/geo1/text()", doc,
+                XPathConstants.NODESET);
         assertThat(geoNodes.item(0).getNodeValue(), is("日本"));
         assertThat(geoNodes.item(1).getNodeValue(), is("アメリカ"));
-        NodeList geoNodes2 = (NodeList)xpath.evaluate("/issue/issue_geographies/issue_geography/geo2/text()", doc, XPathConstants.NODESET);
+        NodeList geoNodes2 = (NodeList) xpath.evaluate(
+                "/issue/issue_geographies/issue_geography/geo2/text()", doc,
+                XPathConstants.NODESET);
         assertThat(geoNodes2.item(0).getNodeValue(), is("フランス"));
         assertThat(geoNodes2.item(1).getNodeValue(), is("カナダ"));
     }
@@ -236,7 +254,8 @@ public class JmaXmlDataHandlerTest {
         JmaXmlDataParser mock = Mockito.mock(JmaXmlDataParser.class);
         when(mock.isAutoLaunch()).thenReturn(true); // プロジェクト自動立ち上げON
         when(mock.isAutoSend()).thenReturn(true); // プロジェクト自動送信ON
-        when(mock.getTrackerId()).thenReturn("1");
+        when(mock.getProjectId()).thenReturn("10000");
+        when(mock.getTrackerId()).thenReturn("20000");
         when(mock.getXmlBody()).thenReturn("body");
         when(mock.getXmlControl()).thenReturn("control");
         when(mock.getXmlHead()).thenReturn("head");
@@ -260,31 +279,38 @@ public class JmaXmlDataHandlerTest {
         when(mock.getIssueGeographyMaps()).thenReturn(issueGeographyMaps);
 
         String actual = target.createIssuesXmlAsString(mock);
-        
+
         // 送信用XMLデータの検証
         InputStream bis = new ByteArrayInputStream(actual.getBytes());
         DocumentBuilder db = DocumentBuilderFactory.newInstance()
                 .newDocumentBuilder();
         Document doc = db.parse(bis);
         XPath xpath = XPathFactory.newInstance().newXPath();
-        
+
         assertThat(xpath.evaluate("/issue/auto_launch/text()", doc), is("1"));
         assertThat(xpath.evaluate("/issue/auto_send/text()", doc), is("1"));
-        assertThat(xpath.evaluate("/issue/tracker_id/text()", doc), is("1"));
-        assertThat(xpath.evaluate("/issue/xml_control/text()", doc), is("control"));
+        assertThat(xpath.evaluate("/issue/project_id/text()", doc), is("10000"));
+        assertThat(xpath.evaluate("/issue/tracker_id/text()", doc), is("20000"));
+        assertThat(xpath.evaluate("/issue/xml_control/text()", doc),
+                is("control"));
         assertThat(xpath.evaluate("/issue/xml_head/text()", doc), is("head"));
         assertThat(xpath.evaluate("/issue/xml_body/text()", doc), is("body"));
         assertThat(xpath.evaluate("/issue/abc/text()", doc), is("def"));
         assertThat(xpath.evaluate("/issue/ghk/text()", doc), is("lmn"));
-        NodeList geoNodes = (NodeList)xpath.evaluate("/issue/issue_geographies/issue_geography/geo1/text()", doc, XPathConstants.NODESET);
+        NodeList geoNodes = (NodeList) xpath.evaluate(
+                "/issue/issue_geographies/issue_geography/geo1/text()", doc,
+                XPathConstants.NODESET);
         assertThat(geoNodes.item(0).getNodeValue(), is("日本"));
         assertThat(geoNodes.item(1).getNodeValue(), is("アメリカ"));
-        NodeList geoNodes2 = (NodeList)xpath.evaluate("/issue/issue_geographies/issue_geography/geo2/text()", doc, XPathConstants.NODESET);
+        NodeList geoNodes2 = (NodeList) xpath.evaluate(
+                "/issue/issue_geographies/issue_geography/geo2/text()", doc,
+                XPathConstants.NODESET);
         assertThat(geoNodes2.item(0).getNodeValue(), is("フランス"));
         assertThat(geoNodes2.item(1).getNodeValue(), is("カナダ"));
-        
+
         // プロジェクトIDは時刻を含む自動生成文字列のため存在のみ確認
-        assertThat(xpath.evaluate("/issue/project_id/text()", doc), is(notNullValue()));
+        assertThat(xpath.evaluate("/issue/project_id/text()", doc),
+                is(notNullValue()));
 
     }
 
@@ -328,20 +354,25 @@ public class JmaXmlDataHandlerTest {
                 .newDocumentBuilder();
         Document doc = db.parse(bis);
         XPath xpath = XPathFactory.newInstance().newXPath();
-        
+
         assertThat(xpath.evaluate("/issue/auto_launch/text()", doc), is(""));
         assertThat(xpath.evaluate("/issue/auto_send/text()", doc), is(""));
         assertThat(xpath.evaluate("/issue/project_id/text()", doc), is("10000"));
         assertThat(xpath.evaluate("/issue/tracker_id/text()", doc), is("20000"));
-        assertThat(xpath.evaluate("/issue/xml_control/text()", doc), is("control"));
+        assertThat(xpath.evaluate("/issue/xml_control/text()", doc),
+                is("control"));
         assertThat(xpath.evaluate("/issue/xml_head/text()", doc), is("head"));
         assertThat(xpath.evaluate("/issue/xml_body/text()", doc), is("body"));
         assertThat(xpath.evaluate("/issue/abc/text()", doc), is("def"));
         assertThat(xpath.evaluate("/issue/ghk/text()", doc), is("lmn"));
-        NodeList geoNodes = (NodeList)xpath.evaluate("/issue/issue_geographies/issue_geography/geo1/text()", doc, XPathConstants.NODESET);
+        NodeList geoNodes = (NodeList) xpath.evaluate(
+                "/issue/issue_geographies/issue_geography/geo1/text()", doc,
+                XPathConstants.NODESET);
         assertThat(geoNodes.item(0).getNodeValue(), is("日本"));
         assertThat(geoNodes.item(1).getNodeValue(), is("アメリカ"));
-        NodeList geoNodes2 = (NodeList)xpath.evaluate("/issue/issue_geographies/issue_geography/geo2/text()", doc, XPathConstants.NODESET);
+        NodeList geoNodes2 = (NodeList) xpath.evaluate(
+                "/issue/issue_geographies/issue_geography/geo2/text()", doc,
+                XPathConstants.NODESET);
         assertThat(geoNodes2.item(0).getNodeValue(), is("フランス"));
         assertThat(geoNodes2.item(1).getNodeValue(), is("カナダ"));
     }
