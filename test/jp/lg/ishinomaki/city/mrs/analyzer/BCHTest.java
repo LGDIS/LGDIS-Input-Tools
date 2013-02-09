@@ -15,7 +15,6 @@ public class BCHTest {
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         ReceiverConfig.getInstance().loadYml("test/config/receiver.yml");
-        // 0100010100000000000000001110010100001000010100000000000000000000001100000001001110110111100000100000000000000000000000000000000000000000000000000000000000000000
     }
 
     @AfterClass
