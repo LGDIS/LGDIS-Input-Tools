@@ -1,5 +1,5 @@
 //
-//  FileUtilities.java
+//  FileUtils.java
 //  LGDIS-Input-Tools
 //
 //  Copyright (C) 2012 ISHINOMAKI CITY OFFICE.
@@ -33,7 +33,9 @@ public class FileUtils {
             String outputPath, String fileName) {
 
         // 引数チェック
-        if (contents == null || outputPath == null || fileName == null) {
+        if (contents == null || contents.length == 0
+                || StringUtils.isBlank(outputPath)
+                || StringUtils.isBlank(fileName)) {
             return false;
         }
 
@@ -88,62 +90,4 @@ public class FileUtils {
         String retStr = type + dateString;
         return retStr;
     }
-
-    /**
-     * テスト用メソッド J-Alertから送信されたバイナリデータをファイルに保存します。 ファイル名は日付を自動的に付与します。
-     * 
-     * @param data
-     *            バイナリデータ
-     */
-    public static void saveDataAsFile(byte[] data, String outputPath) {
-        // 引数チェック
-        if (data == null || outputPath == null) {
-            return;
-        }
-
-        // ディレクトリの存在確認
-        File file = new File(outputPath);
-        if (!file.exists()) {
-            // ディレクトリがない場合は作成しておく
-            try {
-                boolean ret = file.mkdirs();
-                if (ret == false) {
-                    return;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                return;
-            }
-        }
-
-        // ファイル名を
-        Date nowDate = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss-SSS");
-        String fileName = sdf.format(nowDate);
-        
-        FileOutputStream outputStream = null;
-        BufferedOutputStream bufferedOutputStream = null;
-        try {
-            // 出力ストリームを使用してファイル出力
-            outputStream = new FileOutputStream(outputPath + "/" + fileName);
-            bufferedOutputStream = new BufferedOutputStream(outputStream);
-            bufferedOutputStream.write(data, 0, data.length);
-            bufferedOutputStream.flush();
-
-        } catch (Exception e) {
-            // ファイルIOのエラーはアプリで解決できない
-            e.printStackTrace();
-            return;
-        } finally {
-            try {
-                bufferedOutputStream.close();
-                outputStream.close();
-            } catch (Exception ex) {
-                // ファイルIOのエラーはアプリで解決できない
-                ex.printStackTrace();
-                return;
-            }
-        }
-    }
-
 }
