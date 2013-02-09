@@ -68,10 +68,6 @@ public class BCHChecksumHelper {
         // ⑤下位16ビット(sum)を16ビット文字列表現に変換
         String strSum = Integer.toBinaryString(sum);
         strSum = strSum.substring(16);
-        
-        // for test
-System.out.println("original checksum ->\t" + checksum);
-System.out.println("generated checksum ->\t" + strSum);
 
         // ⑥引数checksumの値と⑤で導出した文字列(チェックサム)が同じ場合はチェックサムOK
         if (checksum.equals(strSum)) {
