@@ -14,7 +14,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class IssuesPostControllerTest {
+public class UploadsPostControllerTest {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
@@ -33,9 +33,10 @@ public class IssuesPostControllerTest {
     public void tearDown() throws Exception {
     }
 
+
     @Test
     public void インスタンス生成() {
-        IssuesPostController target = new IssuesPostController();
+        UploadsPostController target = new UploadsPostController();
 
         Map<String, Object> redmine = ParserConfig.getInstance().getRedmine();
 
@@ -46,7 +47,7 @@ public class IssuesPostControllerTest {
         assertThat(target.targetPort,
                 is((String) redmine.get(ParserConfig.TARGET_PORT)));
         assertThat(target.postApi,
-                is((String) redmine.get(ParserConfig.ISSUES_POST_API)));
+                is((String) redmine.get(ParserConfig.UPLOADS_POST_API)));
         assertThat(target.basicauthId,
                 is((String) redmine.get(ParserConfig.BASICAUTH_ID)));
         assertThat(target.basicauthPassword,
@@ -58,12 +59,12 @@ public class IssuesPostControllerTest {
         assertThat(target.retryCount,
                 is((Integer) redmine.get(ParserConfig.RETRY_COUNT)));
         assertThat(target.contentType,
-                is((String) redmine.get(ParserConfig.ISSUES_POST_CONTENT_TYPE)));
+                is((String) redmine.get(ParserConfig.UPLOADS_POST_CONTENT_TYPE)));
     }
 
     @Test
     public void 引数NullでHttpEntity作成() {
-        IssuesPostController target = new IssuesPostController();
+        UploadsPostController target = new UploadsPostController();
         HttpEntity actual = target.createHttpEntity(null);
         // 戻りがNullであることを確認
         assertThat(actual, is(nullValue()));
@@ -71,10 +72,9 @@ public class IssuesPostControllerTest {
 
     @Test
     public void 引数Null以外でHttpEntity作成() {
-        IssuesPostController target = new IssuesPostController();
-        HttpEntity actual = target.createHttpEntity(new String());
+        UploadsPostController target = new UploadsPostController();
+        HttpEntity actual = target.createHttpEntity("".getBytes());
         // 戻りがNullでないことを確認
         assertThat(actual, is(notNullValue()));
     }
-
 }

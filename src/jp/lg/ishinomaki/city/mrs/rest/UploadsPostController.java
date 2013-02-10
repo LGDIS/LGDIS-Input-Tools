@@ -43,6 +43,10 @@ public class UploadsPostController extends PostController {
 
     @Override
     protected HttpEntity createHttpEntity(Object data) {
+        // 引数チェック
+        if (data == null) {
+            return null;
+        }
         return new ByteArrayEntity((byte[]) data);
     }
 
