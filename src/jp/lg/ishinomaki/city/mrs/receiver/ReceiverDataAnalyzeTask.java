@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import jp.lg.ishinomaki.city.mrs.analyzer.DataAnalyzer;
 import jp.lg.ishinomaki.city.mrs.queue.QueuePushClient;
 import jp.lg.ishinomaki.city.mrs.utils.FileUtils;
+import jp.lg.ishinomaki.city.mrs.utils.StringUtils;
 
 /**
  * 受信データを解析しキューへ登録するためのクラスです.<br>
@@ -97,7 +98,7 @@ public class ReceiverDataAnalyzeTask implements Runnable {
         // 本文データをファイルに保存
         // TODO ファイル名ルールを決定する必要あり
         // -------------------------------------------
-        if (outputPath != null) {
+        if (StringUtils.isBlank(outputPath) == false) {
             // ファイル名生成
             // ファイル名はとりあえず"test"としておく
             String fileName = FileUtils.genFileName("test");

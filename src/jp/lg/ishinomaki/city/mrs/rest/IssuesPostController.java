@@ -45,6 +45,11 @@ public class IssuesPostController extends PostController {
 
     @Override
     protected HttpEntity createHttpEntity(Object data) {
+        // 引数チェック
+        if (data == null) {
+            return null;
+        }
+        
         HttpEntity httpEntity = null;
         try {
             httpEntity = new StringEntity((String)data, "UTF-8");

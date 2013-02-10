@@ -346,6 +346,38 @@ public class JmaDataAnalyzer implements DataAnalyzer {
     }
 
     /**
+     * 冒頭符を取得します。
+     * @return
+     */
+    public String getHeaderCode() {
+        return headerCode;
+    }
+
+    /**
+     * 発信官署名を取得します。
+     * @return
+     */
+    public String getSenderSign() {
+        return senderSign;
+    }
+
+    /**
+     * 観測日時刻を取得します。
+     * @return
+     */
+    public String getObservationDate() {
+        return observationDate;
+    }
+
+    /**
+     * 指定コードを取得します。
+     * @return
+     */
+    public String getAppointCode() {
+        return appointCode;
+    }
+
+    /**
      * データ解析結果からデータの種類を返却します。<br>
      * データ種類は<code>Consts</code>クラスに定義しているものを使用する。<br>
      */

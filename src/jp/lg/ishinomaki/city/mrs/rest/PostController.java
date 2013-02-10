@@ -37,6 +37,11 @@ public abstract class PostController implements ResponseHandler<String> {
             .getSimpleName());
 
     /**
+     * HTTPリクエスト用のクライアントインスタンス
+     */
+    HttpClient httpClient = null;
+    
+    /**
      * プロトコル
      */
     protected String protocol;
@@ -123,7 +128,7 @@ public abstract class PostController implements ResponseHandler<String> {
         }
 
         // Http接続用クライアント
-        HttpClient httpClient = new DefaultHttpClient();
+        httpClient = new DefaultHttpClient();
 
         // Http接続用パラメータ
         HttpParams httpParams = httpClient.getParams();
