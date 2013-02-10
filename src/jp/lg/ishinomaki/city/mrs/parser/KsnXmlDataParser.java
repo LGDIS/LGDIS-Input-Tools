@@ -93,8 +93,7 @@ public class KsnXmlDataParser extends XmlDataParser {
             }
 
             // Issue拡張テーブル用定義取得
-            Map<String, String> issueExtraXpaths = rule.getIssueExtras();
-            parseIssueExtraMap(doc, xpath, issueExtraXpaths);
+            parseIssueExtraMap(doc, xpath, rule);
 
             // トラッカーIDは固定
             trackerId = rule.getTrackerId();
@@ -160,13 +159,14 @@ public class KsnXmlDataParser extends XmlDataParser {
      * @return
      */
     boolean parseIssueExtraMap(Document doc, XPath xpath,
-            Map<String, String> issueExtraXpaths) {
+            KsnParseRule rule) {
         // --------------------------------------------------------
         // Issues拡張カラム用のデータ取得
         // key:Issuesテーブルのカラム名 value:Xpathで取得した値
         // の形式にしてissueExtraMap変数に保持
         // Xpathで値が取得できなかった場合はissueExtraMapに保持しない
         // --------------------------------------------------------
+        Map<String, String> issueExtraXpaths = rule.getIssueExtras();
         if (issueExtraXpaths != null) {
             for (String fieldName : issueExtraXpaths.keySet()) {
                 String fieldXpath = issueExtraXpaths.get(fieldName);

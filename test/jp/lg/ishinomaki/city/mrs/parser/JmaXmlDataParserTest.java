@@ -22,7 +22,6 @@ import org.w3c.dom.Document;
 public class JmaXmlDataParserTest {
 
     static XPath xpath;
-    static Document doc;
     static JmaParseRule rule;
 
     @BeforeClass
@@ -41,16 +40,18 @@ public class JmaXmlDataParserTest {
     public void setUp() throws Exception {
     }
 
-    public void loadDocument(String xml) {
+    // テスト用メソッド
+    public Document loadDocument(String xml) {
         // テスト対象のXML文字列を読み込みDocumentを取得
         InputStream bis = new ByteArrayInputStream(xml.getBytes());
         DocumentBuilder db;
         try {
             db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            doc = db.parse(bis);
-
+            Document doc = db.parse(bis);
+            return doc;
         } catch (Exception e) {
         }
+        return null;
     }
 
     @After
@@ -61,7 +62,7 @@ public class JmaXmlDataParserTest {
     public void Control部取得成功() {
         // テスト用XML読み込み
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"><Control><Title>季節観測</Title></Control></Report>";
-        loadDocument(xml);
+        Document doc = loadDocument(xml);
 
         // テストターゲットクラス
         JmaXmlDataParser target = new JmaXmlDataParser();
@@ -77,7 +78,7 @@ public class JmaXmlDataParserTest {
     public void Control部なし() {
         // テスト用XML
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"></Report>";
-        loadDocument(xml);
+        Document doc = loadDocument(xml);
 
         // テストターゲットクラス
         JmaXmlDataParser target = new JmaXmlDataParser();
@@ -92,7 +93,7 @@ public class JmaXmlDataParserTest {
     public void Head部取得成功() {
         // テスト用XML読み込み
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"><Head><Title>季節観測</Title></Head></Report>";
-        loadDocument(xml);
+        Document doc = loadDocument(xml);
 
         // テストターゲットクラス
         JmaXmlDataParser target = new JmaXmlDataParser();
@@ -108,7 +109,7 @@ public class JmaXmlDataParserTest {
     public void Head部なし() {
         // テスト用XML
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"></Report>";
-        loadDocument(xml);
+        Document doc = loadDocument(xml);
 
         // テストターゲットクラス
         JmaXmlDataParser target = new JmaXmlDataParser();
@@ -123,7 +124,7 @@ public class JmaXmlDataParserTest {
     public void Body部取得成功() {
         // テスト用XML読み込み
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"><Body><Title>季節観測</Title></Body></Report>";
-        loadDocument(xml);
+        Document doc = loadDocument(xml);
 
         // テストターゲットクラス
         JmaXmlDataParser target = new JmaXmlDataParser();
@@ -139,7 +140,7 @@ public class JmaXmlDataParserTest {
     public void Body部なし() {
         // テスト用XML
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"></Report>";
-        loadDocument(xml);
+        Document doc = loadDocument(xml);
 
         // テストターゲットクラス
         JmaXmlDataParser target = new JmaXmlDataParser();
@@ -154,7 +155,7 @@ public class JmaXmlDataParserTest {
     public void トラッカーID取得() {
         // テスト用XML
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"><Control><Title>季節観測</Title></Control></Report>";
-        loadDocument(xml);
+        Document doc = loadDocument(xml);
 
         // テストターゲットクラス
         JmaXmlDataParser target = new JmaXmlDataParser();
@@ -164,15 +165,15 @@ public class JmaXmlDataParserTest {
         assertThat(actual, is("4"));
 
         String xml2 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"><Control><Title>指定河川洪水予報</Title></Control></Report>";
-        loadDocument(xml2);
-        target.parseTrackerId(doc, xpath, rule);
+        Document doc2 = loadDocument(xml2);
+        target.parseTrackerId(doc2, xpath, rule);
         String actual2 = target.getTrackerId();
         assertThat(actual2, is("3"));
 
         // デフォルトID取得
         String xml3 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"><Control><Title>あいうえお</Title></Control></Report>";
-        loadDocument(xml3);
-        target.parseTrackerId(doc, xpath, rule);
+        Document doc3 = loadDocument(xml3);
+        target.parseTrackerId(doc3, xpath, rule);
         String actual3 = target.getTrackerId();
         assertThat(actual3, is("4"));
     }
@@ -181,7 +182,7 @@ public class JmaXmlDataParserTest {
     public void プロジェクトID取得() {
         // テスト用XML
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"><Control><Status>通常</Status></Control></Report>";
-        loadDocument(xml);
+        Document doc = loadDocument(xml);
 
         // テストターゲットクラス
         JmaXmlDataParser target = new JmaXmlDataParser();
@@ -191,15 +192,15 @@ public class JmaXmlDataParserTest {
         assertThat(actual, is("I04202000000000000001"));
 
         String xml2 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"><Control><Status>訓練</Status></Control></Report>";
-        loadDocument(xml2);
-        target.parseProjectId(doc, xpath, rule);
+        Document doc2 = loadDocument(xml2);
+        target.parseProjectId(doc2, xpath, rule);
         String actual2 = target.getProjectId();
         assertThat(actual2, is("training-project"));
 
         // デフォルトID取得
         String xml3 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"><Control><Status>あいうえお</Status></Control></Report>";
-        loadDocument(xml3);
-        target.parseProjectId(doc, xpath, rule);
+        Document doc3 = loadDocument(xml3);
+        target.parseProjectId(doc3, xpath, rule);
         String actual3 = target.getProjectId();
         assertThat(actual3, is("I04202000000000000001"));
     }
@@ -208,7 +209,7 @@ public class JmaXmlDataParserTest {
     public void Issue拡張フィールド取得() {
         // テスト用XML
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"><Control><Status>通常</Status></Control></Report>";
-        loadDocument(xml);
+        Document doc = loadDocument(xml);
 
         // テストターゲットクラス
         JmaXmlDataParser target = new JmaXmlDataParser();
@@ -224,7 +225,7 @@ public class JmaXmlDataParserTest {
     public void 震度によるプロジェクト自動立ち上げあり() {
         // テスト用XML
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"><Body><Intensity><Observation><Pref><Area><City><Name>石巻市</Name><MaxInt>6+</MaxInt></City></Area></Pref></Observation></Intensity></Body></Report>";
-        loadDocument(xml);
+        Document doc = loadDocument(xml);
         
         // テストターゲットクラス
         JmaXmlDataParser target = new JmaXmlDataParser();
@@ -239,7 +240,7 @@ public class JmaXmlDataParserTest {
     public void 震度によるプロジェクト自動立ち上げなし() {
         // テスト用XML
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"><Body><Intensity><Observation><Pref><Area><City><Name>石巻市</Name><MaxInt>4</MaxInt></City></Area></Pref></Observation></Intensity></Body></Report>";
-        loadDocument(xml);
+        Document doc = loadDocument(xml);
         
         // テストターゲットクラス
         JmaXmlDataParser target = new JmaXmlDataParser();
@@ -254,7 +255,7 @@ public class JmaXmlDataParserTest {
     public void 震度によるプロジェクト自動立ち上げあり境界値震度５弱() {
         // テスト用XML
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"><Body><Intensity><Observation><Pref><Area><City><Name>石巻市</Name><MaxInt>5-</MaxInt></City></Area></Pref></Observation></Intensity></Body></Report>";
-        loadDocument(xml);
+        Document doc = loadDocument(xml);
         
         // テストターゲットクラス
         JmaXmlDataParser target = new JmaXmlDataParser();
@@ -269,7 +270,7 @@ public class JmaXmlDataParserTest {
     public void 震度によるプロジェクト自動送信あり() {
         // テスト用XML
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"><Body><Intensity><Observation><Pref><Area><City><Name>石巻市</Name><MaxInt>6-</MaxInt></City></Area></Pref></Observation></Intensity></Body></Report>";
-        loadDocument(xml);
+        Document doc = loadDocument(xml);
         
         // テストターゲットクラス
         JmaXmlDataParser target = new JmaXmlDataParser();
@@ -284,7 +285,7 @@ public class JmaXmlDataParserTest {
     public void 震度によるプロジェクト自動送信なし() {
         // テスト用XML
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"><Body><Intensity><Observation><Pref><Area><City><Name>石巻市</Name><MaxInt>5+</MaxInt></City></Area></Pref></Observation></Intensity></Body></Report>";
-        loadDocument(xml);
+        Document doc = loadDocument(xml);
         
         // テストターゲットクラス
         JmaXmlDataParser target = new JmaXmlDataParser();
