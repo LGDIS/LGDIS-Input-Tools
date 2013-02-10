@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 
 import jp.lg.ishinomaki.city.mrs.parser.ParserConfig;
 import jp.lg.ishinomaki.city.mrs.rest.IssuesPostController;
-import jp.lg.ishinomaki.city.mrs.rest.PostController;
 import jp.lg.ishinomaki.city.mrs.rest.UploadsPostController;
 
 import org.dom4j.Document;
@@ -32,6 +31,16 @@ public class TextDataHandler implements PickupDataHandler {
             .getSimpleName());
 
     /**
+     * Restメソッドでuploadsを発行するためのインスタンス
+     */
+    UploadsPostController uploadsController;
+
+    /**
+     * Restメソッドでissuesを発行するためのインスタンス
+     */
+    IssuesPostController issuesController;
+
+    /**
      * 動作モード 0:通常 1:訓練 2:試験
      */
     private int mode = 0;
@@ -45,10 +54,14 @@ public class TextDataHandler implements PickupDataHandler {
 
     /**
      * コンストラクタ
-     * @param mode 動作モード
+     * 
+     * @param mode
+     *            動作モード
      */
     public TextDataHandler(int mode) {
         this.mode = mode;
+        uploadsController = new UploadsPostController();
+        issuesController = new IssuesPostController();
     }
 
     /**
@@ -62,8 +75,7 @@ public class TextDataHandler implements PickupDataHandler {
         // issues apiを実行する
         // ----------------------------------------------------------------
         // Uploads実行
-        PostController uploads = new UploadsPostController();
-        String response = uploads.post(data);
+        String response = uploadsController.post(data);
 
         // 戻りデータがない場合は処理しない
         if (response == null || response.length() == 0) {
@@ -95,8 +107,7 @@ public class TextDataHandler implements PickupDataHandler {
         // トークンがある場合はIssues作成用XML作成
         String xml = createIssuesXmlAsString(token);
         // Issues作成
-        IssuesPostController postController = new IssuesPostController();
-        postController.post(xml);
+        issuesController.post(xml);
 
     }
 
@@ -106,7 +117,7 @@ public class TextDataHandler implements PickupDataHandler {
      * @param token
      * @return
      */
-    private String createIssuesXmlAsString(String token) {
+    String createIssuesXmlAsString(String token) {
 
         // XML作成のための設定を取得
         Map<String, String> map = ParserConfig.getInstance()

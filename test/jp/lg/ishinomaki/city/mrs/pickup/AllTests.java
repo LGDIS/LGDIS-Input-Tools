@@ -5,7 +5,9 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({PickupThreadTest.class, JmaXmlDataHandlerTest.class})
+@SuiteClasses({ PickupThreadTest.class, JmaXmlDataHandlerTest.class,
+        KsnXmlDataHandlerTest.class, PdfDataHandlerTest.class,
+        TarDataHandlerTest.class, TextDataHandlerTest.class })
 public class AllTests {
 
 }

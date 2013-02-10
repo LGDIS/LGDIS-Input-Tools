@@ -8,15 +8,17 @@
 
 package jp.lg.ishinomaki.city.mrs.pickup;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
 import jp.lg.ishinomaki.city.mrs.parser.ParserConfig;
 import jp.lg.ishinomaki.city.mrs.rest.IssuesPostController;
-import jp.lg.ishinomaki.city.mrs.rest.PostController;
 import jp.lg.ishinomaki.city.mrs.rest.UploadsPostController;
 import jp.lg.ishinomaki.city.mrs.utils.ArchiveUtils;
+import jp.lg.ishinomaki.city.mrs.utils.StringUtils;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -32,6 +34,16 @@ public class TarDataHandler implements PickupDataHandler {
     // ログ用
     private static Logger log = Logger.getLogger(TarDataHandler.class
             .getSimpleName());
+
+    /**
+     * Restメソッドでuploadsを発行するためのインスタンス
+     */
+    UploadsPostController uploadsController;
+
+    /**
+     * Restメソッドでissuesを発行するためのインスタンス
+     */
+    IssuesPostController issuesController;
 
     /**
      * 動作モード 0:通常 1:訓練 2:試験
@@ -53,6 +65,8 @@ public class TarDataHandler implements PickupDataHandler {
      */
     public TarDataHandler(int mode) {
         this.mode = mode;
+        uploadsController = new UploadsPostController();
+        issuesController = new IssuesPostController();
     }
 
     /**
@@ -70,17 +84,20 @@ public class TarDataHandler implements PickupDataHandler {
         }
 
         // Tarファイル解凍後のファイル数分Redmineにupload要求
+        List<Map<String, String>> uploadedFiles = new ArrayList<Map<String, String>>();
         for (int i = 0; i < fileMaps.size(); i++) {
             Map<String, Object> fileMap = fileMaps.get(i);
             // ファイルコンテンツ取得
             byte[] contents = (byte[]) fileMap.get("contents");
+            if (contents == null || contents.length == 0) {
+                continue;
+            }
 
             // Uploads実行
-            PostController uploads = new UploadsPostController();
-            String response = uploads.post(contents);
+            String response = uploadsController.post(contents);
 
             // 戻りデータがない場合は処理せず次のループへ
-            if (response == null || response.length() == 0) {
+            if (StringUtils.isBlank(response)) {
                 log.warning("Redmineへのupload要求の戻りがないため処理なしで次のデータへ");
                 continue;
             }
@@ -101,15 +118,23 @@ public class TarDataHandler implements PickupDataHandler {
             }
 
             // トークンがない場合は処理終了
-            if (token == null || token.length() == 0) {
+            if (StringUtils.isBlank(token)) {
                 log.warning("tokenがないため処理なしで次のデータへ");
                 continue;
             }
 
             log.finest("返却されたtoken -> " + token);
 
-            // fileMap変数にtokenを設定
-            fileMap.put("token", token);
+            // Mapに格納
+            Map<String, String> uploadedFile = new HashMap<String, String>();
+            uploadedFile.put("token", token);
+            uploadedFile.put("filename", (String) fileMap.get("name"));
+            uploadedFiles.add(uploadedFile);
+        }
+
+        if (uploadedFiles.size() == 0) {
+            log.warning("ファイルのアップロードが1つも成功しなかったため処理中断");
+            return;
         }
 
         // ----------------------------------------------------------------
@@ -118,10 +143,9 @@ public class TarDataHandler implements PickupDataHandler {
         // ----------------------------------------------------------------
 
         // トークンがある場合はIssues作成用XML作成
-        String xml = createIssuesXmlAsString(fileMaps);
+        String xml = createIssuesXmlAsString(uploadedFiles);
         // Issues作成
-        IssuesPostController postController = new IssuesPostController();
-        postController.post(xml);
+        issuesController.post(xml);
 
     }
 
@@ -131,13 +155,15 @@ public class TarDataHandler implements PickupDataHandler {
      * @param token
      * @return
      */
-    private String createIssuesXmlAsString(List<Map<String, Object>> fileMaps) {
+    String createIssuesXmlAsString(List<Map<String, String>> uploadedFiles) {
 
         // XML作成のための設定を取得
         Map<String, String> map = ParserConfig.getInstance()
                 .getTarAttachmentStatics();
         String subject = map.get(ParserConfig.SUBJECT);
         String trackerId = map.get(ParserConfig.TRACKER_ID);
+        String description = map.get(ParserConfig.DESCRIPTION);
+        String contentType = map.get(ParserConfig.CONTENT_TYPE);
         String projectId = null;
         // 動作モードによりプロジェクトIDを指定
         if (mode == 1) {
@@ -169,28 +195,24 @@ public class TarDataHandler implements PickupDataHandler {
         uploads.addAttribute("type", "array");
 
         // ファイル数分upload要素を追加
-        for (Map<String, Object> fileMap : fileMaps) {
+        for (Map<String, String> uploadedFile : uploadedFiles) {
             // upload要素を追加
             Element upload = uploads.addElement("upload");
 
             // upload要素にトークン等各種設定を追加
-            String token = (String) fileMap.get("token");
+            String token = (String) uploadedFile.get("token");
             upload.addElement("token").addText(token);
 
             // filename
-            String filename = (String) fileMap.get("name");
-            if (filename != null) {
-                upload.addElement("filename").addText(filename);
-            }
+            String filename = (String) uploadedFile.get("filename");
+            upload.addElement("filename").addText(filename);
 
             // description
-            String description = map.get(ParserConfig.DESCRIPTION);
             if (description != null) {
                 upload.addElement("description").addText(description);
             }
 
             // content_type
-            String contentType = map.get(ParserConfig.CONTENT_TYPE);
             if (contentType != null) {
                 upload.addElement("content_type").addText(contentType);
             }

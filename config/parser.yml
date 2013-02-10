@@ -43,16 +43,15 @@ text_attachment_statics:
 
 
 # ------------------------------------------------------------
-# テキストファイルをチケット登録する際の固定情報
+# Tarファイルをチケット登録する際の固定情報
 # key:restのパラメータ名 value:設定する値
 # ------------------------------------------------------------
 tar_attachment_statics: 
  subject: "内閣官房"
  project_id: "I04202000000000000001"
  tracker_id: "4"
- filename: "内閣官房.tar"
  description: "内閣官房ファイル"
- content_type: "application/x-tar"
+ content_type: "text/plain"
 
 
 # ------------------------------------------------------------

@@ -6,7 +6,8 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ JmaParseRuleTest.class, JmaXmlDataParserTest.class,
-        KsnParseRuleTest.class, XmlSchemaCheckerTest.class })
+        KsnParseRuleTest.class, KsnXmlDataParserTest.class,
+        XmlSchemaCheckerTest.class })
 public class AllTests {
 
 }

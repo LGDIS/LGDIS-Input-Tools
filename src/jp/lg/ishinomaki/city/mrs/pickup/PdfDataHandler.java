@@ -34,12 +34,12 @@ public class PdfDataHandler implements PickupDataHandler {
      * Restメソッドでuploadsを発行するためのインスタンス
      */
     UploadsPostController uploadsController;
-    
+
     /**
      * Restメソッドでissuesを発行するためのインスタンス
      */
     IssuesPostController issuesController;
-    
+
     /**
      * 動作モード 0:通常 1:訓練 2:試験
      */
