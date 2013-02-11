@@ -11,7 +11,7 @@ package jp.lg.ishinomaki.city.mrs.pickup;
 import java.util.logging.Logger;
 
 import jp.lg.ishinomaki.city.mrs.Consts;
-import jp.lg.ishinomaki.city.mrs.queue.QueuePopClient;
+import jp.lg.ishinomaki.city.mrs.queue.QueueClient;
 
 import org.newsclub.net.unix.AFUNIXSocketException;
 
@@ -50,7 +50,7 @@ public class PickupThread extends Thread {
     public void run() {
 
         // キューからポップするためのクライアント生成
-        QueuePopClient popClient = new QueuePopClient();
+        QueueClient popClient = new QueueClient();
 
         // ソケット接続確立
         while (true) {

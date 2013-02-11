@@ -11,7 +11,7 @@ package jp.lg.ishinomaki.city.mrs.receiver;
 import java.util.logging.Logger;
 
 import jp.lg.ishinomaki.city.mrs.analyzer.DataAnalyzer;
-import jp.lg.ishinomaki.city.mrs.queue.QueuePushClient;
+import jp.lg.ishinomaki.city.mrs.queue.QueueClient;
 import jp.lg.ishinomaki.city.mrs.utils.FileUtils;
 import jp.lg.ishinomaki.city.mrs.utils.StringUtils;
 
@@ -109,11 +109,11 @@ public class ReceiverDataAnalyzeTask implements Runnable {
         // 本文データをキューに登録
         // -------------------------------------------
         // キュー管理インスタンス取得
-        QueuePushClient queuePushClient = new QueuePushClient();
+        QueueClient queueClient = new QueueClient();
         try {
             // キューにデータをセット
             byte[] message = createMessage(contents);
-            queuePushClient.push(message);
+            queueClient.push(message);
         } catch (Exception e) {
             e.printStackTrace();
             log.severe("キュー機能へのデータ登録に失敗しました。キュー機能が正常に稼働しているか確認してください。");
