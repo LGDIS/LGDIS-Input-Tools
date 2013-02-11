@@ -30,27 +30,27 @@ public class ReceiverDataAnalyzeTask implements Runnable {
     /**
      * 解析対象のデータ
      */
-    private byte[] data;
+    byte[] data;
 
     /**
      * ファイル保存用パス 設定されていない場合はファイルを保存しない
      */
-    private String outputPath = null;
+    String outputPath = null;
 
     /**
      * データ解析クラス
      */
-    private DataAnalyzer analyzer = null;
+    DataAnalyzer analyzer = null;
 
     /**
      * 入力元識別子
      */
-    private String inputId = null;
+    String inputId = null;
 
     /**
      * 動作モード
      */
-    private int mode = 0;
+    int mode = 0;
 
     /**
      * コンストラクタ
@@ -73,6 +73,7 @@ public class ReceiverDataAnalyzeTask implements Runnable {
     @Override
     public void run() {
 
+        // 処理対象のデータがない場合は処理終了
         if (data == null) {
             return;
         }
@@ -94,24 +95,15 @@ public class ReceiverDataAnalyzeTask implements Runnable {
         // -------------------------------------------
         byte[] contents = analyzer.getContents();
 
-        // -------------------------------------------
-        // 本文データをファイルに保存
-        // TODO ファイル名ルールを決定する必要あり
-        // -------------------------------------------
-        if (StringUtils.isBlank(outputPath) == false) {
-            // ファイル名生成
-            // ファイル名はとりあえず"test"としておく
-            String fileName = FileUtils.genFileName("test");
-
-            // ファイル生成
-            boolean isSuccessSaveFile = FileUtils.saveContentsAsFile(
-                    contents, outputPath, fileName);
-            log.finest("ファイル生成結果 -> [" + isSuccessSaveFile + "]");
-            if (isSuccessSaveFile == false) {
-                log.warning("受信データのファイル保存が失敗しました。ファイル名 [" + fileName + "]");
-                log.warning("処理は続行します。");
-            }
+        // 処理対象のデータがない場合は処理終了
+        if (contents == null || contents.length == 0) {
+            return;
         }
+
+        // -------------------------------------------
+        // 本文内容をアーカイブとして保存
+        // -------------------------------------------
+        createOutputFile(contents);
 
         // -------------------------------------------
         // 本文データをキューに登録
@@ -119,41 +111,78 @@ public class ReceiverDataAnalyzeTask implements Runnable {
         // キュー管理インスタンス取得
         QueuePushClient queuePushClient = new QueuePushClient();
         try {
-            // ---------------------------------------------------------
-            // キューにプットするデータにヘッダを付与
-            // ヘッダの仕様は以下のとおり
-            // length:1 動作モード(0:通常,1:訓練,2:試験)
-            // lenght:3 入力元識別子(JMA,JALなど)
-            // length:3 データ種別(XML,PDF,TXT,BUFなど)
-            // ---------------------------------------------------------
-            // モード設定
-            byte[] hm = null; // あとで使いやすいよう変数をわざと短めに(header_modeの意味)
-            String strMode = String.valueOf(mode);
-            hm = strMode.getBytes();
-            // 各データのレングスを変数に保持(これもあとで使いやすいように
-            int hml = hm.length;
-            // 入力元識別子設定
-            byte[] hi = inputId.getBytes();
-            int hil = hi.length;
-            // データ種別
-            byte[] ht = analyzer.getDataType().getBytes();
-            int htl = ht.length;
-
-            // ヘッダー + データをキュー設定用バイト配列に設定
-            byte[] put_data = new byte[contents.length + hml + hil + htl];
-            // 配列の先頭にヘッダを付与
-            System.arraycopy(hm, 0, put_data, 0, hml);
-            System.arraycopy(hi, 0, put_data, hml, hil);
-            System.arraycopy(ht, 0, put_data, hml + hil, htl);
-            // ヘッダ以降にcontentsのバイト配列を設定
-            System.arraycopy(contents, 0, put_data, hml + hil + htl,
-                    contents.length);
-            
             // キューにデータをセット
-            queuePushClient.push(put_data);
+            byte[] message = createMessage(contents);
+            queuePushClient.push(message);
         } catch (Exception e) {
             e.printStackTrace();
             log.severe("キュー機能へのデータ登録に失敗しました。キュー機能が正常に稼働しているか確認してください。");
         }
+    }
+
+    /**
+     * ファイルを作成する
+     * 
+     * @param contents
+     */
+    void createOutputFile(byte[] contents) {
+        // -------------------------------------------
+        // 本文データをファイルに保存
+        // TODO ファイル名ルールを決定する必要あり
+        // -------------------------------------------
+        if (StringUtils.isBlank(outputPath) == false) {
+            // ファイル名生成
+            // ファイル名はとりあえず"日時刻としておく
+            String fileName = FileUtils.genFileName("");
+
+            // ファイル生成
+            boolean isSuccessSaveFile = FileUtils.saveContentsAsFile(contents,
+                    outputPath, fileName);
+            log.finest("ファイル生成結果 -> [" + isSuccessSaveFile + "]");
+            if (isSuccessSaveFile == false) {
+                log.warning("受信データのファイル保存が失敗しました。ファイル名 [" + fileName + "]");
+                log.warning("処理は続行します。");
+            }
+        }
+    }
+
+    /**
+     * キュー登録用のメッセージ(byte配列)を作成します.<br>
+     * 引数の本文に対して必要なヘッダを付与します。
+     * 
+     * @param contents
+     */
+    byte[] createMessage(byte[] contents) {
+
+        // ---------------------------------------------------------
+        // キューにプットするデータにヘッダを付与
+        // ヘッダの仕様は以下のとおり
+        // length:1 動作モード(0:通常,1:訓練,2:試験)
+        // lenght:3 入力元識別子(JMA,JALなど)
+        // length:3 データ種別(XML,PDF,TXT,BUFなど)
+        // ---------------------------------------------------------
+        // モード設定
+        byte[] hm = null; // あとで使いやすいよう変数をわざと短めに(header_modeの意味)
+        String strMode = String.valueOf(mode);
+        hm = strMode.getBytes();
+        // 各データのレングスを変数に保持(これもあとで使いやすいように
+        int hml = hm.length;
+        // 入力元識別子設定
+        byte[] hi = inputId.getBytes();
+        int hil = hi.length;
+        // データ種別
+        byte[] ht = analyzer.getDataType().getBytes();
+        int htl = ht.length;
+
+        // ヘッダー + データをキュー設定用バイト配列に設定
+        byte[] message = new byte[contents.length + hml + hil + htl];
+        // 配列の先頭にヘッダを付与
+        System.arraycopy(hm, 0, message, 0, hml);
+        System.arraycopy(hi, 0, message, hml, hil);
+        System.arraycopy(ht, 0, message, hml + hil, htl);
+        // ヘッダ以降にcontentsのバイト配列を設定
+        System.arraycopy(contents, 0, message, hml + hil + htl, contents.length);
+
+        return message;
     }
 }

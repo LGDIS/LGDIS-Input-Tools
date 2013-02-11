@@ -93,7 +93,7 @@ public class FileUtilsTest {
     public void ファイル名生成() {
         String actual = FileUtils.genFileName("test");
         // ファイル名に日付が入るので一致チェックできないため文字列長でチェック
-        assertThat(actual.length(), is(28));
+        assertThat(actual.length(), is(27));
     }
 
 }

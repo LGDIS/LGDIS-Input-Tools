@@ -35,34 +35,34 @@ public class ReceiverThread extends Thread implements
     /**
      * スレッド名
      */
-    private String threadName = null;
+    String threadName = null;
 
     /**
      * 本文出力先ディレクトリ
      */
-    private String outputPath = null;
+    String outputPath = null;
 
     /**
      * サーバソケット制御インスタンス
      */
-    private JmaServerSocketControl serverSocketControl = null;
+    JmaServerSocketControl serverSocketControl = null;
 
     /**
      * データ解析クラスインスタンス.<br>
-     * 1スレッドに対して1つのデータ解析クラスをのデータ受信機能の起動プロパティで指定
+     * キーにJMAのデータ種別を指定、値にデータ解析クラスインスタンスを指定
      */
-    private Map<String, DataAnalyzer> analyzers = null;
+    Map<String, DataAnalyzer> analyzers = null;
 
     /**
      * 入力元を示す識別子.<br>
      * recerver.ymlに定義されている。3文字固定
      */
-    private String inputId = null;
+    String inputId = null;
 
     /**
      * ポートのモード(通常or訓練or試験)
      */
-    private int mode = 0;
+    int mode = 0;
 
     /**
      * コンストラクタです。

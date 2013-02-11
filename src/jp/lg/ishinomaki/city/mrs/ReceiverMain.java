@@ -29,7 +29,7 @@ public class ReceiverMain implements Daemon {
      * 設定ファイルパス格納用変数
      */
     static String fileName;
-    
+
     /**
      * ログ用
      */
@@ -63,7 +63,7 @@ public class ReceiverMain implements Daemon {
         }
 
         // 設定ファイル名を保存
-        fileName =args[0];
+        fileName = args[0];
 
         // メインクラス生成
         ReceiverMain main = new ReceiverMain();
@@ -84,7 +84,7 @@ public class ReceiverMain implements Daemon {
             log.severe("パラメータにはプロパティファイルのパスをフルパスで指定してください。");
             return;
         }
-        
+
         fileName = args[0];
 
     }
@@ -95,18 +95,26 @@ public class ReceiverMain implements Daemon {
     @Override
     public void start() {
         log.info("データ受信機能を開始します");
-        
+
         // 構成ファイル読み込み
         ReceiverConfig config = ReceiverConfig.getInstance();
         try {
             config.loadYml(fileName);
         } catch (FileNotFoundException e) {
+            log.severe("プロパティファイルの読み込みに失敗しました。データ受信機能の開始を中断します。");
             e.printStackTrace();
             return;
         }
 
         // スレッド管理インスタンス生成
-        threadManager = new ReceiverThreadManager();
+        try {
+            threadManager = new ReceiverThreadManager();
+        } catch (Exception e) {
+            log.severe("スレッド管理インスタンスの生成に失敗しました。データ受信機能の開始を中断します。");
+            e.printStackTrace();
+            return;
+        }
+
         // 受信スレッド開始
         threadManager.start();
     }

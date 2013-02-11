@@ -85,7 +85,7 @@ public class FileUtils {
      */
     public static String genFileName(String type) {
         Date nowDate = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("_yyyy-MM-dd_HH-mm-ss-SSS");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss-SSS");
         String dateString = sdf.format(nowDate);
         String retStr = type + dateString;
         return retStr;
