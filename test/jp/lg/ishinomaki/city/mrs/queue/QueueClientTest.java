@@ -37,7 +37,7 @@ public class QueueClientTest {
         popServer.start();
         
         try {
-            // 1秒スリープ
+            // 2秒スリープ
             Thread.sleep(2 * 1000);
         } catch (Exception ie) {
             // 特に処理なし
@@ -49,8 +49,15 @@ public class QueueClientTest {
         byte[] pushData = data.getBytes();
 
         // キューにメッセージ追加
-        target.push("1BIXMLcontents".getBytes());
+        target.push(pushData);
 
+        try {
+            // 1秒スリープ
+            Thread.sleep(1 * 1000);
+        } catch (Exception ie) {
+            // 特に処理なし
+        }
+        
         // メッセージがキューから正しく取れることを確認
         byte[] popData = target.pop();
 

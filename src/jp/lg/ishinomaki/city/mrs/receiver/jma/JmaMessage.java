@@ -429,11 +429,7 @@ public class JmaMessage {
         byte[] ret = new byte[checkPointLength];
 
         // ヘッダーのレングス部分文字列作成
-        String strLength = Integer.toString(checkPointLength);
-        int l = strLength.length();
-        for (int i = 0; i < 8 - l; i++) {
-            strLength = "0" + strLength;
-        }
+        String strLength = "00000033";  // チェックポイントの通知は固定のレングスのため固定文字列で指定
 
         try {
             // retの先頭に設定

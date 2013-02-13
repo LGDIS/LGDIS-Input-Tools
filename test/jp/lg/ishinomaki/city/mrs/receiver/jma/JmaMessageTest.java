@@ -60,12 +60,12 @@ public class JmaMessageTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void メッセージタイプが制御レコードでレコード種別長が不足() {
-        new JmaMessage("00000010EN1".getBytes());
+        new JmaMessage("00000010EN1".getBytes());   // 例外発生
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void メッセージタイプが制御レコードでレコード種別がCHKではない() {
-        new JmaMessage("00000010EN1234567890".getBytes());
+        new JmaMessage("00000010EN1234567890".getBytes());  // 例外発生
     }
 
     @Test
@@ -158,5 +158,14 @@ public class JmaMessageTest {
     public void ヘルスチェック応答() {
         assertThat("00000003ENCHK",
                 is(new String(JmaMessage.generateHelthcheckAck())));
+    }
+    
+    @Test
+    public void チェックポイント応答() {
+        JmaMessage target = new JmaMessage(
+                "00000030aN123456789012345678901234567890".getBytes());
+        byte[] actual = target.generateCheckPointAck();
+        
+        assertThat(new String(actual), is("00000033ENACK00000030aN12345678901234567890"));
     }
 }

@@ -372,7 +372,7 @@ public class BCH {
         byte[] byteBch = Arrays.copyOf(data, 20);
         // byte[]を2進数表現の文字列に変換
         this.strBch = StringUtils.toBinaryString(byteBch);
-        
+
         // format定義に従って分割しMapに保存
         List<Map<String, Integer>> divider = (List<Map<String, Integer>>) ReceiverConfig
                 .getInstance().getBch_divider();
@@ -402,7 +402,6 @@ public class BCH {
     public String getStrBch() {
         return this.strBch;
     }
-
 
     /**
      * メッセージの文字列表現

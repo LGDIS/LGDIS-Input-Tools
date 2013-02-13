@@ -19,6 +19,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -55,32 +56,32 @@ public class JmaServerSocketControl {
     /**
      * Java提供のServerSocketインスタンス
      */
-    private ServerSocket serverSocket = null;
+    ServerSocket serverSocket = null;
 
     /**
      * 接続に使用するSocketインスタンス
      */
-    private Socket socket = null;
+    Socket socket = null;
 
     /**
      * 接続中のInputStream
      */
-    private InputStream inputStream = null;
+    InputStream inputStream = null;
 
     /**
      * 接続中のBufferedInputStream
      */
-    private BufferedInputStream bufferedInputStream = null;
+    BufferedInputStream bufferedInputStream = null;
 
     /**
      * 接続中のOutputStream
      */
-    private OutputStream outputStream = null;
+    OutputStream outputStream = null;
 
     /**
      * 接続中のBufferedOutputStream
      */
-    private BufferedOutputStream bufferedOutputStream = null;
+    BufferedOutputStream bufferedOutputStream = null;
 
     /**
      * 各イベントの通知先
@@ -100,12 +101,12 @@ public class JmaServerSocketControl {
     /**
      * 分割電文を受信した際の電文保管用変数
      */
-    private JmaMessage savedMessage = null;
+    JmaMessage savedMessage = null;
 
     /**
      * チェックポイント管理対象のデータを保存するリスト
      */
-    private List<JmaMessage> checkpointManagedMessages = new ArrayList<JmaMessage>();
+    List<JmaMessage> checkpointManagedMessages = new ArrayList<JmaMessage>();
 
     /**
      * キューの最大値 ServerSocketコンストラクタの第二引数(backlog)に渡す値
@@ -505,11 +506,12 @@ public class JmaServerSocketControl {
 
                     log.finest("[" + threadName + "] 電文分割受信中のため受信データを保存データに結合]");
 
-                    // 保存されているチェックポイントデータにデータ追加
+                    // 保存されているデータに分割データを結合
                     boolean result = savedMessage.appendData(data);
                     if (result == false) {
                         // データの結合に失敗した場合はデータ自体破棄
-                        log.warning("[" + threadName + "] 結合データサイズがヘッダに記載のサイズより大きくなったためデータを破棄して処理中断");
+                        log.warning("[" + threadName
+                                + "] 結合データサイズがヘッダに記載のサイズより大きくなったためデータを破棄して処理中断");
                         return false;
                     }
                     msg = savedMessage;
@@ -556,7 +558,7 @@ public class JmaServerSocketControl {
                                 + "] ユーザデータ (チェックポイントあり) 電文です。");
 
                         // チェックポイントの場合はデータをインスタンス変数に保存しクライアントへ"ACK"を回答
-                        checkpointManagedMessages.add(msg);
+                        appendCheckpointManagedData(msg);
                         // チェックポイント応答返却
                         ackCheckpoint(msg);
 
@@ -587,7 +589,7 @@ public class JmaServerSocketControl {
                         checkpointManagedMessages = new ArrayList<JmaMessage>();
 
                         // デリゲート通知
-                        delegate.receiveData( msg.getMessageType(), userData);
+                        delegate.receiveData(msg.getMessageType(), userData);
                     }
 
                 } else {
@@ -607,73 +609,104 @@ public class JmaServerSocketControl {
                 e.printStackTrace();
                 return false;
             }
-
             return true;
         }
+    }
 
-        /**
-         * チェックポイント管理されている全メッセージのユーザデータ部を結合して返却します。
-         * 
-         * @return チェックポイント管理中の全ユーザデータ結合結果
-         */
-        private byte[] mergeCheckpointManagedData() {
+    /**
+     * チェックポイント管理データに新規にメッセージを追加します。<br>
+     * このメソッドは電文重複削除機能を実施します。
+     * 
+     * @param msg
+     */
+    void appendCheckpointManagedData(JmaMessage msg) {
 
-            int dataLength = 0;
-            // チェックポイント管理されている全データのユーザデータ長を計算
-            for (JmaMessage msg : checkpointManagedMessages) {
-                dataLength = dataLength + msg.getUserDataLength();
-            }
-
-            byte[] result = new byte[dataLength];
-            int currentPos = 0;
-            // チェックポイント管理されている全データのユーザデータを結合
-            for (JmaMessage msg : checkpointManagedMessages) {
-                int length = msg.getUserDataLength();
-                System.arraycopy(msg.getUserData(), 0, result, currentPos,
-                        msg.getUserDataLength());
-                currentPos = currentPos + length;
-            }
-
-            return result;
+        // チェックポイントデータ管理テーブル初期化
+        if (checkpointManagedMessages == null) {
+            checkpointManagedMessages = new ArrayList<JmaMessage>();
         }
 
-        /**
-         * 内部メソッド<br>
-         * ヘルスチェックの応答を返す。複数箇所で使用するため内部メソッド化。
-         * 
-         * @throws Exception
-         */
-        private void ackHelthCheck() {
-            log.finest("ヘルスチェック応答前");
-            try {
-                bufferedOutputStream.write(JmaMessage.generateHelthcheckAck());
-                bufferedOutputStream.flush();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+        // チェックポイント管理対象のデータがない場合はテーブルに引数データを追加
+        if (checkpointManagedMessages.size() == 0) {
+            checkpointManagedMessages.add(msg);
+        }
+        // チェックポイント管理対象のデータが既にある場合は重複電文チェックを行う
+        else {
+            // チェックポイント管理されているJmaMssageのうち最後のものを取得
+            JmaMessage lastMsg = checkpointManagedMessages
+                    .get(checkpointManagedMessages.size() - 1);
+            // byte配列の比較
+            if (Arrays.equals(lastMsg.getData(), msg.getData())) {
+                // byte配列が一致する場合は電文が重複していると判断
+                log.warning("電文が重複しているため、新規に受信した電文は保存しません。");
+            } else {
+                // 電文が重複していない場合はチェックポイント管理にデータを追加する
+                checkpointManagedMessages.add(msg);
             }
-            log.finest("ヘルスチェック応答後");
+        }
+    }
+
+    /**
+     * チェックポイント管理されている全メッセージのユーザデータ部を結合して返却します。
+     * 
+     * @return チェックポイント管理中の全ユーザデータ結合結果
+     */
+    byte[] mergeCheckpointManagedData() {
+
+        int dataLength = 0;
+        // チェックポイント管理されている全データのユーザデータ長を計算
+        for (JmaMessage msg : checkpointManagedMessages) {
+            dataLength = dataLength + msg.getUserDataLength();
         }
 
-        /**
-         * 内部メソッド<br>
-         * チェックポイントの応答を返す。複数箇所で使用するため内部メソッド化。
-         * 
-         * @param data
-         *            受信電文
-         */
-        private void ackCheckpoint(JmaMessage msg) {
-            log.finest("チェックポイント応答前");
-            try {
-                bufferedOutputStream.write(msg.generateCheckPointAck());
-                bufferedOutputStream.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            log.finest("チェックポイント応答後");
+        byte[] result = new byte[dataLength];
+        int currentPos = 0;
+        // チェックポイント管理されている全データのユーザデータを結合
+        for (JmaMessage msg : checkpointManagedMessages) {
+            int length = msg.getUserDataLength();
+            System.arraycopy(msg.getUserData(), 0, result, currentPos,
+                    msg.getUserDataLength());
+            currentPos = currentPos + length;
         }
 
+        return result;
+    }
+
+    /**
+     * 内部メソッド<br>
+     * ヘルスチェックの応答を返す。複数箇所で使用するため内部メソッド化。
+     * 
+     * @throws Exception
+     */
+    void ackHelthCheck() {
+        log.finest("ヘルスチェック応答前");
+        try {
+            bufferedOutputStream.write(JmaMessage.generateHelthcheckAck());
+            bufferedOutputStream.flush();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        log.finest("ヘルスチェック応答後");
+    }
+
+    /**
+     * 内部メソッド<br>
+     * チェックポイントの応答を返す。複数箇所で使用するため内部メソッド化。
+     * 
+     * @param data
+     *            受信電文
+     */
+    void ackCheckpoint(JmaMessage msg) {
+        log.finest("チェックポイント応答前");
+        try {
+            bufferedOutputStream.write(msg.generateCheckPointAck());
+            bufferedOutputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        log.finest("チェックポイント応答後");
     }
 
 }

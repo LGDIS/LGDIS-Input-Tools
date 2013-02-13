@@ -8,13 +8,12 @@
 
 package jp.lg.ishinomaki.city.mrs.analyzer;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
 import jp.lg.ishinomaki.city.mrs.Consts;
-import jp.lg.ishinomaki.city.mrs.utils.BCHChecksumHelper;
 import jp.lg.ishinomaki.city.mrs.utils.ArchiveUtils;
+import jp.lg.ishinomaki.city.mrs.utils.BCHChecksumHelper;
 
 /**
  * J-Alertから受信する気象庁データの解析クラスです。<br>
@@ -32,47 +31,17 @@ public class JmaDataAnalyzer implements DataAnalyzer {
     /**
      * BCHインスタンス
      */
-    private BCH bch = null;
+    BCH bch = null;
 
     /**
-     * 電文ヘディング内の"冒頭符"
+     * 電文ヘッディング部
      */
-    private String headerCode = null;
-
-    /**
-     * 電文ヘディング内の発信官署名
-     */
-    private String senderSign = null;
-
-    /**
-     * 観測日時刻
-     */
-    private String observationDate = null;
-
-    /**
-     * 指定コード
-     */
-    private String appointCode = null;
-
+    byte[] heading = null;
+    
     /**
      * 本文
      */
-    private byte[] contents = null;
-
-    /**
-     * 電文ヘッディング内で使用する復帰改行(電文ヘディングと本文とのデリミタとして使用)
-     */
-    private static int NL = 0x0A;
-
-    /**
-     * 電文ヘッディング内で使用するテキスト開始符号
-     */
-    private static int STX = 0x02;
-
-    /**
-     * 電文ヘッディングで使用するスペース(電文ヘディング内のデリミタとして使用)
-     */
-    private static int SP = 0x20;
+    byte[] contents = null;
 
     /**
      * コンストラクタです。 特に処理はありません。
@@ -115,130 +84,43 @@ public class JmaDataAnalyzer implements DataAnalyzer {
             // throw new InvalidParameterException("チェックサムエラーのため処理を中断します。");
         }
 
-        // -----------------------------------
-        // データ属性により解析処理を行う
-        // -----------------------------------
-        // バイナリデータ
-        // バイナリデータの判定をBCHの"PIF->データ属性"で行う
-        if (this.bch.getDataAttribute() == BCH.DATAATTRIBUTE_BINARY) {
-            log.finest("[データ属性]の設定がバイナリのためバイナリ用の解析");
-            analyzeBinary(data);
-            return;
-        }
+        // ヘッダ部の解析
+        analyzeHeading(data);
 
-        // 非バイナリデータ
-        else {
-            log.finest("[データ属性]の設定がバイナリ以外のためバイナリ以外用の解析");
-            analyzeText(data);
-            return;
-        }
+        // 本文部の解析
+        analyzeBody(data);
     }
 
     /**
-     * 内部メソッド バイナリ以外のデータ受信時の解析処理を実施
+     * ヘッディング部を解析する内部メソッド
      * 
      * @param data
-     *            ユーザデータ全体
      */
-    private void analyzeText(final byte[] data) {
-
-        // -----------------------------------
-        // 電文ヘッディング部解析
-        // パターン1のみ(パターン2は存在しない)
-        // -----------------------------------
-        byte[] heading = null;
-
-        // データ種別が'バイナリ'でない場合はパターン1、'バイナリ'の場合はパターン3
-        if (this.bch.getDataAttribute() != 5) {
-            // パターン1
-            // BCH終了後から'NL'〜'NL'までを電文ヘディングとして認識
-            int beginNl = 0;
-            int endNl = 0;
-            // 'NL'開始位置取得
-            for (int i = bch.getBchLength(); i < data.length
-                    - bch.getBchLength(); i++) {
-                byte abyte = data[i];
-                if (abyte == NL) {
-                    beginNl = i;
-                    break;
-                }
-            }
-            // 'NL'終了位置取得
-            for (int i = beginNl + 1; i < data.length - (beginNl + 1); i++) {
-                byte abyte = data[i];
-                if (abyte == NL) {
-                    endNl = i;
-                    break;
-                }
-            }
-            // 電文ヘディング部取得
-            heading = Arrays.copyOfRange(data, beginNl + 1, endNl);
-
-        } else {
-        }
-
-        // 電文ヘディング部解析
-        this.analyzeHeading(heading);
-
-        // -----------------------------------
-        // 本文部抽出
-        // パターン1(テキスト本文)とパターン3(バイナリ本文)のみ考慮
-        // -----------------------------------
-        // 本文部分を抽出
-        byte[] work_contents = Arrays.copyOfRange(data, heading.length,
-                data.length);
-
-        // データ種別が'バイナリ'でない場合はパターン1、'バイナリ'の場合はパターン3
-        if (this.bch.getDataAttribute() != 5) {
-            // パターン1の場合は本文符号NLを除いた部分を本文とする
-            int beginNl = 0;
-            int endNl = 0;
-            for (int i = 0; i < work_contents.length; i++) {
-                byte abyte = work_contents[i];
-                if (abyte != NL && abyte != STX) {
-                    beginNl = i;
-                    break;
-                }
-            }
-
-            for (int i = beginNl + 1; i < work_contents.length; i++) {
-                byte abyte = work_contents[i];
-                if (abyte == NL) {
-                    endNl = i;
-                    break;
-                }
-            }
-            // 本文(NL,STX,ETXを除いた部分)を抽出
-            this.contents = Arrays.copyOfRange(work_contents, beginNl, endNl);
-        } else {
-            // パターン2(バイナリ)の場合は電文ヘディング以外はすべて本文
-            this.contents = work_contents;
-        }
-
-    }
-
-    /**
-     * 内部メソッド バイナリデータ受信時の解析処理を実施
-     * 
-     * @param data
-     *            ユーザデータ全体
-     */
-    private void analyzeBinary(final byte[] data) {
-
+    void analyzeHeading(final byte[] data) {
         // -----------------------------------
         // 電文ヘッディング部解析
         // -----------------------------------
-        byte[] heading = Arrays.copyOfRange(data, bch.getBchLength(),
+        byte[] work_heading = Arrays.copyOfRange(data, bch.getBchLength(),
                 bch.getBchLength() + bch.getAnLength());
-        log.finest("電文ヘッディングレングス [" + heading.length + "]");
+        log.finest("電文ヘッディングレングス [" + work_heading.length + "]");
         StringBuilder sb = new StringBuilder();
         sb.append("電文ヘッディング内容 [");
-        for (int i = 0; i < heading.length; i++) {
-            sb.append(String.format("%02x ", heading[i]));
+        for (int i = 0; i < work_heading.length; i++) {
+            sb.append(String.format("%02x ", work_heading[i]));
         }
         sb.append("]");
+        // 現時点ではログを出力するのみ
         log.finest(sb.toString());
 
+        this.heading = work_heading;
+    }
+
+    /**
+     * 本文部を解析する内部メソッド
+     * 
+     * @param data
+     */
+    void analyzeBody(final byte[] data) {
         // -----------------------------------
         // 本文部解析
         // -----------------------------------
@@ -255,83 +137,14 @@ public class JmaDataAnalyzer implements DataAnalyzer {
         else if (this.bch.getXmlType() == BCH.XMLTYPE_XML_ON_ZIP) {
             this.contents = ArchiveUtils.unzip(work_contents);
         }
-    }
-
-    /**
-     * 電文ヘディング部の解析<br>
-     * 内容はパターン1、パターン3どちらも共通のため内部メソッドとして外出しにする
-     * 
-     * @param heading
-     */
-    private void analyzeHeading(final byte[] heading) {
-
-        // 最初のデータはデータ種別コードまたは冒頭符
-        this.headerCode = this.substring(heading, 0, NL, SP);
-        log.finest("電文ヘッディング データ種別コード/冒頭符 -> [" + this.headerCode + "]");
-        // 次のデータは発信官署名
-        this.senderSign = this.substring(heading, this.headerCode.length(), SP,
-                SP);
-        log.finest("電文ヘッディング 発信官署名 -> [" + this.senderSign + "]");
-
-        // 次のデータは観測日時刻
-        this.observationDate = this.substring(heading, this.headerCode.length()
-                + this.senderSign.length(), SP, SP);
-
-        // 最後のデータは指定コード
-        this.appointCode = this.substring(heading, this.headerCode.length()
-                + this.senderSign.length() + this.observationDate.length(), SP,
-                0);
-
-    }
-
-    /**
-     * デリミタの指定がない場合は0を指定<br>
-     * beginDelimtが0の場合はデータの先頭から、endDelimitが0の場合はデータの最後尾まで指定したことと同意とする。
-     * 
-     * @param data
-     * @param beginDelimit
-     * @param endDelimit
-     * @return
-     */
-    private String substring(byte[] data, int beginIndex, int beginDelimit,
-            int endDelimit) {
-        int beginDelimitIndex = -1;
-        int endDelimitIndex = -1;
-        // 開始デリミタの位置取得
-        int i = beginIndex;
-        for (; i < data.length; i++) {
-            byte abyte = data[i];
-            if (abyte == beginDelimit) {
-                beginDelimitIndex = i;
-                break;
-            }
+        // 圧縮なしのXML
+        else if (this.bch.getXmlType() == BCH.XMLTYPE_XML) {
+            this.contents = work_contents;
         }
-        // 終了デリミタの位置取得
-        if (endDelimit == 0) {
-            endDelimitIndex = data.length - 1;
-        } else {
-            for (; i < data.length; i++) {
-                byte abyte = data[i];
-                if (abyte == endDelimit) {
-                    endDelimitIndex = i;
-                    break;
-                }
-            }
+        // 上記以外
+        else {
+            this.contents = work_contents;
         }
-        // デリミタが見つからない場合はnull返却
-        if (beginDelimitIndex == -1 || endDelimitIndex == -1) {
-            return null;
-        }
-
-        String retStr = null;
-        try {
-            retStr = new String(Arrays.copyOfRange(data, beginDelimitIndex + 1,
-                    endDelimitIndex), "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        return retStr;
     }
 
     /**
@@ -343,38 +156,6 @@ public class JmaDataAnalyzer implements DataAnalyzer {
     @Override
     public byte[] getContents() {
         return this.contents;
-    }
-
-    /**
-     * 冒頭符を取得します。
-     * @return
-     */
-    public String getHeaderCode() {
-        return headerCode;
-    }
-
-    /**
-     * 発信官署名を取得します。
-     * @return
-     */
-    public String getSenderSign() {
-        return senderSign;
-    }
-
-    /**
-     * 観測日時刻を取得します。
-     * @return
-     */
-    public String getObservationDate() {
-        return observationDate;
-    }
-
-    /**
-     * 指定コードを取得します。
-     * @return
-     */
-    public String getAppointCode() {
-        return appointCode;
     }
 
     /**
@@ -395,7 +176,7 @@ public class JmaDataAnalyzer implements DataAnalyzer {
             }
         }
         // TODO それ以外のファイル形式の判定方法は？
-        
+
         return Consts.DATA_TYPE_XML;
     }
 }
