@@ -206,7 +206,7 @@ projects:
 # ------------------------------------------------------------
 auto: 
  earthquake_path: "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt/text()"
- tsunami_path: "/Report/Body/Tsunami/Estimation/Item[Arear/Name/text()=\"宮城金華山沖\"]/MaxHeight/TsunamiHeight/text()"
+ tsunami_path: "/Report/Body/Tsunami/Estimation/Item[Area/Name/text()=\"宮城金華山沖\"]/MaxHeight/TsunamiHeight/text()"
  launch: 
   earthquake_threashold: "3"
   tsunami_threashold: 2.2

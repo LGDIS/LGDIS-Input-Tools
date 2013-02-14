@@ -178,7 +178,7 @@ public class JmaXmlDataParser extends XmlDataParser {
             // プロジェクト自動立ち上げを判定
             // 前回自動立ち上げからの間隔が設定値より大きい場合のみ実施
             parseIsAutoLaunchBySeismicIntensity(doc, xpath, rule);
-            parseIsAutoLaunchByTsunamiHeigh(doc, xpath, rule);
+            parseIsAutoLaunchByTsunamiHeight(doc, xpath, rule);
 
             // TODO プロジェクト自動配信の判定は仕様変更の可能性があるため保留
 
@@ -362,7 +362,7 @@ public class JmaXmlDataParser extends XmlDataParser {
      * @param rule
      * @return
      */
-    boolean parseIsAutoLaunchByTsunamiHeigh(Document doc, XPath xpath,
+    boolean parseIsAutoLaunchByTsunamiHeight(Document doc, XPath xpath,
             JmaParseRule rule) {
 
         // 津波の高さを取得
@@ -455,7 +455,7 @@ public class JmaXmlDataParser extends XmlDataParser {
      * @param rule
      * @return
      */
-    boolean paseIsAutoSendByTsunamiHeight(Document doc, XPath xpath,
+    boolean parseIsAutoSendByTsunamiHeight(Document doc, XPath xpath,
             JmaParseRule rule) {
 
         // 津波の高さを配列で取得

@@ -84,7 +84,7 @@ public class JmaParseRuleTest {
         String actual = rule.getTsunamiHeightXpath();
         assertThat(
                 actual,
-                is("/Report/Body/Tsunami/Estimation/Item[Arear/Name/text()=\"宮城金華山沖\"]/MaxHeight/TsunamiHeight/text()"));
+                is("/Report/Body/Tsunami/Estimation/Item[Area/Name/text()=\"宮城金華山沖\"]/MaxHeight/TsunamiHeight/text()"));
     }
 
     @Test
