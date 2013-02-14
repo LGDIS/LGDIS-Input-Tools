@@ -36,8 +36,7 @@ public class QueuePushServer extends Thread {
         QueueConfig config = QueueConfig.getInstance();
         String sockDir = config.getDomainSocketDir();
         String pushFile = config.getDomainSocketPushFile();
-System.out.println(sockDir);
-System.out.println(pushFile);
+        
         // ドメインソケットファイル取得
         final File socketFile = new File(new File(sockDir), pushFile);
 
