@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import jp.lg.ishinomaki.city.mrs.parser.ParserConfig;
 import jp.lg.ishinomaki.city.mrs.pickup.PickupThread;
+import jp.lg.ishinomaki.city.mrs.queue.QueueConfig;
 
 import org.apache.commons.daemon.Daemon;
 import org.apache.commons.daemon.DaemonContext;
@@ -26,7 +27,8 @@ public class ParserMain implements Daemon {
     /**
      * 設定ファイルパスの格納用変数
      */
-    static String fileName = null;
+    static String parserConfigFileName = null;
+    static String queueConfigFileName = null;
 
     /**
      * ログ用
@@ -41,13 +43,15 @@ public class ParserMain implements Daemon {
      */
     public static void main(String[] args) {
         // 引数は1つでconfigファイルが指定されているはず
-        if (args == null || args.length != 1) {
+        if (args == null || args.length != 2) {
             System.err.println("パラメータが不正です。");
             System.err.println("パラメータには設定ファイルのパスをフルパスで指定してください。");
             return;
         }
 
-        fileName = args[0];
+        parserConfigFileName = args[0];
+        queueConfigFileName = args[1];
+
         // メインクラス生成
         ParserMain main = new ParserMain();
         // クラス起動
@@ -68,12 +72,13 @@ public class ParserMain implements Daemon {
         log.info("パーサ機能を初期化します...");
         // 引数チェック
         String[] args = dc.getArguments();
-        if (args == null || args.length != 1) {
+        if (args == null || args.length != 2) {
             log.severe("パラメータが不正です。");
             log.severe("パラメータには設定ファイルのパスをフルパスで指定してください。");
             return;
         }
-        fileName = args[0];
+        parserConfigFileName = args[0];
+        queueConfigFileName = args[1];
     }
 
     /**
@@ -82,11 +87,13 @@ public class ParserMain implements Daemon {
     @Override
     public void start() {
         log.info("パーサ機能を開始します");
-        
+
         // 構成ファイル読み込み
-        ParserConfig config = ParserConfig.getInstance();
+        ParserConfig parserConfig = ParserConfig.getInstance();
+        QueueConfig queueConfig = QueueConfig.getInstance();
         try {
-            config.loadYml(fileName);
+            parserConfig.loadYml(parserConfigFileName);
+            queueConfig.loadYml(queueConfigFileName);
         } catch (Exception e) {
             e.printStackTrace();
             log.severe("設定ファイルの読み込みに失敗しました。処理を中断します。");

@@ -23,7 +23,8 @@ public class QueueManager {
      * デフォルトコンストラクタを外部から実行できないようにする
      */
     private QueueManager() {
-        queue = new ArrayBlockingQueue<byte[]>(QueueConfig.QUEUE_MAX_SIZE);
+        QueueConfig config = QueueConfig.getInstance();
+        queue = new ArrayBlockingQueue<byte[]>(config.getQueueMaxSize());
     }
 
     /**
@@ -48,8 +49,7 @@ public class QueueManager {
      * @throws InterruptedException
      *             待機中に割り込みが発生した場合
      */
-    public void push(byte[] data) throws InterruptedException,
-            IOException {
+    public void push(byte[] data) throws InterruptedException, IOException {
         queue.offer(data);
         log.info("キューにデータを登録しました。 現在キューイングされているデータ数:" + queue.size());
     }

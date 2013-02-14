@@ -32,10 +32,14 @@ public class QueuePushServer extends Thread {
      */
     public void run() {
 
+        // ドメインソケット用定義取得
+        QueueConfig config = QueueConfig.getInstance();
+        String sockDir = config.getDomainSocketDir();
+        String pushFile = config.getDomainSocketPushFile();
+System.out.println(sockDir);
+System.out.println(pushFile);
         // ドメインソケットファイル取得
-        final File socketFile = new File(new File(
-                System.getProperty(QueueConfig.DOMAIN_SOCKET_DIR_KEY)),
-                QueueConfig.DOMAIN_SOCKET_FILE_FOR_PUSH);
+        final File socketFile = new File(new File(sockDir), pushFile);
 
         // ------------------------------------------------------
         // サーバソケット生成

@@ -11,6 +11,7 @@ package jp.lg.ishinomaki.city.mrs;
 import java.io.FileNotFoundException;
 import java.util.logging.Logger;
 
+import jp.lg.ishinomaki.city.mrs.queue.QueueConfig;
 import jp.lg.ishinomaki.city.mrs.receiver.ReceiverConfig;
 import jp.lg.ishinomaki.city.mrs.receiver.ReceiverThreadManager;
 
@@ -28,8 +29,9 @@ public class ReceiverMain implements Daemon {
     /**
      * 設定ファイルパス格納用変数
      */
-    static String fileName;
-
+    static String receiverConfigFileName;
+    static String queueConfigFileName;
+    
     /**
      * ログ用
      */
@@ -56,15 +58,16 @@ public class ReceiverMain implements Daemon {
     public static void main(String[] args) {
 
         // 引数は1つでconfigファイルが指定されているはず
-        if (args == null || args.length != 1) {
+        if (args == null || args.length != 2) {
             System.err.println("パラメータが不正です。");
             System.err.println("パラメータにはプロパティファイルのパスをフルパスで指定してください。");
             return;
         }
 
         // 設定ファイル名を保存
-        fileName = args[0];
-
+        receiverConfigFileName = args[0];
+        queueConfigFileName = args[1];
+        
         // メインクラス生成
         ReceiverMain main = new ReceiverMain();
         // 処理開始
@@ -79,14 +82,14 @@ public class ReceiverMain implements Daemon {
         log.info("データ受信機能を初期化します...");
         // 引数チェック
         String[] args = dc.getArguments();
-        if (args == null || args.length != 1) {
+        if (args == null || args.length != 2) {
             log.severe("パラメータが不正です。");
             log.severe("パラメータにはプロパティファイルのパスをフルパスで指定してください。");
             return;
         }
 
-        fileName = args[0];
-
+        receiverConfigFileName = args[0];
+        queueConfigFileName = args[1];
     }
 
     /**
@@ -97,9 +100,11 @@ public class ReceiverMain implements Daemon {
         log.info("データ受信機能を開始します");
 
         // 構成ファイル読み込み
-        ReceiverConfig config = ReceiverConfig.getInstance();
+        ReceiverConfig receiverConfig = ReceiverConfig.getInstance();
+        QueueConfig queueConfig = QueueConfig.getInstance();
         try {
-            config.loadYml(fileName);
+            receiverConfig.loadYml(receiverConfigFileName);
+            queueConfig.loadYml(queueConfigFileName);
         } catch (FileNotFoundException e) {
             log.severe("プロパティファイルの読み込みに失敗しました。データ受信機能の開始を中断します。");
             e.printStackTrace();

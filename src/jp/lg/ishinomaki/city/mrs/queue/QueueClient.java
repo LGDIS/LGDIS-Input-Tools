@@ -39,9 +39,12 @@ public class QueueClient {
      */
     public byte[] pop() throws IOException {
 
-        final File socketFile = new File(new File(
-                System.getProperty(QueueConfig.DOMAIN_SOCKET_DIR_KEY)),
-                QueueConfig.DOMAIN_SOCKET_FILE_FOR_POP);
+        // ドメインソケット用定義取得
+        QueueConfig config = QueueConfig.getInstance();
+        String sockDir = config.getDomainSocketDir();
+        String popFile = config.getDomainSocketPopFile();
+
+        final File socketFile = new File(new File(sockDir), popFile);
 
         AFUNIXSocket sock = AFUNIXSocket.newInstance();
         sock.connect(new AFUNIXSocketAddress(socketFile));
@@ -75,10 +78,13 @@ public class QueueClient {
      */
     public void push(byte[] data) throws IOException {
 
+        // ドメインソケット用定義取得
+        QueueConfig config = QueueConfig.getInstance();
+        String sockDir = config.getDomainSocketDir();
+        String pushFile = config.getDomainSocketPushFile();
+
         // ドメインソケット用ファイル生成
-        final File socketFile = new File(new File(
-                System.getProperty(QueueConfig.DOMAIN_SOCKET_DIR_KEY)),
-                QueueConfig.DOMAIN_SOCKET_FILE_FOR_PUSH);
+        final File socketFile = new File(new File(sockDir), pushFile);
 
         // ソケットインスタンス生成
         AFUNIXSocket sock = AFUNIXSocket.newInstance();

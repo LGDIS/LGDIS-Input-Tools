@@ -10,6 +10,7 @@ package jp.lg.ishinomaki.city.mrs;
 
 import java.util.logging.Logger;
 
+import jp.lg.ishinomaki.city.mrs.queue.QueueConfig;
 import jp.lg.ishinomaki.city.mrs.queue.QueuePopServer;
 import jp.lg.ishinomaki.city.mrs.queue.QueuePushServer;
 
@@ -30,24 +31,32 @@ public class QueueMain implements Daemon {
     private final Logger log = Logger
             .getLogger(QueueMain.class.getSimpleName());
 
+    /**
+     * 設定ファイルパスの格納用変数
+     */
+    static String fileName = null;
+
     private QueuePushServer pushServer = null;
     private QueuePopServer popServer = null;
-    
+
     /**
      * アプリケーションのメイン関数
      * 
      * @param args
      */
     public static void main(String[] args) {
-        QueueMain main = new QueueMain();
-        try {
-            main.init(null);
-            main.start();
-        } catch (DaemonInitException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        // 引数は1つでconfigファイルが指定されているはず
+        if (args == null || args.length != 1) {
+            System.err.println("パラメータが不正です。");
+            System.err.println("パラメータには設定ファイルのパスをフルパスで指定してください。");
+            return;
         }
+
+        fileName = args[0];
+
+        QueueMain main = new QueueMain();
+        main.start();
     }
 
     /**
@@ -62,6 +71,15 @@ public class QueueMain implements Daemon {
     @Override
     public void init(DaemonContext dc) throws DaemonInitException, Exception {
         log.info("キュー管理機能を初期化します...");
+        // 引数チェック
+        String[] args = dc.getArguments();
+        if (args == null || args.length != 1) {
+            log.severe("パラメータが不正です。");
+            log.severe("パラメータには設定ファイルのパスをフルパスで指定してください。");
+            return;
+        }
+        fileName = args[0];
+
     }
 
     /**
@@ -70,6 +88,17 @@ public class QueueMain implements Daemon {
     @Override
     public void start() {
         log.info("キュー管理機能を開始します");
+
+        // 構成ファイル読み込み
+        QueueConfig config = QueueConfig.getInstance();
+        try {
+            config.loadYml(fileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.severe("設定ファイルの読み込みに失敗しました。処理を中断します。");
+            return;
+        }
+
         if (pushServer == null) {
             pushServer = new QueuePushServer();
         }
@@ -80,7 +109,7 @@ public class QueueMain implements Daemon {
             // キューサーバを起動
             pushServer.start();
             popServer.start();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             log.severe("キュースレッドに対して割り込みが発生した可能性があります。キュー管理機能を再起動してください。");

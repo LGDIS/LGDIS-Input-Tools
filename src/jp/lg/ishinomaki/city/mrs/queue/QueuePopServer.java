@@ -43,9 +43,12 @@ public class QueuePopServer extends Thread {
         @Override
         public void run() {
 
-            File socketFile = new File(new File(
-                    System.getProperty(QueueConfig.DOMAIN_SOCKET_DIR_KEY)),
-                    QueueConfig.DOMAIN_SOCKET_FILE_FOR_POP);
+            // ドメインソケット用定義取得
+            QueueConfig config = QueueConfig.getInstance();
+            String sockDir = config.getDomainSocketDir();
+            String popFile = config.getDomainSocketPopFile();
+
+            File socketFile = new File(new File(sockDir), popFile);
 
             // ------------------------------------------------------
             // サーバソケット生成
@@ -122,7 +125,8 @@ public class QueuePopServer extends Thread {
         /**
          * コンストラクタ
          * 
-         * @param socket ソケットインスタンス
+         * @param socket
+         *            ソケットインスタンス
          */
         public SocketOutputThread(Socket socket) {
             this.socket = socket;
@@ -153,8 +157,7 @@ public class QueuePopServer extends Thread {
                 // 意図した例外のため特にエラーメッセージなどは発行しません。
                 log.finest("run()メソッド内で例外発生！ e -> " + ie.toString());
                 return;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 // 上記以外の例外発生
                 e.printStackTrace();
                 log.severe("キューからのアイテム取得待ち時に例外発生。キュー監視処理を中断します。");

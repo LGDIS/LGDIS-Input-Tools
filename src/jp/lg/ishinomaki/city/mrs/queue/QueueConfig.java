@@ -8,33 +8,85 @@
 
 package jp.lg.ishinomaki.city.mrs.queue;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Map;
+
+import org.ho.yaml.Yaml;
+
 /**
- * キュー管理機能用の各種設定
+ * queue.ymlの各種定義内容を保持します
  */
 public class QueueConfig {
 
-    /**
-     * ソケットファイル作成ディレクトリを取得する際のキーとなる文字列
-     */
-    public static final String DOMAIN_SOCKET_DIR_KEY = "java.io.tmpdir";
+    // 定義内容読み込み用識別子
+    public static final String DOMAINSOCKET_DIR = "domainsocket_dir";
+    public static final String DOMAINSOCKET_PUSH = "domainsocket_push_file";
+    public static final String DOMAINSOCKET_POP = "domainsocket_pop_file";
+    public static final String QUEUE_MAX_SIZE = "queue_max_size";
 
-    /**
-     * push用ソケットファイル名
-     */
-    public static final String DOMAIN_SOCKET_FILE_FOR_PUSH = "junixsocket_push.sock";
-
-    /**
-     * pop用ソケットファイル名
-     */
-    public static final String DOMAIN_SOCKET_FILE_FOR_POP = "junixsocket_pop.sock";
-
-    /**
-     * キュー可能なMAXサイズ指定 基本的にはキューアイテムをすぐに取り出されるため10000あれば十分
-     */
-    public static final int QUEUE_MAX_SIZE = 10000;
+    private String domainSocketDir;
+    private String domainSocketPushFile;
+    private String domainSocketPopFile;
+    private int queueMaxSize;
 
     /**
      * キューイング可能なデータサイズはintの最大値
      */
     public static final int DATA_MAX_SIZE = Integer.MAX_VALUE;
+
+    /**
+     * シングルトン設計
+     */
+    private static QueueConfig instance;
+
+    public static QueueConfig getInstance() {
+        if (instance == null) {
+            instance = new QueueConfig();
+        }
+        return instance;
+    }
+
+    private QueueConfig() {
+    }
+
+    /**
+     * ymlファイル読み込み
+     */
+    @SuppressWarnings("unchecked")
+    public void loadYml(String ymlFile) throws FileNotFoundException {
+
+        // 指定された定義ファイルの読み込み
+        Map<String, Object> yml = (Map<String, Object>) Yaml
+                .load(new FileReader(ymlFile));
+
+        // --------------------------------------------------------
+        // ドメインソケット用情報を読み込み
+        // --------------------------------------------------------
+        domainSocketDir = (String) yml.get(DOMAINSOCKET_DIR);
+        domainSocketPushFile = (String) yml.get(DOMAINSOCKET_PUSH);
+        domainSocketPopFile = (String) yml.get(DOMAINSOCKET_POP);
+
+        // --------------------------------------------------------
+        // キューに格納可能な最大値
+        // --------------------------------------------------------
+        queueMaxSize = (Integer) yml.get(QUEUE_MAX_SIZE);
+    }
+
+    public String getDomainSocketDir() {
+        return domainSocketDir;
+    }
+
+    public String getDomainSocketPushFile() {
+        return domainSocketPushFile;
+    }
+
+    public String getDomainSocketPopFile() {
+        return domainSocketPopFile;
+    }
+
+    public int getQueueMaxSize() {
+        return queueMaxSize;
+    }
+
 }
