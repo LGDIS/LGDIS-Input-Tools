@@ -63,7 +63,7 @@ public class QueuePopServer extends Thread {
             }
             log.finest("server : " + server);
 
-            // isLoopがtrueの場合はループ
+            // スレッド割り込みが発生するまでループ
             while (!Thread.interrupted()) {
                 // -----------------------------------------
                 // accept設定
