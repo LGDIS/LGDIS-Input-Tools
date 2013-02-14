@@ -11,6 +11,7 @@ package jp.lg.ishinomaki.city.mrs.parser;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
 
+import jp.lg.ishinomaki.city.mrs.utils.DateUtils;
 import jp.lg.ishinomaki.city.mrs.utils.StringUtils;
 
 import org.w3c.dom.Document;
@@ -87,6 +89,16 @@ public class JmaXmlDataParser extends XmlDataParser {
      * Body部以下のXML内容を文字列として保持
      */
     private String xmlBody;
+
+    /**
+     * プロジェクト自動立ち上げフラグを送信した最終時刻を保存
+     */
+    public static Date lastDateTimeAutoLaunch;
+
+    /**
+     * プロジェクト自動送信フラグを送信した最終時刻を保存
+     */
+    public static Date lastDateTimeAutoSend;
 
     /**
      * コンストラクタです。
@@ -164,8 +176,11 @@ public class JmaXmlDataParser extends XmlDataParser {
             parseGeography(locationInfos, xpath, doc, "Location");
 
             // プロジェクト自動立ち上げを判定
+            // 前回自動立ち上げからの間隔が設定値より大きい場合のみ実施
             parseIsAutoLaunchBySeismicIntensity(doc, xpath, rule);
             parseIsAutoLaunchByTsunamiHeigh(doc, xpath, rule);
+
+            // TODO プロジェクト自動配信の判定は仕様変更の可能性があるため保留
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -314,6 +329,7 @@ public class JmaXmlDataParser extends XmlDataParser {
      */
     boolean parseIsAutoLaunchBySeismicIntensity(Document doc, XPath xpath,
             JmaParseRule rule) {
+
         // 自動立ち上げの震度のしきい値取得
         String threshold = rule.getAutoLaunchSeismicIntensityThreashold();
 
@@ -325,10 +341,14 @@ public class JmaXmlDataParser extends XmlDataParser {
             String intensity = node.getNodeValue();
             // 震度がしきい値以上の場合はプロジェクト自動立ち上げフラグON
             if (StringUtils.compareSeismicIntensity(intensity, threshold)) {
-                log.finest("震度:" + intensity + " しきい値:" + threshold
-                        + " のため自動立ち上げON");
-                isAutoLaunch = true;
-                return true;
+                log.finest("震度:" + intensity + " しきい値:" + threshold);
+                // さらに前回自動立ち上げからの時間経過チェック
+                if (isAutoLaunchByInterval(rule)) {
+                    log.info("プロジェクト自動立ち上げを指示します。震度:" + intensity + " しきい値:"
+                            + threshold);
+                    isAutoLaunch = true;
+                }
+                break;
             }
         }
         return true;
@@ -344,6 +364,7 @@ public class JmaXmlDataParser extends XmlDataParser {
      */
     boolean parseIsAutoLaunchByTsunamiHeigh(Document doc, XPath xpath,
             JmaParseRule rule) {
+
         // 津波の高さを取得
         List<String> tsunamiHeights = parseTsunamiHeights(doc, xpath, rule);
         // 津波の高さが取得できた場合は高さによる自動立ち上げ判定実施
@@ -354,9 +375,14 @@ public class JmaXmlDataParser extends XmlDataParser {
             for (String sHeight : tsunamiHeights) {
                 double dHeight = Double.parseDouble(sHeight);
                 if (dHeight >= autoLaunchTsunamiHeightThreshold) {
-                    isAutoLaunch = true;
                     log.finest("高さ:" + sHeight + " しきい値:"
-                            + autoLaunchTsunamiHeightThreshold + " のため自動立ち上げON");
+                            + autoLaunchTsunamiHeightThreshold);
+                    // さらに前回自動立ち上げからの時間経過チェック
+                    if (isAutoLaunchByInterval(rule)) {
+                        log.info("プロジェクト自動立ち上げを指示します。高さ:" + sHeight + " しきい値:"
+                                + autoLaunchTsunamiHeightThreshold);
+                        isAutoLaunch = true;
+                    }
                     break;
                 }
             }
@@ -408,9 +434,13 @@ public class JmaXmlDataParser extends XmlDataParser {
             String intensity = node.getNodeValue();
             // 震度がしきい値以上の場合はプロジェクト自動立ち上げフラグON
             if (StringUtils.compareSeismicIntensity(intensity, threshold)) {
-                log.finest("震度:" + intensity + " しきい値:" + threshold
-                        + " のため自動立ち上げON");
-                isAutoSend = true;
+                log.finest("震度:" + intensity + " しきい値:" + threshold);
+                // さらに前回自動送信からの時間経過チェック
+                if (isAutoSendByInterval(rule)) {
+                    isAutoSend = true;
+                    log.info("プロジェクト自動送信を指示します。震度:" + intensity + " しきい値:"
+                            + threshold);
+                }
                 return true;
             }
         }
@@ -425,8 +455,9 @@ public class JmaXmlDataParser extends XmlDataParser {
      * @param rule
      * @return
      */
-    boolean paserIsAutoSendByTsunamiHeight(Document doc, XPath xpath,
+    boolean paseIsAutoSendByTsunamiHeight(Document doc, XPath xpath,
             JmaParseRule rule) {
+
         // 津波の高さを配列で取得
         List<String> tsunamiHeights = parseTsunamiHeights(doc, xpath, rule);
 
@@ -438,14 +469,92 @@ public class JmaXmlDataParser extends XmlDataParser {
             for (String sHeight : tsunamiHeights) {
                 double dHeight = Double.parseDouble(sHeight);
                 if (dHeight >= autoSendTsunamiHeightThreshold) {
-                    isAutoSend = true;
                     log.finest("高さ:" + sHeight + " しきい値:"
-                            + autoSendTsunamiHeightThreshold + " のため自動配信ON");
+                            + autoSendTsunamiHeightThreshold);
+                    // さらに前回自動送信からの時間経過チェック
+                    if (isAutoSendByInterval(rule)) {
+                        isAutoSend = true;
+                        log.info("プロジェクト自動送信を指示します。高さ:" + sHeight + " しきい値:"
+                                + autoSendTsunamiHeightThreshold);
+                    }
                     break;
                 }
             }
         }
         return true;
+    }
+
+    /**
+     * 設定された時間間隔(分単位)によりプロジェクト自動立ち上げを行なってよいかを判定します。
+     * 
+     * @return
+     */
+    boolean isAutoLaunchByInterval(JmaParseRule rule) {
+        int interval = rule.getAutoLaunchInterval();
+        // 間隔の設定がある場合のみ
+        if (interval <= 0) {
+            return true;
+        }
+
+        // 自動立ち上げを最後に実施した日時からの間隔を判定
+        if (lastDateTimeAutoLaunch == null) {
+            lastDateTimeAutoLaunch = new Date();
+            return true;
+        } else {
+            // 現在時刻との比較
+            Date current = new Date();
+            int diff = DateUtils.differenceMinutes(current,
+                    lastDateTimeAutoLaunch);
+
+            // 定義された間隔以下であれば自動配信を行わないため処理を終了する
+            // intervalは分単位で定義されている
+            if (diff < interval) {
+                log.info("前回のプロジェクト自動立ち上げから[" + interval
+                        + "]分が経過していないためプロジェクト自動立ち上げを行いません");
+                return false;
+            } else {
+                // lastDateTimeAutoLaunchの更新
+                lastDateTimeAutoLaunch = current;
+                return true;
+            }
+        }
+    }
+
+    /**
+     * 設定された時間間隔(分単位)によりプロジェクト自動送信を行なってよいかを判定します。
+     * 
+     * @return
+     */
+    boolean isAutoSendByInterval(JmaParseRule rule) {
+        int interval = rule.getAutoSendInterval();
+        // 間隔の設定がある場合のみ実施
+        if (interval <= 0) {
+            // 設定なしの場合は常にtrueを返却
+            return true;
+        }
+
+        // 自動配信を最後に送信した日時からの間隔を判定
+        if (lastDateTimeAutoSend == null) {
+            lastDateTimeAutoSend = new Date();
+            return true;
+        } else {
+            // 現在時刻との比較
+            Date current = new Date();
+            int diff = DateUtils.differenceMinutes(current,
+                    lastDateTimeAutoSend);
+
+            // 定義された間隔以下であれば自動配信を行わないため処理を終了する
+            // intervalは分単位で定義されている
+            if (diff < interval) {
+                log.info("前回のプロジェクト自動配信から[" + interval
+                        + "]分が経過していないためプロジェクト自動配信を行いません");
+                return false;
+            } else {
+                // lastDateTimeAutoLaunchの更新
+                lastDateTimeAutoSend = current;
+                return true;
+            }
+        }
     }
 
     /**

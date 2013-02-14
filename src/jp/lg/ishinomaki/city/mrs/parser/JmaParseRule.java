@@ -48,8 +48,8 @@ public class JmaParseRule {
     public static final String SEND = "send";
     public static final String DEFAULT = "default";
     public static final String ALLOW_TYPE = "allow_type";
-    
-    
+    public static final String INTERVAL = "interval";
+
     /**
      * yml定義内容を保持するテーブル
      */
@@ -59,12 +59,12 @@ public class JmaParseRule {
      * xml_controlに設定する要素を取得するXPath
      */
     private String xmlControlPath;
-    
+
     /**
      * xml_headに設定する要素を取得するXPath
      */
     private String xmlHeadPath;
-    
+
     /**
      * xml_bodyに設定する要素を取得するXPath
      */
@@ -109,7 +109,7 @@ public class JmaParseRule {
      * デフォルトのトラッカーID
      */
     private String defaultTrackerId;
-    
+
     /**
      * プロジェクトIDを引き当てるためのStatusタグへのXpath
      */
@@ -154,6 +154,16 @@ public class JmaParseRule {
      * プロジェクト自動配信のための津波の高さのしきい値
      */
     private Double autoSendTsunamiHeightThreashold;
+
+    /**
+     * プロジェクト自動立ち上げの間隔
+     */
+    private Integer autoLaunchInterval;
+
+    /**
+     * プロジェクト自動送信の間隔
+     */
+    private Integer autoSendInterval;
 
     /**
      * シングルトンインスタンス
@@ -239,8 +249,8 @@ public class JmaParseRule {
             trackers = (Map<String, String>) tracker.get(TYPE);
 
             // デフォルトのトラッカーID取得
-            defaultTrackerId = (String)tracker.get(DEFAULT);
-            
+            defaultTrackerId = (String) tracker.get(DEFAULT);
+
             // ------------------------------------------------
             // プロジェクト用定義
             // ------------------------------------------------
@@ -252,8 +262,8 @@ public class JmaParseRule {
             projects = (Map<String, String>) project.get(TYPE);
 
             // デフォルトのプロジェクトID取得
-            defaultProjectId = (String)project.get(DEFAULT);
-            
+            defaultProjectId = (String) project.get(DEFAULT);
+
             // ------------------------------------------------
             // プロジェクト自動立ち上げ/自動配信用設定値取得
             // ------------------------------------------------
@@ -281,7 +291,13 @@ public class JmaParseRule {
                     .get(EARTHQUAKE_THRESHOLD);
             autoSendTsunamiHeightThreashold = (Double) sendMap
                     .get(TSUNAMI_THRESHOLD);
-            
+
+            // プロジェクト自動立ち上げのインターバル取得
+            autoLaunchInterval = (Integer) launchMap.get(INTERVAL);
+
+            // プロジェクト自動送信のインターバル取得
+            autoSendInterval = (Integer) sendMap.get(INTERVAL);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -368,6 +384,14 @@ public class JmaParseRule {
 
     public Double getAutoSendTsunamiHeightThreashold() {
         return autoSendTsunamiHeightThreashold;
+    }
+
+    public Integer getAutoLaunchInterval() {
+        return autoLaunchInterval;
+    }
+
+    public Integer getAutoSendInterval() {
+        return autoSendInterval;
     }
 
     public Map<String, String> getTrackers() {

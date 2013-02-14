@@ -210,7 +210,9 @@ auto:
  launch: 
   earthquake_threashold: "3"
   tsunami_threashold: 2.2
+  interval: 2
  send: 
   earthquake_threashold: "6-"
   tsunami_threashold: 1.7
+  interval: 3
 
