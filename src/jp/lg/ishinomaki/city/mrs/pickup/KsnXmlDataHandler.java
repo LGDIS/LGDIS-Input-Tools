@@ -167,6 +167,7 @@ public class KsnXmlDataHandler implements PickupDataHandler {
      * テスト用メソッド.<br>
      * createIssuesXmlAsStringメソッドで作成したXMLをファイルに出力する
      */
+    @SuppressWarnings("unused")
     private void toXmlFile(Document doc, String subject) {
         XMLWriter xw = null;
         try {

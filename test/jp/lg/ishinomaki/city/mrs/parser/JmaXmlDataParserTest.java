@@ -2,7 +2,6 @@ package jp.lg.ishinomaki.city.mrs.parser;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -270,16 +269,31 @@ public class JmaXmlDataParserTest {
     @Test
     public void 震度によるプロジェクト自動送信あり() {
         // テスト用XML
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"><Body><Intensity><Observation><Pref><Area><City><Name>石巻市</Name><MaxInt>6-</MaxInt></City></Area></Pref></Observation></Intensity></Body></Report>";
+        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"><Body><Intensity><Observation><Pref><Area><City><Name>石巻市</Name><MaxInt>4</MaxInt></City></Area></Pref></Observation></Intensity></Body></Report>";
         Document doc = loadDocument(xml);
 
         // テストターゲットクラス
         JmaXmlDataParser target = new JmaXmlDataParser();
 
-        target.parseIsAutoSendBySeismicIntensity(doc, xpath, rule);
-        boolean actual = target.isAutoSend();
+        target.parseAutoSend(doc, xpath, rule);
+        String actual = target.getDisposition();
 
-        assertThat(actual, is(true));
+        assertThat(actual, is("0"));
+    }
+
+    @Test
+    public void 震度によるプロジェクト自動送信なし() {
+        // テスト用XML
+        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"><Body><Intensity><Observation><Pref><Area><City><Name>石巻市</Name><MaxInt>3</MaxInt></City></Area></Pref></Observation></Intensity></Body></Report>";
+        Document doc = loadDocument(xml);
+
+        // テストターゲットクラス
+        JmaXmlDataParser target = new JmaXmlDataParser();
+
+        target.parseAutoSend(doc, xpath, rule);
+        String actual = target.getDisposition();
+
+        assertThat(actual, is(nullValue()));
     }
 
     @Test
@@ -289,9 +303,7 @@ public class JmaXmlDataParserTest {
         Document doc = loadDocument(xml);
 
         // テストターゲットクラス
-        JmaXmlDataParser target = spy(new JmaXmlDataParser());
-        // 時間経過のチェックをスキップするためモックメソッドを準備
-        doReturn(true).when(target).isAutoLaunchByInterval(rule);
+        JmaXmlDataParser target = new JmaXmlDataParser();
 
         target.parseIsAutoLaunchByTsunamiHeight(doc, xpath, rule);
         boolean actual = target.isAutoLaunch();
@@ -306,9 +318,7 @@ public class JmaXmlDataParserTest {
         Document doc = loadDocument(xml);
 
         // テストターゲットクラス
-        JmaXmlDataParser target = spy(new JmaXmlDataParser());
-        // 時間経過のチェックをスキップするためモックメソッドを準備
-        doReturn(true).when(target).isAutoLaunchByInterval(rule);
+        JmaXmlDataParser target = new JmaXmlDataParser();
 
         target.parseIsAutoLaunchByTsunamiHeight(doc, xpath, rule);
         boolean actual = target.isAutoLaunch();
@@ -319,99 +329,30 @@ public class JmaXmlDataParserTest {
     @Test
     public void 津波高さによるプロジェクト自動配信あり() {
         // テスト用XML
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"><Body><Tsunami><Estimation><Item><Area><Name>宮城金華山沖</Name></Area><MaxHeight><TsunamiHeight>3.3</TsunamiHeight></MaxHeight></Item></Estimation></Tsunami></Body></Report>";
+        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"><Body><Forecast><Item><Area><Name>宮城県</Name></Area><Category><Kind><Name>大津波警報：発表</Name></Kind></Category></Item></Forecast></Body></Report>";
         Document doc = loadDocument(xml);
 
         // テストターゲットクラス
-        JmaXmlDataParser target = spy(new JmaXmlDataParser());
-        // 時間経過のチェックをスキップするためモックメソッドを準備
-        doReturn(true).when(target).isAutoSendByInterval(rule);
+        JmaXmlDataParser target = new JmaXmlDataParser();
 
-        target.parseIsAutoSendByTsunamiHeight(doc, xpath, rule);
-        boolean actual = target.isAutoSend();
+        target.parseAutoSend(doc, xpath, rule);
+        String actual = target.getDisposition();
 
-        assertThat(actual, is(true));
+        assertThat(actual, is("2"));
     }
 
     @Test
     public void 津波高さによるプロジェクト自動配信なし() {
         // テスト用XML
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"><Body><Tsunami><Estimation><Item><Area><Name>宮城金華山沖</Name></Area><MaxHeight><TsunamiHeight>1</TsunamiHeight></MaxHeight></Item></Estimation></Tsunami></Body></Report>";
+        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"><Body><Forecast><Item><Area><Name>宮城県</Name></Area><Category><Kind><Name>大津波警報：発表テスト</Name></Kind></Category></Item></Forecast></Body></Report>";
         Document doc = loadDocument(xml);
 
         // テストターゲットクラス
-        JmaXmlDataParser target = spy(new JmaXmlDataParser());
-        // 時間経過のチェックをスキップするためモックメソッドを準備
-        doReturn(true).when(target).isAutoSendByInterval(rule);
-
-        target.parseIsAutoSendByTsunamiHeight(doc, xpath, rule);
-        boolean actual = target.isAutoSend();
-
-        assertThat(actual, is(false));
-    }
-
-    @Test
-    public void プロジェクト自動立ち上げあり1分以内に2回() {
-        // テストターゲットクラス
         JmaXmlDataParser target = new JmaXmlDataParser();
-        // 最終登録日時変数を初期化
-        target.lastDateTimeAutoLaunch = null;
-        
-        boolean actual1 = target.isAutoLaunchByInterval(rule);
-        assertThat(actual1, is(true));
 
-        boolean actual2 = target.isAutoLaunchByInterval(rule);
-        assertThat(actual2, is(false));
+        target.parseAutoSend(doc, xpath, rule);
+        String actual = target.getDisposition();
 
+        assertThat(actual, is(nullValue()));
     }
-
-    @Test
-    public void プロジェクト自動立ち上げあり1分経過して2回() throws Exception {
-        // テストターゲットクラス
-        JmaXmlDataParser target = new JmaXmlDataParser();
-        // 最終登録日時変数を初期化
-        target.lastDateTimeAutoLaunch = null;
-
-        boolean actual1 = target.isAutoLaunchByInterval(rule);
-        assertThat(actual1, is(true));
-
-        // 63秒スリープ
-        Thread.sleep(63 * 1000);
-
-        boolean actual2 = target.isAutoLaunchByInterval(rule);
-        assertThat(actual2, is(true));
-
-    }
-
-    @Test
-    public void プロジェクト自動送信あり前回から1分以内に2回() {
-        // テストターゲットクラス
-        JmaXmlDataParser target = new JmaXmlDataParser();
-        // 最終登録日時変数を初期化
-        target.lastDateTimeAutoSend = null;
-        
-        boolean actual1 = target.isAutoSendByInterval(rule);
-        assertThat(actual1, is(true));
-
-        boolean actual2 = target.isAutoSendByInterval(rule);
-        assertThat(actual2, is(false));
-    }
-
-    @Test
-    public void プロジェクト自動送信あり前回から1分経過後に2回() throws Exception {
-        // テストターゲットクラス
-        JmaXmlDataParser target = new JmaXmlDataParser();
-        // 最終登録日時変数を初期化
-        target.lastDateTimeAutoSend = null;
-
-        boolean actual1 = target.isAutoSendByInterval(rule);
-        assertThat(actual1, is(true));
-
-        // 63秒スリープ
-        Thread.sleep(63 * 1000);
-
-        boolean actual2 = target.isAutoSendByInterval(rule);
-        assertThat(actual2, is(true));
-    }
-
 }

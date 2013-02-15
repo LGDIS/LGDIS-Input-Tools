@@ -37,17 +37,11 @@ public class JmaParseRuleTest {
 
     @Test
     public void プロジェクト自動立ち上げの震度しきい値() {
-        String actual = rule.getAutoLaunchSeismicIntensityThreashold();
+        String actual = rule.getSeismicIntensityThreashold();
         assertThat(actual, is("5+"));
     }
 
-    @Test
-    public void プロジェクト自動送信の震度しきい値() {
-        String actual = rule.getAutoSendSeismicIntensityThreashold();
-        assertThat(actual, is("6-"));
-    }
-
-    @Test
+     @Test
     public void デフォルトのプロジェクトID() {
         String actual = rule.getDefaultProjectId();
         assertThat(actual, is("I04202000000000000001"));
@@ -61,7 +55,7 @@ public class JmaParseRuleTest {
 
     @Test
     public void 震度取得用のXPath() {
-        String actual = rule.getSeismicIntensityXpath();
+        String actual = rule.getAutoLaunchSeismicIntensityXpath();
         assertThat(
                 actual,
                 is("/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt/text()"));
@@ -81,7 +75,7 @@ public class JmaParseRuleTest {
 
     @Test
     public void 津波高さ取得用のXPath() {
-        String actual = rule.getTsunamiHeightXpath();
+        String actual = rule.getAutoLaunchTsunamiHeightXpath();
         assertThat(
                 actual,
                 is("/Report/Body/Tsunami/Estimation/Item[Area/Name/text()=\"宮城金華山沖\"]/MaxHeight/TsunamiHeight/text()"));
@@ -107,14 +101,8 @@ public class JmaParseRuleTest {
 
     @Test
     public void プロジェクト自動立ち上げの津波高さ() {
-        Double dactual = rule.getAutoLaunchTsunamiHeightThreashold();
+        Double dactual = rule.getTsunamiHeightThreashold();
         assertThat(dactual, is(2.2));
-    }
-
-    @Test
-    public void プロジェクト自動送信の津波高さ() {
-        Double dactual = rule.getAutoSendTsunamiHeightThreashold();
-        assertThat(dactual, is(1.7));
     }
 
     @Test

@@ -10,6 +10,7 @@ package jp.lg.ishinomaki.city.mrs.pickup;
 
 import java.io.FileWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -18,6 +19,7 @@ import jp.lg.ishinomaki.city.mrs.parser.JmaXmlDataParser;
 import jp.lg.ishinomaki.city.mrs.parser.ParserConfig;
 import jp.lg.ishinomaki.city.mrs.parser.XmlSchemaChecker;
 import jp.lg.ishinomaki.city.mrs.rest.IssuesPostController;
+import jp.lg.ishinomaki.city.mrs.utils.DateUtils;
 import jp.lg.ishinomaki.city.mrs.utils.FileUtils;
 import jp.lg.ishinomaki.city.mrs.utils.StringUtils;
 
@@ -44,6 +46,16 @@ public class JmaXmlDataHandler implements PickupDataHandler {
      * 動作モード 0:通常 1:訓練 2:試験
      */
     private int mode = 0;
+
+    /**
+     * プロジェクト自動立ち上げフラグを送信した最終時刻を保存
+     */
+    static Date lastDateTimeAutoLaunch;
+
+    /**
+     * プロジェクト自動送信フラグを送信した最終時刻を保存
+     */
+    static Date lastDateTimeAutoSend;
 
     /**
      * コンストラクタ.
@@ -116,7 +128,10 @@ public class JmaXmlDataHandler implements PickupDataHandler {
         log.finest("------------------------Redmineへの送信データ------------------------\n"
                 + sendData
                 + "\n--------------------------------------------------------------------");
-
+        System.out
+                .println("------------------------Redmineへの送信データ------------------------\n"
+                        + sendData
+                        + "\n--------------------------------------------------------------------");
         // RedmineのRestApi(Post)実行
         IssuesPostController postController = new IssuesPostController();
         postController.post(sendData);
@@ -152,14 +167,20 @@ public class JmaXmlDataHandler implements PickupDataHandler {
 
         // プロジェクト自動立ち上げフラグがONの場合
         if (parser.isAutoLaunch()) {
-            Element auto_launch = issue.addElement("auto_launch");
-            auto_launch.addText("1");
+            // プロジェクト自動立ち上げ間隔のチェック
+            if (isAutoLaunchByInterval(parser.getAutoLaunchInterval())) {
+                Element auto_launch = issue.addElement("auto_launch");
+                auto_launch.addText("1");
+            }
         }
 
-        // プロジェクト自動配信フラグがONの場合
-        if (parser.isAutoSend()) {
-            Element auto_send = issue.addElement("auto_send");
-            auto_send.addText("1");
+        // プロジェクト自動配信先の指定(○号配備)がある場合
+        if (parser.getDisposition() != null) {
+            // プロジェクト自動送信間隔のチェック
+            if (isAutoSendByInterval(parser.getAutoSendInterval())) {
+                Element auto_send = issue.addElement("auto_send");
+                auto_send.addText(parser.getDisposition());
+            }
         }
 
         // トラッカーID設定
@@ -216,6 +237,7 @@ public class JmaXmlDataHandler implements PickupDataHandler {
      * @param subject
      *            ファイル名の標題
      */
+    @SuppressWarnings("unused")
     private void toXmlFile(Document doc, String subject) {
         XMLWriter xw = null;
         try {
@@ -235,4 +257,80 @@ public class JmaXmlDataHandler implements PickupDataHandler {
             }
         }
     }
+
+    /**
+     * 設定された時間間隔(分単位)によりプロジェクト自動立ち上げを行なってよいかを判定します。
+     * 
+     * @param rule
+     *            解析ルールインスタンス
+     * @return boolean true:自動立ち上げ許可 false:自動立ち上げ不可
+     */
+    boolean isAutoLaunchByInterval(int interval) {
+        // 間隔の設定がある場合のみ
+        if (interval <= 0) {
+            return true;
+        }
+
+        // 自動立ち上げを最後に実施した日時からの間隔を判定
+        if (lastDateTimeAutoLaunch == null) {
+            lastDateTimeAutoLaunch = new Date();
+            return true;
+        } else {
+            // 現在時刻との比較
+            Date current = new Date();
+            int diff = DateUtils.differenceMinutes(current,
+                    lastDateTimeAutoLaunch);
+
+            // 定義された間隔以下であれば自動配信を行わないため処理を終了する
+            // intervalは分単位で定義されている
+            if (diff < interval) {
+                log.info("前回のプロジェクト自動立ち上げから[" + interval
+                        + "]分が経過していないためプロジェクト自動立ち上げを行いません");
+                return false;
+            } else {
+                // lastDateTimeAutoLaunchの更新
+                lastDateTimeAutoLaunch = current;
+                return true;
+            }
+        }
+    }
+
+    /**
+     * 設定された時間間隔(分単位)によりプロジェクト自動送信を行なってよいかを判定します。
+     * 
+     * @param rule
+     *            解析ルールインスタンス
+     * @return boolean true:自動送信許可 false:自動送信不可
+     */
+    boolean isAutoSendByInterval(int interval) {
+        // 間隔の設定がある場合のみ実施
+        if (interval <= 0) {
+            // 設定なしの場合は常にtrueを返却
+            return true;
+        }
+
+        // 自動配信を最後に送信した日時からの間隔を判定
+        if (lastDateTimeAutoSend == null) {
+            lastDateTimeAutoSend = new Date();
+            return true;
+        } else {
+            // 現在時刻との比較
+            Date current = new Date();
+            int diff = DateUtils.differenceMinutes(current,
+                    lastDateTimeAutoSend);
+
+            // 定義された間隔以下であれば自動配信を行わないため処理を終了する
+            // intervalは分単位で定義されている
+            if (diff < interval) {
+                log.info("前回のプロジェクト自動配信から[" + interval
+                        + "]分が経過していないためプロジェクト自動配信を行いません");
+                return false;
+            } else {
+                // lastDateTimeAutoLaunchの更新
+                lastDateTimeAutoSend = current;
+                return true;
+            }
+        }
+    }
+
 }

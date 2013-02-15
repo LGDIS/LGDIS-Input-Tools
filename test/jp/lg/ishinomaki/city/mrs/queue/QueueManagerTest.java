@@ -13,6 +13,7 @@ public class QueueManagerTest {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
+        QueueConfig.getInstance().loadYml("config/queue.yml");
     }
 
     @AfterClass

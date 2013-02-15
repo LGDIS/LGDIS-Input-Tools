@@ -62,7 +62,7 @@ public class JmaXmlDataHandlerTest {
         // Mockオブジェクトに値を設定
         JmaXmlDataParser mock = Mockito.mock(JmaXmlDataParser.class);
         when(mock.isAutoLaunch()).thenReturn(false); // プロジェクト自動立ち上げOFF
-        when(mock.isAutoSend()).thenReturn(false); // プロジェクト自動送信OFF
+        when(mock.getDisposition()).thenReturn(null); // プロジェクト自動送信OFF
         when(mock.getProjectId()).thenReturn("10000");
         when(mock.getTrackerId()).thenReturn("20000");
         when(mock.getXmlBody()).thenReturn("body");
@@ -125,7 +125,7 @@ public class JmaXmlDataHandlerTest {
         // Mockオブジェクトに値を設定
         JmaXmlDataParser mock = Mockito.mock(JmaXmlDataParser.class);
         when(mock.isAutoLaunch()).thenReturn(false); // プロジェクト自動立ち上げOFF
-        when(mock.isAutoSend()).thenReturn(false); // プロジェクト自動送信OFF
+        when(mock.getDisposition()).thenReturn(null); // プロジェクト自動送信OFF
         when(mock.getTrackerId()).thenReturn("1");
         when(mock.getXmlBody()).thenReturn("body");
         when(mock.getXmlControl()).thenReturn("control");
@@ -190,7 +190,7 @@ public class JmaXmlDataHandlerTest {
         // Mockオブジェクトに値を設定
         JmaXmlDataParser mock = Mockito.mock(JmaXmlDataParser.class);
         when(mock.isAutoLaunch()).thenReturn(false); // プロジェクト自動立ち上げOFF
-        when(mock.isAutoSend()).thenReturn(false); // プロジェクト自動送信OFF
+        when(mock.getDisposition()).thenReturn(null); // プロジェクト自動送信OFF
         when(mock.getTrackerId()).thenReturn("1");
         when(mock.getXmlBody()).thenReturn("body");
         when(mock.getXmlControl()).thenReturn("control");
@@ -253,7 +253,7 @@ public class JmaXmlDataHandlerTest {
         // Mockオブジェクトに値を設定
         JmaXmlDataParser mock = Mockito.mock(JmaXmlDataParser.class);
         when(mock.isAutoLaunch()).thenReturn(true); // プロジェクト自動立ち上げON
-        when(mock.isAutoSend()).thenReturn(true); // プロジェクト自動送信ON
+        when(mock.getDisposition()).thenReturn("1"); // プロジェクト自動送信あり 1号配備
         when(mock.getProjectId()).thenReturn("10000");
         when(mock.getTrackerId()).thenReturn("20000");
         when(mock.getXmlBody()).thenReturn("body");
@@ -321,7 +321,7 @@ public class JmaXmlDataHandlerTest {
         // Mockオブジェクトに値を設定
         JmaXmlDataParser mock = Mockito.mock(JmaXmlDataParser.class);
         when(mock.isAutoLaunch()).thenReturn(false); // プロジェクト自動立ち上げON
-        when(mock.isAutoSend()).thenReturn(false); // プロジェクト自動送信ON
+        when(mock.getDisposition()).thenReturn(null); // プロジェクト自動送信OFF
         when(mock.getProjectId()).thenReturn("10000");
         when(mock.getTrackerId()).thenReturn("20000");
         when(mock.getXmlBody()).thenReturn("body");
@@ -376,5 +376,4 @@ public class JmaXmlDataHandlerTest {
         assertThat(geoNodes2.item(0).getNodeValue(), is("フランス"));
         assertThat(geoNodes2.item(1).getNodeValue(), is("カナダ"));
     }
-
 }

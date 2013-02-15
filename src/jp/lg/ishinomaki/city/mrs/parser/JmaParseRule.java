@@ -37,7 +37,11 @@ public class JmaParseRule {
     public static final String LOCATION = "Location";
     public static final String TRACKERS = "trackers";
     public static final String PROJECTS = "projects";
-    public static final String AUTO = "auto";
+    public static final String AUTO_LAUNCH = "auto_launch";
+    public static final String AUTO_SEND = "auto_send";
+    public static final String DISPOSITIONS = "dispositions";
+    public static final String NO = "no";
+    public static final String PATHS = "paths";
     public static final String PATH = "path";
     public static final String TYPE = "type";
     public static final String EARTHQUAKE_THRESHOLD = "earthquake_threashold";
@@ -126,34 +130,29 @@ public class JmaParseRule {
     private String defaultProjectId;
 
     /**
-     * 震度を示す値へのXPath
+     * プロジェクト自動立ち上げを判断する震度を示す値へのXPath
      */
-    private String seismicIntensityXpath;
+    private String autoLaunchSeismicIntensityXpath;
 
     /**
-     * 津波の高さを示す値へのXPath
+     * プロジェクト自動立ち上げを判断する津波の高さを示す値へのXPath
      */
-    private String tsunamiHeightXpath;
+    private String autoLaunchTsunamiHeightXpath;
 
     /**
      * プロジェクト自動立ち上げのための震度のしきい値
      */
-    private String autoLaunchSeismicIntensityThreashold;
+    private String seismicIntensityThreashold;
 
     /**
      * プロジェクト自動立ち上げのための津波の高さのしきい値
      */
-    private Double autoLaunchTsunamiHeightThreashold;
+    private Double tsunamiHeightThreashold;
 
     /**
-     * プロジェクト自動配信のための震度のしきい値
+     * プロジェクト自動配信のための設定を格納したリスト
      */
-    private String autoSendSeismicIntensityThreashold;
-
-    /**
-     * プロジェクト自動配信のための津波の高さのしきい値
-     */
-    private Double autoSendTsunamiHeightThreashold;
+    private List<Map<String, Object>> dispositions;
 
     /**
      * プロジェクト自動立ち上げの間隔
@@ -266,38 +265,38 @@ public class JmaParseRule {
             defaultProjectId = (String) project.get(DEFAULT);
 
             // ------------------------------------------------
-            // プロジェクト自動立ち上げ/自動配信用設定値取得
+            // プロジェクト自動立ち上げ用設定値取得
             // ------------------------------------------------
-            Map<String, Object> auto = (HashMap<String, Object>) rule.get(AUTO);
+            Map<String, Object> autoLaunch = (HashMap<String, Object>) rule
+                    .get(AUTO_LAUNCH);
 
             // 震度のXPath取得
-            seismicIntensityXpath = (String) auto.get(EARTHQUAKE_PATH);
+            autoLaunchSeismicIntensityXpath = (String) autoLaunch
+                    .get(EARTHQUAKE_PATH);
             // 津波のXPath取得
-            tsunamiHeightXpath = (String) auto.get(TSUNAMI_PATH);
+            autoLaunchTsunamiHeightXpath = (String) autoLaunch
+                    .get(TSUNAMI_PATH);
 
-            // 自動立ち上げ用のMap取得
-            HashMap<String, Object> launchMap = (HashMap<String, Object>) auto
-                    .get(LAUNCH);
             // 震度しきい値
-            autoLaunchSeismicIntensityThreashold = (String) launchMap
+            seismicIntensityThreashold = (String) autoLaunch
                     .get(EARTHQUAKE_THRESHOLD);
             // 津波高さしきい値
-            autoLaunchTsunamiHeightThreashold = (Double) launchMap
-                    .get(TSUNAMI_THRESHOLD);
-
-            // 自動配信用のMap取得
-            HashMap<String, Object> sendMap = (HashMap<String, Object>) auto
-                    .get(SEND);
-            autoSendSeismicIntensityThreashold = (String) sendMap
-                    .get(EARTHQUAKE_THRESHOLD);
-            autoSendTsunamiHeightThreashold = (Double) sendMap
+            tsunamiHeightThreashold = (Double) autoLaunch
                     .get(TSUNAMI_THRESHOLD);
 
             // プロジェクト自動立ち上げのインターバル取得
-            autoLaunchInterval = (Integer) launchMap.get(INTERVAL);
+            autoLaunchInterval = (Integer) autoLaunch.get(INTERVAL);
+
+            // ------------------------------------------------
+            // プロジェクト自動配信用設定値取得
+            // ------------------------------------------------
+            HashMap<String, Object> autoSend = (HashMap<String, Object>) rule
+                    .get(AUTO_SEND);
+            // 自動配備用設定取得
+            dispositions = (List<Map<String, Object>>) autoSend.get(DISPOSITIONS);
 
             // プロジェクト自動送信のインターバル取得
-            autoSendInterval = (Integer) sendMap.get(INTERVAL);
+            autoSendInterval = (Integer) autoSend.get(INTERVAL);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -317,7 +316,8 @@ public class JmaParseRule {
     /**
      * 情報タイプからトラッカーIDを取得します。<br>
      * 
-     * @param infoType 情報タイプ
+     * @param infoType
+     *            情報タイプ
      * @return String トラッカーID
      */
     public String getTrackerId(String infoType) {
@@ -363,28 +363,20 @@ public class JmaParseRule {
         return trackerXpath;
     }
 
-    public String getSeismicIntensityXpath() {
-        return seismicIntensityXpath;
+    public String getAutoLaunchSeismicIntensityXpath() {
+        return autoLaunchSeismicIntensityXpath;
     }
 
-    public String getAutoLaunchSeismicIntensityThreashold() {
-        return autoLaunchSeismicIntensityThreashold;
+    public String getSeismicIntensityThreashold() {
+        return seismicIntensityThreashold;
     }
 
-    public String getTsunamiHeightXpath() {
-        return tsunamiHeightXpath;
+    public String getAutoLaunchTsunamiHeightXpath() {
+        return autoLaunchTsunamiHeightXpath;
     }
 
-    public Double getAutoLaunchTsunamiHeightThreashold() {
-        return autoLaunchTsunamiHeightThreashold;
-    }
-
-    public String getAutoSendSeismicIntensityThreashold() {
-        return autoSendSeismicIntensityThreashold;
-    }
-
-    public Double getAutoSendTsunamiHeightThreashold() {
-        return autoSendTsunamiHeightThreashold;
+    public Double getTsunamiHeightThreashold() {
+        return tsunamiHeightThreashold;
     }
 
     public Integer getAutoLaunchInterval() {
@@ -426,4 +418,9 @@ public class JmaParseRule {
     public String getDefaultTrackerId() {
         return defaultTrackerId;
     }
+
+    public List<Map<String, Object>> getDispositions() {
+        return dispositions;
+    }
+
 }

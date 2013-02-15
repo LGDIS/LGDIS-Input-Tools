@@ -5,8 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ IssuesPostControllerTest.class, PostControllerTest.class,
-        UploadsPostControllerTest.class })
+@SuiteClasses({ IssuesPostControllerTest.class, UploadsPostControllerTest.class })
 public class AllTests {
 
 }

@@ -202,17 +202,40 @@ projects:
 
 
 # ------------------------------------------------------------
-# プロジェクト自動立ち上げ/自動配信用の定義
+# プロジェクト自動立ち上げの定義
 # ------------------------------------------------------------
-auto: 
+auto_launch: 
  earthquake_path: "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt/text()"
  tsunami_path: "/Report/Body/Tsunami/Estimation/Item[Area/Name/text()=\"宮城金華山沖\"]/MaxHeight/TsunamiHeight/text()"
- launch: 
-  earthquake_threashold: "5+"
-  tsunami_threashold: 2.2
-  interval: 1
- send: 
-  earthquake_threashold: "6-"
-  tsunami_threashold: 1.7
-  interval: 1
+ earthquake_threashold: "5+"
+ tsunami_threashold: 2.2
+ interval: 2
 
+
+# ------------------------------------------------------------
+# プロジェクト自動配信用の定義
+# ------------------------------------------------------------
+auto_send: 
+ dispositions: 
+  - 
+   no: "0"
+   paths: 
+    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"4\"]"
+    - "/Report/Body/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[text()=\"津波注意報：発表\"]"
+  - 
+   no: "1"
+   paths: 
+    - "/Report/Body/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[text()=\"津波警報：発表\"]"
+  - 
+   no: "2"
+   paths: 
+    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"5-\"]"
+    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"5+\"]"
+    - "/Report/Body/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[text()=\"大津波警報：発表\"]"
+  - 
+   no: "3"
+   paths: 
+    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"6-\"]"
+    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"6-\"]"
+    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"7\"]"
+ interval: 3
