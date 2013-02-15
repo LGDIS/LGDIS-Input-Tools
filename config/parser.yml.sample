@@ -1,0 +1,81 @@
+# ------------------------------------------------------------
+# Redmineにrest要求するための各種定義
+# ------------------------------------------------------------
+redmine: 
+ protocol: "http"
+ target_host: "localhost"
+# target_port: "3000"   # ポート番号を指定する場合のみ使用する
+ issues_post_api: "/redmine/issues.xml?format=xml"
+ uploads_post_api: "/redmine/uploads.xml?format=xml"
+ issues_post_content_type: "text/xml; charset=UTF-8"
+ uploads_post_content_type: "application/octet-stream"
+ api_key: "api_key"
+ timeout: 120000
+ retry_count: 5
+ basicauth_id: xxx
+ basicauth_password: xxx
+
+
+# ------------------------------------------------------------
+# PDFファイルをチケット登録する際の固定情報
+# key:restのパラメータ名 value:設定する値
+# ------------------------------------------------------------
+pdf_attachment_statics: 
+ subject: "PDFファイル"
+ project_id: "I04202000000000000001"
+ tracker_id: "4"
+ filename: "jma.pdf"
+ description: "This is pdf file."
+ content_type: "application/pdf"
+
+
+# ------------------------------------------------------------
+# テキストファイルをチケット登録する際の固定情報
+# key:restのパラメータ名 value:設定する値
+# ------------------------------------------------------------
+text_attachment_statics: 
+ subject: "JMA"
+ project_id: "I04202000000000000001"
+ tracker_id: "4"
+ filename: "jma.txt"
+ description: "This is text file."
+ content_type: "text/plain"
+
+
+# ------------------------------------------------------------
+# Tarファイルをチケット登録する際の固定情報
+# key:restのパラメータ名 value:設定する値
+# ------------------------------------------------------------
+tar_attachment_statics: 
+ subject: "内閣官房"
+ project_id: "I04202000000000000001"
+ tracker_id: "4"
+ description: "内閣官房ファイル"
+ content_type: "text/plain"
+
+
+# ------------------------------------------------------------
+# XMLの解析を行うためのルールを定義したファイルを指定
+# 定義内容が多いため外出しのファイルとする
+# ------------------------------------------------------------
+jma_rule_file: "config/jma_parse_rule.yml"
+ksn_rule_file: "config/ksn_parse_rule.yml"
+
+# ------------------------------------------------------------
+# XMLの妥当性チェックを行う際に使用するスキーマファイルへのパス
+# 定義なしの場合はスキーマチェックを行いません
+# ------------------------------------------------------------
+jma_schema_file: "schemas/jmx.xsd"
+ksn_schema_file: "schemas/river.xsd"
+
+# ------------------------------------------------------------
+# 訓練モード時の固定プロジェクトID
+# ------------------------------------------------------------
+training_project_id: "training-project"
+
+# ------------------------------------------------------------
+# 試験モード時の固定プロジェクトID
+# ------------------------------------------------------------
+test_project_id: "test-project"
+
+

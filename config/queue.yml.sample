@@ -1,0 +1,13 @@
+# ------------------------------------------------------------
+# Queueのための各種定義
+# ------------------------------------------------------------
+# ドメインソケットファイルを格納するディレクトリ
+domainsocket_dir: /tmp
+# ドメインソケットファイル
+domainsocket_push_file: 'junixsocket_push.sock'
+# ドメインソケットファイル
+domainsocket_pop_file: 'junixsocket_pop.sock'
+
+# キューに登録可能なメッセージ数
+queue_max_size: 10000
+
