@@ -17,5 +17,5 @@ parser.yml
 receiver.yml
 queue.yml
 /shells
-/test
+/test/temporaryFile
 
