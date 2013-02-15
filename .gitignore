@@ -13,9 +13,8 @@
 .DS_Store
 
 # project specifity
-parser.config
-receiver.config
-redmine.properties
-threads.properties
+parser.yml
+receiver.yml
+queue.yml
 /shells
 
