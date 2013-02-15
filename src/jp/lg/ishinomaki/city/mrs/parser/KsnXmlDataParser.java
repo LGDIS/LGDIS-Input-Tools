@@ -24,6 +24,10 @@ import jp.lg.ishinomaki.city.mrs.utils.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+/**
+ * 河川統一から送信されたXMLデータを解析します。
+ *
+ */
 public class KsnXmlDataParser extends XmlDataParser {
 
     /**
@@ -62,6 +66,9 @@ public class KsnXmlDataParser extends XmlDataParser {
 
     /**
      * XML解析メソッド
+     * 
+     * @param xml XML文書全体の文字列
+     * @return boolean true:解析成功 false:解析失敗
      */
     @Override
     public boolean parse(String xml) {
@@ -109,10 +116,10 @@ public class KsnXmlDataParser extends XmlDataParser {
     /**
      * xmlHead部を取得してXML文字列として保存する
      * 
-     * @param doc
-     * @param xpath
-     * @param rule
-     * @return
+     * @param doc Document全体
+     * @param xpath XPathインスタンス
+     * @param rule 解析ルールインスタンス
+     * @return boolean true:解析成功 false:解析失敗
      */
     boolean parseXmlHead(Document doc, XPath xpath, KsnParseRule rule) {
         Node node = nodeByXpath(xpath, rule.getXmlHeadPath(), doc);
@@ -131,10 +138,10 @@ public class KsnXmlDataParser extends XmlDataParser {
     /**
      * xmlBody部を取得してXML文字列として保存する
      * 
-     * @param doc
-     * @param xpath
-     * @param rule
-     * @return
+     * @param doc Document全体
+     * @param xpath XPathインスタンス
+     * @param rule 解析ルールインスタンス
+     * @return boolean true:解析成功 false:解析失敗
      */
     boolean parseXmlBody(Document doc, XPath xpath, KsnParseRule rule) {
         Node node = nodeByXpath(xpath, rule.getXmlBodyPath(), doc);
@@ -153,10 +160,10 @@ public class KsnXmlDataParser extends XmlDataParser {
     /**
      * Issues拡張カラム用のデータ取得のための内部メソッド.
      * 
-     * @param doc
-     * @param xpath
-     * @param rule
-     * @return
+     * @param doc Document全体
+     * @param xpath XPathインスタンス
+     * @param rule 解析ルールインスタンス
+     * @return boolean true:解析成功 false:解析失敗
      */
     boolean parseIssueExtraMap(Document doc, XPath xpath,
             KsnParseRule rule) {
@@ -183,10 +190,10 @@ public class KsnXmlDataParser extends XmlDataParser {
     /**
      * プロジェクトIDを解析する内部メソッド.
      * 
-     * @param doc
-     * @param xpath
-     * @param rule
-     * @return
+     * @param doc Document全体
+     * @param xpath XPathインスタンス
+     * @param rule 解析ルールインスタンス
+     * @return boolean true:解析成功 false:解析失敗
      */
     boolean parseProjectId(Document doc, XPath xpath, KsnParseRule rule) {
         String status = stringByXpath(xpath, rule.getProjectXpath(), doc);

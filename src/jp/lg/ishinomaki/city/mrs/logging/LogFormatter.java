@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
 /**
- * JMA受信サーバアプリで使用するログのフォーマットクラス
+ * 外部入力機能全体で使用するログのフォーマットクラス
  * 
  */
 public class LogFormatter extends Formatter {

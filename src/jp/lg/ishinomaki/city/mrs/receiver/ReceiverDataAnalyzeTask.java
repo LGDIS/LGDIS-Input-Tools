@@ -17,7 +17,8 @@ import jp.lg.ishinomaki.city.mrs.utils.StringUtils;
 
 /**
  * 受信データを解析しキューへ登録するためのクラスです.<br>
- * 受信スレッドとは別スレッドで処理するためRunnableインターフェースを実装しています。<bR>
+ * 受信スレッドとは別スレッドで処理するためRunnableインターフェースを実装しています。<br>
+ * 
  */
 public class ReceiverDataAnalyzeTask implements Runnable {
 
@@ -121,9 +122,9 @@ public class ReceiverDataAnalyzeTask implements Runnable {
     }
 
     /**
-     * ファイルを作成する
+     * アーカイブファイルを作成するための内部メソッド.<br>
      * 
-     * @param contents
+     * @param contents 本文データ
      */
     void createOutputFile(byte[] contents) {
         // -------------------------------------------
@@ -150,7 +151,7 @@ public class ReceiverDataAnalyzeTask implements Runnable {
      * キュー登録用のメッセージ(byte配列)を作成します.<br>
      * 引数の本文に対して必要なヘッダを付与します。
      * 
-     * @param contents
+     * @param contents 本文データ
      */
     byte[] createMessage(byte[] contents) {
 

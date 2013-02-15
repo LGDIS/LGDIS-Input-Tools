@@ -47,7 +47,7 @@ public class XmlSchemaChecker {
     /**
      * インスタンス取得
      * 
-     * @return
+     * @return XmlSchemaChecker インスタンス自身
      */
     public static XmlSchemaChecker getInstatnce(String schemaFilePath) {
 
@@ -62,6 +62,8 @@ public class XmlSchemaChecker {
 
     /**
      * シングルトン設計のためプライベートなコンストラクタ. 引数にスキーマファイルを指定する
+     * 
+     * @param String schemaFipePath スキーマファイルのパス
      */
     private XmlSchemaChecker(String schemaFilePath) {
 
@@ -85,8 +87,8 @@ public class XmlSchemaChecker {
     /**
      * スキーマチェック実施
      * 
-     * @param xml
-     * @return
+     * @param xml XML文書全体の文字列
+     * @return boolean true:スキーマチェックOK false:スキーマチェックNG
      */
     public boolean validate(String xml) {
 

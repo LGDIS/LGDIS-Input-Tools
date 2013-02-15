@@ -56,7 +56,7 @@ public class TextDataHandler implements PickupDataHandler {
      * コンストラクタ
      * 
      * @param mode
-     *            動作モード
+     *            動作モード 0:通常 1:訓練 2:試験
      */
     public TextDataHandler(int mode) {
         this.mode = mode;
@@ -65,7 +65,10 @@ public class TextDataHandler implements PickupDataHandler {
     }
 
     /**
-     * データハンドリングメソッド
+     * TEXTデータに対する処理を行います。
+     * 
+     * @param data
+     *            本文データ
      */
     @Override
     public void handle(byte[] data) {
@@ -114,8 +117,8 @@ public class TextDataHandler implements PickupDataHandler {
     /**
      * Issues登録用のxml文字列作成
      * 
-     * @param token
-     * @return
+     * @param token uploadsメソッド発行後に取得したトークン番号
+     * @return String Redmine送信用のXML文字列を作成
      */
     String createIssuesXmlAsString(String token) {
 

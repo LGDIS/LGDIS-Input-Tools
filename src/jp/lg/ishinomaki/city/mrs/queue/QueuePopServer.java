@@ -27,7 +27,8 @@ public class QueuePopServer extends Thread {
     }
 
     /**
-     * キュー管理
+     * ソケット接続待ちスレッド開始.<br>
+     * 
      */
     public void run() {
         new SocketAcceptThread().start();
@@ -133,7 +134,7 @@ public class QueuePopServer extends Thread {
         }
 
         /**
-         * スレッド処理.<br>
+         * ソケットデータ受信スレッド開始.<br>
          * 
          */
         @Override

@@ -30,6 +30,11 @@ public class ReceiverConfig {
      */
     private static ReceiverConfig instance;
 
+    /**
+     * インスタンス取得
+     * 
+     * @return ReceiverConfig インスタンス
+     */
     public static ReceiverConfig getInstance() {
         if (instance == null) {
             instance = new ReceiverConfig();
@@ -37,11 +42,17 @@ public class ReceiverConfig {
         return instance;
     }
 
+    /**
+     * コンストラクタ.
+     * 
+     */
     private ReceiverConfig() {
     }
 
     /**
-     * ymlファイル読み込み
+     * 引数で指定されたymlファイルを読み込み、内容を保持する.<br>
+     * 
+     * @param ymlFile 読み込み対象のymlファイル
      */
     @SuppressWarnings("unchecked")
     public void loadYml(String ymlFile) throws FileNotFoundException {

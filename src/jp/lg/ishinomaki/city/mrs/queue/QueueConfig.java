@@ -40,6 +40,11 @@ public class QueueConfig {
      */
     private static QueueConfig instance;
 
+    /**
+     * インスタンス取得メソッド
+     * 
+     * @return QueueConfig インスタンス
+     */
     public static QueueConfig getInstance() {
         if (instance == null) {
             instance = new QueueConfig();
@@ -47,11 +52,17 @@ public class QueueConfig {
         return instance;
     }
 
+    /**
+     * コンストラクタ.<br>
+     * 
+     */
     private QueueConfig() {
     }
 
     /**
-     * ymlファイル読み込み
+     * 引数で指定されたymlファイルを読み込み、内容を保持する.<br>
+     * 
+     * @param ymlFile 読み込み対象のymlファイル
      */
     @SuppressWarnings("unchecked")
     public void loadYml(String ymlFile) throws FileNotFoundException {

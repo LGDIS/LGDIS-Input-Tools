@@ -11,7 +11,8 @@ import org.newsclub.net.unix.AFUNIXServerSocket;
 import org.newsclub.net.unix.AFUNIXSocketAddress;
 
 /**
- * キュー管理機能のインプットサーバとなるクラスです
+ * キュー管理機能のインプットサーバとなるクラスです.
+ * 
  */
 public class QueuePushServer extends Thread {
 
@@ -22,13 +23,14 @@ public class QueuePushServer extends Thread {
             .getSimpleName());
 
     /**
-     * コンストラクタです.<br>
+     * コンストラクタ.<br>
      */
     public QueuePushServer() {
     }
 
     /**
-     * スレッド開始メソッド
+     * スレッド開始.<br>
+     * 
      */
     public void run() {
 

@@ -45,7 +45,8 @@ public class PickupThread extends Thread {
     }
 
     /**
-     * スレッド起動 リモートキューを無限ループで監視します。<br>
+     * スレッド起動 リモートキューを無限ループで監視します.<br>
+     * 
      */
     public void run() {
 
@@ -153,8 +154,8 @@ public class PickupThread extends Thread {
     /**
      * キューから取得したデータの稼働モードを取得する内部メソッド
      * 
-     * @param data
-     * @return
+     * @param data キューから取得したデータ全体
+     * @return int 稼働モード 0:通常 1:訓練 2:試験
      */
     int getMode(byte[] data) {
         byte[] mode = new byte[1];
@@ -169,8 +170,8 @@ public class PickupThread extends Thread {
     /**
      * キューから取得したデータの入力元識別子を取得する内部メソッド
      * 
-     * @param data
-     * @return
+     * @param data キューから取得したデータ全体
+     * @return String 入力元識別子
      */
     String getInputId(byte[] data) {
         byte[] inputId = new byte[3];
@@ -183,8 +184,8 @@ public class PickupThread extends Thread {
     /**
      * キューから取得したデータの種別を取得する内部メソッド
      * 
-     * @param data
-     * @return
+     * @param data キューから取得したデータ全体
+     * @return String データ種別
      */
     String getDataType(byte[] data) {
         byte[] dataType = new byte[3];
@@ -197,8 +198,8 @@ public class PickupThread extends Thread {
     /**
      * キューから取得したデータの本文部分を取得する内部メソッド
      * 
-     * @param data
-     * @return
+     * @param data キューから取得したデータ全体
+     * @return byte[] 本文部分のデータのみ取得する
      */
     byte[] getContents(byte[] data) {
         byte[] contents = new byte[data.length - 7];

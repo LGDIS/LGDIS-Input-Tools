@@ -35,7 +35,9 @@ public class QueueClient {
      * キューからデータを取得します。<br>
      * このメソッドはデータが取得できるまでスレッドをロックします。
      * 
+     * @return byte[] キューから取得したデータ
      * @throws IOException
+     *             ソケット接続で例外発生時にスロー
      */
     public byte[] pop() throws IOException {
 
@@ -71,8 +73,10 @@ public class QueueClient {
     }
 
     /**
-     * キューにデータを登録します。
+     * キューにデータを登録します.<br>
      * 
+     * @param data
+     *            キューに登録するデータ
      * @throws IOException
      *             ソケット接続で例外発生時にスロー
      */

@@ -94,7 +94,7 @@ public class JmaDataAnalyzer implements DataAnalyzer {
     /**
      * ヘッディング部を解析する内部メソッド
      * 
-     * @param data
+     * @param data データ全体
      */
     void analyzeHeading(final byte[] data) {
         // -----------------------------------
@@ -118,7 +118,7 @@ public class JmaDataAnalyzer implements DataAnalyzer {
     /**
      * 本文部を解析する内部メソッド
      * 
-     * @param data
+     * @param data データ全体
      */
     void analyzeBody(final byte[] data) {
         // -----------------------------------
@@ -151,7 +151,7 @@ public class JmaDataAnalyzer implements DataAnalyzer {
      * 本文を取得します。<br>
      * 存在しない場合はnullを返却します。
      * 
-     * @return
+     * @return byte[] 本文内容
      */
     @Override
     public byte[] getContents() {
@@ -161,6 +161,8 @@ public class JmaDataAnalyzer implements DataAnalyzer {
     /**
      * データ解析結果からデータの種類を返却します。<br>
      * データ種類は<code>Consts</code>クラスに定義しているものを使用する。<br>
+     * 
+     * @return String データ種別
      */
     @Override
     public String getDataType() {

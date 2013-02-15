@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.logging.Logger;
 
+/**
+ * キューを管理するインスタンス
+ * 
+ */
 public class QueueManager {
 
     // ログ用
@@ -20,7 +24,8 @@ public class QueueManager {
     private ArrayBlockingQueue<byte[]> queue;
 
     /**
-     * デフォルトコンストラクタを外部から実行できないようにする
+     * デフォルトコンストラクタを外部から実行できないようにする.
+     * 
      */
     private QueueManager() {
         QueueConfig config = QueueConfig.getInstance();
@@ -30,7 +35,7 @@ public class QueueManager {
     /**
      * シングルトンインスタンス取得メソッド
      * 
-     * @return MessageQueueのインスタンス
+     * @return MessageQueue インスタンス
      */
     public static QueueManager getInstance() {
         if (instance == null) {
@@ -44,8 +49,8 @@ public class QueueManager {
      * キューがいっぱいの場合は利用可能になるまで待機します。<br>
      * 引数がnullの場合はNullPointerExceptionを発行せず、処理を中断します。
      * 
-     * @param message
-     *            キューに追加するメッセージ
+     * @param byte[]
+     *        キューに追加するメッセージ
      * @throws InterruptedException
      *             待機中に割り込みが発生した場合
      */
@@ -58,7 +63,7 @@ public class QueueManager {
      * キューの先頭からメッセージを取得します。取得したメッセージはキューから削除します。<br>
      * キューが空の場合はキューにメッセージが挿入されるまで待機します。<br>
      * 
-     * @return QueueableMessage キューに追加するメッセージ
+     * @return byte[] キューから取得したデータ
      * @throws InterruptedException
      *             待機中に割り込みが発生した場合
      */

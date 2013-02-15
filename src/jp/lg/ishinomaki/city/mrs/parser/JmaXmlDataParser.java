@@ -110,7 +110,8 @@ public class JmaXmlDataParser extends XmlDataParser {
      * XMLを解析します。
      * 
      * @param data
-     * @return
+     *            XML文書全体の文字列
+     * @return boolean true:解析成功 false:解析失敗
      */
     @Override
     public boolean parse(String xml) {
@@ -190,11 +191,12 @@ public class JmaXmlDataParser extends XmlDataParser {
     }
 
     /**
+     * Control部の解析処理を行う内部メソッド
      * 
-     * @param doc
-     * @param xpath
-     * @param rule
-     * @return
+     * @param doc Document全体
+     * @param xpath XPathインスタンス
+     * @param rule 解析ルールインスタンス
+     * @return boolean true:解析成功 false:解析失敗
      */
     boolean parseXmlControl(Document doc, XPath xpath, JmaParseRule rule) {
         Node node = nodeByXpath(xpath, rule.getXmlControlPath(), doc);
@@ -211,11 +213,12 @@ public class JmaXmlDataParser extends XmlDataParser {
     }
 
     /**
+     * Head部の解析処理を行う内部メソッド
      * 
-     * @param doc
-     * @param xpath
-     * @param rule
-     * @return
+     * @param doc Document全体
+     * @param xpath XPathインスタンス
+     * @param rule 解析ルールインスタンス
+     * @return boolean true:解析成功 false:解析失敗
      */
     boolean parseXmlHead(Document doc, XPath xpath, JmaParseRule rule) {
         Node node = nodeByXpath(xpath, rule.getXmlHeadPath(), doc);
@@ -232,11 +235,12 @@ public class JmaXmlDataParser extends XmlDataParser {
     }
 
     /**
+     * Body部の解析処理を行う内部メソッド
      * 
-     * @param doc
-     * @param xpath
-     * @param rule
-     * @return
+     * @param doc Document全体
+     * @param xpath XPathインスタンス
+     * @param rule 解析ルールインスタンス
+     * @return boolean true:解析成功 false:解析失敗
      */
     boolean parseXmlBody(Document doc, XPath xpath, JmaParseRule rule) {
         Node node = nodeByXpath(xpath, rule.getXmlBodyPath(), doc);
@@ -255,10 +259,10 @@ public class JmaXmlDataParser extends XmlDataParser {
     /**
      * トラッカーIDを解析する内部メソッド.
      * 
-     * @param doc
-     * @param xpath
-     * @param rule
-     * @return
+     * @param doc Document全体
+     * @param xpath XPathインスタンス
+     * @param rule 解析ルールインスタンス
+     * @return boolean true:解析成功 false:解析失敗
      */
     boolean parseTrackerId(Document doc, XPath xpath, JmaParseRule rule) {
         String informationType = stringByXpath(xpath, rule.getTrackerXpath(),
@@ -293,10 +297,10 @@ public class JmaXmlDataParser extends XmlDataParser {
     /**
      * Issues拡張カラム用のデータ取得のための内部メソッド.
      * 
-     * @param doc
-     * @param xpath
-     * @param rule
-     * @return
+     * @param doc Document全体
+     * @param xpath XPathインスタンス
+     * @param rule 解析ルールインスタンス
+     * @return boolean true:解析成功 false:解析失敗
      */
     boolean parseIssueExtraMap(Document doc, XPath xpath, JmaParseRule rule) {
         // --------------------------------------------------------
@@ -322,10 +326,10 @@ public class JmaXmlDataParser extends XmlDataParser {
     /**
      * 震度によるプロジェクト自動立ち上げの判定を行う内部メソッド.
      * 
-     * @param doc
-     * @param xpath
-     * @param rule
-     * @return
+     * @param doc Document全体
+     * @param xpath XPathインスタンス
+     * @param rule 解析ルールインスタンス
+     * @return boolean true:解析成功 false:解析失敗
      */
     boolean parseIsAutoLaunchBySeismicIntensity(Document doc, XPath xpath,
             JmaParseRule rule) {
@@ -357,10 +361,10 @@ public class JmaXmlDataParser extends XmlDataParser {
     /**
      * 津波の高さによるプロジェクト自動立ち上げの判定を行う内部メソッド.
      * 
-     * @param doc
-     * @param xpath
-     * @param rule
-     * @return
+     * @param doc Document全体
+     * @param xpath XPathインスタンス
+     * @param rule 解析ルールインスタンス
+     * @return boolean true:解析成功 false:解析失敗
      */
     boolean parseIsAutoLaunchByTsunamiHeight(Document doc, XPath xpath,
             JmaParseRule rule) {
@@ -393,10 +397,10 @@ public class JmaXmlDataParser extends XmlDataParser {
     /**
      * XMLから津波の高さを取得し配列で返却する
      * 
-     * @param doc
-     * @param xpath
-     * @param rule
-     * @return
+     * @param doc Document全体
+     * @param xpath XPathインスタンス
+     * @param rule 解析ルールインスタンス
+     * @return boolean true:解析成功 false:解析失敗
      */
     List<String> parseTsunamiHeights(Document doc, XPath xpath,
             JmaParseRule rule) {
@@ -417,10 +421,10 @@ public class JmaXmlDataParser extends XmlDataParser {
     /**
      * 震度による自動配信を判定するメソッド.
      * 
-     * @param doc
-     * @param xpath
-     * @param rule
-     * @return
+     * @param doc Document全体
+     * @param xpath XPathインスタンス
+     * @param rule 解析ルールインスタンス
+     * @return boolean true:解析成功 false:解析失敗
      */
     boolean parseIsAutoSendBySeismicIntensity(Document doc, XPath xpath,
             JmaParseRule rule) {
@@ -450,10 +454,10 @@ public class JmaXmlDataParser extends XmlDataParser {
     /**
      * 津波の高さによる自動配信を判定するメソッド.
      * 
-     * @param doc
-     * @param xpath
-     * @param rule
-     * @return
+     * @param doc Document全体
+     * @param xpath XPathインスタンス
+     * @param rule 解析ルールインスタンス
+     * @return boolean true:解析成功 false:解析失敗
      */
     boolean parseIsAutoSendByTsunamiHeight(Document doc, XPath xpath,
             JmaParseRule rule) {
@@ -487,7 +491,8 @@ public class JmaXmlDataParser extends XmlDataParser {
     /**
      * 設定された時間間隔(分単位)によりプロジェクト自動立ち上げを行なってよいかを判定します。
      * 
-     * @return
+     * @param rule 解析ルールインスタンス
+     * @return boolean true:自動立ち上げ許可 false:自動立ち上げ不可
      */
     boolean isAutoLaunchByInterval(JmaParseRule rule) {
         int interval = rule.getAutoLaunchInterval();
@@ -523,7 +528,8 @@ public class JmaXmlDataParser extends XmlDataParser {
     /**
      * 設定された時間間隔(分単位)によりプロジェクト自動送信を行なってよいかを判定します。
      * 
-     * @return
+     * @param rule 解析ルールインスタンス
+     * @return boolean true:自動送信許可 false:自動送信不可
      */
     boolean isAutoSendByInterval(JmaParseRule rule) {
         int interval = rule.getAutoSendInterval();

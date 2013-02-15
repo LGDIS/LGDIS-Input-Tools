@@ -45,6 +45,10 @@ public class JmaXmlDataHandler implements PickupDataHandler {
      */
     private int mode = 0;
 
+    /**
+     * コンストラクタ.
+     * 
+     */
     public JmaXmlDataHandler() {
         this(0);
     }
@@ -54,6 +58,7 @@ public class JmaXmlDataHandler implements PickupDataHandler {
      * 引数で動作モードを指定
      * 
      * @param mode
+     *            動作モード 0:通常 1:訓練 2:試験
      */
     public JmaXmlDataHandler(int mode) {
         this.mode = mode;
@@ -62,7 +67,7 @@ public class JmaXmlDataHandler implements PickupDataHandler {
     /**
      * JMAソケット通信で取得した本文データに対する処理を行います。
      * 
-     * @param msg
+     * @param data
      *            本文データ
      */
     @Override
@@ -120,7 +125,9 @@ public class JmaXmlDataHandler implements PickupDataHandler {
     /**
      * Issuesに渡すxmlデータを作成します
      * 
-     * @return
+     * @param parser
+     *            JmaXMLデータ解析インスタンス
+     * @return String Redmine送信用のXML文字列を作成
      */
     String createIssuesXmlAsString(JmaXmlDataParser parser) {
 
@@ -197,17 +204,17 @@ public class JmaXmlDataHandler implements PickupDataHandler {
             }
         }
 
-        // for test ------------------------------------
-        String subject = issueExtraMap.get("subject");
-        toXmlFile(doc, subject);
-        // for test ------------------------------------
-
         return doc.asXML();
     }
 
     /**
      * テスト用メソッド.<br>
-     * createIssuesXmlAsStringメソッドで作成したXMLをファイルに出力する
+     * createIssuesXmlAsStringメソッドで作成したXMLをファイルに出力する。<br>
+     * 
+     * @param doc
+     *            Document全体
+     * @param subject
+     *            ファイル名の標題
      */
     private void toXmlFile(Document doc, String subject) {
         XMLWriter xw = null;

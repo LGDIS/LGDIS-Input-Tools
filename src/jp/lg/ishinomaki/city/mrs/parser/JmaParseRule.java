@@ -192,6 +192,7 @@ public class JmaParseRule {
 
     /**
      * yml定義ファイルを読み込み内容を取得するメソッド
+     * 
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public void loadYml() {
@@ -307,7 +308,7 @@ public class JmaParseRule {
     /**
      * Issues拡張カラムに設定するカラム名とXpathのテーブルを取得します
      * 
-     * @return
+     * @return Issues拡張カラムに設定するキーと値を保持したテーブル
      */
     public Map<String, String> getIssueExtras() {
         return issueExtras;
@@ -316,8 +317,8 @@ public class JmaParseRule {
     /**
      * 情報タイプからトラッカーIDを取得します。<br>
      * 
-     * @param infoType
-     * @return
+     * @param infoType 情報タイプ
+     * @return String トラッカーID
      */
     public String getTrackerId(String infoType) {
         String id = trackers.get(infoType);
@@ -331,7 +332,7 @@ public class JmaParseRule {
     /**
      * 情報種別からプロジェクトIDを取得します。<br>
      * 
-     * @return
+     * @return String プロジェクトID
      */
     public String getProjectId(String status) {
         String id = projects.get(status);

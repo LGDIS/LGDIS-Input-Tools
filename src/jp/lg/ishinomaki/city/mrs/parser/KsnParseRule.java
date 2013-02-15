@@ -15,7 +15,7 @@ import java.util.Map;
 import org.ho.yaml.Yaml;
 
 /**
- * parse_rule.ymlを読み込み各種設定値を取得するためのユーティリティクラスです
+ * ksn_parse_rule.ymlを読み込み各種設定値を取得するためのユーティリティクラスです
  * 
  */
 public class KsnParseRule {
@@ -99,6 +99,7 @@ public class KsnParseRule {
 
     /**
      * yml定義ファイルを読み込み内容を取得するメソッド
+     * 
      */
     @SuppressWarnings({ "unchecked" })
     public void loadYml() {
@@ -167,7 +168,8 @@ public class KsnParseRule {
     /**
      * 情報種別からプロジェクトIDを取得します。<br>
      * 
-     * @return
+     * @param status ステータス
+     * @return String プロジェクトID
      */
     public String getProjectId(String status) {
         String id = projects.get(status);

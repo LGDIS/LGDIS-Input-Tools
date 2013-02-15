@@ -18,14 +18,13 @@ import jp.lg.ishinomaki.city.mrs.utils.StringUtils;
 
 /**
  * 電文制御ヘッダー(BCH)インスタンス<br>
- * BCHの先頭からBCHFormat.propertiesに定義されている定義名称とレングスで値を取得してインスタンス変数にMap形式で保持します。
- * 各値を取得する場合は各種getterを使用してください。
+ * BCHの解析とデータ保持を行います。各値を取得する場合は各種getterを使用してください。
  * 
  */
 public class BCH {
 
     /**
-     * BCHのビット符号文字列表現
+     * BCH全体のビット符号文字列表現
      */
     private String strBch = null;
 

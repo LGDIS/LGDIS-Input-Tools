@@ -21,6 +21,11 @@ public class CabinetDataAnalyzer implements DataAnalyzer {
      */
     private byte[] contents = null;
 
+    /**
+     * 解析処理を行います。当クラスでは解析処理を行わないため引数データをそのまま本文として保持する。
+     * 
+     * @param data ソケット通信で受信したデータ
+     */
     @Override
     public void analyze(byte[] data) {
         // tar形式のデータをそのまま使用するため特に解析は行わない
@@ -29,11 +34,21 @@ public class CabinetDataAnalyzer implements DataAnalyzer {
         contents = data;
     }
 
+    /**
+     * 本文内容を取得します。
+     * 
+     * @return byte[] 本文内容
+     */
     @Override
     public byte[] getContents() {
         return contents;
     }
 
+    /**
+     * データ種別を取得します。
+     * 
+     * @return String データタイプ。内閣情報はTarファイル固定のため"DATA_TYPE_TAR"を返却する。
+     */
     @Override
     public String getDataType() {
         // 内閣データはTarファイル固定

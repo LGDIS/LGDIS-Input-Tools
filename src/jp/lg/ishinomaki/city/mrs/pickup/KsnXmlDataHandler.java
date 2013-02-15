@@ -27,7 +27,7 @@ import org.dom4j.Element;
 import org.dom4j.io.XMLWriter;
 
 /**
- * 河川統一受信した本文データを取り扱います。<br>
+ * 河川統一から受信した本文データを取り扱います。<br>
  * このクラスではXMLの解析とRESTサーバへの送信処理を行います。
  * 
  */
@@ -44,6 +44,10 @@ public class KsnXmlDataHandler implements PickupDataHandler {
      */
     private int mode = 0;
 
+    /**
+     * コンストラクタ.<br>
+     * 
+     */
     public KsnXmlDataHandler() {
         this(0);
     }
@@ -52,7 +56,7 @@ public class KsnXmlDataHandler implements PickupDataHandler {
      * コンストラクタ.<br>
      * 引数で動作モードを指定
      * 
-     * @param mode
+     * @param mode 動作モード 0:通常 1:訓練 2:試験
      */
     public KsnXmlDataHandler(int mode) {
         this.mode = mode;
@@ -61,7 +65,7 @@ public class KsnXmlDataHandler implements PickupDataHandler {
     /**
      * JMAソケット通信で取得した本文データに対する処理を行います。
      * 
-     * @param msg
+     * @param data
      *            本文データ
      */
     @Override
@@ -111,7 +115,9 @@ public class KsnXmlDataHandler implements PickupDataHandler {
     /**
      * Issuesに渡すxmlデータを作成します
      * 
-     * @return
+     * @param parser
+     *            河川XMLデータ解析インスタンス
+     * @return String Redmine送信用のXML文字列を作成
      */
     String createIssuesXmlAsString(KsnXmlDataParser parser) {
 
@@ -153,11 +159,6 @@ public class KsnXmlDataHandler implements PickupDataHandler {
             Element element = issue.addElement(key);
             element.addText(issueExtraMap.get(key));
         }
-
-        // for test ------------------------------------
-        String subject = issueExtraMap.get("subject");
-        toXmlFile(doc, subject);
-        // for test ------------------------------------
 
         return doc.asXML();
     }
