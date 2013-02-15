@@ -5,20 +5,20 @@ LGDIS (Local Government Disaster Infomation System) Input Tools.
 
 ## デプロイ環境で修正の必要がある設定ファイルについて
 
-#### receiver.config
-外部入力プロセスが使用するプロパティファイルを定義<br>
-ファイルパスをデプロイ環境毎に変更する必要がある<br>
-テンプレートはreceiver.config.example
+#### receiver.yml
+外部入力プロセス用の設定を定義<br>
+テンプレートはreceiver.yml.example
 
-#### parser.config
-パーサープロセスが使用するプロパティファイルを定義<br>
-ファイルパスをデプロイ環境毎に変更する必要がある<br>
-テンプレートはparser.config.example
+#### queue.yml
+キュープロセス用の設定を定義<br>
+テンプレートはqueue.yml.example
 
-#### threads.properties
-デプロイ環境のIPアドレス、ポート番号を定義<br>
-テンプレートはthreads.properteis.example<br>
+#### parser.yml
+パーサープロセス用の設定を定義<br>
+テンプレートはparser.yml.example
 
-#### redmine.properties
-デプロイ環境のIPアドレス、ポート番号、RedmineのAPIキーを定義<br>
-テンプレートはredmine.properties.example
+#### jma_parse_rule.yml
+JMA気象XMLを解析する際のルールを定義<br>
+
+#### ksn_parse_rule.yml
+河川XMLを解析する際のルールを定義<br>
