@@ -221,17 +221,17 @@ auto_send:
    no: "0"
    paths: 
     - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"4\"]"
-    - "/Report/Body/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[text()=\"津波注意報：発表\"]"
+    - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[text()=\"津波注意報：発表\"]"
   - 
    no: "1"
    paths: 
-    - "/Report/Body/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[text()=\"津波警報：発表\"]"
+    - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[text()=\"津波警報：発表\"]"
   - 
    no: "2"
    paths: 
     - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"5-\"]"
     - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"5+\"]"
-    - "/Report/Body/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[text()=\"大津波警報：発表\"]"
+    - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[text()=\"大津波警報：発表\"]"
   - 
    no: "3"
    paths: 
