@@ -329,7 +329,7 @@ public class JmaXmlDataParserTest {
     @Test
     public void 津波高さによるプロジェクト自動配信あり() {
         // テスト用XML
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"><Body><Forecast><Item><Area><Name>宮城県</Name></Area><Category><Kind><Name>大津波警報：発表</Name></Kind></Category></Item></Forecast></Body></Report>";
+        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Report xmlns=\"http://xml.kishou.go.jp/jmaxml1/\" xmlns:jmx=\"http://xml.kishou.go.jp/jmaxml1/\"><Body><Tsunami><Forecast><Item><Area><Name>宮城県</Name></Area><Category><Kind><Name>大津波警報：発表</Name></Kind></Category></Item></Forecast></Tsunami></Body></Report>";
         Document doc = loadDocument(xml);
 
         // テストターゲットクラス
