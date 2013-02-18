@@ -65,6 +65,11 @@ public class JmaXmlDataParser extends XmlDataParser {
     private String disposition;
 
     /**
+     * プロジェクト自動送信用フラグ
+     */
+    private boolean isAutoSend;
+
+    /**
      * issue拡張データマップ
      */
     private Map<String, String> issueExtraMap = new HashMap<String, String>();
@@ -476,6 +481,18 @@ public class JmaXmlDataParser extends XmlDataParser {
                 }
             }
         }
+
+        // プロジェクト自動送信判定
+        if (StringUtils.isBlank(disposition) == false) {
+            List<String> sendAutoNos = rule.getAutoSendNos();
+            for (String no : sendAutoNos) {
+                if (disposition.equals(no)) {
+                    isAutoSend = true;
+                    break;
+                }
+            }
+        }
+
         return true;
     }
 
@@ -631,6 +648,10 @@ public class JmaXmlDataParser extends XmlDataParser {
 
     public boolean isAutoLaunch() {
         return isAutoLaunch;
+    }
+
+    public boolean isAutoSend() {
+        return isAutoSend;
     }
 
     public String getDisposition() {

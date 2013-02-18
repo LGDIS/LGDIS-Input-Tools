@@ -39,6 +39,7 @@ public class JmaParseRule {
     public static final String PROJECTS = "projects";
     public static final String AUTO_LAUNCH = "auto_launch";
     public static final String AUTO_SEND = "auto_send";
+    public static final String AUTO_SEND_NOS = "auto_send_nos";
     public static final String DISPOSITIONS = "dispositions";
     public static final String NO = "no";
     public static final String PATHS = "paths";
@@ -163,6 +164,11 @@ public class JmaParseRule {
      * プロジェクト自動送信の間隔
      */
     private Integer autoSendInterval;
+
+    /**
+     * プロジェクト自動送信を行うdispositionsのIDリスト
+     */
+    private List<String> autoSendNos;
 
     /**
      * シングルトンインスタンス
@@ -293,10 +299,14 @@ public class JmaParseRule {
             HashMap<String, Object> autoSend = (HashMap<String, Object>) rule
                     .get(AUTO_SEND);
             // 自動配備用設定取得
-            dispositions = (List<Map<String, Object>>) autoSend.get(DISPOSITIONS);
+            dispositions = (List<Map<String, Object>>) autoSend
+                    .get(DISPOSITIONS);
 
             // プロジェクト自動送信のインターバル取得
             autoSendInterval = (Integer) autoSend.get(INTERVAL);
+
+            // プロジェクト自動送信対象となるIDのリスト取得
+            autoSendNos = (List<String>) autoSend.get(AUTO_SEND_NOS);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -421,6 +431,10 @@ public class JmaParseRule {
 
     public List<Map<String, Object>> getDispositions() {
         return dispositions;
+    }
+
+    public List<String> getAutoSendNos() {
+        return autoSendNos;
     }
 
 }

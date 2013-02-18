@@ -174,12 +174,19 @@ public class JmaXmlDataHandler implements PickupDataHandler {
             }
         }
 
-        // プロジェクト自動配信先の指定(○号配備)がある場合
-        if (parser.getDisposition() != null) {
+        // 配信先の指定(○号配備)がある場合
+        String disposition = parser.getDisposition();
+        if (StringUtils.isBlank(disposition) == false) {
+            Element send_targets = issue.addElement("send_target");
+            send_targets.addText(disposition);
+        }
+        
+        // プロジェクト自動送信フラグがONの場合
+        if (parser.isAutoSend()) {
             // プロジェクト自動送信間隔のチェック
             if (isAutoSendByInterval(parser.getAutoSendInterval())) {
                 Element auto_send = issue.addElement("auto_send");
-                auto_send.addText(parser.getDisposition());
+                auto_send.addText("1");
             }
         }
 
