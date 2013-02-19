@@ -178,7 +178,7 @@ public class JmaXmlDataParser extends XmlDataParser {
 
             // Locationのデータを取得
             List<Map<String, Object>> locationInfos = rule.getLocationInfos();
-            parseGeography(locationInfos, xpath, doc, "Location");
+            parseGeography(locationInfos, xpath, doc, "location");
 
             // --------------------------------------------------------
             // プロジェクト自動立ち上げ/自動送信用データ取得
