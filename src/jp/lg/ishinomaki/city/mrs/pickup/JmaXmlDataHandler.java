@@ -232,6 +232,11 @@ public class JmaXmlDataHandler implements PickupDataHandler {
             }
         }
 
+        // for test ------------------------------------
+        String subject = issueExtraMap.get("subject");
+        toXmlFile(doc, subject);
+        // for test ------------------------------------
+        
         return doc.asXML();
     }
 
@@ -244,7 +249,6 @@ public class JmaXmlDataHandler implements PickupDataHandler {
      * @param subject
      *            ファイル名の標題
      */
-    @SuppressWarnings("unused")
     private void toXmlFile(Document doc, String subject) {
         XMLWriter xw = null;
         try {

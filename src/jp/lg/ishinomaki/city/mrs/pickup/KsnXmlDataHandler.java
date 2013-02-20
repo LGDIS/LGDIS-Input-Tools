@@ -160,6 +160,11 @@ public class KsnXmlDataHandler implements PickupDataHandler {
             element.addText(issueExtraMap.get(key));
         }
 
+        // for test ------------------------------------
+        String subject = issueExtraMap.get("subject");
+        toXmlFile(doc, subject);
+        // for test ------------------------------------
+        
         return doc.asXML();
     }
 
@@ -167,7 +172,6 @@ public class KsnXmlDataHandler implements PickupDataHandler {
      * テスト用メソッド.<br>
      * createIssuesXmlAsStringメソッドで作成したXMLをファイルに出力する
      */
-    @SuppressWarnings("unused")
     private void toXmlFile(Document doc, String subject) {
         XMLWriter xw = null;
         try {
