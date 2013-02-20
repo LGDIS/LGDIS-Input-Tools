@@ -10,7 +10,7 @@ redmine:
  issues_post_content_type: "text/xml; charset=UTF-8"
  uploads_post_content_type: "application/octet-stream"
  api_key: "api_key"
- timeout: 120000
+ timeout: 300000
  retry_count: 5
  basicauth_id: xxx
  basicauth_password: xxx
