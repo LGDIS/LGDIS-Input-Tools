@@ -53,7 +53,6 @@ public class JmaParseRule {
     public static final String SEND = "send";
     public static final String DEFAULT = "default";
     public static final String ALLOW_TYPE = "allow_type";
-    public static final String INTERVAL = "interval";
 
     /**
      * yml定義内容を保持するテーブル
@@ -154,16 +153,6 @@ public class JmaParseRule {
      * プロジェクト自動配信のための設定を格納したリスト
      */
     private List<Map<String, Object>> dispositions;
-
-    /**
-     * プロジェクト自動立ち上げの間隔
-     */
-    private Integer autoLaunchInterval;
-
-    /**
-     * プロジェクト自動送信の間隔
-     */
-    private Integer autoSendInterval;
 
     /**
      * プロジェクト自動送信を行うdispositionsのIDリスト
@@ -290,9 +279,6 @@ public class JmaParseRule {
             tsunamiHeightThreashold = (Double) autoLaunch
                     .get(TSUNAMI_THRESHOLD);
 
-            // プロジェクト自動立ち上げのインターバル取得
-            autoLaunchInterval = (Integer) autoLaunch.get(INTERVAL);
-
             // ------------------------------------------------
             // プロジェクト自動配信用設定値取得
             // ------------------------------------------------
@@ -301,9 +287,6 @@ public class JmaParseRule {
             // 自動配備用設定取得
             dispositions = (List<Map<String, Object>>) autoSend
                     .get(DISPOSITIONS);
-
-            // プロジェクト自動送信のインターバル取得
-            autoSendInterval = (Integer) autoSend.get(INTERVAL);
 
             // プロジェクト自動送信対象となるIDのリスト取得
             autoSendNos = (List<String>) autoSend.get(AUTO_SEND_NOS);
@@ -387,14 +370,6 @@ public class JmaParseRule {
 
     public Double getTsunamiHeightThreashold() {
         return tsunamiHeightThreashold;
-    }
-
-    public Integer getAutoLaunchInterval() {
-        return autoLaunchInterval;
-    }
-
-    public Integer getAutoSendInterval() {
-        return autoSendInterval;
     }
 
     public Map<String, String> getTrackers() {

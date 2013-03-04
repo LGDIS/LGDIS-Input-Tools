@@ -95,16 +95,6 @@ public class JmaXmlDataParser extends XmlDataParser {
     private String xmlBody;
 
     /**
-     * プロジェクト自動立ち上げの間隔
-     */
-    int autoLaunchInterval;
-
-    /**
-     * プロジェクト自動送信立ち上げの間隔
-     */
-    int autoSendInterval;
-
-    /**
      * コンストラクタです。
      */
     public JmaXmlDataParser() {
@@ -189,11 +179,6 @@ public class JmaXmlDataParser extends XmlDataParser {
 
             // プロジェクト自動送信を解析
             parseAutoSend(doc, xpath, rule);
-
-            // プロジェクト自動立ち上げ間隔を取得
-            autoLaunchInterval = rule.getAutoLaunchInterval();
-            // プロジェクト自動送信間隔を取得
-            autoSendInterval = rule.getAutoSendInterval();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -676,14 +661,6 @@ public class JmaXmlDataParser extends XmlDataParser {
 
     public String getXmlBody() {
         return xmlBody;
-    }
-
-    public int getAutoLaunchInterval() {
-        return autoLaunchInterval;
-    }
-
-    public int getAutoSendInterval() {
-        return autoSendInterval;
     }
 
 }

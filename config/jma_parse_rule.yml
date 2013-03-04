@@ -212,21 +212,18 @@ projects:
 # earthquake_threasholdには震度のしきい値
 # tsunami_pathには津波高さを取得する際のXPath
 # tsunami_threasholdには高さのしきい値
-# intervalにはプロジェクト自動立ち上げを連続で行う際の間隔しきい値を分の単位で設定
 # ------------------------------------------------------------
 auto_launch: 
  earthquake_path: "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt/text()"
  tsunami_path: "/Report/Body/Tsunami/Estimation/Item[Area/Name/text()=\"宮城金華山沖\"]/MaxHeight/TsunamiHeight/text()"
  earthquake_threashold: "3"
  tsunami_threashold: 2.2
- interval: 2
 
 
 # ------------------------------------------------------------
 # プロジェクト自動配信用の定義
 # dispositionsにはnoに配備番号、pathsに条件となるXPathを設定したテーブルを
 # リスト型で設定
-# intervalにはプロジェクト自動配信を連続で行う際の間隔しきい値を分の単位で設定
 # ------------------------------------------------------------
 auto_send: 
  auto_send_nos: ["2", "3"]
@@ -252,4 +249,3 @@ auto_send:
     - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"6-\"]"
     - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"6-\"]"
     - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"7\"]"
- interval: 3

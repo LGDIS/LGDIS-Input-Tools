@@ -10,6 +10,7 @@ package jp.lg.ishinomaki.city.mrs.receiver.jma;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -18,8 +19,10 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -499,6 +502,9 @@ public class JmaServerSocketControl {
                 byte[] data = new byte[readLen];
                 System.arraycopy(temp, 0, data, 0, readLen);
 
+                // for test
+                saveFile(data);
+                
                 // ---------------------------------------------------------
                 // 電文分割受信の場合は保存中のメッセージに追加する
                 // ---------------------------------------------------------
@@ -709,4 +715,24 @@ public class JmaServerSocketControl {
         log.finest("チェックポイント応答後");
     }
 
+    /**
+     * テスト用メソッド<br>
+     * 受信したデータをファイルに出力
+     * 
+     * @param data
+     * @param fileName
+     */
+    void saveFile(byte[] data) {
+        try {
+            // ファイル名は現在日時を使用
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss-SSS");
+            String fileName = sdf.format(new Date());
+            FileOutputStream output = new FileOutputStream("/Users/igakuratakayuki/tmp/" + fileName);
+            output.write(data,0,data.length);
+            output.flush();
+            output.close();
+        } catch (Exception e) {
+        }
+        
+    }
 }
