@@ -503,7 +503,7 @@ public class JmaServerSocketControl {
                 System.arraycopy(temp, 0, data, 0, readLen);
 
                 // for test
-                saveFile(data);
+                //saveFile(data);
                 
                 // ---------------------------------------------------------
                 // 電文分割受信の場合は保存中のメッセージに追加する
