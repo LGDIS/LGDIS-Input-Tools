@@ -77,7 +77,7 @@ public class JmaDataAnalyzer implements DataAnalyzer {
             // エラーログ出力
             // ログのフォーマットは詳細設計書に記載のもの
             // --------------------------------------
-            log.severe("チェックサムエラー");
+            log.severe("チェックサムエラーのため処理を中断します。");
             log.severe("ただし処理は続行します"); // for test
             // TODO for test
             // チェックサムエラーでも後続処理を続行
