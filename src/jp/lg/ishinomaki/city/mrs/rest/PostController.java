@@ -182,10 +182,10 @@ public abstract class PostController implements ResponseHandler<String> {
                 break;
             } catch (ClientProtocolException e) {
                 e.printStackTrace();
-                log.severe("Postでエラー発生！");
+                log.severe("災害情報管理機能への登録要求が失敗しました。");
             } catch (IOException e) {
                 e.printStackTrace();
-                log.severe("Postでエラー発生！");
+                log.severe("災害情報管理機能への登録要求が失敗しました。");
             }
 
             count++;
@@ -231,7 +231,7 @@ public abstract class PostController implements ResponseHandler<String> {
             // レスポンスデータを文字列として取得
             return EntityUtils.toString(response.getEntity(), "UTF-8");
         default:
-            log.severe("Httpリクエスト異常終了！リトライは行いません。Httpステータスコード -> ["
+            log.severe("災害情報管理機能への登録要求が失敗しました。リトライは行いません。Httpステータスコード -> ["
                     + response.getStatusLine().getStatusCode() + "]");
             return null;
         }
