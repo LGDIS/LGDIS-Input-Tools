@@ -76,13 +76,13 @@ public class JmaTestTool {
                     byte[] contents = JmaTestTool.byteFromFile(file);
                     String fn = file.getName();
                     if (fn.endsWith("xml") || fn.endsWith("XML")) {
-                        JmaXmlDataHandler handler = new JmaXmlDataHandler(0);
+                        JmaXmlDataHandler handler = new JmaXmlDataHandler(0, "JAL");
                         handler.handle(contents);
                     } else if (fn.endsWith("pdf") || fn.endsWith("PDF")) {
-                        PdfDataHandler handler = new PdfDataHandler(0);
+                        PdfDataHandler handler = new PdfDataHandler(0, "JMA");
                         handler.handle(contents);
                     } else if (fn.endsWith("txt") || fn.endsWith("TXT")) {
-                        TextDataHandler handler = new TextDataHandler(0);
+                        TextDataHandler handler = new TextDataHandler(0, "JMA");
                         handler.handle(contents);
                     }
                 }

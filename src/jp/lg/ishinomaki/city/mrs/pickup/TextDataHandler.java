@@ -46,19 +46,19 @@ public class TextDataHandler implements PickupDataHandler {
     private int mode = 0;
 
     /**
-     * コンストラクタ
+     * 入力元識別子
      */
-    public TextDataHandler() {
-        this(0);
-    }
+    private String inputId;
 
     /**
      * コンストラクタ
      * 
      * @param mode
      *            動作モード 0:通常 1:訓練 2:試験
+     * @param inputId
+     *            入力元識別子
      */
-    public TextDataHandler(int mode) {
+    public TextDataHandler(int mode, String inputId) {
         this.mode = mode;
         uploadsController = new UploadsPostController();
         issuesController = new IssuesPostController();
@@ -117,7 +117,8 @@ public class TextDataHandler implements PickupDataHandler {
     /**
      * Issues登録用のxml文字列作成
      * 
-     * @param token uploadsメソッド発行後に取得したトークン番号
+     * @param token
+     *            uploadsメソッド発行後に取得したトークン番号
      * @return String Redmine送信用のXML文字列を作成
      */
     String createIssuesXmlAsString(String token) {

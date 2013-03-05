@@ -45,20 +45,20 @@ public class KsnXmlDataHandler implements PickupDataHandler {
     private int mode = 0;
 
     /**
-     * コンストラクタ.<br>
-     * 
+     * 入力元識別子
      */
-    public KsnXmlDataHandler() {
-        this(0);
-    }
+    private String inputId;
 
     /**
      * コンストラクタ.<br>
      * 引数で動作モードを指定
      * 
-     * @param mode 動作モード 0:通常 1:訓練 2:試験
+     * @param mode
+     *            動作モード 0:通常 1:訓練 2:試験
+     * @param inputId
+     *            入力元識別子
      */
-    public KsnXmlDataHandler(int mode) {
+    public KsnXmlDataHandler(int mode, String inputId) {
         this.mode = mode;
     }
 
@@ -83,7 +83,8 @@ public class KsnXmlDataHandler implements PickupDataHandler {
 
         // xlmデータのスキーマチェックを実施
         // スキーマファイル名取得
-        String schemaFilePath = ParserConfig.getInstance().getKsnSchemaFilePath();
+        String schemaFilePath = ParserConfig.getInstance()
+                .getKsnSchemaFilePath();
         // スキーマファイルの設定がある場合はスキーマチェック
         if (StringUtils.isBlank(schemaFilePath) == false) {
             boolean isValid = XmlSchemaChecker.getInstatnce(schemaFilePath)
@@ -164,7 +165,7 @@ public class KsnXmlDataHandler implements PickupDataHandler {
         String subject = issueExtraMap.get("subject");
         toXmlFile(doc, subject);
         // for test ------------------------------------
-        
+
         return doc.asXML();
     }
 

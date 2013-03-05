@@ -19,7 +19,6 @@ import jp.lg.ishinomaki.city.mrs.parser.JmaXmlDataParser;
 import jp.lg.ishinomaki.city.mrs.parser.ParserConfig;
 import jp.lg.ishinomaki.city.mrs.parser.XmlSchemaChecker;
 import jp.lg.ishinomaki.city.mrs.rest.IssuesPostController;
-import jp.lg.ishinomaki.city.mrs.utils.DateUtils;
 import jp.lg.ishinomaki.city.mrs.utils.FileUtils;
 import jp.lg.ishinomaki.city.mrs.utils.StringUtils;
 
@@ -48,6 +47,11 @@ public class JmaXmlDataHandler implements PickupDataHandler {
     private int mode = 0;
 
     /**
+     * 入力元識別子
+     */
+    private String inputId;
+
+    /**
      * プロジェクト自動立ち上げフラグを送信した最終時刻を保存
      */
     static Date lastDateTimeAutoLaunch;
@@ -58,22 +62,17 @@ public class JmaXmlDataHandler implements PickupDataHandler {
     static Date lastDateTimeAutoSend;
 
     /**
-     * コンストラクタ.
-     * 
-     */
-    public JmaXmlDataHandler() {
-        this(0);
-    }
-
-    /**
      * コンストラクタ.<br>
      * 引数で動作モードを指定
      * 
      * @param mode
      *            動作モード 0:通常 1:訓練 2:試験
+     * @param inputId
+     *            入力元識別子
      */
-    public JmaXmlDataHandler(int mode) {
+    public JmaXmlDataHandler(int mode, String inputId) {
         this.mode = mode;
+        this.inputId = inputId;
     }
 
     /**
@@ -115,7 +114,7 @@ public class JmaXmlDataHandler implements PickupDataHandler {
         }
 
         // xmlデータを解析
-        JmaXmlDataParser parser = new JmaXmlDataParser();
+        JmaXmlDataParser parser = new JmaXmlDataParser(inputId);
         boolean isSuccess = parser.parse(xml);
         if (isSuccess == false) {
             log.severe("XMLの解析に失敗したため処理を中断します。");

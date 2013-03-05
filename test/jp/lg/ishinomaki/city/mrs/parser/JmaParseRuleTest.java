@@ -41,16 +41,10 @@ public class JmaParseRuleTest {
         assertThat(actual, is("5+"));
     }
 
-     @Test
+    @Test
     public void デフォルトのプロジェクトID() {
         String actual = rule.getDefaultProjectId();
         assertThat(actual, is("I04202000000000000001"));
-    }
-
-    @Test
-    public void デフォルトのトラッカーID() {
-        String actual = rule.getDefaultTrackerId();
-        assertThat(actual, is("4"));
     }
 
     @Test
@@ -63,13 +57,13 @@ public class JmaParseRuleTest {
 
     @Test
     public void トラッカーID() {
-        String actual = rule.getTrackerId("津波警報・注意報・予報a");
+        String actual = rule.getTrackerId("JMA", "津波警報・注意報・予報a");
         assertThat(actual, is("3"));
     }
 
     @Test
     public void トラッカー取得用のXPath() {
-        String actual = rule.getTrackerXpath();
+        String actual = rule.getTrackerXpath("JMA");
         assertThat(actual, is("/Report/Control/Title/text()"));
     }
 

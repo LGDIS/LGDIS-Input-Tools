@@ -65,7 +65,7 @@ public class JmaXmlDataParserTest {
         Document doc = loadDocument(xml);
 
         // テストターゲットクラス
-        JmaXmlDataParser target = new JmaXmlDataParser();
+        JmaXmlDataParser target = new JmaXmlDataParser("JMA");
 
         target.parseXmlControl(doc, xpath, rule);
         String actual = target.getXmlControl();
@@ -81,7 +81,7 @@ public class JmaXmlDataParserTest {
         Document doc = loadDocument(xml);
 
         // テストターゲットクラス
-        JmaXmlDataParser target = new JmaXmlDataParser();
+        JmaXmlDataParser target = new JmaXmlDataParser("JMA");
 
         target.parseXmlControl(doc, xpath, rule);
         String actual = target.getXmlControl();
@@ -96,7 +96,7 @@ public class JmaXmlDataParserTest {
         Document doc = loadDocument(xml);
 
         // テストターゲットクラス
-        JmaXmlDataParser target = new JmaXmlDataParser();
+        JmaXmlDataParser target = new JmaXmlDataParser("JMA");
 
         target.parseXmlHead(doc, xpath, rule);
         String actual = target.getXmlHead();
@@ -112,7 +112,7 @@ public class JmaXmlDataParserTest {
         Document doc = loadDocument(xml);
 
         // テストターゲットクラス
-        JmaXmlDataParser target = new JmaXmlDataParser();
+        JmaXmlDataParser target = new JmaXmlDataParser("JMA");
 
         target.parseXmlHead(doc, xpath, rule);
         String actual = target.getXmlHead();
@@ -127,7 +127,7 @@ public class JmaXmlDataParserTest {
         Document doc = loadDocument(xml);
 
         // テストターゲットクラス
-        JmaXmlDataParser target = new JmaXmlDataParser();
+        JmaXmlDataParser target = new JmaXmlDataParser("JMA");
 
         target.parseXmlBody(doc, xpath, rule);
         String actual = target.getXmlBody();
@@ -143,7 +143,7 @@ public class JmaXmlDataParserTest {
         Document doc = loadDocument(xml);
 
         // テストターゲットクラス
-        JmaXmlDataParser target = new JmaXmlDataParser();
+        JmaXmlDataParser target = new JmaXmlDataParser("JMA");
 
         target.parseXmlBody(doc, xpath, rule);
         String actual = target.getXmlBody();
@@ -158,7 +158,7 @@ public class JmaXmlDataParserTest {
         Document doc = loadDocument(xml);
 
         // テストターゲットクラス
-        JmaXmlDataParser target = new JmaXmlDataParser();
+        JmaXmlDataParser target = new JmaXmlDataParser("JMA");
 
         target.parseTrackerId(doc, xpath, rule);
         String actual = target.getTrackerId();
@@ -185,7 +185,7 @@ public class JmaXmlDataParserTest {
         Document doc = loadDocument(xml);
 
         // テストターゲットクラス
-        JmaXmlDataParser target = new JmaXmlDataParser();
+        JmaXmlDataParser target = new JmaXmlDataParser("JMA");
 
         target.parseProjectId(doc, xpath, rule);
         String actual = target.getProjectId();
@@ -212,7 +212,7 @@ public class JmaXmlDataParserTest {
         Document doc = loadDocument(xml);
 
         // テストターゲットクラス
-        JmaXmlDataParser target = new JmaXmlDataParser();
+        JmaXmlDataParser target = new JmaXmlDataParser("JMA");
 
         target.parseIssueExtraMap(doc, xpath, rule);
         Map<String, String> issueExtraMap = target.getIssueExtraMap();
@@ -228,7 +228,7 @@ public class JmaXmlDataParserTest {
         Document doc = loadDocument(xml);
 
         // テストターゲットクラス
-        JmaXmlDataParser target = new JmaXmlDataParser();
+        JmaXmlDataParser target = new JmaXmlDataParser("JMA");
 
         target.parseIsAutoLaunchBySeismicIntensity(doc, xpath, rule);
         boolean actual = target.isAutoLaunch();
@@ -243,7 +243,7 @@ public class JmaXmlDataParserTest {
         Document doc = loadDocument(xml);
 
         // テストターゲットクラス
-        JmaXmlDataParser target = new JmaXmlDataParser();
+        JmaXmlDataParser target = new JmaXmlDataParser("JMA");
 
         target.parseIsAutoLaunchBySeismicIntensity(doc, xpath, rule);
         boolean actual = target.isAutoLaunch();
@@ -258,7 +258,7 @@ public class JmaXmlDataParserTest {
         Document doc = loadDocument(xml);
 
         // テストターゲットクラス
-        JmaXmlDataParser target = new JmaXmlDataParser();
+        JmaXmlDataParser target = new JmaXmlDataParser("JMA");
 
         target.parseIsAutoLaunchBySeismicIntensity(doc, xpath, rule);
         boolean actual = target.isAutoLaunch();
@@ -273,7 +273,7 @@ public class JmaXmlDataParserTest {
         Document doc = loadDocument(xml);
 
         // テストターゲットクラス
-        JmaXmlDataParser target = new JmaXmlDataParser();
+        JmaXmlDataParser target = new JmaXmlDataParser("JMA");
 
         target.parseAutoSend(doc, xpath, rule);
         String actual = target.getDisposition();
@@ -288,7 +288,7 @@ public class JmaXmlDataParserTest {
         Document doc = loadDocument(xml);
 
         // テストターゲットクラス
-        JmaXmlDataParser target = new JmaXmlDataParser();
+        JmaXmlDataParser target = new JmaXmlDataParser("JMA");
 
         target.parseAutoSend(doc, xpath, rule);
         String actual = target.getDisposition();
@@ -303,7 +303,7 @@ public class JmaXmlDataParserTest {
         Document doc = loadDocument(xml);
 
         // テストターゲットクラス
-        JmaXmlDataParser target = new JmaXmlDataParser();
+        JmaXmlDataParser target = new JmaXmlDataParser("JMA");
 
         target.parseIsAutoLaunchByTsunamiHeight(doc, xpath, rule);
         boolean actual = target.isAutoLaunch();
@@ -318,7 +318,7 @@ public class JmaXmlDataParserTest {
         Document doc = loadDocument(xml);
 
         // テストターゲットクラス
-        JmaXmlDataParser target = new JmaXmlDataParser();
+        JmaXmlDataParser target = new JmaXmlDataParser("JMA");
 
         target.parseIsAutoLaunchByTsunamiHeight(doc, xpath, rule);
         boolean actual = target.isAutoLaunch();
@@ -333,7 +333,7 @@ public class JmaXmlDataParserTest {
         Document doc = loadDocument(xml);
 
         // テストターゲットクラス
-        JmaXmlDataParser target = new JmaXmlDataParser();
+        JmaXmlDataParser target = new JmaXmlDataParser("JMA");
 
         target.parseAutoSend(doc, xpath, rule);
         String actual = target.getDisposition();
@@ -348,7 +348,7 @@ public class JmaXmlDataParserTest {
         Document doc = loadDocument(xml);
 
         // テストターゲットクラス
-        JmaXmlDataParser target = new JmaXmlDataParser();
+        JmaXmlDataParser target = new JmaXmlDataParser("JMA");
 
         target.parseAutoSend(doc, xpath, rule);
         String actual = target.getDisposition();

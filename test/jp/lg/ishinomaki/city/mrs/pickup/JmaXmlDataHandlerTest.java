@@ -57,7 +57,7 @@ public class JmaXmlDataHandlerTest {
     public void 通常モード指定() throws ParserConfigurationException, SAXException,
             IOException, XPathExpressionException {
         // モード=0を指定
-        JmaXmlDataHandler target = new JmaXmlDataHandler(0);
+        JmaXmlDataHandler target = new JmaXmlDataHandler(0, "JMA");
 
         // Mockオブジェクトに値を設定
         JmaXmlDataParser mock = Mockito.mock(JmaXmlDataParser.class);
@@ -120,7 +120,7 @@ public class JmaXmlDataHandlerTest {
     @Test
     public void 訓練モード指定() throws Exception {
         // モード=1を指定
-        JmaXmlDataHandler target = new JmaXmlDataHandler(1);
+        JmaXmlDataHandler target = new JmaXmlDataHandler(1, "JMA");
 
         // Mockオブジェクトに値を設定
         JmaXmlDataParser mock = Mockito.mock(JmaXmlDataParser.class);
@@ -185,7 +185,7 @@ public class JmaXmlDataHandlerTest {
     public void 試験モード指定() throws ParserConfigurationException,
             XPathExpressionException, SAXException, IOException {
         // モード=2を指定
-        JmaXmlDataHandler target = new JmaXmlDataHandler(2);
+        JmaXmlDataHandler target = new JmaXmlDataHandler(2, "JMA");
 
         // Mockオブジェクトに値を設定
         JmaXmlDataParser mock = Mockito.mock(JmaXmlDataParser.class);
@@ -248,12 +248,12 @@ public class JmaXmlDataHandlerTest {
 
     @Test
     public void プロジェクト自動立ち上げと自動送信あり() throws Exception {
-        JmaXmlDataHandler target = new JmaXmlDataHandler();
+        JmaXmlDataHandler target = new JmaXmlDataHandler(0, "JMA");
 
         // Mockオブジェクトに値を設定
         JmaXmlDataParser mock = Mockito.mock(JmaXmlDataParser.class);
         when(mock.isAutoLaunch()).thenReturn(true); // プロジェクト自動立ち上げON
-        when(mock.getDisposition()).thenReturn("1"); // プロジェクト自動送信あり 1号配備
+        when(mock.getDisposition()).thenReturn("3"); // プロジェクト自動送信あり 3号配備
         when(mock.getProjectId()).thenReturn("10000");
         when(mock.getTrackerId()).thenReturn("20000");
         when(mock.getXmlBody()).thenReturn("body");
@@ -316,7 +316,7 @@ public class JmaXmlDataHandlerTest {
 
     @Test
     public void プロジェクト自動立ち上げと自動送信なし() throws Exception {
-        JmaXmlDataHandler target = new JmaXmlDataHandler();
+        JmaXmlDataHandler target = new JmaXmlDataHandler(0, "JMA");
 
         // Mockオブジェクトに値を設定
         JmaXmlDataParser mock = Mockito.mock(JmaXmlDataParser.class);

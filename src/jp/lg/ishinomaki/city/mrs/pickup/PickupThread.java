@@ -114,31 +114,35 @@ public class PickupThread extends Thread {
             // ----------------------------------------------------
             log.info("キューからデータを取得しました");
 
+            // データタイプ
             String dataType = getDataType(data);
+            // モード
             int mode = getMode(data);
+            // 入力元識別子
+            String inputId = getInputId(data);
+
             // データタイプにより処理クラスを変更する
             PickupDataHandler handler = null;
             // データ種別がXMLの場合
             if (dataType.equals(Consts.DATA_TYPE_XML)) {
                 // データ入力元がJMAまたはJ-Alertの場合
-                String inputId = getInputId(data);
                 if (Consts.INPUT_ID_JAL.equals(inputId)
                         || Consts.INPUT_ID_JMA.equals(inputId)) {
                     // JMA用のXMLハンドルクラス
-                    handler = new JmaXmlDataHandler(mode);
+                    handler = new JmaXmlDataHandler(mode, inputId);
                 } else if (Consts.INPUT_ID_KSN.equals(inputId)) {
                     // 河川用のXMLハンドルクラス
-                    handler = new KsnXmlDataHandler(mode);
+                    handler = new KsnXmlDataHandler(mode, inputId);
                 }
             } else if (dataType.equals(Consts.DATA_TYPE_TXT)) {
                 // テキスト用ハンドルクラス
-                handler = new TextDataHandler(mode);
+                handler = new TextDataHandler(mode, inputId);
             } else if (dataType.equals(Consts.DATA_TYPE_PDF)) {
                 // PDF用ハンドルクラス
-                handler = new PdfDataHandler(mode);
+                handler = new PdfDataHandler(mode, inputId);
             } else if (dataType.equals(Consts.DATA_TYPE_TAR)) {
                 // TAR用ハンドルクラス
-                handler = new TarDataHandler(mode);
+                handler = new TarDataHandler(mode, inputId);
             } else {
                 log.warning("キューから取得したデータのデータ種類に対して処理クラスが設定されていません。");
                 continue;
@@ -154,7 +158,8 @@ public class PickupThread extends Thread {
     /**
      * キューから取得したデータの稼働モードを取得する内部メソッド
      * 
-     * @param data キューから取得したデータ全体
+     * @param data
+     *            キューから取得したデータ全体
      * @return int 稼働モード 0:通常 1:訓練 2:試験
      */
     int getMode(byte[] data) {
@@ -170,7 +175,8 @@ public class PickupThread extends Thread {
     /**
      * キューから取得したデータの入力元識別子を取得する内部メソッド
      * 
-     * @param data キューから取得したデータ全体
+     * @param data
+     *            キューから取得したデータ全体
      * @return String 入力元識別子
      */
     String getInputId(byte[] data) {
@@ -184,7 +190,8 @@ public class PickupThread extends Thread {
     /**
      * キューから取得したデータの種別を取得する内部メソッド
      * 
-     * @param data キューから取得したデータ全体
+     * @param data
+     *            キューから取得したデータ全体
      * @return String データ種別
      */
     String getDataType(byte[] data) {
@@ -198,7 +205,8 @@ public class PickupThread extends Thread {
     /**
      * キューから取得したデータの本文部分を取得する内部メソッド
      * 
-     * @param data キューから取得したデータ全体
+     * @param data
+     *            キューから取得したデータ全体
      * @return byte[] 本文部分のデータのみ取得する
      */
     byte[] getContents(byte[] data) {

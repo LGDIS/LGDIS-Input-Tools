@@ -42,7 +42,7 @@ public class PdfDataHandlerTest {
     @Test
     public void uploadsAPIの戻りデータがNull() {
         // 例外が発生しないことを確認
-        PdfDataHandler target = new PdfDataHandler();
+        PdfDataHandler target = new PdfDataHandler(0, "JMA");
 
         UploadsPostController mock = Mockito.mock(UploadsPostController.class);
         target.uploadsController = mock;
@@ -53,7 +53,7 @@ public class PdfDataHandlerTest {
     @Test
     public void uploadsAPIの戻りデータがXML形式ではない() {
         // 例外が発生しないことを確認
-        PdfDataHandler target = new PdfDataHandler();
+        PdfDataHandler target = new PdfDataHandler(0, "JMA");
 
         UploadsPostController mock = Mockito.mock(UploadsPostController.class);
         target.uploadsController = mock;
@@ -64,7 +64,7 @@ public class PdfDataHandlerTest {
     @Test
     public void uploadsAPIの戻りデータにtokenがない() {
         // 例外が発生しないことを確認
-        PdfDataHandler target = new PdfDataHandler();
+        PdfDataHandler target = new PdfDataHandler(0, "JMA");
 
         UploadsPostController mock = Mockito.mock(UploadsPostController.class);
         target.uploadsController = mock;
@@ -75,7 +75,7 @@ public class PdfDataHandlerTest {
     @Test
     public void uploadsAPIの戻りデータにtokenあり() {
         // 例外が発生しないことを確認
-        PdfDataHandler target = new PdfDataHandler();
+        PdfDataHandler target = new PdfDataHandler(0, "JMA");
 
         UploadsPostController mock = Mockito.mock(UploadsPostController.class);
         IssuesPostController mock2 = Mockito.mock(IssuesPostController.class);
@@ -90,7 +90,7 @@ public class PdfDataHandlerTest {
     @Test
     public void uploadsAPIの戻りデータが空文字() {
         // 例外が発生しないことを確認
-        PdfDataHandler target = new PdfDataHandler();
+        PdfDataHandler target = new PdfDataHandler(0, "JMA");
 
         UploadsPostController mock = Mockito.mock(UploadsPostController.class);
         target.uploadsController = mock;
@@ -101,7 +101,7 @@ public class PdfDataHandlerTest {
     @Test
     public void 通常モード用xml作成() throws Exception {
         // xml作成
-        PdfDataHandler target = new PdfDataHandler();
+        PdfDataHandler target = new PdfDataHandler(0, "JMA");
         String xml = target.createIssuesXmlAsString("token");
 
         // XPathを使用してRedmineから返却されたトークン情報を取得
@@ -137,7 +137,7 @@ public class PdfDataHandlerTest {
     @Test
     public void 訓練モード用xml作成() throws Exception {
         // xml作成
-        PdfDataHandler target = new PdfDataHandler(1);
+        PdfDataHandler target = new PdfDataHandler(1, "JMA");
         String xml = target.createIssuesXmlAsString("token");
 
         // XPathを使用してRedmineから返却されたトークン情報を取得
@@ -173,7 +173,7 @@ public class PdfDataHandlerTest {
     @Test
     public void 試験モード用xml作成() throws Exception {
         // xml作成
-        PdfDataHandler target = new PdfDataHandler(2);
+        PdfDataHandler target = new PdfDataHandler(2, "JMA");
         String xml = target.createIssuesXmlAsString("token");
 
         // XPathを使用してRedmineから返却されたトークン情報を取得

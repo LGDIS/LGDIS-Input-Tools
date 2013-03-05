@@ -53,7 +53,7 @@ public class KsnXmlDataHandlerTest {
     public void 通常モード指定() throws ParserConfigurationException, SAXException,
             IOException, XPathExpressionException {
         // モード=0を指定
-        JmaXmlDataHandler target = new JmaXmlDataHandler(0);
+        JmaXmlDataHandler target = new JmaXmlDataHandler(0, "KSN");
 
         // Mockオブジェクトに値を設定
         JmaXmlDataParser mock = Mockito.mock(JmaXmlDataParser.class);
@@ -90,7 +90,7 @@ public class KsnXmlDataHandlerTest {
     @Test
     public void 訓練モード指定() throws Exception {
         // モード=1を指定
-        JmaXmlDataHandler target = new JmaXmlDataHandler(1);
+        JmaXmlDataHandler target = new JmaXmlDataHandler(1, "KSN");
 
         // Mockオブジェクトに値を設定
         JmaXmlDataParser mock = Mockito.mock(JmaXmlDataParser.class);
@@ -129,7 +129,7 @@ public class KsnXmlDataHandlerTest {
     public void 試験モード指定() throws ParserConfigurationException,
             XPathExpressionException, SAXException, IOException {
         // モード=2を指定
-        JmaXmlDataHandler target = new JmaXmlDataHandler(2);
+        JmaXmlDataHandler target = new JmaXmlDataHandler(2, "KSN");
 
         // Mockオブジェクトに値を設定
         JmaXmlDataParser mock = Mockito.mock(JmaXmlDataParser.class);

@@ -47,7 +47,7 @@ public class TarDataHandlerTest {
     @Test
     public void uploadsAPIの戻りデータがNull() throws Exception {
         // 例外が発生しないことを確認
-        TarDataHandler target = new TarDataHandler();
+        TarDataHandler target = new TarDataHandler(0, "JMA");
 
         UploadsPostController mock = Mockito.mock(UploadsPostController.class);
         target.uploadsController = mock;
@@ -66,45 +66,45 @@ public class TarDataHandlerTest {
     @Test
     public void uploadsAPIの戻りデータがXML形式ではない() throws Exception {
         // 例外が発生しないことを確認
-        TarDataHandler target = new TarDataHandler();
+        TarDataHandler target = new TarDataHandler(0, "JMA");
 
         UploadsPostController mock = Mockito.mock(UploadsPostController.class);
         target.uploadsController = mock;
         when(mock.post(any())).thenReturn("abcdefg");
-        
+
         // テスト用tarファイルの読み込み
         String archiveFile = "test/archive/tar.tar";
         byte raw[] = new byte[(int) ((new File(archiveFile)).length())];
         FileInputStream fis = new FileInputStream(archiveFile);
         fis.read(raw);
         fis.close();
-        
+
         target.handle(raw);
     }
 
     @Test
     public void uploadsAPIの戻りデータにtokenがない() throws Exception {
         // 例外が発生しないことを確認
-        TarDataHandler target = new TarDataHandler();
+        TarDataHandler target = new TarDataHandler(0, "JMA");
 
         UploadsPostController mock = Mockito.mock(UploadsPostController.class);
         target.uploadsController = mock;
         when(mock.post(any())).thenReturn("<upload><token></token></upload>");
-        
+
         // テスト用tarファイルの読み込み
         String archiveFile = "test/archive/tar.tar";
         byte raw[] = new byte[(int) ((new File(archiveFile)).length())];
         FileInputStream fis = new FileInputStream(archiveFile);
         fis.read(raw);
         fis.close();
-        
+
         target.handle(raw);
     }
 
     @Test
     public void uploadsAPIの戻りデータにtokenあり() throws Exception {
         // 例外が発生しないことを確認
-        TarDataHandler target = new TarDataHandler();
+        TarDataHandler target = new TarDataHandler(0, "JMA");
 
         UploadsPostController mock = Mockito.mock(UploadsPostController.class);
         IssuesPostController mock2 = Mockito.mock(IssuesPostController.class);
@@ -113,41 +113,41 @@ public class TarDataHandlerTest {
         when(mock.post(any())).thenReturn(
                 "<upload><token>token</token></upload>");
         when(mock2.post(any())).thenReturn("");
-        
+
         // テスト用tarファイルの読み込み
         String archiveFile = "test/archive/tar.tar";
         byte raw[] = new byte[(int) ((new File(archiveFile)).length())];
         FileInputStream fis = new FileInputStream(archiveFile);
         fis.read(raw);
         fis.close();
-        
+
         target.handle(raw);
     }
 
     @Test
     public void uploadsAPIの戻りデータが空文字() throws Exception {
         // 例外が発生しないことを確認
-        TarDataHandler target = new TarDataHandler();
+        TarDataHandler target = new TarDataHandler(0, "JMA");
 
         UploadsPostController mock = Mockito.mock(UploadsPostController.class);
         target.uploadsController = mock;
         when(mock.post(any())).thenReturn("");
         when(mock.post(any())).thenReturn("");
-        
+
         // テスト用tarファイルの読み込み
         String archiveFile = "test/archive/tar.tar";
         byte raw[] = new byte[(int) ((new File(archiveFile)).length())];
         FileInputStream fis = new FileInputStream(archiveFile);
         fis.read(raw);
         fis.close();
-        
+
         target.handle(raw);
     }
 
     @Test
     public void 通常モード用xml作成() throws Exception {
         // xml作成
-        TarDataHandler target = new TarDataHandler();
+        TarDataHandler target = new TarDataHandler(0, "JMA");
         List<Map<String, String>> uploadedFiles = new ArrayList<Map<String, String>>();
         Map<String, String> map1 = new HashMap<String, String>();
         map1.put("token", "token1");
@@ -199,7 +199,7 @@ public class TarDataHandlerTest {
     @Test
     public void 訓練モード用xml作成() throws Exception {
         // xml作成
-        TarDataHandler target = new TarDataHandler(1);
+        TarDataHandler target = new TarDataHandler(1, "JMA");
         List<Map<String, String>> uploadedFiles = new ArrayList<Map<String, String>>();
         Map<String, String> map1 = new HashMap<String, String>();
         map1.put("token", "token1");
@@ -251,7 +251,7 @@ public class TarDataHandlerTest {
     @Test
     public void 試験モード用xml作成() throws Exception {
         // xml作成
-        TarDataHandler target = new TarDataHandler(2);
+        TarDataHandler target = new TarDataHandler(2, "JMA");
         List<Map<String, String>> uploadedFiles = new ArrayList<Map<String, String>>();
         Map<String, String> map1 = new HashMap<String, String>();
         map1.put("token", "token1");

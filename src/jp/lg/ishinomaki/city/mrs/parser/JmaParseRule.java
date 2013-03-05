@@ -102,17 +102,19 @@ public class JmaParseRule {
     /**
      * key:Information type, value:トラッカーID
      */
-    private Map<String, String> trackers;
+    private Map<String, Object> trackerInfo;
+
+    // private Map<String, Map<String, String>> trackers;
 
     /**
      * トラッカーIDを引き当てるためのInfomationタグ->type属性へのXPath
      */
-    private String trackerXpath;
+    // private String trackerXpath;
 
     /**
      * デフォルトのトラッカーID
      */
-    private String defaultTrackerId;
+    // private String defaultTrackerId;
 
     /**
      * プロジェクトIDを引き当てるためのStatusタグへのXpath
@@ -235,16 +237,7 @@ public class JmaParseRule {
             // ------------------------------------------------
             // トラッカー用定義
             // ------------------------------------------------
-            // Information Type取得用のXPath
-            Map<String, Object> tracker = (HashMap<String, Object>) rule
-                    .get(TRACKERS);
-            trackerXpath = (String) tracker.get(PATH);
-
-            // トラッカー用テーブル取得
-            trackers = (Map<String, String>) tracker.get(TYPE);
-
-            // デフォルトのトラッカーID取得
-            defaultTrackerId = (String) tracker.get(DEFAULT);
+            trackerInfo = (Map<String, Object>) rule.get(TRACKERS);
 
             // ------------------------------------------------
             // プロジェクト用定義
@@ -313,13 +306,26 @@ public class JmaParseRule {
      *            情報タイプ
      * @return String トラッカーID
      */
-    public String getTrackerId(String infoType) {
-        String id = trackers.get(infoType);
-        if (id == null) {
-            // ルールから取得できなかった場合はデフォルトのトラッカーIDを使用する
-            id = defaultTrackerId;
+    @SuppressWarnings("unchecked")
+    public String getTrackerId(String inputId, String infoType) {
+        Map<String, Object> trackerInfoMap = (Map<String, Object>) trackerInfo
+                .get(inputId);
+        if (trackerInfoMap == null) {
+            return null;
         }
-        return id;
+        // デフォルトのトラッカーID取得
+        String defaultTrackerId = (String) trackerInfoMap.get(DEFAULT);
+        Map<String, String> trackers = (Map<String, String>) trackerInfoMap
+                .get(TYPE);
+        String trackerId = null;
+        if (trackers != null) {
+            trackerId = trackers.get(infoType);
+        }
+        if (trackerId == null) {
+            // ルールから取得できなかった場合はデフォルトのトラッカーIDを使用する
+            return defaultTrackerId;
+        }
+        return trackerId;
     }
 
     /**
@@ -352,8 +358,14 @@ public class JmaParseRule {
         return locationInfos;
     }
 
-    public String getTrackerXpath() {
-        return trackerXpath;
+    @SuppressWarnings("unchecked")
+    public String getTrackerXpath(String inputId) {
+        Map<String, Object> trackerInfoMap = (Map<String, Object>) trackerInfo
+                .get(inputId);
+        if (trackerInfoMap == null) {
+            return null;
+        }
+        return (String) trackerInfoMap.get(PATH);
     }
 
     public String getAutoLaunchSeismicIntensityXpath() {
@@ -370,10 +382,6 @@ public class JmaParseRule {
 
     public Double getTsunamiHeightThreashold() {
         return tsunamiHeightThreashold;
-    }
-
-    public Map<String, String> getTrackers() {
-        return trackers;
     }
 
     public String getProjectXpath() {
@@ -398,10 +406,6 @@ public class JmaParseRule {
 
     public String getXmlBodyPath() {
         return xmlBodyPath;
-    }
-
-    public String getDefaultTrackerId() {
-        return defaultTrackerId;
     }
 
     public List<Map<String, Object>> getDispositions() {

@@ -95,9 +95,15 @@ public class JmaXmlDataParser extends XmlDataParser {
     private String xmlBody;
 
     /**
+     * 入力元識別子
+     */
+    private String inputId;
+
+    /**
      * コンストラクタです。
      */
-    public JmaXmlDataParser() {
+    public JmaXmlDataParser(String inputId) {
+        this.inputId = inputId;
     }
 
     /**
@@ -274,9 +280,9 @@ public class JmaXmlDataParser extends XmlDataParser {
      * @return boolean true:解析成功 false:解析失敗
      */
     boolean parseTrackerId(Document doc, XPath xpath, JmaParseRule rule) {
-        String informationType = stringByXpath(xpath, rule.getTrackerXpath(),
-                doc);
-        trackerId = rule.getTrackerId(informationType);
+        String informationType = stringByXpath(xpath,
+                rule.getTrackerXpath(inputId), doc);
+        trackerId = rule.getTrackerId(inputId, informationType);
         if (StringUtils.isBlank(trackerId)) {
             log.warning("トラッカーIDが特定できません Information Type -> "
                     + informationType);

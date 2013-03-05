@@ -74,7 +74,7 @@ public class KsnTestTool {
                     byte[] contents = KsnTestTool.byteFromFile(file);
                     String fn = file.getName();
                     if (fn.endsWith("xml") || fn.endsWith("XML")) {
-                        KsnXmlDataHandler handler = new KsnXmlDataHandler(0);
+                        KsnXmlDataHandler handler = new KsnXmlDataHandler(0, "KSN");
                         handler.handle(contents);
                     }
                 }
