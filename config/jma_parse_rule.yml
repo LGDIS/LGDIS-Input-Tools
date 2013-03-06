@@ -226,9 +226,9 @@ auto_launch:
 
 
 # ------------------------------------------------------------
-# プロジェクト自動配信用の定義
-# dispositionsにはnoに配備番号、pathsに条件となるXPathを設定したテーブルを
-# リスト型で設定
+# 配備番号判断用の設定
+# numberは配備番号
+# pathsは配備番号を判定するためのXPath
 # ------------------------------------------------------------
 disposition: 
  - 
@@ -253,6 +253,12 @@ disposition:
    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"6-\"]"
    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"7\"]"
 
+# ------------------------------------------------------------
+# 配備時の配信用メッセージ
+# parameterはRestI/F用のパラメータ名
+# max_lengthは文字列長
+# pathsは文言を取得するためのXPath
+# ------------------------------------------------------------
 send_message: 
  - 
   parameter: "mail_subject"
@@ -267,4 +273,8 @@ send_message:
    - "/Report/Body/Comments/ForecastComment/Text/text()"
    - "/Report/Body/Comments/WarningComment/Text/text()"
 
+# ------------------------------------------------------------
+# プロジェクト自動送信用の設定
+# 該当の配備番号の場合はプロジェクト自動送信扱いとする
+# ------------------------------------------------------------
 auto_send_disposition_numbers: ["2", "3"]
