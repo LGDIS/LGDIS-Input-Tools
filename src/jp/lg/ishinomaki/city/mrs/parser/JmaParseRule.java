@@ -38,10 +38,16 @@ public class JmaParseRule {
     public static final String TRACKERS = "trackers";
     public static final String PROJECTS = "projects";
     public static final String AUTO_LAUNCH = "auto_launch";
-    public static final String AUTO_SEND = "auto_send";
-    public static final String AUTO_SEND_NOS = "auto_send_nos";
-    public static final String DISPOSITIONS = "dispositions";
-    public static final String NO = "no";
+    public static final String AUTO_SEND_DISPOSITION_NUMBERS = "auto_send_disposition_numbers";
+    // public static final String AUTO_SEND_NOS = "auto_send_nos";
+    // public static final String DISPOSITIONS = "dispositions";
+    // public static final String NO = "no";
+    public static final String DISPOSITION = "disposition";
+    public static final String NUMBER = "number";
+    public static final String SEND_MESSAGE = "send_message";
+    public static final String PARAMETER = "parameter";
+    public static final String MAX_LENGTH = "max_length";
+    public static final String DISPOSITION_NUMBERS = "disposition_numbers";
     public static final String PATHS = "paths";
     public static final String PATH = "path";
     public static final String TYPE = "type";
@@ -50,7 +56,7 @@ public class JmaParseRule {
     public static final String EARTHQUAKE_PATH = "earthquake_path";
     public static final String TSUNAMI_PATH = "tsunami_path";
     public static final String LAUNCH = "launch";
-    public static final String SEND = "send";
+    // public static final String SEND = "send";
     public static final String DEFAULT = "default";
     public static final String ALLOW_TYPE = "allow_type";
 
@@ -154,12 +160,17 @@ public class JmaParseRule {
     /**
      * プロジェクト自動配信のための設定を格納したリスト
      */
-    private List<Map<String, Object>> dispositions;
+    private List<Map<String, Object>> dispositionInfo;
+
+    /**
+     * プロジェクト自動配信用のメッセージ作成用設定を格納したリスト
+     */
+    private List<Map<String, Object>> sendMessageInfo;
 
     /**
      * プロジェクト自動送信を行うdispositionsのIDリスト
      */
-    private List<String> autoSendNos;
+    private List<String> autoSendNumbers;
 
     /**
      * シングルトンインスタンス
@@ -275,14 +286,15 @@ public class JmaParseRule {
             // ------------------------------------------------
             // プロジェクト自動配信用設定値取得
             // ------------------------------------------------
-            HashMap<String, Object> autoSend = (HashMap<String, Object>) rule
-                    .get(AUTO_SEND);
-            // 自動配備用設定取得
-            dispositions = (List<Map<String, Object>>) autoSend
-                    .get(DISPOSITIONS);
+            dispositionInfo = (List<Map<String, Object>>) rule.get(DISPOSITION);
 
-            // プロジェクト自動送信対象となるIDのリスト取得
-            autoSendNos = (List<String>) autoSend.get(AUTO_SEND_NOS);
+            // 送信メッセージ用設定値
+            sendMessageInfo = (List<Map<String, Object>>) rule
+                    .get(SEND_MESSAGE);
+
+            // 自動送信対象の配備番号配列取得
+            autoSendNumbers = (List<String>) rule
+                    .get(AUTO_SEND_DISPOSITION_NUMBERS);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -408,12 +420,16 @@ public class JmaParseRule {
         return xmlBodyPath;
     }
 
-    public List<Map<String, Object>> getDispositions() {
-        return dispositions;
+    public List<Map<String, Object>> getDispositionInfo() {
+        return dispositionInfo;
     }
 
-    public List<String> getAutoSendNos() {
-        return autoSendNos;
+    public List<Map<String, Object>> getSendMessageInfo() {
+        return sendMessageInfo;
+    }
+
+    public List<String> getAutoSendNumbers() {
+        return autoSendNumbers;
     }
 
 }

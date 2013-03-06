@@ -275,7 +275,7 @@ public class JmaXmlDataParserTest {
         // テストターゲットクラス
         JmaXmlDataParser target = new JmaXmlDataParser("JMA");
 
-        target.parseAutoSend(doc, xpath, rule);
+        target.parseDisposition(doc, xpath, rule);
         String actual = target.getDisposition();
 
         assertThat(actual, is("0"));
@@ -290,7 +290,7 @@ public class JmaXmlDataParserTest {
         // テストターゲットクラス
         JmaXmlDataParser target = new JmaXmlDataParser("JMA");
 
-        target.parseAutoSend(doc, xpath, rule);
+        target.parseDisposition(doc, xpath, rule);
         String actual = target.getDisposition();
 
         assertThat(actual, is(nullValue()));
@@ -335,7 +335,7 @@ public class JmaXmlDataParserTest {
         // テストターゲットクラス
         JmaXmlDataParser target = new JmaXmlDataParser("JMA");
 
-        target.parseAutoSend(doc, xpath, rule);
+        target.parseDisposition(doc, xpath, rule);
         String actual = target.getDisposition();
 
         assertThat(actual, is("2"));
@@ -350,7 +350,7 @@ public class JmaXmlDataParserTest {
         // テストターゲットクラス
         JmaXmlDataParser target = new JmaXmlDataParser("JMA");
 
-        target.parseAutoSend(doc, xpath, rule);
+        target.parseDisposition(doc, xpath, rule);
         String actual = target.getDisposition();
 
         assertThat(actual, is(nullValue()));

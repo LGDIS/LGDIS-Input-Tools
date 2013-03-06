@@ -184,7 +184,7 @@ public class JmaXmlDataParser extends XmlDataParser {
             parseIsAutoLaunchByTsunamiHeight(doc, xpath, rule);
 
             // プロジェクト自動送信を解析
-            parseAutoSend(doc, xpath, rule);
+            parseDisposition(doc, xpath, rule);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -448,26 +448,25 @@ public class JmaXmlDataParser extends XmlDataParser {
      * @return boolean true:解析成功 false:解析失敗
      */
     @SuppressWarnings("unchecked")
-    boolean parseAutoSend(Document doc, XPath xpath, JmaParseRule rule) {
+    boolean parseDisposition(Document doc, XPath xpath, JmaParseRule rule) {
 
         // ○号配備判定用リスト取得
-        List<Map<String, Object>> dispositionConditions = rule
-                .getDispositions();
-        for (Map<String, Object> aCondition : dispositionConditions) {
-            // コンディションテーブルから○号配備識別子を取得
-            String no = (String) aCondition.get(JmaParseRule.NO);
-            if (StringUtils.isBlank(no)) {
+        List<Map<String, Object>> dispositionInfo = rule.getDispositionInfo();
+
+        for (Map<String, Object> anInfo : dispositionInfo) {
+            // ○号配備識別子を取得
+            String dispositionNumber = (String) anInfo.get(JmaParseRule.NUMBER);
+            if (StringUtils.isBlank(dispositionNumber)) {
                 continue;
             }
 
             // ○号配備を判定する値を取得するためのXPathのリストを取得し条件判定
-            List<String> paths = (List<String>) aCondition
-                    .get(JmaParseRule.PATHS);
+            List<String> paths = (List<String>) anInfo.get(JmaParseRule.PATHS);
             for (String path : paths) {
                 // 指定したXPathでNodeが取得できた場合は指定の○号配備識別子を設定する
                 Node node = nodeByXpath(xpath, path, doc);
                 if (node != null) {
-                    disposition = no;
+                    disposition = dispositionNumber;
                     break;
                 }
             }
@@ -475,12 +474,46 @@ public class JmaXmlDataParser extends XmlDataParser {
 
         // プロジェクト自動送信判定
         if (StringUtils.isBlank(disposition) == false) {
-            List<String> sendAutoNos = rule.getAutoSendNos();
-            for (String no : sendAutoNos) {
-                if (disposition.equals(no)) {
-                    isAutoSend = true;
-                    break;
+            // メッセージの作成
+            List<Map<String, Object>> sendMessageInfo = rule
+                    .getSendMessageInfo();
+            for (Map<String, Object> anInfo : sendMessageInfo) {
+                String parameter = (String) anInfo.get(JmaParseRule.PARAMETER);
+                Integer maxLength = (Integer) anInfo
+                        .get(JmaParseRule.MAX_LENGTH);
+                List<String> paths = (List<String>) anInfo
+                        .get(JmaParseRule.PATHS);
+                if (parameter == null || maxLength == null || paths == null) {
+                    continue;
                 }
+                String message = "";
+                for (String path : paths) {
+                    String value = stringByXpath(xpath, path, doc);
+                    if (StringUtils.isBlank(value) == false) {
+                        if (message.length() == 0) {
+                            message = value;
+                        } else {
+                            message = message + " " + value;
+                        }
+                    }
+                }
+                // メッセージを最大桁数で切り取り
+                if (message.length() > maxLength) {
+                    message = message.substring(0, maxLength);
+                }
+
+                if (StringUtils.isBlank(message) == false) {
+                    // issueExtraに送信メッセージを格納
+                    issueExtraMap.put(parameter, message);
+                }
+            }
+            
+            // 自動送信フラグの設定
+            List<String> autoSendNumbers = rule.getAutoSendNumbers();
+            if (autoSendNumbers.contains(disposition)) {
+                isAutoSend = true;
+            } else {
+                isAutoSend = false;
             }
         }
 

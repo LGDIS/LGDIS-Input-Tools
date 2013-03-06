@@ -230,27 +230,41 @@ auto_launch:
 # dispositionsにはnoに配備番号、pathsに条件となるXPathを設定したテーブルを
 # リスト型で設定
 # ------------------------------------------------------------
-auto_send: 
- auto_send_nos: ["2", "3"]
- dispositions: 
-  - 
-   no: "0"
-   paths: 
-    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"4\"]"
-    - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[text()=\"津波注意報：発表\"]"
-  - 
-   no: "1"
-   paths: 
-    - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[text()=\"津波警報：発表\"]"
-  - 
-   no: "2"
-   paths: 
-    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"5-\"]"
-    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"5+\"]"
-    - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[text()=\"大津波警報：発表\"]"
-  - 
-   no: "3"
-   paths: 
-    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"6-\"]"
-    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"6-\"]"
-    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"7\"]"
+disposition: 
+ - 
+  number: "0"
+  paths: 
+   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"4\"]"
+   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[text()=\"津波注意報：発表\"]"
+ - 
+  number: "1"
+  paths: 
+   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[text()=\"津波警報：発表\"]"
+ - 
+  number: "2"
+  paths: 
+   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"5-\"]"
+   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"5+\"]"
+   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[text()=\"大津波警報：発表\"]"
+ - 
+  number: "3"
+  paths: 
+   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"6-\"]"
+   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"6-\"]"
+   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"7\"]"
+
+send_message: 
+ - 
+  parameter: "mail_subject"
+  max_length: 15
+  paths: 
+   - "/Report/Head/Title/text()"
+ - 
+  parameter: "summary"
+  max_length: 140
+  paths: 
+   - "/Report/Head/Headline/Text/text()"
+   - "/Report/Body/Comments/ForecastComment/Text/text()"
+   - "/Report/Body/Comments/WarningComment/Text/text()"
+
+auto_send_disposition_numbers: ["2", "3"]
