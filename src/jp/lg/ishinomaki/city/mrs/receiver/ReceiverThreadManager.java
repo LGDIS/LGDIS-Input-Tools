@@ -74,6 +74,8 @@ public class ReceiverThreadManager {
                 String className = analyzerMap.get(dataType);
                 DataAnalyzer analyzer = createAnalyzer(className);
                 if (analyzer != null) {
+                    // dataTypeを大文字に変換
+                    dataType = dataType.toUpperCase();
                     analyzers.put(dataType, analyzer);
                 }
             }

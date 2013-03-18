@@ -109,6 +109,7 @@ public class ReceiverThread extends Thread implements
     public void receiveData(String type, byte[] data) {
         // analyzersテーブルからdataTypeで解析クラスインスタンスを引き当て
         // クラスインスタンスが取得できない場合は処理しない
+        type = type.toUpperCase();
         DataAnalyzer analyzer = analyzers.get(type);
         if (analyzer == null) {
             log.severe("指定のデータ種別に対して解析クラスが定義されていません。 データ種別 -> [" + type + "]");
