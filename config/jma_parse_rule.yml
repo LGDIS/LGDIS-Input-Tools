@@ -250,7 +250,7 @@ disposition:
   number: "3"
   paths: 
    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"6-\"]"
-   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"6-\"]"
+   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"6+\"]"
    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"7\"]"
 
 # ------------------------------------------------------------
