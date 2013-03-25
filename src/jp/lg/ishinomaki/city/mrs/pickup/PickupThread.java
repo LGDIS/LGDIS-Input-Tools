@@ -143,7 +143,19 @@ public class PickupThread extends Thread {
             } else if (dataType.equals(Consts.DATA_TYPE_TAR)) {
                 // TAR用ハンドルクラス
                 handler = new TarDataHandler(mode, inputId);
-            } else {
+            } else if (dataType.equals(Consts.DATA_TYPE_PNG)) {
+                // PNG用ハンドルクラス
+                // 現在はPDFと同様のプロジェクトID,トラッカーIDを使用するため
+                // ハンドラークラスもPDF用のものを使用する
+                handler = new PdfDataHandler(mode, inputId);
+            } else if (dataType.equals(Consts.DATA_TYPE_BIN)) {
+                // BIN用ハンドルクラス
+                // 現在はPDFと同様のプロジェクトID,トラッカーIDを使用するため
+                // ハンドラークラスもPDF用のものを使用する
+                handler = new PdfDataHandler(mode, inputId);
+            }
+
+            else {
                 log.warning("キューから取得したデータのデータ種類に対して処理クラスが設定されていません。");
                 continue;
             }

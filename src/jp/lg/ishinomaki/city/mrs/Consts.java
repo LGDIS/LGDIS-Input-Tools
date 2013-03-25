@@ -47,6 +47,16 @@ public class Consts {
      */
     public static final String DATA_TYPE_GRI = "GRI";
     
+    /**
+     * PNG
+     */
+    public static final String DATA_TYPE_PNG = "PNG";
+    
+    /**
+     * BIN
+     */
+    public static final String DATA_TYPE_BIN = "BIN";
+    
     // -----------------------------------------------------
     // キューに登録する際にデータのヘッダに付与するデータ入力元
     // -----------------------------------------------------
