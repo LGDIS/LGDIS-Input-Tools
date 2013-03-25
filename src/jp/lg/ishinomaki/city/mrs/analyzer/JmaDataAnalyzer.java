@@ -82,6 +82,8 @@ public class JmaDataAnalyzer implements DataAnalyzer {
             // TODO for test
             // チェックサムエラーでも後続処理を続行
             // throw new InvalidParameterException("チェックサムエラーのため処理を中断します。");
+        } else {
+            log.info("チェックサムOK");
         }
 
         // ヘッダ部の解析
