@@ -1,5 +1,5 @@
 //
-//  TextDataHandler.java
+//  BinDataHandler.java
 //  LGDIS-Input-Tools
 //
 //  Copyright (C) 2012 ISHINOMAKI CITY OFFICE.
@@ -13,10 +13,10 @@ import java.util.Map;
 import jp.lg.ishinomaki.city.mrs.parser.ParserConfig;
 
 /**
- * TEXT形式のデータをハンドリングするクラス
+ * BIN形式のデータをハンドリングするクラス
  * 
  */
-public class TextDataHandler extends UploadDataHandler {
+public class BinDataHandler extends UploadDataHandler {
 
     /**
      * コンストラクタ
@@ -24,7 +24,7 @@ public class TextDataHandler extends UploadDataHandler {
      * @param mode
      * @param inputId
      */
-    public TextDataHandler(int mode, String inputId) {
+    public BinDataHandler(int mode, String inputId) {
         super(mode, inputId);
     }
 
@@ -33,7 +33,7 @@ public class TextDataHandler extends UploadDataHandler {
      */
     @Override
     Map<String, String> getConfig() {
-        return ParserConfig.getInstance().getTextAttachmentStatics();
+        return ParserConfig.getInstance().getBinAttachmentStatics();
     }
 
 }

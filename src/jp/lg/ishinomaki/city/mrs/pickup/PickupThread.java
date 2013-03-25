@@ -145,14 +145,10 @@ public class PickupThread extends Thread {
                 handler = new TarDataHandler(mode, inputId);
             } else if (dataType.equals(Consts.DATA_TYPE_PNG)) {
                 // PNG用ハンドルクラス
-                // 現在はPDFと同様のプロジェクトID,トラッカーIDを使用するため
-                // ハンドラークラスもPDF用のものを使用する
-                handler = new PdfDataHandler(mode, inputId);
+                handler = new PngDataHandler(mode, inputId);
             } else if (dataType.equals(Consts.DATA_TYPE_BIN)) {
                 // BIN用ハンドルクラス
-                // 現在はPDFと同様のプロジェクトID,トラッカーIDを使用するため
-                // ハンドラークラスもPDF用のものを使用する
-                handler = new PdfDataHandler(mode, inputId);
+                handler = new BinDataHandler(mode, inputId);
             }
 
             else {

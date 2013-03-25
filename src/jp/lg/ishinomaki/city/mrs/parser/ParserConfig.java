@@ -43,6 +43,8 @@ public class ParserConfig {
     public static final String TAR_ATTACHMENT_STATICS = "tar_attachment_statics";
     public static final String PDF_ATTACHMENT_STATICS = "pdf_attachment_statics";
     public static final String TEXT_ATTACHMENT_STATICS = "text_attachment_statics";
+    public static final String PNG_ATTACHMENT_STATICS = "png_attachment_statics";
+    public static final String BIN_ATTACHMENT_STATICS = "bin_attachment_statics";
     public static final String SUBJECT = "subject";
     public static final String PROJECT_ID = "project_id";
     public static final String TRAINING_PROJECT_ID = "training_project_id";
@@ -92,6 +94,16 @@ public class ParserConfig {
      */
     private Map<String, String> tarAttachmentStatics;
 
+    /**
+     * Png添付チケット用の情報
+     */
+    private Map<String, String> pngAttachmentStatics;
+
+    /**
+     * Bin添付チケット用の情報
+     */
+    private Map<String, String> binAttachmentStatics;
+    
     /**
      * 訓練用の固定プロジェクトID
      */
@@ -151,16 +163,28 @@ public class ParserConfig {
                 .get(PDF_ATTACHMENT_STATICS);
 
         // --------------------------------------------------------
-        // TextF添付チケット用の情報
+        // Text添付チケット用の情報
         // --------------------------------------------------------
         textAttachmentStatics = (Map<String, String>) yml
                 .get(TEXT_ATTACHMENT_STATICS);
 
         // --------------------------------------------------------
-        // TextF添付チケット用の情報
+        // Tar添付チケット用の情報
         // --------------------------------------------------------
         tarAttachmentStatics = (Map<String, String>) yml
                 .get(TAR_ATTACHMENT_STATICS);
+
+        // --------------------------------------------------------
+        // PNG添付チケット用の情報
+        // --------------------------------------------------------
+        pngAttachmentStatics = (Map<String, String>) yml
+                .get(PNG_ATTACHMENT_STATICS);
+
+        // --------------------------------------------------------
+        // BINF添付チケット用の情報
+        // --------------------------------------------------------
+        binAttachmentStatics = (Map<String, String>) yml
+                .get(BIN_ATTACHMENT_STATICS);
 
         // --------------------------------------------------------
         // 固定プロジェクトID取得
@@ -199,6 +223,14 @@ public class ParserConfig {
 
     public Map<String, String> getTarAttachmentStatics() {
         return tarAttachmentStatics;
+    }
+
+    public Map<String, String> getPngAttachmentStatics() {
+        return pngAttachmentStatics;
+    }
+
+    public Map<String, String> getBinAttachmentStatics() {
+        return binAttachmentStatics;
     }
 
     public String getTrainingProjectId() {
