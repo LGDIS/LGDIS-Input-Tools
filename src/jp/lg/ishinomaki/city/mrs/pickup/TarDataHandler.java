@@ -106,9 +106,9 @@ public class TarDataHandler implements PickupDataHandler {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                // TrainingFlgが"1"の場合は動作モードを"訓練"に設定
+                // TrainingFlgが"0"の場合は動作モードを"訓練"に設定
                 String trainingFlg = prop.getProperty("TrainingFlg");
-                if ("1".equals(trainingFlg)) {
+                if ("0".equals(trainingFlg)) {
                     this.mode = 1;
                 }
             }
