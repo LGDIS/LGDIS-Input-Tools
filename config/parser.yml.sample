@@ -15,7 +15,6 @@ redmine:
  basicauth_id: xxx
  basicauth_password: xxx
 
-
 # ------------------------------------------------------------
 # PDFファイルをチケット登録する際の固定情報
 # key:restのパラメータ名 value:設定する値
@@ -28,6 +27,29 @@ pdf_attachment_statics:
  description: "This is pdf file."
  content_type: "application/pdf"
 
+# ------------------------------------------------------------
+# PNGファイルをチケット登録する際の固定情報
+# key:restのパラメータ名 value:設定する値
+# ------------------------------------------------------------
+png_attachment_statics: 
+ subject: "PNGファイル"
+ project_id: "I04202000000000000001"
+ tracker_id: "4"
+ filename: "jma.png"
+ description: "This is png file."
+ content_type: "application/png"
+
+# ------------------------------------------------------------
+# BINファイルをチケット登録する際の固定情報
+# key:restのパラメータ名 value:設定する値
+# ------------------------------------------------------------
+bin_attachment_statics: 
+ subject: "BINファイル"
+ project_id: "I04202000000000000001"
+ tracker_id: "4"
+ filename: "jma.bin"
+ description: "This is bin file."
+ content_type: "application/bin"
 
 # ------------------------------------------------------------
 # テキストファイルをチケット登録する際の固定情報
@@ -77,5 +99,3 @@ training_project_id: "training-project"
 # 試験モード時の固定プロジェクトID
 # ------------------------------------------------------------
 test_project_id: "test-project"
-
-
