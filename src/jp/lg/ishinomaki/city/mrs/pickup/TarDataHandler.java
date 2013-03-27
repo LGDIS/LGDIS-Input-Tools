@@ -8,10 +8,14 @@
 
 package jp.lg.ishinomaki.city.mrs.pickup;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 import jp.lg.ishinomaki.city.mrs.parser.ParserConfig;
@@ -85,6 +89,29 @@ public class TarDataHandler implements PickupDataHandler {
             // 送信データがないため処理中断
             log.warning("送信データがないため処理を中断します");
             return;
+        }
+
+        // Tarファイル内容から訓練モードを判定する
+        for (int i = 0; i < fileMaps.size(); i++) {
+            Map<String, Object> fileMap = fileMaps.get(i);
+            // ファイル名を取得
+            String fileName = (String) fileMap.get("name");
+            if (fileName.endsWith(".ini")) {
+                // ファイル内容を取得
+                byte[] contents = (byte[]) fileMap.get("contents");
+                InputStream ins = new ByteArrayInputStream(contents);
+                Properties prop = new Properties();
+                try {
+                    prop.load(ins);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                // TrainingFlgが"1"の場合は動作モードを"訓練"に設定
+                String trainingFlg = prop.getProperty("TrainingFlg");
+                if ("1".equals(trainingFlg)) {
+                    this.mode = 1;
+                }
+            }
         }
 
         // Tarファイル解凍後のファイル数分Redmineにupload要求
