@@ -39,9 +39,6 @@ public class JmaParseRule {
     public static final String PROJECTS = "projects";
     public static final String AUTO_LAUNCH = "auto_launch";
     public static final String AUTO_SEND_DISPOSITION_NUMBERS = "auto_send_disposition_numbers";
-    // public static final String AUTO_SEND_NOS = "auto_send_nos";
-    // public static final String DISPOSITIONS = "dispositions";
-    // public static final String NO = "no";
     public static final String DISPOSITION = "disposition";
     public static final String NUMBER = "number";
     public static final String SEND_MESSAGE = "send_message";
@@ -56,9 +53,12 @@ public class JmaParseRule {
     public static final String EARTHQUAKE_PATH = "earthquake_path";
     public static final String TSUNAMI_PATH = "tsunami_path";
     public static final String LAUNCH = "launch";
-    // public static final String SEND = "send";
     public static final String DEFAULT = "default";
     public static final String ALLOW_TYPE = "allow_type";
+    public static final String AUTOSEND_EXTRAS = "autosend_extras";
+    public static final String DESCRIPTION_TYPE_PATH = "description_type_path";
+    public static final String DESCRIPTION_TARGET_PARAM = "description_target_param";
+    public static final String DESCRIPTION_CONTENTS = "description_contents";
 
     /**
      * yml定義内容を保持するテーブル
@@ -110,18 +110,6 @@ public class JmaParseRule {
      */
     private Map<String, Object> trackerInfo;
 
-    // private Map<String, Map<String, String>> trackers;
-
-    /**
-     * トラッカーIDを引き当てるためのInfomationタグ->type属性へのXPath
-     */
-    // private String trackerXpath;
-
-    /**
-     * デフォルトのトラッカーID
-     */
-    // private String defaultTrackerId;
-
     /**
      * プロジェクトIDを引き当てるためのStatusタグへのXpath
      */
@@ -171,6 +159,26 @@ public class JmaParseRule {
      * プロジェクト自動送信を行うdispositionsのIDリスト
      */
     private List<String> autoSendNumbers;
+
+    /**
+     * プロジェクト自動送信を行う際の付随情報
+     */
+    private Map<String, String> autoSendExtras;
+
+    /**
+     * 説明文の種別を取得するためのXPath
+     */
+    private String descriptionTypePath;
+
+    /**
+     * 説明文を設定するRestAPIのパラメータ名
+     */
+    private String descriptionTargetParam;
+
+    /**
+     * 説明文に設定する内容を取得するためのXPath等情報
+     */
+    private Map<String, List<Map<String, String>>> descriptionContents;
 
     /**
      * シングルトンインスタンス
@@ -295,6 +303,18 @@ public class JmaParseRule {
             // 自動送信対象の配備番号配列取得
             autoSendNumbers = (List<String>) rule
                     .get(AUTO_SEND_DISPOSITION_NUMBERS);
+
+            // 自動送信時の付随情報
+            autoSendExtras = (Map<String, String>) rule.get(AUTOSEND_EXTRAS);
+
+            // ------------------------------------------------
+            // 説明文取得用
+            // ------------------------------------------------
+            descriptionTypePath = (String) rule.get(DESCRIPTION_TYPE_PATH);
+            descriptionTargetParam = (String) rule
+                    .get(DESCRIPTION_TARGET_PARAM);
+            descriptionContents = (Map<String, List<Map<String, String>>>) rule
+                    .get(DESCRIPTION_CONTENTS);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -432,4 +452,19 @@ public class JmaParseRule {
         return autoSendNumbers;
     }
 
+    public Map<String, String> getAutosendExtras() {
+        return autoSendExtras;
+    }
+
+    public String getDescriptionTypePath() {
+        return descriptionTypePath;
+    }
+
+    public String getDescriptionTargetParam() {
+        return descriptionTargetParam;
+    }
+
+    public Map<String, List<Map<String, String>>> getDescriptionContents() {
+        return descriptionContents;
+    }
 }

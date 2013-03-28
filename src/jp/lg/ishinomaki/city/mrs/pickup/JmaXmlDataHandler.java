@@ -225,9 +225,19 @@ public class JmaXmlDataHandler implements PickupDataHandler {
             }
         }
 
+        // 自動送信付随情報を設定
+        Map<String, String> autoSendExtras = parser.getAutoSendExtras();
+        if (autoSendExtras != null) {
+            for (String key : autoSendExtras.keySet()) {
+                Element element = issue.addElement(key);
+                element.addText(autoSendExtras.get(key));
+            }
+        }
+
         // for test ------------------------------------
-        String subject = issueExtraMap.get("subject");
-        toXmlFile(doc, subject);
+        // 単体テスト時にRedmineへの送信データをローカルに保存するために使用
+        // String subject = issueExtraMap.get("subject");
+        // toXmlFile(doc, subject);
         // for test ------------------------------------
 
         return doc.asXML();

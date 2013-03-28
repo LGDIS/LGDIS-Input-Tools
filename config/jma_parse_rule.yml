@@ -278,3 +278,28 @@ send_message:
 # 該当の配備番号の場合はプロジェクト自動送信扱いとする
 # ------------------------------------------------------------
 auto_send_disposition_numbers: ["2", "3"]
+
+# 自動送信時にissue拡張フィールドに付加する情報
+autosend_extras: 
+ # 発信対象地域
+ "delivered_area": "042021"
+
+ # 情報の更新種別
+ "type_update": "1"
+
+# ------------------------------------------------------------
+# チケットの"説明文"に登録する内容
+#
+# ------------------------------------------------------------
+description_type_path: "/Report/Control/Type/text()"
+description_target_param: "issue_description"
+description_contents: 
+ "震度速報": 
+  - path: "Body/Intensity/Observation/Pref/Area[Name/text()=\"宮城県\"]/Name/text()"
+  - 
+   path: "Body/Intensity/Observation/Pref/Area[Name/text()=\"宮城県\"]/MaxInt/text()"
+   decoration: "intensity"
+  - path: "Body/Comments/ForecastComment/Text/text()"
+
+
+

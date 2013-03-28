@@ -100,6 +100,16 @@ public class JmaXmlDataParser extends XmlDataParser {
     private String inputId;
 
     /**
+     * 自動送信時の付随情報
+     */
+    private Map<String, String> autoSendExtras;
+
+    /**
+     * 説明文
+     */
+    private String description;
+    
+    /**
      * コンストラクタです。
      */
     public JmaXmlDataParser(String inputId) {
@@ -186,6 +196,10 @@ public class JmaXmlDataParser extends XmlDataParser {
             // プロジェクト自動送信を解析
             parseDisposition(doc, xpath, rule);
 
+            // プロジェクト自動送信の場合の付随情報を設定
+            if (isAutoSend == true) {
+                autoSendExtras = rule.getAutosendExtras();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -507,7 +521,7 @@ public class JmaXmlDataParser extends XmlDataParser {
                     issueExtraMap.put(parameter, message);
                 }
             }
-            
+
             // 自動送信フラグの設定
             List<String> autoSendNumbers = rule.getAutoSendNumbers();
             if (autoSendNumbers.contains(disposition)) {
@@ -658,6 +672,33 @@ public class JmaXmlDataParser extends XmlDataParser {
         log.finest("解析後の地理系情報 -> " + issueGeographyMaps);
     }
 
+    /**
+     * チケットの説明文に設定する文言を解析
+     * 
+     * @param doc
+     * @param xpath
+     * @param rule
+     */
+    private void parseDescription(Document doc, XPath xpath, JmaParseRule rule) {
+        // 情報種別を取得
+        String type = stringByXpath(xpath, rule.getDescriptionTypePath(), doc);
+        Map<String, List<Map<String, String>>> contents = rule
+                .getDescriptionContents();
+        List<Map<String, String>> rules = contents.get(type);
+        if (rules == null){
+            return;
+        }
+        
+        for (Map<String,String> aRuleMap : rules) {
+            String path = aRuleMap.get("path");
+            String value = stringByXpath(xpath, path, doc);
+            if (value == null) {
+                continue;
+            }
+            
+        }
+    }
+
     // ----------------------------------------------------
     // 各種変数用のgetterメソッド
     // ----------------------------------------------------
@@ -700,6 +741,10 @@ public class JmaXmlDataParser extends XmlDataParser {
 
     public String getXmlBody() {
         return xmlBody;
+    }
+
+    public Map<String, String> getAutoSendExtras() {
+        return autoSendExtras;
     }
 
 }
