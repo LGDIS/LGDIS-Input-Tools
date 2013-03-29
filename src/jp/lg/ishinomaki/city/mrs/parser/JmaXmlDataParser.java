@@ -21,6 +21,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
 
+import jp.lg.ishinomaki.city.mrs.utils.StringDecorator;
 import jp.lg.ishinomaki.city.mrs.utils.StringUtils;
 
 import org.w3c.dom.Document;
@@ -104,11 +105,6 @@ public class JmaXmlDataParser extends XmlDataParser {
      */
     private Map<String, String> autoSendExtras;
 
-    /**
-     * 説明文
-     */
-    private String description;
-    
     /**
      * コンストラクタです。
      */
@@ -200,6 +196,12 @@ public class JmaXmlDataParser extends XmlDataParser {
             if (isAutoSend == true) {
                 autoSendExtras = rule.getAutosendExtras();
             }
+
+            // --------------------------------------------------------
+            // 説明文取得
+            // --------------------------------------------------------
+            parseDescription(doc, xpath, rule);
+
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -680,23 +682,80 @@ public class JmaXmlDataParser extends XmlDataParser {
      * @param rule
      */
     private void parseDescription(Document doc, XPath xpath, JmaParseRule rule) {
+
+        StringBuilder builder = new StringBuilder();
+
         // 情報種別を取得
         String type = stringByXpath(xpath, rule.getDescriptionTypePath(), doc);
         Map<String, List<Map<String, String>>> contents = rule
                 .getDescriptionContents();
         List<Map<String, String>> rules = contents.get(type);
-        if (rules == null){
+        if (rules == null) {
             return;
         }
-        
-        for (Map<String,String> aRuleMap : rules) {
+
+        for (Map<String, String> aRuleMap : rules) {
             String path = aRuleMap.get("path");
             String value = stringByXpath(xpath, path, doc);
-            if (value == null) {
+            if (value == null || value.length() == 0) {
                 continue;
             }
-            
+            String header = aRuleMap.get("header");
+            if (header != null) {
+                value = header + value;
+            }
+
+            String decorationClass = aRuleMap.get("decorator");
+            if (decorationClass != null) {
+                // クラス名からDecorationクラスインスタンス生成
+                StringDecorator decorator = classLoad(decorationClass);
+                if (decorator != null) {
+                    value = decorator.decorate(value);
+                }
+            }
+
+            String delimiter = aRuleMap.get("delimiter");
+            if (delimiter != null) {
+                builder.append(value).append(delimiter);
+            } else {
+                builder.append(value).append("\n");
+            }
+
         }
+
+        // 説明文に文言を設定する
+        if (builder.length() > 0) {
+            String param = rule.getDescriptionTargetParam();
+            issueExtraMap.put(param, builder.toString());
+        }
+    }
+
+    /**
+     * Decorationクラスのロード用ユーティリティ
+     * 
+     * @param className
+     * @return
+     */
+    StringDecorator classLoad(String className) {
+
+        try {
+            Class<?> clazz;
+            ClassLoader loader = ClassLoader.getSystemClassLoader();
+            clazz = loader.loadClass(className);
+            Object obj = clazz.newInstance();
+
+            if (obj instanceof StringDecorator) {
+                return (StringDecorator) obj;
+            }
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     // ----------------------------------------------------

@@ -205,10 +205,10 @@ trackers:
 projects: 
  path: "/Report/Control/Status/text()"
  type: 
-  "通常": "I04202000000000000002"
-  "訓練": "I04202000000000000002"
-  "試験": "I04202000000000000002"
- default: "I04202000000000000002"
+  "通常": "I04202000000000000003"
+  "訓練": "I04202000000000000003"
+  "試験": "I04202000000000000003"
+ default: "I04202000000000000003"
 
 
 # ------------------------------------------------------------
@@ -291,15 +291,97 @@ autosend_extras:
 # チケットの"説明文"に登録する内容
 #
 # ------------------------------------------------------------
-description_type_path: "/Report/Control/Type/text()"
-description_target_param: "issue_description"
+# 
+description_type_path: "/Report/Control/Title/text()"
+description_target_param: "description"
 description_contents: 
  "震度速報": 
-  - path: "Body/Intensity/Observation/Pref/Area[Name/text()=\"宮城県\"]/Name/text()"
+  - path: "/Report/Body/Intensity/Observation/Pref/Area/Name[text()=\"宮城県中部\"]/text()"
   - 
-   path: "Body/Intensity/Observation/Pref/Area[Name/text()=\"宮城県\"]/MaxInt/text()"
-   decoration: "intensity"
-  - path: "Body/Comments/ForecastComment/Text/text()"
-
+   path: "/Report/Body/Intensity/Observation/Pref/Area[Name/text()=\"宮城県中部\"]/MaxInt/text()"
+   decorator: "jp.lg.ishinomaki.city.mrs.utils.IntensityDecorator"
+  - path: "/Report/Body/Comments/ForecastComment/Text/text()"
+ "震源に関する情報": 
+  - 
+   path: "/Report/Body/Earthquake/Hypocenter/Area/Name[text()=\"石巻市\"]/text()"
+   header: "震源位置："
+  - path: "/Report/Body/Earthquake/Hypocenter/Area/Coordinate/@description"
+  - path: "/Report/Body/Earthquake/Magnitude/@description"
+  - path: "/Report/Body/Comments/ForecastComment/Text/text()"
+ "震源・震度に関する情報": 
+  - path: "/Report/Body/Intensity/Observation/Pref/Area/Name[text()=\"石巻市\"/text()"
+  - path: "/Report/Body/Intensity/Observation/Pref/Area[Name/text()=\"石巻市\"]/MaxInt/text()"
+  - 
+   path: "/Report/Body/Earthquake/Hypocenter/Area/Name/text"
+   header: "震源位置："
+  - path: "/Report/Body/Earthquake/Hypocenter/Area/Coordinate/@description"
+  - path: "/Report/Body/Earthquake/Magnitude/@description"
+  - path: "/Report/Body/Comments/ForecastComment/Text/text()"
+ "津波警報・注意報・予報": 
+  - path: "/Report/Body/Tsunami/Forecast/Item/Area/Name[text()=\"宮城県\"]/text()"
+  - path: "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Name/text()"
+  - 
+   path: "/Report/Body/Tsunami/Forcast/Item[Area/Name/text()=\"宮城県\"]/FirstHeight/ArrivalTime/text()"
+   header: "津波の到達予想時刻："
+  - path: "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/FirstHeight/Condition/text()"
+  - 
+   path: "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/MaxHeight/TsunamiHeight/@description"
+   header: "予想される津波の高さ："
+  - path: "/Report/Body/Earthquake/Hypocenter/Area/Name/text()"
+  - path: "/Report/Body/Earthquake/Hypocenter/Area/Coodinate/@description"
+  - path: "/Report/Body/Earthquake/Magnitude/@description"
+  - path: "/Report/Body/Comments/WarningComment/Text/text()"
+ "津波情報": 
+  - path: "/Report/Body/Tsunami/Observation/Item/Station/Name[text()=\"石巻市鮎川\"]/text()"
+  - 
+   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"石巻市鮎川\"]/FirstHeight/ArrivalTime/text()"
+   header: "津波の第１波観測時刻："
+  - 
+   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"石巻市鮎川\"]/FirstHeight/TsunamiHeight/@Type"
+   delimiter: " "
+  - path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"石巻市鮎川\"]/MaxHeight/TsunamiHeight/@description"
+  - 
+   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"石巻市鮎川\"]/MaxHeight/ArrivalTime/text()"
+   header: "津波の最大波観測時刻："
+  - 
+   path: "/Report/Body/Tsunami/Observation/Item/FirstHeight/TsunamiHeight/@Type"
+   delimiter: " "
+  - path: "/Report/Body/Tsunami/Observation/Item/FirstHeight/TsunamiHeight/@description"
+  - path: "/Report/Body/Tsunami/Forecast/Item/Station/Name[text()=\"石巻市鮎川\"]/text()"
+  - 
+   path: "/Report/Body/Tsunami/Forecast/Item/Station[Name/text()=\"石巻市鮎川\"]/HighTideDateTime/text()"
+   header: "満潮時刻："
+  - 
+   path: "/Report/Body/Tsunami/Forecast/Item/Station[Name/text()=\"石巻市鮎川\"]/FirstHeight/ArrivalTime/text()"
+   header: "津波の到達予想時刻："
+  - path: "/Report/Body/Tsunami/Forecast/Item/Station[Name/text()=\"石巻市鮎川\"]/FirstHeight/Condition/text()"
+ "沖合の津波観測にする情報": 
+  - path: "/Report/Body/Tsunami/Observation/Item/Station/Name[text()=\"宮城金華山沖\"]/text()"
+  - 
+   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"宮城金華山沖\"]/FirstHeight/ArrivalTime/text()"
+   header: "津波の第１波観測時刻："
+  - 
+   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"宮城金華山沖\"]/FirstHeight/TsunamiHeight/@Type"
+   delimiter: " "
+  - path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"宮城金華山沖\"]/FirstHeight/TsunamiHeight/@description"
+  - 
+   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"宮城金華山沖\"]/MaxHeight/ArrivalTime/text()"
+   header: "津波の最大観測時刻："
+  - 
+   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"宮城金華山沖\"]/MaxHeight/TsunamiHeight/@Type"
+   delimiter: " "
+  - path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"宮城金華山沖\"]/MaxHeight/TsunamiHeight/@description"
+  - path: "/Report/Body/Tsunami/Estimation/Item/Area/Name[text()=\"宮城県\"]/text()"
+  - 
+   path: "/Report/Body/Tsunami/Estimation/Item[Area/Name/text()=\"宮城県\"]/FirstHeight/ArrivalTime/text()"
+   header: "津波の到達予想時刻："
+  - path: "/Report/Body/Tsunami/Estimation/Item[Area/Name/text()=\"宮城県\"]/FirstHeight/Condition/text()"
+  - 
+   path: "/Report/Body/Tsunami/Estimation/Item[Area/Name/text()=\"宮城県\"]/MaxHeight/TsunamiHeight/@description"
+   header: "予想される津波の高さ："
+  - path: "/Report/Body/Earthquake/Hypocenter/Area/Name/text()"
+  - path: "/Report/Body/Earthquake/Hypocenter/Area/Coordination/@description"
+  - path: "/Report/Body/Earthquake/Magnitude/@description"
+  - path: "/Report/Body/Comments/WarningComment/Text/text()"
 
 
