@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.text.SimpleDateFormat;
 
 import jp.lg.ishinomaki.city.mrs.parser.JmaXmlDataParser;
 import jp.lg.ishinomaki.city.mrs.parser.ParserConfig;
@@ -232,6 +233,9 @@ public class JmaXmlDataHandler implements PickupDataHandler {
                 Element element = issue.addElement(key);
                 element.addText(autoSendExtras.get(key));
             }
+            Element published = issue.addElement("published_at");
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	    published.addText(sdf.format(new Date()));
         }
 
         // for test ------------------------------------
