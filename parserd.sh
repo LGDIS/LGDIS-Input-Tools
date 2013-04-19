@@ -5,11 +5,11 @@
 . /etc/rc.d/init.d/functions
 
 # default parameters
+JAVA_USER=mrsuser
 
-APP_HOME=/home/dis/develop/LGDIS-Input-Tools
+APP_HOME=$HOME/MRS/socket-server-j
 
 JVM=server
-JAVA_USER=dis
 JAVA_MAIN_CLASS=jp.lg.ishinomaki.city.mrs.ParserMain
 
 JAVA_STDOUT=$APP_HOME/log/java_parser.log
@@ -23,10 +23,10 @@ JVM_ARGS=java.util.logging.config.file=$APP_HOME/config/parser_logging.propertie
 JVM_OPTIONS=mx256M
 
 progname=parserd
-pidfile=${PIDFILE-/var/run/parserd.pid}
-lockfile=${LOCKFILE-/var/lock/subsys/parserd}
+pidfile=${PIDFILE-/var/run/MRS/parserd.pid}
+lockfile=${LOCKFILE-/var/lock/subsys/MRS/parserd}
 
-JSVC=/home/dis/bin/jsvc
+JSVC=$HOME/MRS/bin/jsvc
 RETVAL=0
 
 #JSVC_DEBUG="-debug"
