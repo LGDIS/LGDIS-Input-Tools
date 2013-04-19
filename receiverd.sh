@@ -1,15 +1,14 @@
 #!/bin/sh
-#
 
 # Source function library.
 . /etc/rc.d/init.d/functions
 
 # default parameters
+JAVA_USER=mrsuser
 
-APP_HOME=/home/dis/develop/LGDIS-Input-Tools
+APP_HOME=$HOME/MRS/socket-server-j
 
 JVM=server
-JAVA_USER=dis
 JAVA_MAIN_CLASS=jp.lg.ishinomaki.city.mrs.ReceiverMain
 
 JAVA_STDOUT=$APP_HOME/log/java_receiver.log
@@ -23,10 +22,10 @@ JVM_ARGS=java.util.logging.config.file=$APP_HOME/config/receiver_logging.propert
 JVM_OPTIONS=mx256M
 
 progname=receiverd
-pidfile=${PIDFILE-/var/run/receiverd.pid}
-lockfile=${LOCKFILE-/var/lock/subsys/receiverd}
+pidfile=${PIDFILE-/var/run/MRS/receiverd.pid}
+lockfile=${LOCKFILE-/var/lock/subsys/MRS/receiverd}
 
-JSVC=/home/dis/bin/jsvc
+JSVC=$HOME/MRS/bin/jsvc
 RETVAL=0
 
 #JSVC_DEBUG="-debug"
