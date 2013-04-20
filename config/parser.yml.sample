@@ -5,8 +5,8 @@ redmine:
  protocol: "http"
  target_host: "localhost"
 # target_port: "3000"   # ポート番号を指定する場合のみ使用する
- issues_post_api: "/redmine/issues.xml?format=xml"
- uploads_post_api: "/redmine/uploads.xml?format=xml"
+ issues_post_api: "/LGDIS/issues.xml?format=xml"
+ uploads_post_api: "/LGDIS/uploads.xml?format=xml"
  issues_post_content_type: "text/xml; charset=UTF-8"
  uploads_post_content_type: "application/octet-stream"
  api_key: "api_key"
@@ -71,7 +71,7 @@ text_attachment_statics:
 tar_attachment_statics: 
  subject: "内閣官房"
  project_id: "I04202000000000000001"
- tracker_id: "4"
+ tracker_id: "77"
  description: "内閣官房ファイル"
  content_type: "text/plain"
 
@@ -93,9 +93,9 @@ ksn_schema_file: "schemas/river.xsd"
 # ------------------------------------------------------------
 # 訓練モード時の固定プロジェクトID
 # ------------------------------------------------------------
-training_project_id: "training-project"
+training_project_id: "I04202000000000000002"
 
 # ------------------------------------------------------------
 # 試験モード時の固定プロジェクトID
 # ------------------------------------------------------------
-test_project_id: "test-project"
+test_project_id: "I04202000000000000003"
