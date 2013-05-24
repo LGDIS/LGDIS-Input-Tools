@@ -1,0 +1,510 @@
+2013/05/24 15:52:30 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JAL] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JAL]
+* チャネル識別子       [JAL]
+* 受信ポート           [30000]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jalert]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:52:30 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JAL] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:52:30 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:52:30 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JAL] JMA受信サーバを停止します
+2013/05/24 15:52:31 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JAL] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JAL2]
+* チャネル識別子       [JAL]
+* 受信ポート           [30001]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jalert]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:52:31 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JAL2] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:52:31 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:52:31 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JAL2] JMA受信サーバを停止します
+2013/05/24 15:52:32 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JMA] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JMA]
+* チャネル識別子       [JMA]
+* 受信ポート           [30002]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jma]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:52:32 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JMA] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:52:32 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:52:32 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JMA] JMA受信サーバを停止します
+2013/05/24 15:53:20 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JAL] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JAL]
+* チャネル識別子       [JAL]
+* 受信ポート           [30000]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jalert]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:53:20 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JAL] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:53:20 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:53:20 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JAL] JMA受信サーバを停止します
+2013/05/24 15:53:21 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JAL] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JAL2]
+* チャネル識別子       [JAL]
+* 受信ポート           [30001]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jalert]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:53:21 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JAL2] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:53:21 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:53:21 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JAL2] JMA受信サーバを停止します
+2013/05/24 15:53:22 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JMA] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JMA]
+* チャネル識別子       [JMA]
+* 受信ポート           [30002]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jma]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:53:22 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JMA] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:53:22 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:53:22 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JMA] JMA受信サーバを停止します
+2013/05/24 15:54:10 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JAL] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JAL]
+* チャネル識別子       [JAL]
+* 受信ポート           [30000]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jalert]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:54:10 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JAL] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:54:10 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:54:10 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JAL] JMA受信サーバを停止します
+2013/05/24 15:54:11 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JAL] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JAL2]
+* チャネル識別子       [JAL]
+* 受信ポート           [30001]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jalert]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:54:11 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JAL2] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:54:11 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:54:11 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JAL2] JMA受信サーバを停止します
+2013/05/24 15:54:12 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JMA] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JMA]
+* チャネル識別子       [JMA]
+* 受信ポート           [30002]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jma]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:54:12 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JMA] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:54:12 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:54:12 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JMA] JMA受信サーバを停止します
+2013/05/24 15:55:00 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JAL] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JAL]
+* チャネル識別子       [JAL]
+* 受信ポート           [30000]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jalert]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:55:00 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JAL] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:55:00 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:55:00 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JAL] JMA受信サーバを停止します
+2013/05/24 15:55:01 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JAL] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JAL2]
+* チャネル識別子       [JAL]
+* 受信ポート           [30001]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jalert]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:55:01 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JAL2] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:55:01 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:55:01 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JAL2] JMA受信サーバを停止します
+2013/05/24 15:55:02 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JMA] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JMA]
+* チャネル識別子       [JMA]
+* 受信ポート           [30002]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jma]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:55:02 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JMA] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:55:02 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:55:02 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JMA] JMA受信サーバを停止します
+2013/05/24 15:55:50 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JAL] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JAL]
+* チャネル識別子       [JAL]
+* 受信ポート           [30000]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jalert]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:55:50 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JAL] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:55:50 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:55:50 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JAL] JMA受信サーバを停止します
+2013/05/24 15:55:51 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JAL] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JAL2]
+* チャネル識別子       [JAL]
+* 受信ポート           [30001]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jalert]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:55:51 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JAL2] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:55:51 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:55:51 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JAL2] JMA受信サーバを停止します
+2013/05/24 15:55:52 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JMA] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JMA]
+* チャネル識別子       [JMA]
+* 受信ポート           [30002]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jma]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:55:52 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JMA] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:55:52 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:55:52 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JMA] JMA受信サーバを停止します
+2013/05/24 15:56:40 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JAL] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JAL]
+* チャネル識別子       [JAL]
+* 受信ポート           [30000]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jalert]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:56:40 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JAL] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:56:40 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:56:40 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JAL] JMA受信サーバを停止します
+2013/05/24 15:56:41 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JAL] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JAL2]
+* チャネル識別子       [JAL]
+* 受信ポート           [30001]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jalert]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:56:41 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JAL2] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:56:41 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:56:41 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JAL2] JMA受信サーバを停止します
+2013/05/24 15:56:42 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JMA] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JMA]
+* チャネル識別子       [JMA]
+* 受信ポート           [30002]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jma]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:56:42 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JMA] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:56:42 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:56:42 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JMA] JMA受信サーバを停止します
+2013/05/24 15:57:30 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JAL] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JAL]
+* チャネル識別子       [JAL]
+* 受信ポート           [30000]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jalert]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:57:30 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JAL] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:57:30 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:57:30 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JAL] JMA受信サーバを停止します
+2013/05/24 15:57:31 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JAL] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JAL2]
+* チャネル識別子       [JAL]
+* 受信ポート           [30001]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jalert]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:57:31 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JAL2] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:57:31 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:57:31 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JAL2] JMA受信サーバを停止します
+2013/05/24 15:57:32 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JMA] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JMA]
+* チャネル識別子       [JMA]
+* 受信ポート           [30002]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jma]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:57:32 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JMA] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:57:32 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:57:32 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JMA] JMA受信サーバを停止します
+2013/05/24 15:58:20 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JAL] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JAL]
+* チャネル識別子       [JAL]
+* 受信ポート           [30000]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jalert]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:58:20 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JAL] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:58:20 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:58:20 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JAL] JMA受信サーバを停止します
+2013/05/24 15:58:21 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JAL] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JAL2]
+* チャネル識別子       [JAL]
+* 受信ポート           [30001]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jalert]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:58:21 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JAL2] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:58:21 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:58:21 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JAL2] JMA受信サーバを停止します
+2013/05/24 15:58:22 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JMA] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JMA]
+* チャネル識別子       [JMA]
+* 受信ポート           [30002]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jma]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:58:22 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JMA] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:58:22 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:58:22 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JMA] JMA受信サーバを停止します
+2013/05/24 15:59:10 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JAL] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JAL]
+* チャネル識別子       [JAL]
+* 受信ポート           [30000]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jalert]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:59:10 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JAL] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:59:10 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:59:10 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JAL] JMA受信サーバを停止します
+2013/05/24 15:59:11 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JAL] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JAL2]
+* チャネル識別子       [JAL]
+* 受信ポート           [30001]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jalert]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:59:11 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JAL2] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:59:11 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:59:11 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JAL2] JMA受信サーバを停止します
+2013/05/24 15:59:13 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JMA] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JMA]
+* チャネル識別子       [JMA]
+* 受信ポート           [30002]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jma]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 15:59:13 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JMA] ソケット接続待ちで例外が発生しました。
+2013/05/24 15:59:13 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 15:59:13 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JMA] JMA受信サーバを停止します
+2013/05/24 16:00:01 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JAL] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JAL]
+* チャネル識別子       [JAL]
+* 受信ポート           [30000]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jalert]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 16:00:01 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JAL] ソケット接続待ちで例外が発生しました。
+2013/05/24 16:00:01 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 16:00:01 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JAL] JMA受信サーバを停止します
+2013/05/24 16:00:02 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JAL] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JAL2]
+* チャネル識別子       [JAL]
+* 受信ポート           [30001]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jalert]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 16:00:02 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JAL2] ソケット接続待ちで例外が発生しました。
+2013/05/24 16:00:02 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 16:00:02 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JAL2] JMA受信サーバを停止します
+2013/05/24 16:00:03 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:77:in `start') - [JMA] JMA受信サーバ起動
+--------------------------------------------------------------------------------
+* チャネル名           [JMA]
+* チャネル識別子       [JMA]
+* 受信ポート           [30002]
+* アーカイブパス       [/home/mrsuser/MRS/archives/socket/jma]
+* 通常/訓練/試験モード [0]
+* チェックサム実施有無 [false]
+* キュー使用有無       [true]
+--------------------------------------------------------------------------------
+2013/05/24 16:00:03 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:102:in `rescue in start') - [JMA] ソケット接続待ちで例外が発生しました。
+2013/05/24 16:00:03 [FATAL] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:103:in `rescue in start') - Caught Errno::EADDRINUSE: Address already in use - bind(2)
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `initialize'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `open'
+	/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:80:in `start'
+	/home/mrsuser/MRS/socket_server/lib/mrsss.rb:145:in `block (2 levels) in start_mrsss'
+2013/05/24 16:00:03 [INFO] Server(/home/mrsuser/MRS/socket_server/lib/mrsss/server.rb:111:in `start') - [JMA] JMA受信サーバを停止します

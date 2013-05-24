@@ -1,0 +1,53 @@
+
+basic: 
+
+issues: 
+ protocol: "http"
+ site: "localhost:3000"
+ prefix: "issues.json?format=json"
+ api_key: "53cbde36c6fbe5c9793b50c1055f2b8e985ecbac"
+ open_timeout: 10
+ timeout: 300
+# basic_user: "admin"
+# basic_password: "1qazxsw2"
+
+uploads: 
+ protocol: "http"
+ site: "localhost:3000"
+ prefix: "uploads.json?format=json"
+ api_key: "53cbde36c6fbe5c9793b50c1055f2b8e985ecbac"
+ open_timeout: 10
+ timeout: 300
+# basic_user: "admin"
+# basic_password: "1qazxsw2"
+
+pdf_config: 
+ subject: "PDFファイル"
+ project_id: "I04202000000000000001"
+ tracker_id: "4"
+ filename: "jma.pdf"
+ description: ""
+ content_type: "application/pdf"
+
+txt_config: 
+ subject: "内閣官房長"
+ project_id: "I04202000000000000001"
+ tracker_id: "77"
+ description: ""
+ content_type: "text/plain"
+
+png_config: 
+ subject: "PNGファイル"
+ project_id: "I04202000000000000001"
+ tracker_id: "4"
+ filename: "jma.png"
+ description: ""
+ content_type: "application/png"
+
+bin_config: 
+ subject: "BINファイル"
+ project_id: "I04202000000000000001"
+ tracker_id: "4"
+ filename: "jma.bin"
+ description: ""
+ content_type: "application/bin"

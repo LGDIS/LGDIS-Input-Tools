@@ -1,0 +1,46 @@
+# ----------------------------------------------------------
+# Configuration file for file monitoring 
+# ----------------------------------------------------------
+
+# file monitoring threads
+threads:
+ JMA:
+  monitor_path: "/home/mrsuser/received_files/ftp/jma"
+  source_id: "JMA"
+  archive_path: "/home/mrsuser/MRS/archives/ftp/jma"
+  filters:
+    - "*.xml"
+    - "*.bin"
+    - "*.tar.gz"
+
+ KSN:
+  monitor_path: "/home/mrsuser/received_files/ftp/ksn"
+  source_id: "KSN"
+  archive_path: "/home/mrsuser/MRS/archives/ftp/ksn"
+  filters:
+   - "*.xml"
+   - "*.tar.gz"
+   - "*.gz"
+   - "*.tgz"
+
+# lgdis system mode - 0:normal 1:test 2:training
+mode: "0"
+
+# queue client class name
+# - valus -
+# QueueClientSocket: uses unix domain socket
+# QueueClientResque: uses resque
+queue_client: QueueClientResque
+
+# queue packet header constants(file format)
+format_header:
+ .tar: "BIN"
+ .gz: "BIN"
+ .tgz: "BIN"
+ .bin: "BIN"
+ .xml: "XML"
+ .pdf: "PDF"
+
+
+send_error_email: false
+

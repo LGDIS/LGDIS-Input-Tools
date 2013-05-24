@@ -1,0 +1,7 @@
+# ----------------------------------------------------------
+# Configuration file for socket client
+# ----------------------------------------------------------
+
+file_monitor:
+  # socket file path which is used to communicate with queue server.
+  unix_socket_path: "/tmp/junixsocket_push.sock"
