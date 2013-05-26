@@ -30,9 +30,10 @@ log4r_config:
      pattern: "%d [%l] %m"
      date_pattern: "%H:%M:%S"
   - name: "F1"
-    type: "DateFileOutputter"
-    date_pattern: "%Y%m%d"
-    dirname: "/home/mrsuser/MRS/socket-server/log"
+    type: "RollingFileOutputter"
+    filename: "/home/mrsuser/MRS/socket-server/log/server.log"
+    maxsize: 10000
+    maxtime: 86400
     trunc: "false"
     formatter:
      name: "P2"
@@ -40,9 +41,10 @@ log4r_config:
      pattern: "%d [%l] %C(%t) - %M"
      date_pattern: "%Y/%m/%d %H:%M:%S"
   - name: "F2"
-    type: "DateFileOutputter"
-    date_pattern: "%Y%m%d"
-    dirname: "/home/mrsuser/MRS/socket-server/log"
+    type: "RollingFileOutputter"
+    filename: "/home/mrsuser/MRS/socket-server/log/parser.log"
+    maxsize: 10000
+    maxtime: 86400
     trunc: "false"
     formatter:
      name: "P3"
