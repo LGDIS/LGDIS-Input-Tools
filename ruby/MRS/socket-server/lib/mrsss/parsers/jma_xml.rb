@@ -225,7 +225,7 @@ private
           end
 
           unless entry["child_nodes"].nil?
-           children =  parse_children(entry, 1, @xml)
+           children =  parse_children(entry, @xml)
            builder << children
           end
         end
@@ -233,23 +233,35 @@ private
         return builder
       end
 
-      def parse_children(entry, indent, jma_xml)
-        blank = " " * indent
+      def parse_children(entry, jma_xml)
+        blank = " "
         str = ""
 
-        if entry["child_nodes"][0].nil? || entry["child_nodes"][0]["root"].nil?
-          return ""
-        else
-          jma_xml.xpath(entry["child_nodes"][0]["root"]).each do |root_path|
-            entry["child_nodes"].each do |child_entry|
-              unless child_entry["path"].nil?
-                child_value = root_path.xpath(child_entry["path"]).to_s
-                unless child_value.blank?
-                  str = str + blank + root_path.xpath(child_entry["path"]).to_s 
-                  str = str + "\n"
-                end
+        return "" if (entry["child_nodes"][0].nil? || entry["child_nodes"][0]["root"].nil?)
+          
+        jma_xml.xpath(entry["child_nodes"][0]["root"]).each do |root_path|
+          entry["child_nodes"].each do |child_entry|
+            unless child_entry["path"].nil?
+              child_value = root_path.xpath(child_entry["path"]).to_s
+              unless child_value.blank?
+                str = str + blank + child_value
+                str = str + "\n"
               end
             end
+
+            if !(child_entry["child_nodes"].nil? || child_entry["child_nodes"][0].nil? || child_entry["child_nodes"][0]["root"].nil?)
+              root_path.xpath(child_entry["child_nodes"][0]["root"]).each do |sibling_path|
+                child_entry["child_nodes"].each do |sibling_entry|
+                  unless sibling_entry["path"].nil?
+                    sibling_value = sibling_path.xpath(sibling_entry["path"]).to_s
+                    unless sibling_value.blank?
+                      str = str + blank + blank + sibling_value
+                      str = str + "\n"
+                    end
+                  end
+                end
+              end
+            end          
           end
         end
 

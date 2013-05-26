@@ -156,7 +156,7 @@ trackers:
     "地震の活動状況等に関する情報": "4"
     "地震回数に関する情報": "3"
     "顕著な地震の震源要素更新のお知らせ": "4"
-    "津波警報・注意報・予報": "3"
+    "津波警報・注意報・予報": "4"
     "津波情報": "4"
     "津波警報・注意報・予報a": "4"
     "津波情報a": "4"
@@ -314,70 +314,74 @@ description_contents:
   - path: "/Report/Body/Earthquake/Magnitude/@description"
   - path: "/Report/Body/Comments/ForecastComment/Text/text()"
  "震源・震度に関する情報": 
-  - path: "/Report/Body/Intensity/Observation/Pref/Area/City/Name[text()=\"○○市\"]/text()"
+  - path: "/Report/Body/Intensity/Observation/Pref/Area/City/Name[text()=\"××市\"]/text()"
   - 
-   path: "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"○○市\"]/MaxInt/text()"
+   path: "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"××市\"]/MaxInt/text()"
    decorator: "add_modifier"
   - 
-   path: "/Report/Body/Earthquake/Hypocenter/Area/Name/text"
-   header: "震源位置："
+   path: "/Report/Body/Earthquake/Hypocenter/Area/Name/text()"
+   header: "震源位置:"
   - path: "/Report/Body/Earthquake/Hypocenter/Area/Coordinate/@description"
   - path: "/Report/Body/Earthquake/Magnitude/@description"
   - path: "/Report/Body/Comments/ForecastComment/Text/text()"
  "津波警報・注意報・予報": 
   - path: "/Report/Body/Tsunami/Forecast/Item/Area/Name[text()=\"○○県\"]/text()"
   - path: "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"○○県\"]/Category/Kind/Name/text()"
-  - 
-   path: "/Report/Body/Tsunami/Forcast/Item[Area/Name/text()=\"○○県\"]/FirstHeight/ArrivalTime/text()"
+  -
+   path: "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"○○県\"]/FirstHeight/ArrivalTime/text()"
    header: "津波の到達予想時刻："
   - path: "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"○○県\"]/FirstHeight/Condition/text()"
   - 
    path: "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"○○県\"]/MaxHeight/TsunamiHeight/@description"
    header: "予想される津波の高さ："
   - path: "/Report/Body/Earthquake/Hypocenter/Area/Name/text()"
-  - path: "/Report/Body/Earthquake/Hypocenter/Area/Coodinate/@description"
+  - path: "/Report/Body/Earthquake/Hypocenter/Area/Coordinate/@description"
   - path: "/Report/Body/Earthquake/Magnitude/@description"
   - path: "/Report/Body/Comments/WarningComment/Text/text()"
- "津波情報": 
-  - path: "/Report/Body/Tsunami/Observation/Item/Station/Name[text()=\"○○市鮎川\"]/text()"
-  - 
-   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"○○市鮎川\"]/Station/FirstHeight/ArrivalTime/text()"
+ "津波情報":
+  - path: "/Report/Body/Tsunami/Observation/Item/Station/Name[text()=\"××市鮎川\"]/text()"
+  -
+   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"××市鮎川\"]/Station/FirstHeight/ArrivalTime/text()"
    header: "津波の第１波観測時刻："
-  - 
-   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"○○市鮎川\"]/Station/FirstHeight/TsunamiHeight/@Type"
+  -
+   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"××市鮎川\"]/Station/FirstHeight/TsunamiHeight/@Type"
    delimiter: " "
-  - path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"○○市鮎川\"]/Station/MaxHeight/TsunamiHeight/@description"
-  - 
-   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"○○市鮎川\"]/Station/MaxHeight/DataTime/text()"
+  - path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"××市鮎川\"]/Station/MaxHeight/TsunamiHeight/@description"
+  -
+   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"××市鮎川\"]/Station/MaxHeight/DateTime/text()"
    header: "津波の最大波観測時刻："
-  - 
-   path: "/Report/Body/Tsunami/Observation/Item/FirstHeight/TsunamiHeight/@Type"
+  -
+   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"××市鮎川\"]/FirstHeight/TsunamiHeight/@Type"
    delimiter: " "
-  - path: "/Report/Body/Tsunami/Observation/Item/FirstHeight/TsunamiHeight/@description"
-  - path: "/Report/Body/Tsunami/Forecast/Item/Station/Name[text()=\"○○市鮎川\"]/text()"
-  - 
-   path: "/Report/Body/Tsunami/Forecast/Item/Station[Name/text()=\"○○市鮎川\"]/HighTideDateTime/text()"
+  - path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"××市鮎川\"]/FirstHeight/TsunamiHeight/@description"
+  - path: "/Report/Body/Tsunami/Forecast/Item/Station/Name[text()=\"××市鮎川\"]/text()"
+  -
+   path: "/Report/Body/Tsunami/Forecast/Item/Station[Name/text()=\"××市鮎川\"]/HighTideDateTime/text()"
    header: "満潮時刻："
-  - 
-   path: "/Report/Body/Tsunami/Forecast/Item/Station[Name/text()=\"○○市鮎川\"]/FirstHeight/ArrivalTime/text()"
+  -
+   path: "/Report/Body/Tsunami/Forecast/Item/Station[Name/text()=\"××市鮎川\"]/FirstHeight/ArrivalTime/text()"
    header: "津波の到達予想時刻："
-  - path: "/Report/Body/Tsunami/Forecast/Item/Station[Name/text()=\"○○市鮎川\"]/FirstHeight/Condition/text()"
- "沖合の津波観測にする情報": 
+  - path: "/Report/Body/Tsunami/Forecast/Item/Station[Name/text()=\"××市鮎川\"]/FirstHeight/Condition/text()"
+  - path: "/Report/Body/Earthquake/Hypocenter/Area/Name/text()"
+  - path: "/Report/Body/Earthquake/Hypocenter/Area/Coordinate/@description"
+  - path: "/Report/Body/Earthquake/Magnitude/@description"
+  - path: "/Report/Body/Comments/WarningComment/Text/text()"
+ "沖合の津波観測に関する情報": 
   - path: "/Report/Body/Tsunami/Observation/Item/Station/Name[text()=\"○○金華山沖\"]/text()"
   - 
-   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"○○金華山沖\"]/FirstHeight/ArrivalTime/text()"
+   path: "/Report/Body/Tsunami/Observation/Item/Station[Name/text()=\"○○金華山沖\"]/FirstHeight/ArrivalTime/text()"
    header: "津波の第１波観測時刻："
   - 
-   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"○○金華山沖\"]/FirstHeight/TsunamiHeight/@Type"
+   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"○○金華山沖\"]/Station/FirstHeight/TsunamiHeight/@Type"
    delimiter: " "
-  - path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"○○金華山沖\"]/FirstHeight/TsunamiHeight/@description"
+  - path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"○○金華山沖\"]/Station/FirstHeight/TsunamiHeight/@description"
   - 
-   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"○○金華山沖\"]/MaxHeight/ArrivalTime/text()"
+   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"○○金華山沖\"]/Station/MaxHeight/DateTime/text()"
    header: "津波の最大観測時刻："
   - 
-   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"○○金華山沖\"]/MaxHeight/TsunamiHeight/@Type"
+   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"○○金華山沖\"]/Station/MaxHeight/TsunamiHeight/@Type"
    delimiter: " "
-  - path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"○○金華山沖\"]/MaxHeight/TsunamiHeight/@description"
+  - path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"○○金華山沖\"]/Station/MaxHeight/TsunamiHeight/@description"
   - path: "/Report/Body/Tsunami/Estimation/Item/Area/Name[text()=\"○○県\"]/text()"
   - 
    path: "/Report/Body/Tsunami/Estimation/Item[Area/Name/text()=\"○○県\"]/FirstHeight/ArrivalTime/text()"
@@ -387,20 +391,22 @@ description_contents:
    path: "/Report/Body/Tsunami/Estimation/Item[Area/Name/text()=\"○○県\"]/MaxHeight/TsunamiHeight/@description"
    header: "予想される津波の高さ："
   - path: "/Report/Body/Earthquake/Hypocenter/Area/Name/text()"
-  - path: "/Report/Body/Earthquake/Hypocenter/Area/Coordination/@description"
+  - path: "/Report/Body/Earthquake/Hypocenter/Area/Coordinate/@description"
   - path: "/Report/Body/Earthquake/Magnitude/@description"
   - path: "/Report/Body/Comments/WarningComment/Text/text()"
  "気象警報・注意報":
   -
-   path: "/Report/Body/Warning/Item[Area/Name/text()=\"○○市\"]/Area/Name/text()"
+   path: "/Report/Body/Warning/Item[Area/Name/text()=\"××市\"]/Area/Name/text()"
    child_nodes: 
-    - root: "/Report/Body/Warning/Item[Area/Name/text()=\"○○市\"]/Kind"
-    - 
-     path: "Name/text()"
+    - root: "/Report/Body/Warning/Item[Area/Name/text()=\"××市\"]/Kind"
+    - path: "Name/text()"
     - path: "Status/text()"
     - path: "Condition/text()"
-    - path: "Attention/Note/text()"
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"○○市\"]/ChangeStatus/text()"
+    - 
+     child_nodes:
+      - root: "Attention/Note"
+      - path: "text()"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"××市\"]/ChangeStatus/text()"
  "地方海上警報":
   - path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Area/Name/text()"
   - path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Kind/Name/text()"
@@ -415,17 +421,22 @@ description_contents:
   - path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Kind/Name/text()"
   - path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Kind/Property/IcingPart/SubArea/Sentence/text()"
  "異常天候早期警戒情報":
-  - path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Areas/Area/Name/text()=\"東北地方\" or Areas/Area/Name/text()=\"東北南部\" or Areas/Area/Name/text()=\"東北太平洋側\"]/Kind/Property/Text/text()"
+  - path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo[Item/Areas/Area/Name/text()=\"東北地方\" or Item/Areas/Area/Name/text()=\"東北南部\" or Item/Areas/Area/Name/text()=\"東北太平洋側\"]/Item/Kind/Property/Text/text()"
  "竜巻注意情報":
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"○○市\"]/Area/Name/text()"
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"○○市\"]/Kind/Name/text()"
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"○○市\"]/Kind/Status/text()"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"××市\"]/Area/Name/text()"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"××市\"]/Kind/Name/text()"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"××市\"]/Kind/Status/text()"
+ "土砂災害警戒情報":
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"××市\"]/Area/Name/text()"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"××市\"]/Kind/Name/text()"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"××市\"]/Kind/Status/text()"
+
  "指定河川洪水予報":
-  - path: "/Report/Body/Warning/Item/Areas/Area/Name[text()=\"○○市\"]/text()"
-  - path: "/Report/Body/Warning/Item[Areas/Area/Name/text()=\"○○市\"]/Kind/Property/Text/text()"
-  - path: "/Report/Body/Warning/Item/Areas/Area/City/Name[text()=\"○○市\"]/text()"
-  - path: "/Report/Body/Warning/Item[Areas/Area/City/Name/text()=\"○○市\"]/Kind/Name/text()"
-  - path: "/Report/Body/Warning/Item[Areas/Area/City/Name/text()=\"○○市\"]/Kind/Property/Text/text()"
+  - path: "/Report/Body/Warning/Item/Areas/Area/Name[text()=\"北上川\" or text()=\"旧北上川\" or text()=\"江合川\"]/text()"
+  - path: "/Report/Body/Warning/Item[Areas/Area/Name/text()=\"北上川\" or Areas/Area/Name/text()=\"旧北上川\" or Areas/Area/Name/text()=\"江合川\"]/Kind/Property/Text/text()"
+  - path: "/Report/Body/Warning/Item/Areas/Area/City[text()=\"××市\"]/text()"
+  - path: "/Report/Body/Warning/Item[Areas/Area/City/text()=\"××市\"]/Kind/Name/text()"
+  - path: "/Report/Body/Warning/Item[Areas/Area/City/text()=\"××市\"]/Kind/Property/Text/text()"
  "地方高温注意情報":
   - path: "/Report/Body/Comment/Text/text()"
  "府県高温注意情報":
