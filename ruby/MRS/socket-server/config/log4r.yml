@@ -32,7 +32,7 @@ log4r_config:
   - name: "F1"
     type: "DateFileOutputter"
     date_pattern: "%Y%m%d"
-    dirname: "/home/mrsuser/MRS/socket_server/log"
+    dirname: "/home/mrsuser/MRS/socket-server/log"
     trunc: "false"
     formatter:
      name: "P2"
@@ -42,7 +42,7 @@ log4r_config:
   - name: "F2"
     type: "DateFileOutputter"
     date_pattern: "%Y%m%d"
-    dirname: "/home/mrsuser/MRS/socket_server/log"
+    dirname: "/home/mrsuser/MRS/socket-server/log"
     trunc: "false"
     formatter:
      name: "P3"
