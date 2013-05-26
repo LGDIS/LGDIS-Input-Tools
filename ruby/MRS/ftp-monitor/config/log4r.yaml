@@ -1,0 +1,34 @@
+# ----------------------------------------------------------
+# Configuration file for log4r
+# ----------------------------------------------------------
+
+log4r_config:
+  
+ loggers:
+  - name: "Log4r"
+    type: "Logger"
+    level: "INFO"
+    trace: "true"
+    outputters:
+     - "StdOut"
+     - "F1"
+  
+ outputters:
+  - name: "StdOut"
+    type: "StdoutOutputter"
+    level: "DEBUG"
+    formatter:
+     name: "P1"
+     type: "PatternFormatter"
+     pattern: "%d [%l] %c(%t) - %m"
+     date_pattern: "%H:%M:%S"
+  - name: "F1"
+    type: "DateFileOutputter"
+    dirname: "/home/mrsuser/MRS/ftp-monitor/log"
+    date_pattern: "%Y%m%d"
+    trunc: "false"
+    formatter:
+     name: "P2"
+     type: "PatternFormatter"
+     pattern: "%d [%l] %C(%t) - %M"
+     date_pattern: "%Y/%m/%d %H:%M:%S"

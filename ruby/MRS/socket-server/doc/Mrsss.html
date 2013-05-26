@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module Mrsss - RDoc Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/mrsss/handler.rb
+    <li>lib/mrsss/parsers/jma_xml.rb
+    <li>lib/mrsss/parsers/ksn_xml.rb
+    <li>lib/mrsss/parsers/parse_util.rb
+    <li>lib/mrsss/parsers/parser.rb
+    <li>lib/mrsss/parsers/pdf.rb
+    <li>lib/mrsss/parsers/redmine.rb
+    <li>lib/mrsss/parsers/txt.rb
+    <li>lib/mrsss/server.rb
+    <li>lib/mrsss/util.rb
+    <li>lib/mrsss.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-get_jma_schema">::get_jma_schema</a>
+    
+    <li><a href="#method-c-get_jma_xml_parse_rule">::get_jma_xml_parse_rule</a>
+    
+    <li><a href="#method-c-get_ksn_xml_parse_rule">::get_ksn_xml_parse_rule</a>
+    
+    <li><a href="#method-c-get_mrsss_config">::get_mrsss_config</a>
+    
+    <li><a href="#method-c-get_redmine_config">::get_redmine_config</a>
+    
+    <li><a href="#method-c-get_river_schema">::get_river_schema</a>
+    
+    <li><a href="#method-c-load_log_config">::load_log_config</a>
+    
+    <li><a href="#method-c-parser_logger">::parser_logger</a>
+    
+    <li><a href="#method-c-server_logger">::server_logger</a>
+    
+    <li><a href="#method-c-start_mrsss">::start_mrsss</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./Gemfile.html">Gemfile</a>
+  
+    <li class="file"><a href="./Rakefile.html">Rakefile</a>
+  
+    <li class="file"><a href="./bin/mrsss.html">mrsss</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./Mrsss.html">Mrsss</a>
+  
+    <li><a href="./Mrsss/Handler.html">Mrsss::Handler</a>
+  
+    <li><a href="./Mrsss/Parsers.html">Mrsss::Parsers</a>
+  
+    <li><a href="./Mrsss/Parsers/JmaXml.html">Mrsss::Parsers::JmaXml</a>
+  
+    <li><a href="./Mrsss/Parsers/KsnXml.html">Mrsss::Parsers::KsnXml</a>
+  
+    <li><a href="./Mrsss/Parsers/ParseUtil.html">Mrsss::Parsers::ParseUtil</a>
+  
+    <li><a href="./Mrsss/Parsers/Parser.html">Mrsss::Parsers::Parser</a>
+  
+    <li><a href="./Mrsss/Parsers/Pdf.html">Mrsss::Parsers::Pdf</a>
+  
+    <li><a href="./Mrsss/Parsers/Redmine.html">Mrsss::Parsers::Redmine</a>
+  
+    <li><a href="./Mrsss/Parsers/Txt.html">Mrsss::Parsers::Txt</a>
+  
+    <li><a href="./Mrsss/Server.html">Mrsss::Server</a>
+  
+    <li><a href="./Mrsss/Util.html">Mrsss::Util</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module Mrsss</h1>
+
+  <div id="description" class="description">
+    
+<p>Mrsssアプリケーションのベースとなるモジュールです。各種共通メソッドとアプリケーション開始メソッドを保持します。</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-get_jma_schema" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_jma_schema</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Jmaから受信したXMLのスキーマ定義をロードして取得します。</p>
+
+<h4 id="method-c-get_jma_schema-label-Args">Args</h4>
+
+<h4 id="method-c-get_jma_schema-label-Return">Return</h4>
+<dl class="rdoc-list note-list"><dt><em>Nokogiri</em> 
+<dd>
+<h4 id="method-c-get_jma_schema-label-Raise">Raise</h4>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="get_jma_schema-source">
+            <pre><span class="ruby-comment"># File lib/mrsss.rb, line 100</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">get_jma_schema</span>
+  <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">chdir</span>(<span class="ruby-constant">Util</span>.<span class="ruby-identifier">get_schemas_path</span>(<span class="ruby-keyword">__FILE__</span>))
+  <span class="ruby-ivar">@jma_schema</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Nokogiri</span><span class="ruby-operator">::</span><span class="ruby-constant">XML</span><span class="ruby-operator">::</span><span class="ruby-constant">Schema</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-string">&quot;jmx.xsd&quot;</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_jma_schema-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_jma_schema-method -->
+
+    
+      <div id="method-c-get_jma_xml_parse_rule" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_jma_xml_parse_rule</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>JMAから受信したXMLファイル用の解析ルール設定を取得します。</p>
+
+<h4 id="method-c-get_jma_xml_parse_rule-label-Args">Args</h4>
+
+<h4 id="method-c-get_jma_xml_parse_rule-label-Return">Return</h4>
+<dl class="rdoc-list note-list"><dt><em>Hash</em> 
+<dd>
+<p>JmaのXML解析ルールを保持します。</p>
+</dd></dl>
+
+<h4 id="method-c-get_jma_xml_parse_rule-label-Raise">Raise</h4>
+          
+
+          
+          <div class="method-source-code" id="get_jma_xml_parse_rule-source">
+            <pre><span class="ruby-comment"># File lib/mrsss.rb, line 70</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">get_jma_xml_parse_rule</span>
+  <span class="ruby-ivar">@jma_xml_parse_rule</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">YAML</span>.<span class="ruby-identifier">load</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">Util</span>.<span class="ruby-identifier">get_config_path</span>(<span class="ruby-keyword">__FILE__</span>), <span class="ruby-string">&quot;jma_xml_parse_rule.yml&quot;</span>)))
+  <span class="ruby-keyword">return</span> <span class="ruby-ivar">@jma_xml_parse_rule</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_jma_xml_parse_rule-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_jma_xml_parse_rule-method -->
+
+    
+      <div id="method-c-get_ksn_xml_parse_rule" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_ksn_xml_parse_rule</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>河川から受信したXMLファイル用の解析ルール設定を取得します。</p>
+
+<h4 id="method-c-get_ksn_xml_parse_rule-label-Args">Args</h4>
+
+<h4 id="method-c-get_ksn_xml_parse_rule-label-Return">Return</h4>
+<dl class="rdoc-list note-list"><dt><em>Hash</em> 
+<dd>
+<p>河川のXML解析ルールを保持します。</p>
+</dd></dl>
+
+<h4 id="method-c-get_ksn_xml_parse_rule-label-Raise">Raise</h4>
+          
+
+          
+          <div class="method-source-code" id="get_ksn_xml_parse_rule-source">
+            <pre><span class="ruby-comment"># File lib/mrsss.rb, line 80</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">get_ksn_xml_parse_rule</span>
+  <span class="ruby-ivar">@ksn_xml_parse_rule</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">YAML</span>.<span class="ruby-identifier">load</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">Util</span>.<span class="ruby-identifier">get_config_path</span>(<span class="ruby-keyword">__FILE__</span>), <span class="ruby-string">&quot;ksn_xml_parse_rule.yml&quot;</span>)))
+  <span class="ruby-keyword">return</span> <span class="ruby-ivar">@ksn_xml_parse_rule</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_ksn_xml_parse_rule-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_ksn_xml_parse_rule-method -->
+
+    
+      <div id="method-c-get_mrsss_config" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_mrsss_config</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Mrsssアプリケーション用の各種設定を取得します。</p>
+
+<h4 id="method-c-get_mrsss_config-label-Args">Args</h4>
+
+<h4 id="method-c-get_mrsss_config-label-Return">Return</h4>
+<dl class="rdoc-list note-list"><dt><em>Hash</em> 
+<dd>
+<p>アプリケーション設定を保持します。</p>
+</dd></dl>
+
+<h4 id="method-c-get_mrsss_config-label-Raise">Raise</h4>
+          
+
+          
+          <div class="method-source-code" id="get_mrsss_config-source">
+            <pre><span class="ruby-comment"># File lib/mrsss.rb, line 60</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">get_mrsss_config</span>
+  <span class="ruby-ivar">@mrsss_config</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Util</span>.<span class="ruby-identifier">get_yaml_config</span>(<span class="ruby-string">&quot;mrsss_config.yml&quot;</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-ivar">@mrsss_config</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_mrsss_config-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_mrsss_config-method -->
+
+    
+      <div id="method-c-get_redmine_config" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_redmine_config</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>RedmineとのRest通信用設定をロードして取得します。</p>
+
+<h4 id="method-c-get_redmine_config-label-Args">Args</h4>
+
+<h4 id="method-c-get_redmine_config-label-Return">Return</h4>
+<dl class="rdoc-list note-list"><dt><em>Hash</em> 
+<dd>
+<p>RedmineとのRest通信用設定を保持します。</p>
+</dd></dl>
+
+<h4 id="method-c-get_redmine_config-label-Raise">Raise</h4>
+          
+
+          
+          <div class="method-source-code" id="get_redmine_config-source">
+            <pre><span class="ruby-comment"># File lib/mrsss.rb, line 90</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">get_redmine_config</span>
+  <span class="ruby-ivar">@redmine_config</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-identifier">get_yaml_config</span>(<span class="ruby-string">&quot;redmine.yml&quot;</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-ivar">@redmine_config</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_redmine_config-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_redmine_config-method -->
+
+    
+      <div id="method-c-get_river_schema" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_river_schema</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>河川情報から受信したXMLのスキーマ定義をロードして取得します。</p>
+
+<h4 id="method-c-get_river_schema-label-Args">Args</h4>
+
+<h4 id="method-c-get_river_schema-label-Return">Return</h4>
+<dl class="rdoc-list note-list"><dt><em>Nokogiri</em> 
+<dd>
+<h4 id="method-c-get_river_schema-label-Raise">Raise</h4>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="get_river_schema-source">
+            <pre><span class="ruby-comment"># File lib/mrsss.rb, line 110</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">get_river_schema</span>
+  <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">chdir</span>(<span class="ruby-constant">Util</span>.<span class="ruby-identifier">get_schemas_path</span>(<span class="ruby-keyword">__FILE__</span>))
+  <span class="ruby-ivar">@jma_schema</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Nokogiri</span><span class="ruby-operator">::</span><span class="ruby-constant">XML</span><span class="ruby-operator">::</span><span class="ruby-constant">Schema</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-string">&quot;river.xsd&quot;</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_river_schema-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_river_schema-method -->
+
+    
+      <div id="method-c-load_log_config" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">load_log_config</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>ロガーインスタンス用Log4rインスタンスを作成します。</p>
+
+<h4 id="method-c-load_log_config-label-Args">Args</h4>
+
+<h4 id="method-c-load_log_config-label-Return">Return</h4>
+<dl class="rdoc-list note-list"><dt><em>Log4r</em> 
+<dd>
+<h4 id="method-c-load_log_config-label-Raise">Raise</h4>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="load_log_config-source">
+            <pre><span class="ruby-comment"># File lib/mrsss.rb, line 120</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">load_log_config</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-constant">Log4r</span><span class="ruby-operator">::</span><span class="ruby-constant">Logger</span>[<span class="ruby-string">&quot;Server&quot;</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-constant">Log4r</span><span class="ruby-operator">::</span><span class="ruby-constant">YamlConfigurator</span>.<span class="ruby-identifier">load_yaml_file</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">Util</span>.<span class="ruby-identifier">get_config_path</span>(<span class="ruby-keyword">__FILE__</span>), <span class="ruby-string">&quot;log4r.yml&quot;</span>))
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- load_log_config-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- load_log_config-method -->
+
+    
+      <div id="method-c-parser_logger" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">parser_logger</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Mrsssアプリケーションのパーサ機能用ロガーインスタンスを取得します。</p>
+
+<h4 id="method-c-parser_logger-label-Args">Args</h4>
+
+<h4 id="method-c-parser_logger-label-Return">Return</h4>
+<dl class="rdoc-list note-list"><dt><em>Log4r</em> 
+<dd>
+<h4 id="method-c-parser_logger-label-Raise">Raise</h4>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="parser_logger-source">
+            <pre><span class="ruby-comment"># File lib/mrsss.rb, line 49</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parser_logger</span>
+  <span class="ruby-ivar">@parser_logger</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Log4r</span><span class="ruby-operator">::</span><span class="ruby-constant">Logger</span>[<span class="ruby-string">'Parser'</span>]
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">RuntimeError</span> <span class="ruby-string">&quot;log4rの設定が間違っているようです。確認してください。&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@parser_logger</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-ivar">@parser_logger</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- parser_logger-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- parser_logger-method -->
+
+    
+      <div id="method-c-server_logger" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">server_logger</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Mrsssアプリケーションのサーバ機能用ロガーインスタンスを取得します。</p>
+
+<h4 id="method-c-server_logger-label-Args">Args</h4>
+
+<h4 id="method-c-server_logger-label-Return">Return</h4>
+<dl class="rdoc-list note-list"><dt><em>Log4r</em> 
+<dd>
+<h4 id="method-c-server_logger-label-Raise">Raise</h4>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="server_logger-source">
+            <pre><span class="ruby-comment"># File lib/mrsss.rb, line 38</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">server_logger</span>
+  <span class="ruby-ivar">@server_logger</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Log4r</span><span class="ruby-operator">::</span><span class="ruby-constant">Logger</span>[<span class="ruby-string">'Server'</span>]
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">RuntimeError</span> <span class="ruby-string">&quot;log4rの設定が間違っているようです。確認してください。&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@server_logger</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-ivar">@server_logger</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- server_logger-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- server_logger-method -->
+
+    
+      <div id="method-c-start_mrsss" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">start_mrsss</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Mrsssアプリケーションのサーバ機能を開始します。</p>
+
+<h4 id="method-c-start_mrsss-label-Args">Args</h4>
+
+<h4 id="method-c-start_mrsss-label-Return">Return</h4>
+
+<h4 id="method-c-start_mrsss-label-Raise">Raise</h4>
+          
+
+          
+          <div class="method-source-code" id="start_mrsss-source">
+            <pre><span class="ruby-comment"># File lib/mrsss.rb, line 130</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">start_mrsss</span>
+              <span class="ruby-keyword">begin</span>
+                <span class="ruby-comment"># アプリケーションに必要な設定をロード</span>
+    <span class="ruby-identifier">load_log_config</span>
+    <span class="ruby-identifier">config</span> = <span class="ruby-identifier">get_mrsss_config</span>
+    
+    <span class="ruby-comment"># 設定されたchannels分スレッドを起動</span>
+    <span class="ruby-identifier">threads</span> = []
+    <span class="ruby-identifier">config</span>[<span class="ruby-string">'channels'</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">channel_id</span>, <span class="ruby-identifier">entry</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">thread</span> = <span class="ruby-constant">Thread</span>.<span class="ruby-identifier">new</span> <span class="ruby-keyword">do</span>
+                                      <span class="ruby-identifier">server</span> = <span class="ruby-constant">Server</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">channel_id</span>, <span class="ruby-identifier">entry</span>[<span class="ruby-string">'port'</span>], <span class="ruby-identifier">entry</span>[<span class="ruby-string">'archive_path'</span>], <span class="ruby-identifier">config</span>[<span class="ruby-string">'mode'</span>], <span class="ruby-identifier">config</span>[<span class="ruby-string">'need_checksum'</span>], <span class="ruby-identifier">config</span>[<span class="ruby-string">'use_queue'</span>])
+        <span class="ruby-identifier">server</span>.<span class="ruby-identifier">start</span>
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">threads</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">thread</span>)
+      <span class="ruby-identifier">sleep</span> <span class="ruby-value">1</span>
+     <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment"># Rubyはメインスレッドが停止するとサブスレッドも停止してしまうため</span>
+  <span class="ruby-comment"># メインスレッドが停止しないようThread.joinメソッドを発行</span>
+              <span class="ruby-keyword">ensure</span>
+                      <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">threads</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">empty?</span>
+                              <span class="ruby-identifier">threads</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span>
+                                <span class="ruby-keyword">begin</span>
+                                        <span class="ruby-identifier">t</span>.<span class="ruby-identifier">join</span>
+                                <span class="ruby-keyword">end</span>
+                              <span class="ruby-keyword">end</span>
+                      <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- start_mrsss-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- start_mrsss-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

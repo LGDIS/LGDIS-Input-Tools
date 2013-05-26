@@ -1,0 +1,45 @@
+# 受信サーバのスレッド設定
+# port にポート番号を設定
+# archive_path にアーカイブ保存ディレクトリを設定
+# channel_id スレッドの識別子を設定 "JAL" or "JMA" or "KSN" のみ想定
+channels: 
+ JAL: 
+  port: 30000
+  archive_path: "/home/mrsuser/MRS/archives/socket/jalert"
+  channel_id: "JAL"
+
+ JAL2: 
+  port: 30001
+  archive_path: "/home/mrsuser/MRS/archives/socket/jalert"
+  channel_id: "JAL"
+
+ JMA: 
+  port: 30002
+  archive_path: "/home/mrsuser/MRS/archives/socket/jma"
+  channel_id: "JMA"
+
+# BCHのチェックサム値によるチェック要否
+# true チェック要
+# false チェック不要
+need_checksum: false
+
+# アプリケーションの動作モード
+# 0 通常
+# 1 訓練
+# 2 試験
+mode: 0
+
+# Resqueの使用有無
+# true 使用
+# false 使用しない
+use_queue: true
+
+# 訓練モード時のRedmineプロジェクトID
+trainingmode_project_id: "I04202000000000000007"
+
+# 試験モード時のRedmineプロジェクトID
+testmode_project_id: "I04202000000000000005"
+
+debug_mode:
+ enabled: true
+ path: "/home/mrsuser/MRS/mrs_server_s/debug"

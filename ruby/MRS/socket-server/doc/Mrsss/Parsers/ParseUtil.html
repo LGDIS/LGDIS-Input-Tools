@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module Mrsss::Parsers::ParseUtil - RDoc Documentation</title>
+
+<link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../index.html">Home</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/mrsss/parsers/parse_util.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-convert_point">::convert_point</a>
+    
+    <li><a href="#method-c-convert_point_array">::convert_point_array</a>
+    
+    <li><a href="#method-c-intensity_to_f">::intensity_to_f</a>
+    
+    <li><a href="#method-c-is_japanese_datum">::is_japanese_datum</a>
+    
+    <li><a href="#method-c-to_world_datum">::to_world_datum</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../Gemfile.html">Gemfile</a>
+  
+    <li class="file"><a href="../../Rakefile.html">Rakefile</a>
+  
+    <li class="file"><a href="../../bin/mrsss.html">mrsss</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../Mrsss.html">Mrsss</a>
+  
+    <li><a href="../../Mrsss/Handler.html">Mrsss::Handler</a>
+  
+    <li><a href="../../Mrsss/Parsers.html">Mrsss::Parsers</a>
+  
+    <li><a href="../../Mrsss/Parsers/JmaXml.html">Mrsss::Parsers::JmaXml</a>
+  
+    <li><a href="../../Mrsss/Parsers/KsnXml.html">Mrsss::Parsers::KsnXml</a>
+  
+    <li><a href="../../Mrsss/Parsers/ParseUtil.html">Mrsss::Parsers::ParseUtil</a>
+  
+    <li><a href="../../Mrsss/Parsers/Parser.html">Mrsss::Parsers::Parser</a>
+  
+    <li><a href="../../Mrsss/Parsers/Pdf.html">Mrsss::Parsers::Pdf</a>
+  
+    <li><a href="../../Mrsss/Parsers/Redmine.html">Mrsss::Parsers::Redmine</a>
+  
+    <li><a href="../../Mrsss/Parsers/Txt.html">Mrsss::Parsers::Txt</a>
+  
+    <li><a href="../../Mrsss/Server.html">Mrsss::Server</a>
+  
+    <li><a href="../../Mrsss/Util.html">Mrsss::Util</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module Mrsss::Parsers::ParseUtil</h1>
+
+  <div id="description" class="description">
+    
+<p>XML解析時に使用するユーティリティメソッドを定義します。</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-convert_point" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">convert_point</span><span
+            class="method-args">(str)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>point情報をRest用文字列に変換します。緯度と経度の情報のみ使用し、深さの値は捨てます。ex.<code>+21.2+135.5/ -&gt;
+(135.5,21.2)</code></p>
+
+<h4 id="method-c-convert_point-label-Args">Args</h4>
+<dl class="rdoc-list note-list"><dt><em>str</em> 
+<dd>
+<p>緯度経度情報 <code>+21.2+135.5/</code></p>
+</dd></dl>
+
+<h4 id="method-c-convert_point-label-Return">Return</h4>
+<dl class="rdoc-list note-list"><dt><em>String</em> 
+<dd>
+<p>緯度経度情報 <code>(135.5,21.2)</code></p>
+</dd></dl>
+
+<h4 id="method-c-convert_point-label-Raise">Raise</h4>
+          
+
+          
+          <div class="method-source-code" id="convert_point-source">
+            <pre><span class="ruby-comment"># File lib/mrsss/parsers/parse_util.rb, line 18</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">convert_point</span>(<span class="ruby-identifier">str</span>)
+  <span class="ruby-comment"># 正規表現を利用して符号、小数点、数値のみ取得</span>
+  <span class="ruby-identifier">m</span> = <span class="ruby-identifier">str</span>.<span class="ruby-identifier">scan</span>(<span class="ruby-regexp">/([¥+¥-][0-9.]+)/</span>)
+  <span class="ruby-identifier">lat</span> = <span class="ruby-identifier">m</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>]
+  <span class="ruby-identifier">lng</span> = <span class="ruby-identifier">m</span>[<span class="ruby-value">1</span>][<span class="ruby-value">0</span>]
+  
+  <span class="ruby-comment"># 緯度情報から度分秒形式か判定</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_japanese_datum</span>(<span class="ruby-identifier">lat</span>)
+    <span class="ruby-comment"># 緯度、経度をそれぞれ度分秒形式から度形式に変換</span>
+    <span class="ruby-identifier">lat</span> = <span class="ruby-identifier">to_world_datum</span>(<span class="ruby-identifier">lat</span>)
+    <span class="ruby-identifier">lng</span> = <span class="ruby-identifier">to_world_datum</span>(<span class="ruby-identifier">lng</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-node">&quot;(#{lng},#{lat})&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- convert_point-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- convert_point-method -->
+
+    
+      <div id="method-c-convert_point_array" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">convert_point_array</span><span
+            class="method-args">(str)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>point情報の配列表現をRest用文字列に変換します。 ex.<code>+35+135/+36+136/ -&gt;
+((+135,+35),(+136,+36))</code></p>
+
+<h4 id="method-c-convert_point_array-label-Args">Args</h4>
+<dl class="rdoc-list note-list"><dt><em>str</em> 
+<dd>
+<p>緯度経度情報の配列表現 <code>+35+135/+36+136/</code></p>
+</dd></dl>
+
+<h4 id="method-c-convert_point_array-label-Return">Return</h4>
+<dl class="rdoc-list note-list"><dt><em>String</em> 
+<dd>
+<p>緯度経度情報の配列表現 <code>((+135,+35),(+136,+36))</code></p>
+</dd></dl>
+
+<h4 id="method-c-convert_point_array-label-Raise">Raise</h4>
+          
+
+          
+          <div class="method-source-code" id="convert_point_array-source">
+            <pre><span class="ruby-comment"># File lib/mrsss/parsers/parse_util.rb, line 41</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">convert_point_array</span>(<span class="ruby-identifier">str</span>)
+  
+  <span class="ruby-comment"># 引数をスラッシュ(/)区切りで分割</span>
+  <span class="ruby-identifier">point_array</span> = <span class="ruby-identifier">str</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">'/'</span>, <span class="ruby-value">0</span>)
+  <span class="ruby-comment"># 要素が1つもない場合は処理終了</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">point_array</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>
+    <span class="ruby-keyword">return</span> []
+  <span class="ruby-keyword">end</span>
+  
+  <span class="ruby-comment"># 全てのポイント情報</span>
+  <span class="ruby-identifier">converted_point_array</span> = []
+  <span class="ruby-identifier">point_array</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">point</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">converted_point_array</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">convert_point</span>(<span class="ruby-identifier">point</span>))
+  <span class="ruby-keyword">end</span>
+  
+  <span class="ruby-comment"># point_arrayの内容をカンマ区切りで1つの文字列に連携</span>
+  <span class="ruby-identifier">ret_str</span> = <span class="ruby-string">''</span>
+  <span class="ruby-identifier">converted_point_array</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">point</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">ret_str</span> = <span class="ruby-node">&quot;#{ret_str}#{point}&quot;</span>
+  <span class="ruby-keyword">end</span>
+  
+  <span class="ruby-keyword">return</span> <span class="ruby-node">&quot;(#{ret_str})&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- convert_point_array-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- convert_point_array-method -->
+
+    
+      <div id="method-c-intensity_to_f" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">intensity_to_f</span><span
+            class="method-args">(str)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>震度を表す文字列を数値にして返却します。 ex1. “5+” -&gt; 5.75 ex.2 “5-” -&gt; 5.25</p>
+
+<h4 id="method-c-intensity_to_f-label-Args">Args</h4>
+<dl class="rdoc-list note-list"><dt><em>str</em> 
+<dd>
+<p>震度を表す文字列</p>
+</dd></dl>
+
+<h4 id="method-c-intensity_to_f-label-Return">Return</h4>
+<dl class="rdoc-list note-list"><dt><em>Integer</em> 
+<dd>
+<p>数値化した震度</p>
+</dd></dl>
+
+<h4 id="method-c-intensity_to_f-label-Raise">Raise</h4>
+          
+
+          
+          <div class="method-source-code" id="intensity_to_f-source">
+            <pre><span class="ruby-comment"># File lib/mrsss/parsers/parse_util.rb, line 155</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">intensity_to_f</span>(<span class="ruby-identifier">str</span>)
+  <span class="ruby-identifier">ret</span> = <span class="ruby-value">0.0</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">str</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>
+    <span class="ruby-identifier">ret</span> = <span class="ruby-identifier">str</span>.<span class="ruby-identifier">to_f</span>
+  <span class="ruby-keyword">else</span> 
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">str</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-value">1</span>,<span class="ruby-value">1</span>) <span class="ruby-operator">==</span> <span class="ruby-string">'+'</span>
+      <span class="ruby-identifier">ret</span> = <span class="ruby-identifier">str</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-value">0</span>,<span class="ruby-value">1</span>).<span class="ruby-identifier">to_f</span> <span class="ruby-operator">+</span> <span class="ruby-value">0.75</span>
+    <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">str</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-value">1</span>,<span class="ruby-value">2</span>) <span class="ruby-operator">==</span> <span class="ruby-string">'-'</span>
+      <span class="ruby-identifier">ret</span> = <span class="ruby-identifier">str</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-value">0</span>,<span class="ruby-value">1</span>).<span class="ruby-identifier">to_f</span> <span class="ruby-operator">+</span> <span class="ruby-value">0.25</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">ret</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- intensity_to_f-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- intensity_to_f-method -->
+
+    
+      <div id="method-c-is_japanese_datum" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">is_japanese_datum</span><span
+            class="method-args">(str)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>引数の文字列(緯度)が日本測地系かを判定します。</p>
+
+<h4 id="method-c-is_japanese_datum-label-Args">Args</h4>
+<dl class="rdoc-list note-list"><dt><em>str</em> 
+<dd>
+<p>緯度経度情報</p>
+</dd></dl>
+
+<h4 id="method-c-is_japanese_datum-label-Return">Return</h4>
+<dl class="rdoc-list note-list"><dt><em>bool</em> 
+<dd>
+<p>true:度分秒形式(日本測地系) false:世界測地系</p>
+</dd></dl>
+
+<h4 id="method-c-is_japanese_datum-label-Raise">Raise</h4>
+          
+
+          
+          <div class="method-source-code" id="is_japanese_datum-source">
+            <pre><span class="ruby-comment"># File lib/mrsss/parsers/parse_util.rb, line 73</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">is_japanese_datum</span>(<span class="ruby-identifier">str</span>)
+  <span class="ruby-comment"># まずは先頭の符号を除去</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">str</span>.<span class="ruby-identifier">start_with?</span>(<span class="ruby-string">'+'</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">str</span>.<span class="ruby-identifier">start_with?</span>(<span class="ruby-string">'-'</span>)
+    <span class="ruby-identifier">str</span> = <span class="ruby-identifier">str</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-value">1</span>, <span class="ruby-identifier">str</span>.<span class="ruby-identifier">length</span>)
+  <span class="ruby-keyword">end</span>
+  
+  <span class="ruby-comment"># 文字列から整数部を取得するためピリオドの文字位置を検索</span>
+  <span class="ruby-identifier">period_index</span> = <span class="ruby-identifier">str</span>.<span class="ruby-identifier">index</span>(<span class="ruby-string">'.'</span>)
+  
+  <span class="ruby-comment"># ピリオドの前までの部分文字列(整数部)を取得</span>
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">period_index</span>.<span class="ruby-identifier">blank?</span>
+    <span class="ruby-identifier">str</span> = <span class="ruby-identifier">str</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">period_index</span>)
+  <span class="ruby-keyword">end</span>
+  
+  <span class="ruby-comment"># 整数部の桁数より度分秒形式を判定</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">str</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">3</span>
+    <span class="ruby-comment"># 度分秒形式</span>
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-comment"># 度形式</span>
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- is_japanese_datum-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- is_japanese_datum-method -->
+
+    
+      <div id="method-c-to_world_datum" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_world_datum</span><span
+            class="method-args">(str)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>日本測地系を世界測地系の値に変換します。</p>
+
+<h4 id="method-c-to_world_datum-label-Args">Args</h4>
+<dl class="rdoc-list note-list"><dt><em>str</em> 
+<dd>
+<p>日本測地系による緯度経度情報の文字列表現</p>
+</dd></dl>
+
+<h4 id="method-c-to_world_datum-label-Return">Return</h4>
+<dl class="rdoc-list note-list"><dt><em>String</em> 
+<dd>
+<p>世界測地系による緯度経度情報の文字列表現</p>
+</dd></dl>
+
+<h4 id="method-c-to_world_datum-label-Raise">Raise</h4>
+          
+
+          
+          <div class="method-source-code" id="to_world_datum-source">
+            <pre><span class="ruby-comment"># File lib/mrsss/parsers/parse_util.rb, line 105</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">to_world_datum</span>(<span class="ruby-identifier">str</span>)
+  
+  <span class="ruby-comment"># 符号と数値部を分割</span>
+  <span class="ruby-identifier">sign</span> = <span class="ruby-string">''</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">str</span>.<span class="ruby-identifier">start_with?</span>(<span class="ruby-string">'+'</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">str</span>.<span class="ruby-identifier">start_with?</span>(<span class="ruby-string">'-'</span>)
+    <span class="ruby-identifier">sign</span> = <span class="ruby-identifier">str</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-value">0</span>,<span class="ruby-value">1</span>)
+    <span class="ruby-identifier">str</span> = <span class="ruby-identifier">str</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-value">1</span>, <span class="ruby-identifier">str</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>)
+  <span class="ruby-keyword">end</span>
+  
+  <span class="ruby-comment"># 引数文字列を度、分、秒に分割</span>
+  <span class="ruby-identifier">str_do</span> = <span class="ruby-string">''</span>
+  <span class="ruby-identifier">str_fun</span> = <span class="ruby-string">''</span>
+  <span class="ruby-identifier">str_byo</span> = <span class="ruby-string">''</span>
+  <span class="ruby-identifier">period_index</span> = <span class="ruby-identifier">str</span>.<span class="ruby-identifier">index</span>(<span class="ruby-string">'.'</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">period_index</span>.<span class="ruby-identifier">blank?</span>
+    <span class="ruby-identifier">str_do</span> = <span class="ruby-identifier">str</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">str</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">-</span> <span class="ruby-value">2</span>)
+    <span class="ruby-identifier">str_fun</span> = <span class="ruby-identifier">str</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-identifier">str</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">-</span> <span class="ruby-value">2</span>, <span class="ruby-value">2</span>)
+    <span class="ruby-identifier">str_byo</span> = <span class="ruby-string">'00'</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">str_do</span> = <span class="ruby-identifier">str</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">period_index</span><span class="ruby-operator">-</span><span class="ruby-value">2</span>)
+    <span class="ruby-identifier">str_fun</span> = <span class="ruby-identifier">str</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-identifier">period_index</span><span class="ruby-operator">-</span><span class="ruby-value">2</span>, <span class="ruby-value">2</span>)
+    <span class="ruby-identifier">str_byo</span> = <span class="ruby-identifier">str</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-identifier">period_index</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>, <span class="ruby-identifier">str</span>.<span class="ruby-identifier">length</span>)
+  <span class="ruby-keyword">end</span>
+  
+  <span class="ruby-comment"># 度、分、秒形式を度形式に変換して文字列化</span>
+  <span class="ruby-identifier">float_do</span> = <span class="ruby-identifier">str_do</span>.<span class="ruby-identifier">to_f</span>
+  <span class="ruby-identifier">float_fun</span> = <span class="ruby-identifier">str_fun</span>.<span class="ruby-identifier">to_f</span> <span class="ruby-operator">/</span> <span class="ruby-value">60</span>
+  <span class="ruby-identifier">float_byo</span> = <span class="ruby-identifier">str_byo</span>.<span class="ruby-identifier">to_f</span> <span class="ruby-operator">/</span> <span class="ruby-value">3600</span>
+  <span class="ruby-identifier">float_degree</span> = <span class="ruby-identifier">float_do</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">float_fun</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">float_byo</span>
+  <span class="ruby-identifier">str_degree</span> = <span class="ruby-identifier">float_degree</span>.<span class="ruby-identifier">to_s</span>
+  
+  <span class="ruby-comment"># 小数点2桁目で文字列を切り、符号を付与してリターン</span>
+  <span class="ruby-identifier">period_index2</span> = <span class="ruby-identifier">str_degree</span>.<span class="ruby-identifier">index</span>(<span class="ruby-string">'.'</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">period_index2</span>.<span class="ruby-identifier">blank?</span>
+    <span class="ruby-keyword">return</span> <span class="ruby-identifier">sign</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">str_degree</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">period_index2</span> <span class="ruby-operator">+</span> <span class="ruby-value">3</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">str_degree</span>.<span class="ruby-identifier">length</span>
+    <span class="ruby-keyword">return</span> <span class="ruby-identifier">sign</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">str_degree</span>
+  <span class="ruby-keyword">else</span> 
+    <span class="ruby-keyword">return</span> <span class="ruby-identifier">sign</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">str_degree</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">period_index2</span> <span class="ruby-operator">+</span> <span class="ruby-value">3</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_world_datum-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_world_datum-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

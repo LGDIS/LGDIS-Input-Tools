@@ -1,0 +1,387 @@
+# Logfile created on 2013-05-24 15:52:33 +0900 by logger.rb/31641
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<Errno::ENOENT: No such file or directory - /home/mrsuser/MRS/socket_server/tmp/server.rb.pid>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<IOError: stream closed>
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<Redis::FutureNotReady: Value will be available once the pipeline executes.>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<SystemExit: exit>
+#<Errno::ENOENT: No such file or directory - /home/mrsuser/MRS/socket_server/tmp/server.rb.pid>
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<Errno::EBADF: Bad file descriptor>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<IOError: stream closed>
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Redis::FutureNotReady: Value will be available once the pipeline executes.>
+#<Errno::ENOENT: No such file or directory - /home/mrsuser/MRS/socket_server/tmp/server.rb.pid>
+#<SystemExit: exit>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<Errno::EBADF: Bad file descriptor>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<IOError: stream closed>
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Redis::FutureNotReady: Value will be available once the pipeline executes.>
+#<Errno::ENOENT: No such file or directory - /home/mrsuser/MRS/socket_server/tmp/server.rb.pid>
+#<SystemExit: exit>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<Errno::EBADF: Bad file descriptor>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<IOError: stream closed>
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Redis::FutureNotReady: Value will be available once the pipeline executes.>
+#<Errno::ENOENT: No such file or directory - /home/mrsuser/MRS/socket_server/tmp/server.rb.pid>
+#<SystemExit: exit>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<Errno::EBADF: Bad file descriptor>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<IOError: stream closed>
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Redis::FutureNotReady: Value will be available once the pipeline executes.>
+#<SystemExit: exit>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<Errno::ENOENT: No such file or directory - /home/mrsuser/MRS/socket_server/tmp/server.rb.pid>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<Errno::EBADF: Bad file descriptor>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<IOError: stream closed>
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<Errno::EBADF: Bad file descriptor>
+#<fatal: exception reentered>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Redis::FutureNotReady: Value will be available once the pipeline executes.>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<SystemExit: exit>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<Errno::ENOENT: No such file or directory - /home/mrsuser/MRS/socket_server/tmp/server.rb.pid>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<Errno::EBADF: Bad file descriptor>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<IOError: stream closed>
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Redis::FutureNotReady: Value will be available once the pipeline executes.>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<SystemExit: exit>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<Errno::ENOENT: No such file or directory - /home/mrsuser/MRS/socket_server/tmp/server.rb.pid>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<Errno::EBADF: Bad file descriptor>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<IOError: stream closed>
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Redis::FutureNotReady: Value will be available once the pipeline executes.>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<SystemExit: exit>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<Errno::ENOENT: No such file or directory - /home/mrsuser/MRS/socket_server/tmp/server.rb.pid>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<Errno::EBADF: Bad file descriptor>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<IOError: stream closed>
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Redis::FutureNotReady: Value will be available once the pipeline executes.>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<SystemExit: exit>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<Errno::ENOENT: No such file or directory - /home/mrsuser/MRS/socket_server/tmp/server.rb.pid>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<Errno::EBADF: Bad file descriptor>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<IOError: stream closed>
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
+#<Redis::FutureNotReady: Value will be available once the pipeline executes.>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<SystemExit: exit>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<Errno::EADDRINUSE: Address already in use - bind(2)>
+#<Errno::ENOENT: No such file or directory - /home/mrsuser/MRS/socket_server/tmp/server.rb.pid>
+#<Errno::EBADF: Bad file descriptor>
+#<Errno::EBADF: Bad file descriptor>
