@@ -123,10 +123,10 @@ trackers:
  "JMA": 
    path: "/Report/Control/Title/text()"
    type: 
-    "季節観測": "4"
-    "生物季節観測": "4"
-    "特殊気象報": "4"
-    "紫外線観測データ": "4"
+    "季節観測": "3"
+    "生物季節観測": "3"
+    "特殊気象報": "3"
+    "紫外線観測データ": "3"
     "全般台風情報": "4"
     "全般台風情報（定型）": "4"
     "全般台風情報（詳細）": "4"
@@ -136,63 +136,63 @@ trackers:
     "全般海上警報（臨時）": "4"
     "地方海上警報": "4"
     "地方海上予報": "4"
-    "気象警報・注意報": "3"
-    "指定河川洪水予報": "3"
+    "気象警報・注意報": "4"
+    "指定河川洪水予報": "4"
     "記録的短時間大雨情報": "4"
-    "竜巻注意情報": "3"
-    "全般気象情報": "4"
-    "地方気象情報": "4"
-    "府県気象情報": "4"
-    "府県天気概況": "4"
-    "府県天気予報": "4"
-    "全般週間天気予報": "4"
-    "地方週間天気予報": "4"
-    "府県週間天気予報": "4"
-    "スモッグ気象情報": "4"
-    "地方天候情報": "4"
-    "震源に関する情報": "3"
-    "震源・震度に関する情報": "3"
-    "震度速報": "3"
+    "竜巻注意情報": "4"
+    "全般気象情報": "3"
+    "地方気象情報": "3"
+    "府県気象情報": "3"
+    "府県天気概況": "3"
+    "府県天気予報": "3"
+    "全般週間天気予報": "3"
+    "地方週間天気予報": "3"
+    "府県週間天気予報": "3"
+    "スモッグ気象情報": "3"
+    "地方天候情報": "3"
+    "震源に関する情報": "4"
+    "震源・震度に関する情報": "4"
+    "震度速報": "4"
     "地震の活動状況等に関する情報": "4"
-    "地震回数に関する情報": "4"
-    "顕著な地震の震源要素更新のお知らせ": "3"
+    "地震回数に関する情報": "3"
+    "顕著な地震の震源要素更新のお知らせ": "4"
     "津波警報・注意報・予報": "3"
-    "津波情報": "3"
-    "津波警報・注意報・予報a": "3"
-    "津波情報a": "3"
-    "緊急地震速報（予報）": "3"
-    "緊急地震速報（警報）": "3"
-    "東海地震観測情報": "4"
-    "東海地震注意情報": "4"
-    "東海地震予知情報": "4"
-    "地震・津波に関するお知らせ": "4"
-    "火山に関するお知らせ": "4"
+    "津波情報": "4"
+    "津波警報・注意報・予報a": "4"
+    "津波情報a": "4"
+    "緊急地震速報（予報）": "4"
+    "緊急地震速報（警報）": "4"
+    "東海地震観測情報": "3"
+    "東海地震注意情報": "3"
+    "東海地震予知情報": "3"
+    "地震・津波に関するお知らせ": "3"
+    "火山に関するお知らせ": "3"
     "噴火警報・予報": "4"
-    "火山の状況に関する解説情報": "4"
+    "火山の状況に関する解説情報": "3"
     "噴火に関する火山観測報": "4"
     "火山現象に関する海上警報・海上予報": "4"
-    "府県海氷予報": "4"
-    "全般潮位情報": "4"
-    "地方潮位情報": "4"
-    "府県潮位情報": "4"
-    "緊急地震速報配信テスト": "4"
-    "全般スモッグ気象情報": "4"
+    "府県海氷予報": "3"
+    "全般潮位情報": "3"
+    "地方潮位情報": "3"
+    "府県潮位情報": "3"
+    "緊急地震速報配信テスト": "3"
+    "全般スモッグ気象情報": "3"
     "地方高温注意情報": "4"
     "府県高温注意情報": "4"
-    "地上実況図": "4"
-    "地上２４時間予想図": "4"
-    "地上４８時間予想図": "4"
+    "地上実況図": "3"
+    "地上２４時間予想図": "3"
+    "地上４８時間予想図": "3"
     "沖合の津波観測に関する情報": "4"
-    "全般天候情報": "4"
-    "府県天候情報": "4"
-    "全般１か月予報": "4"
-    "全般３か月予報": "4"
-    "全般暖・寒候期予報": "4"
-    "地方１か月予報": "4"
-    "地方３か月予報": "4"
-    "地方暖・寒候期予報": "4"
+    "全般天候情報": "3"
+    "府県天候情報": "3"
+    "全般１か月予報": "3"
+    "全般３か月予報": "3"
+    "全般暖・寒候期予報": "3"
+    "地方１か月予報": "3"
+    "地方３か月予報": "3"
+    "地方暖・寒候期予報": "3"
     "異常天候早期警戒情報": "4"
-   default: "4"
+   default: "3"
  "JAL": 
    default: "78"
 
@@ -206,8 +206,8 @@ projects:
  path: "/Report/Control/Status/text()"
  type: 
   "通常": "I04202000000000000001"
-  "訓練": "I04202000000000000001"
-  "試験": "I04202000000000000001"
+  "訓練": "I04202000000000000002"
+  "試験": "I04202000000000000003"
  default: "I04202000000000000001"
 
 
@@ -221,8 +221,8 @@ projects:
 autolaunch: 
  earthquake_path: "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"○○市\"]/MaxInt/text()"
  tsunami_path: "/Report/Body/Tsunami/Estimation/Item[Area/Name/text()=\"○○金華山沖\"]/MaxHeight/TsunamiHeight/text()"
- earthquake_threashold: "3"
- tsunami_threashold: 2.2
+ earthquake_threashold: "5-"
+ tsunami_threashold: 5.0
 
 
 # ------------------------------------------------------------
@@ -241,6 +241,9 @@ disposition:
   number: "1"
   paths: 
    - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"○○県\"]/Category/Kind/Name[text()=\"津波警報：発表\"]"
+   - "/Report/Body/Warning/Item[Kind/Name/text()=\"高潮警報\"][Kind/Status/text()=\"発表\"]/Area/Name[text()=\"××市\"]"
+   - "/Report/Body/Warning/Item[Kind/Name/text()=\"大雨警報\"][Kind/Status/text()=\"発表\"]/Area/Name[text()=\"××市\"]"
+   - "/Report/Body/Warning/Item[Kind/Name/text()=\"洪水警報\"][Kind/Status/text()=\"発表\"]/Area/Name[text()=\"××市\"]"
  - 
   number: "2"
   paths: 
@@ -279,7 +282,7 @@ send_message:
 # プロジェクト自動送信用の設定
 # 該当の配備番号の場合はプロジェクト自動送信扱いとする
 # ------------------------------------------------------------
-autosend_disposition_numbers: ["2", "3"]
+autosend_disposition_numbers: ["0", "1", "2", "3"]
 
 # 自動送信時にissue拡張フィールドに付加する情報
 autosend_extras: 
@@ -305,15 +308,15 @@ description_contents:
   - path: "/Report/Body/Comments/ForecastComment/Text/text()"
  "震源に関する情報": 
   - 
-   path: "/Report/Body/Earthquake/Hypocenter/Area/Name[text()=\"○○市\"]/text()"
+   path: "/Report/Body/Earthquake/Hypocenter/Area/Name/text()"
    header: "震源位置："
   - path: "/Report/Body/Earthquake/Hypocenter/Area/Coordinate/@description"
   - path: "/Report/Body/Earthquake/Magnitude/@description"
   - path: "/Report/Body/Comments/ForecastComment/Text/text()"
  "震源・震度に関する情報": 
-  - path: "/Report/Body/Intensity/Observation/Pref/Area/Name[text()=\"○○市\"]/text()"
+  - path: "/Report/Body/Intensity/Observation/Pref/Area/City/Name[text()=\"○○市\"]/text()"
   - 
-   path: "/Report/Body/Intensity/Observation/Pref/Area[Name/text()=\"○○市\"]/MaxInt/text()"
+   path: "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"○○市\"]/MaxInt/text()"
    decorator: "add_modifier"
   - 
    path: "/Report/Body/Earthquake/Hypocenter/Area/Name/text"
@@ -323,7 +326,7 @@ description_contents:
   - path: "/Report/Body/Comments/ForecastComment/Text/text()"
  "津波警報・注意報・予報": 
   - path: "/Report/Body/Tsunami/Forecast/Item/Area/Name[text()=\"○○県\"]/text()"
-  - path: "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"○○県\"]/Category/Name/text()"
+  - path: "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"○○県\"]/Category/Kind/Name/text()"
   - 
    path: "/Report/Body/Tsunami/Forcast/Item[Area/Name/text()=\"○○県\"]/FirstHeight/ArrivalTime/text()"
    header: "津波の到達予想時刻："
