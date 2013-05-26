@@ -57,8 +57,10 @@ module Mrsss
         # point_arrayの内容をカンマ区切りで1つの文字列に連携
         ret_str = ''
         converted_point_array.each do |point|
-          ret_str = "#{ret_str}#{point}"
+          ret_str = "#{ret_str}#{point},"
         end
+
+        ret_str = ret_str[0...-1] if ret_str[-1] == ','
         
         return "(#{ret_str})"
       end
