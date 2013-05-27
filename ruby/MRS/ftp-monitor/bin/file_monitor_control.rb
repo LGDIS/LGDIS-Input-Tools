@@ -21,11 +21,11 @@ options = {
   :backtrace => true,
   :monitor => true,
   :log_dir => log_dir,
-  :log_output => false
+  :log_output => true
 }
 
 # start daemon
-Daemons.run_proc('file_monitor', options) do
+Daemons.run_proc('file-monitor', options) do
   Mrsfm.start_file_monitor
 end
 

@@ -23,9 +23,10 @@ log4r_config:
      pattern: "%d [%l] %c(%t) - %m"
      date_pattern: "%H:%M:%S"
   - name: "F1"
-    type: "DateFileOutputter"
-    dirname: "/home/mrsuser/MRS/ftp-monitor/log"
-    date_pattern: "%Y%m%d"
+    type: "RollingFileOutputter"
+    filename: "/home/mrsuser/MRS/ftp-monitor/log/ftp-monitor.log"
+    maxsize: 10000
+    maxtime: 86400
     trunc: "false"
     formatter:
      name: "P2"
