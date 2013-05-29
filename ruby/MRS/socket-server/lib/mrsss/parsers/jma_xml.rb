@@ -473,7 +473,7 @@ private
       #
       def is_autosend()
         autosend_nos = @@rule['autosend_disposition_numbers']
-        autosend_nos.include?(@disposition_no)
+        autosend_nos.include?(@disposition_number)
       end
       
       #

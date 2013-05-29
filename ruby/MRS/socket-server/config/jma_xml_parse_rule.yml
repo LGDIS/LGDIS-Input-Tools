@@ -219,7 +219,7 @@ projects:
 # tsunami_threasholdには高さのしきい値
 # ------------------------------------------------------------
 autolaunch: 
- earthquake_path: "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"○○市\"]/MaxInt/text()"
+ earthquake_path: "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"××市\"]/MaxInt/text()"
  tsunami_path: "/Report/Body/Tsunami/Estimation/Item[Area/Name/text()=\"○○金華山沖\"]/MaxHeight/TsunamiHeight/text()"
  earthquake_threashold: "5-"
  tsunami_threashold: 5.0
@@ -235,7 +235,7 @@ disposition:
  - 
   number: "0"
   paths: 
-   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"○○市\"]/MaxInt[text()=\"4\"]"
+   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"××市\"]/MaxInt[text()=\"4\"]"
    - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"○○県\"]/Category/Kind/Name[text()=\"津波注意報：発表\"]"
  - 
   number: "1"
@@ -247,15 +247,15 @@ disposition:
  - 
   number: "2"
   paths: 
-   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"○○市\"]/MaxInt[text()=\"5-\"]"
-   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"○○市\"]/MaxInt[text()=\"5+\"]"
+   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"××市\"]/MaxInt[text()=\"5-\"]"
+   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"××市\"]/MaxInt[text()=\"5+\"]"
    - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"○○県\"]/Category/Kind/Name[text()=\"大津波警報：発表\"]"
  - 
   number: "3"
   paths: 
-   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"○○市\"]/MaxInt[text()=\"6-\"]"
-   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"○○市\"]/MaxInt[text()=\"6-\"]"
-   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"○○市\"]/MaxInt[text()=\"7\"]"
+   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"××市\"]/MaxInt[text()=\"6-\"]"
+   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"××市\"]/MaxInt[text()=\"6-\"]"
+   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"××市\"]/MaxInt[text()=\"7\"]"
 
 # ------------------------------------------------------------
 # 配備時の配信用メッセージ
@@ -267,14 +267,20 @@ disposition:
 send_message: 
  - 
   parameter: "mail_subject"
-  max_length: 15
+  max_length: 255
   paths: 
    - "/Report/Head/Title/text()"
  - 
   parameter: "summary"
-  max_length: 140
+  max_length: 2000
   paths: 
    - "/Report/Head/Headline/Text/text()"
+   - "/Report/Body/Intensity/Observation/Pref/Area/City/Name[text()=\"××市\"]/text()"
+   - "/Report/Head/Headline/Information/Item[Areas/Area/Name/text()=\"××市\"]/Kind/Name/text()"
+   - "/Report/Body/Tsunami/Forecast/Item/Area/Name[text()=\"○○県\"]/text()"
+   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"○○県\"]/Category/Kind/Name/text()"
+   - "/Report/Body/Warning/Item/Area/Name[text()=\"××市\"]/text()" 
+   - "/Report/Body/Warning/Item[Area/Name/text()=\"××市\"]/Kind/Name/text()"
    - "/Report/Body/Comments/ForecastComment/Text/text()"
    - "/Report/Body/Comments/WarningComment/Text/text()"
 
@@ -408,26 +414,26 @@ description_contents:
       - path: "text()"
   - path: "/Report/Body/Warning/Item[Area/Name/text()=\"××市\"]/ChangeStatus/text()"
  "地方海上警報":
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Area/Name/text()"
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Kind/Name/text()"
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Kind/Property/WindPart/SubArea/Sentence/text()"
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Area/Name/text()"
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Kind/Name/text()"
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Kind/Property/VisibilityPart/SubArea/Sentence/text()"
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Area/Name/text()"
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Kind/Name/text()"
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Kind/Property/WaveHeightPart/SubArea/Sentence/text()"
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Area/Name/text()"
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Kind/Name/text()"
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Kind/Property/IcingPart/SubArea/Sentence/text()"
+  - path: "/Report/Body/Warning/Item[Kind/Property/Type/text()=\"風\"][Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Area/Name/text()"
+  - path: "/Report/Body/Warning/Item[Kind/Property/Type/text()=\"風\"][Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Kind/Name/text()"
+  - path: "/Report/Body/Warning/Item[Kind/Property/Type/text()=\"風\"][Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Kind/Property/WindPart/SubArea/Sentence/text()"
+  - path: "/Report/Body/Warning/Item[Kind/Property/Type/text()=\"濃霧\"][Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Area/Name/text()"
+  - path: "/Report/Body/Warning/Item[Kind/Property/Type/text()=\"濃霧\"][Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Kind/Name/text()"
+  - path: "/Report/Body/Warning/Item[Kind/Property/Type/text()=\"濃霧\"][Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Kind/Property/VisibilityPart/SubArea/Sentence/text()"
+  - path: "/Report/Body/Warning/Item[Kind/Property/Type/text()=\"うねり\" or Kind/Property/Type/text()=\"波\"][Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Area/Name/text()"
+  - path: "/Report/Body/Warning/Item[Kind/Property/Type/text()=\"うねり\" or Kind/Property/Type/text()=\"波\"][Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Kind/Name/text()"
+  - path: "/Report/Body/Warning/Item[Kind/Property/Type/text()=\"うねり\" or Kind/Property/Type/text()=\"波\"][Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Kind/Property/WaveHeightPart/SubArea/Sentence/text()"
+  - path: "/Report/Body/Warning/Item[Kind/Property/Type/text()=\"着氷\"][Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Area/Name/text()"
+  - path: "/Report/Body/Warning/Item[Kind/Property/Type/text()=\"着氷\"][Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Kind/Name/text()"
+  - path: "/Report/Body/Warning/Item[Kind/Property/Type/text()=\"着氷\"][Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Kind/Property/IcingPart/SubArea/Sentence/text()"
  "異常天候早期警戒情報":
-  - path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo[Item/Areas/Area/Name/text()=\"東北地方\" or Item/Areas/Area/Name/text()=\"東北南部\" or Item/Areas/Area/Name/text()=\"東北太平洋側\"]/Item/Kind/Property/Text/text()"
+  - path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Areas/Area/Name/text()=\"東北地方\" or Areas/Area/Name/text()=\"東北南部\" or Areas/Area/Name/text()=\"東北太平洋側\"]/Kind/Property/Text/text()"
  "竜巻注意情報":
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"××市\"]/Area/Name/text()"
+  - path: "/Report/Body/Warning/Item/Area/Name[text()=\"××市\"]/text()"
   - path: "/Report/Body/Warning/Item[Area/Name/text()=\"××市\"]/Kind/Name/text()"
   - path: "/Report/Body/Warning/Item[Area/Name/text()=\"××市\"]/Kind/Status/text()"
  "土砂災害警戒情報":
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"××市\"]/Area/Name/text()"
+  - path: "/Report/Body/Warning/Item/Area/Name[text()=\"××市\"]/text()"
   - path: "/Report/Body/Warning/Item[Area/Name/text()=\"××市\"]/Kind/Name/text()"
   - path: "/Report/Body/Warning/Item[Area/Name/text()=\"××市\"]/Kind/Status/text()"
 
@@ -441,5 +447,3 @@ description_contents:
   - path: "/Report/Body/Comment/Text/text()"
  "府県高温注意情報":
   - path: "/Report/Body/Comment/Text/text()" 
-
-
