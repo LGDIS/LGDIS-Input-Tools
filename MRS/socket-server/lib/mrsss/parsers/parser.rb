@@ -38,7 +38,7 @@ module Mrsss
         str_log = "#{str_log}--------------------------------------------------------------------------------"
         log.info(str_log)
         
-        raise RuntimeError.new('キューから取得したデータが不完全です。') if mode.blank? || channel_id.blank? || file_format.blank? || contents.blank?
+        raise RuntimeError.new('キューから取得したデータが不完全です。') if mode.blank? || channel_id.blank? || file_format.blank? || contents.nil? || contents.size == 0
         
         # XMLファイルは解析が必要
         if file_format == 'XML'
