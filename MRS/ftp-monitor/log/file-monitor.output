@@ -1,0 +1,7 @@
+file-monitor: process with pid 31892 started.
+11:07:57 [INFO] Log4r(/home/mrsuser/LGDIS-Input-Tools/ruby/MRS/ftp-monitor/lib/mrsfm.rb:126:in `start_file_monitor') - loading config files.
+11:07:57 [INFO] Log4r(/home/mrsuser/LGDIS-Input-Tools/ruby/MRS/ftp-monitor/lib/mrsfm.rb:129:in `start_file_monitor') - loading config files complete.
+11:07:57 [INFO] Log4r(/home/mrsuser/LGDIS-Input-Tools/ruby/MRS/ftp-monitor/lib/mrsfm/file_monitor.rb:36:in `start') - [KSN] Start monitoring.
+11:07:57 [INFO] Log4r(/home/mrsuser/LGDIS-Input-Tools/ruby/MRS/ftp-monitor/lib/mrsfm/file_monitor.rb:36:in `start') - [JMA] Start monitoring.
+11:07:57 [INFO] Log4r(/home/mrsuser/LGDIS-Input-Tools/ruby/MRS/ftp-monitor/lib/mrsfm/file_monitor.rb:37:in `start') - [KSN] monitoring directory:/home/mrsuser/received_files/ftp/ksn
+11:07:57 [INFO] Log4r(/home/mrsuser/LGDIS-Input-Tools/ruby/MRS/ftp-monitor/lib/mrsfm/file_monitor.rb:37:in `start') - [JMA] monitoring directory:/home/mrsuser/received_files/ftp/jma
