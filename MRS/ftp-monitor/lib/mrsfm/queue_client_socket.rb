@@ -7,7 +7,7 @@ module Mrsfm
       # Initializes default values of socket header
       def initialize(type_of_mode, sender, file_format)
         super
-        @sock_path = Mrsfm.utility.get_yaml_config("socket.yaml")["file_monitor"]["unix_socket_path"]
+        @sock_path = Mrsfm.utility.get_yaml_config("socket.yml")["file_monitor"]["unix_socket_path"]
         if @sock_path.nil?;raise NilError.new("sock_path is nil."); end 
       end
 

@@ -41,7 +41,7 @@ module Mrsfm
   # ==== Return
   # configuration hash values
   def self.get_mail_config
-      @mail_config||= utility.get_yaml_config("mail_config.yaml")
+      @mail_config||= utility.get_yaml_config("mail_config.yml")
       return @mail_config
   end
 
@@ -49,7 +49,7 @@ module Mrsfm
   # ==== Return
   # configuration hash values
   def self.get_message_config
-      @message_config ||= utility.get_yaml_config("messages.yaml")
+      @message_config ||= utility.get_yaml_config("messages.yml")
       return @message_config
   end
 
@@ -57,7 +57,7 @@ module Mrsfm
   def self.load_log_config
     if Log4r::Logger["log4r"].nil?
       config_directory = utility.get_config_directory
-      config_file = File.join(config_directory, "log4r.yaml")
+      config_file = File.join(config_directory, "log4r.yml")
       Log4r::YamlConfigurator.load_yaml_file(config_file)
     end
   end
@@ -125,7 +125,7 @@ module Mrsfm
     begin
       Mrsfm.logger.info("loading config files.")
       load_file_monitor_email_config
-      config = utility.get_yaml_config("file_monitor_config.yaml")
+      config = utility.get_yaml_config("file_monitor_config.yml")
       Mrsfm.logger.info("loading config files complete.")
 
       @send_error_email = config["send_error_email"]
