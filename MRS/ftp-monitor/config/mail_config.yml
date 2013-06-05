@@ -1,14 +1,14 @@
 file_monitor:
- host: "mx5.di-system.co.jp"
+ host: "xx.xxx.co.jp"
  port: "25"
  from:
-  address: "pjhv6wmvxiej2w8z0mpk@docomo.ne.jp"
-  display_name: "Akira Tsutsumi"
+  address: "xxxxxx@xxxxx.ne.jp"
+  display_name: "Axxxx Txxxxxx"
  to:
-  - address: "atsutsumi@di-system.co.jp"
-    display_name: "Akira Tsutsumi"
-  - address: "pjhv6wmvxiej2w8z0mpk@docomo.ne.jp"
-    display_name: "名無しの権兵衛"
+  - address: "xxxxx@xxxxxxxx.co.jp"
+    display_name: "Axxxx Txxxxxxx"
+  - address: "xxxxxx@xxxxxx.ne.jp"
+    display_name: "John Doe"
  cc:
  bcc:
  subject: "[ERROR NOTIFICATION (FILE MONITOR)]"
