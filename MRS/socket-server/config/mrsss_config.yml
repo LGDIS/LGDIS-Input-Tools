@@ -21,7 +21,7 @@ channels:
  JAL-Tsunami-Training:
   port: 36021
   archive_path: "/home/mrsuser/MRS/archives/socket/jalert"
-    channel_id: "JAL"
+  channel_id: "JAL"
 
  JAL-Volcano-Normal:
   port: 36030
@@ -44,7 +44,7 @@ channels:
   channel_id: "JAL"
 
  JAL-Cabinet-Normal:
-   port: 36000
+  port: 36000
   archive_path: "/home/mrsuser/MRS/archives/socket/jalert"
   channel_id: "JAL"
 
