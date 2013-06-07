@@ -20,6 +20,7 @@ module Mrsss
         @mode = mode
         @channel_id = channel_id
         @log = Mrsss.parser_logger
+        @send_redmine = false
       end
       
       #
@@ -42,15 +43,16 @@ module Mrsss
           raise RuntimeError.new("XMLスキーマチェックエラー")
         end
         
-        # XMLの解析
+        # XMLの解析(データの解析を行うため、このなかでアクセス制限のフラグ[@send_redmine]を設定する)
         parse()
         
         # 送信電文作成
         issue_json = create_issue_json()
-        
-        # Redmineへ送信
-        Redmine::post_issues(issue_json)
-        
+
+        if @send_redmine
+          # Redmineへ送信
+          Redmine::post_issues(issue_json)
+        end 
       end
 
 
@@ -191,7 +193,33 @@ private
         @autosend_extras = @@rule['autosend_extras']
         # 情報種別を取得
         @description = parse_description()
+        # アクセス制限フラグ
+        @send_redmine = parse_access_limit()
         
+      end
+
+      def parse_access_limit()
+        found = false
+
+        # 情報種別を取得
+        description_type_path = @@rule['description_type_path']
+
+        # 説明文
+        contents = @xml.xpath(description_type_path).to_s
+        description_contents = @@rule['forward_to_issue'][contents]
+        if description_contents.nil?
+          return false
+        end
+
+        description_contents.each do |entry|
+          # xpathにより情報を取得
+          value = @xml.xpath(entry["path"]).to_s unless entry["path"].nil?
+          if !value.blank?
+            found = true
+          end
+        end
+
+        return found
       end
 
       def parse_description()
