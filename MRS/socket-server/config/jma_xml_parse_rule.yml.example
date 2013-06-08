@@ -219,8 +219,8 @@ projects:
 # tsunami_threasholdには高さのしきい値
 # ------------------------------------------------------------
 autolaunch: 
- earthquake_path: "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"××市\"]/MaxInt/text()"
- tsunami_path: "/Report/Body/Tsunami/Estimation/Item[Area/Name/text()=\"○○金華山沖\"]/MaxHeight/TsunamiHeight/text()"
+ earthquake_path: "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt/text()"
+ tsunami_path: "/Report/Body/Tsunami/Estimation/Item[Area/Name/text()=\"宮城金華山沖\"]/MaxHeight/TsunamiHeight/text()"
  earthquake_threashold: "5-"
  tsunami_threashold: 5.0
 
@@ -235,27 +235,93 @@ disposition:
  - 
   number: "0"
   paths: 
-   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"××市\"]/MaxInt[text()=\"4\"]"
-   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"○○県\"]/Category/Kind/Name[text()=\"津波注意報：発表\"]"
+   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"4\"]"
+   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[text()=\"津波注意報：発表\"]"
  - 
   number: "1"
   paths: 
-   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"○○県\"]/Category/Kind/Name[text()=\"津波警報：発表\"]"
-   - "/Report/Body/Warning/Item[Kind/Name/text()=\"高潮警報\"][Kind/Status/text()=\"発表\"]/Area/Name[text()=\"××市\"]"
-   - "/Report/Body/Warning/Item[Kind/Name/text()=\"大雨警報\"][Kind/Status/text()=\"発表\"]/Area/Name[text()=\"××市\"]"
-   - "/Report/Body/Warning/Item[Kind/Name/text()=\"洪水警報\"][Kind/Status/text()=\"発表\"]/Area/Name[text()=\"××市\"]"
+   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[text()=\"津波警報：発表\"]"
+   - "/Report/Body/Warning/Item[Kind/Name/text()=\"高潮警報\"][Kind/Status/text()=\"発表\"]/Area/Name[text()=\"石巻市\"]"
+   - "/Report/Body/Warning/Item[Kind/Name/text()=\"大雨警報\"][Kind/Status/text()=\"発表\"]/Area/Name[text()=\"石巻市\"]"
+   - "/Report/Body/Warning/Item[Kind/Name/text()=\"洪水警報\"][Kind/Status/text()=\"発表\"]/Area/Name[text()=\"石巻市\"]"
  - 
   number: "2"
   paths: 
-   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"××市\"]/MaxInt[text()=\"5-\"]"
-   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"××市\"]/MaxInt[text()=\"5+\"]"
-   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"○○県\"]/Category/Kind/Name[text()=\"大津波警報：発表\"]"
+   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"5-\"]"
+   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"5+\"]"
+   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[text()=\"大津波警報：発表\"]"
  - 
   number: "3"
   paths: 
-   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"××市\"]/MaxInt[text()=\"6-\"]"
-   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"××市\"]/MaxInt[text()=\"6-\"]"
-   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"××市\"]/MaxInt[text()=\"7\"]"
+   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"6-\"]"
+   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"6-\"]"
+   - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"7\"]"
+## for Twitter
+ - 
+  number: "4"
+  paths: 
+   - "/Report/Control/Title[text()=\"火山現象に関する海上警報・予報\"]"
+   - "/Report/Control/Title[text()=\"噴火警報・予報\"]"
+   - "/Report/Control/Title[text()=\"火山の状況に関する解説情報\"]"
+   - "/Report/Control/Title[text()=\"噴火に関する火山観測報\"]"
+   - "/Report/Control/Title[text()=\"季節観測\"]"
+   - "/Report/Control/Title[text()=\"生物季節観測\"]"
+   - "/Report/Control/Title[text()=\"特殊気象報\"]"
+   - "/Report/Control/Title[text()=\"紫外線観測データ\"]"
+   - "/Report/Control/Title[text()=\"全般潮位情報\"]"
+   - "/Report/Control/Title[text()=\"地方潮位情報\"]"
+   - "/Report/Control/Title[text()=\"府県潮位情報\"]"
+   - "/Report/Control/Title[text()=\"府県海氷予報\"]"
+   - "/Report/Control/Title[text()=\"記録的短時間大雨情報\"]"
+   - "/Report/Control/Title[text()=\"異常天候早期警戒情報\"]"
+   - "/Report/Control/Title[text()=\"地方天候情報\"]"
+   - "/Report/Control/Title[text()=\"地方高温注意情報\"]"
+   - "/Report/Control/Title[text()=\"地方海上警報\"]"
+   - "/Report/Control/Title[text()=\"地方海上予報\"]"
+   - "/Report/Control/Title[text()=\"府県天気予報\"]"
+   - "/Report/Control/Title[text()=\"天気概況\"]"
+   - "/Report/Control/Title[text()=\"府県天候情報\"]"
+   - "/Report/Control/Title[text()=\"府県気象情報\"]"
+   - "/Report/Control/Title[text()=\"竜巻注意情報\"]"
+   - "/Report/Control/Title[text()=\"スモッグ気象情報\"]"
+   - "/Report/Control/Title[text()=\"全般台風情報\"]"
+##   - "/Report/Control/Title[text()=\"台風解析・予報情報（３日予報）\"]"
+##   - "/Report/Control/Title[text()=\"台風解析・予報情報（５日予報）\"]"
+   - "/Report/Control/Title[text()=\"気象警報・注意報\"]"
+##   - "/Report/Control/Title[text()=\"全般天候情報\"]"
+##   - "/Report/Control/Title[text()=\"全般気象情報\"]"
+##   - "/Report/Control/Title[text()=\"全般1か月予報\"]"
+##   - "/Report/Control/Title[text()=\"全般3か月予報\"]"
+   - "/Report/Control/Title[text()=\"全般暖・寒候期予報\"]"
+   - "/Report/Control/Title[text()=\"全般スモッグ気象情報\"]"
+##   - "/Report/Control/Title[text()=\"全般海上警報（定時）\"]"
+   - "/Report/Control/Title[text()=\"全般海上警報（臨時）\"]"
+##   - "/Report/Control/Title[text()=\"全般週間天気予報\"]"
+   - "/Report/Control/Title[text()=\"津波警報・注意報・予報\"]"
+   - "/Report/Control/Title[text()=\"津波情報\"]"
+##   - "/Report/Control/Title[text()=\"東海地震予知情報\"]"
+##   - "/Report/Control/Title[text()=\"東海地震注意情報\"]"
+##   - "/Report/Control/Title[text()=\"東海地震に関連する調査情報\"]"
+#震度速報
+   - "/Report/Control/Title[text()=\"震度速報\"]"
+#震源に関する情報
+   - "/Report/Control/Title[text()=\"震源に関する情報\"]"
+#震源・震度に関する情報
+   - "/Report/Control/Title[text()=\"震源・震度に関する情報\"]"
+#地震の活動状況等に関する情報
+   - "/Report/Control/Title[text()=\"地震の活動状況等に関する情報\"]"
+#地震回数に関する情報
+   - "/Report/Control/Title[text()=\"地震回数に関する情報\"]"
+#顕著な地震の震源要素更新のお知らせ
+   - "/Report/Control/Title[text()=\"顕著な地震の震源要素更新のお知らせ\"]"
+##   - "/Report/Control/Title[text()=\"地上概況図\"]"
+#地震・津波に関するお知らせ
+   - "/Report/Control/Title[text()=\"地震・津波に関するお知らせ\"]"
+##   - "/Report/Control/Title[text()=\"海上悪天24時間予想図\"]"
+##   - "/Report/Control/Title[text()=\"海上悪天48時間予想図\"]"
+##   - "/Report/Control/Title[text()=\"火山に関するお知らせ\"]"
+##   - "/Report/Control/Title[text()=\"緊急地震速報（警報）\"]"
+##   - "/Report/Control/Title[text()=\"緊急地震速報（予報）\"]"
 
 # ------------------------------------------------------------
 # 配備時の配信用メッセージ
@@ -274,21 +340,69 @@ send_message:
   parameter: "summary"
   max_length: 2000
   paths: 
+#共通
+   - "/Report/Head/Title/text()"
    - "/Report/Head/Headline/Text/text()"
-   - "/Report/Body/Intensity/Observation/Pref/Area/City/Name[text()=\"××市\"]/text()"
-   - "/Report/Head/Headline/Information/Item[Areas/Area/Name/text()=\"××市\"]/Kind/Name/text()"
-   - "/Report/Body/Tsunami/Forecast/Item/Area/Name[text()=\"○○県\"]/text()"
-   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"○○県\"]/Category/Kind/Name/text()"
-   - "/Report/Body/Warning/Item/Area/Name[text()=\"××市\"]/text()" 
-   - "/Report/Body/Warning/Item[Area/Name/text()=\"××市\"]/Kind/Name/text()"
-   - "/Report/Body/Comments/ForecastComment/Text/text()"
-   - "/Report/Body/Comments/WarningComment/Text/text()"
+#震度速報
+   - "/Report/Body/Intensity/Obsevation/Pref/Area/Name[text()=\"宮城県中部\"]/text()"
+   - "/Report/Head/Headline/Text/text()"
+   - "/Report/Body/Intensity/Obsevation/Pref/Area/Name[text()=\"宮城県中部\"]/text()"
+   - "/Report/Body/Intensity/Obsevation/Pref/Area/Name[text()=\"宮城県中部\"]/MaxInt/text()"
+#震源に関する情報
+   - "/Report/Body/Earthquake/Hypocenter/Area/Nmae[text()=\"宮城県中部\"]/text()"
+   - "/Report/Body/Earthquake/Hypocenter/Area/Nmae[text()=\"宮城県中部\"]/text()"
+   - "/Report/Body/Earthquake/Hypocenter/Area/Nmae[text()=\"宮城県中部\"]/jmx_eb:Coordinate description/text()"
+#震源・震度に関する情報
+   - "/Report/Body/Intensity/Obsevation/Pref/Area/Name[text()=\"石巻市\"]/text()"
+   - "/Report/Body/Intensity/Obsevation/Pref/Area/Name[text()=\"石巻市\"]/Int/text()"
+#地方海上警報
+   - "/Report/Body/Warning/Area/Name[text()=\"三陸沖\"]/text()"
+   - "/Report/Body/Warning/Area/Name[text()=\"三陸沖\"]/text()"
+   - "/Report/Body/Warning/Item/Kind/Name[text()=\"三陸沖\"]/text()"
+#気象警報・注意報／ 記録的短時間大雨情報
+   - "/Report/Head/Title/[text()=\"宮城県気象警報・注意報\"]/text()"
+   - "/Report/Body/Warning/Item/Area[text()=\"宮城県\"]/text()"
+   - "/Report/Body/Warning/Item/Area[text()=\"宮城県東部\"]/text()"
+   - "/Report/Body/Warning/Item/Area[text()=\"石巻地域\"]/text()"
+   - "/Report/Body/Warning/Item/Area[text()=\"石巻市\"]/text()"
+   - "/Report/Body/Warning/Item/Kind/Name/text()"
+   - "/Report/Body/Warning/Item/Kind/Status/text()"
+#異常天候早期警戒情報
+#   - "/Report/Head/Headline/Informaiton/Item/Kind/Name/text()"
+   - "/Report/Head/Headline/Informaiton/Item/Kind/Condition/text()"
+   - "/Report/Head/Headline/Item/Areas/Area[text()=\"宮城県\"]/text()"
+   - "/Report/Head/Headline/Item/Areas/Area[text()=\"宮城県東部\"]/text()"
+   - "/Report/Head/Headline/Item/Areas/Area[text()=\"石巻地区\"]/text()"
+   - "/Report/Head/Headline/Item/Areas/Area[text()=\"石巻市\"]/text()"
+
+#####
+#   - "/Report/Body/Intensity/Observation/Pref/Area/City/Name[text()=\"石巻市\"]/text()"
+#   - "/Report/Head/Headline/Information/Item[Areas/Area/Name/text()=\"石巻市\"]/Kind/Name/text()"
+#   - "/Report/Body/Tsunami/Forecast/Item/Area/Name[text()=\"宮城県\"]/text()"
+#   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name/text()"
+#   - "/Report/Body/Warning/Item/Area/Name[text()=\"石巻市\"]/text()" 
+#   - "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind/Name/text()"
+#   - "/Report/Body/Comments/ForecastComment/Text/text()"
+#   - "/Report/Body/Comments/WarningComment/Text/text()"
+#####
+#   - "/Report/Head/Headline/Text/text()"
+#   - "/Report/Body/Intensity/Observation/Pref/Area/City/Name[text()=\"石巻市\"]/text()"
+#   - "/Report/Head/Headline/Information/Item[Areas/Area/Name/text()=\"石巻市\"]/Kind/Name/text()"
+#   - "/Report/Body/Tsunami/Forecast/Item/Area/Name[text()=\"宮城県\"]/text()"
+#   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name/text()"
+#   - "/Report/Body/Warning/Item/Area/Name[text()=\"石巻市\"]/text()" 
+#   - "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind/Name/text()"
+#   - "/Report/Body/Comments/ForecastComment/Text/text()"
+#   - "/Report/Body/Comments/WarningComment/Text/text()"
+#####
+
+
 
 # ------------------------------------------------------------
 # プロジェクト自動送信用の設定
 # 該当の配備番号の場合はプロジェクト自動送信扱いとする
 # ------------------------------------------------------------
-autosend_disposition_numbers: ["0", "1", "2", "3"]
+autosend_disposition_numbers: ["0", "1", "2", "3","4"]
 
 # 自動送信時にissue拡張フィールドに付加する情報
 autosend_extras: 
@@ -307,9 +421,9 @@ description_type_path: "/Report/Control/Title/text()"
 description_target_param: "description"
 description_contents: 
  "震度速報": 
-  - path: "/Report/Body/Intensity/Observation/Pref/Area/Name[text()=\"○○県中部\"]/text()"
+  - path: "/Report/Body/Intensity/Observation/Pref/Area/Name[text()=\"宮城県中部\"]/text()"
   - 
-   path: "/Report/Body/Intensity/Observation/Pref/Area[Name/text()=\"○○県中部\"]/MaxInt/text()"
+   path: "/Report/Body/Intensity/Observation/Pref/Area[Name/text()=\"宮城県中部\"]/MaxInt/text()"
    decorator: "add_modifier"
   - path: "/Report/Body/Comments/ForecastComment/Text/text()"
  "震源に関する情報": 
@@ -320,9 +434,9 @@ description_contents:
   - path: "/Report/Body/Earthquake/Magnitude/@description"
   - path: "/Report/Body/Comments/ForecastComment/Text/text()"
  "震源・震度に関する情報": 
-  - path: "/Report/Body/Intensity/Observation/Pref/Area/City/Name[text()=\"××市\"]/text()"
+  - path: "/Report/Body/Intensity/Observation/Pref/Area/City/Name[text()=\"石巻市\"]/text()"
   - 
-   path: "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"××市\"]/MaxInt/text()"
+   path: "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt/text()"
    decorator: "add_modifier"
   - 
    path: "/Report/Body/Earthquake/Hypocenter/Area/Name/text()"
@@ -331,70 +445,70 @@ description_contents:
   - path: "/Report/Body/Earthquake/Magnitude/@description"
   - path: "/Report/Body/Comments/ForecastComment/Text/text()"
  "津波警報・注意報・予報": 
-  - path: "/Report/Body/Tsunami/Forecast/Item/Area/Name[text()=\"○○県\"]/text()"
-  - path: "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"○○県\"]/Category/Kind/Name/text()"
+  - path: "/Report/Body/Tsunami/Forecast/Item/Area/Name[text()=\"宮城県\"]/text()"
+  - path: "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name/text()"
   -
-   path: "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"○○県\"]/FirstHeight/ArrivalTime/text()"
+   path: "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/FirstHeight/ArrivalTime/text()"
    header: "津波の到達予想時刻："
-  - path: "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"○○県\"]/FirstHeight/Condition/text()"
+  - path: "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/FirstHeight/Condition/text()"
   - 
-   path: "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"○○県\"]/MaxHeight/TsunamiHeight/@description"
+   path: "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/MaxHeight/TsunamiHeight/@description"
    header: "予想される津波の高さ："
   - path: "/Report/Body/Earthquake/Hypocenter/Area/Name/text()"
   - path: "/Report/Body/Earthquake/Hypocenter/Area/Coordinate/@description"
   - path: "/Report/Body/Earthquake/Magnitude/@description"
   - path: "/Report/Body/Comments/WarningComment/Text/text()"
  "津波情報":
-  - path: "/Report/Body/Tsunami/Observation/Item/Station/Name[text()=\"××市鮎川\"]/text()"
+  - path: "/Report/Body/Tsunami/Observation/Item/Station/Name[text()=\"石巻市鮎川\"]/text()"
   -
-   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"××市鮎川\"]/Station/FirstHeight/ArrivalTime/text()"
+   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"石巻市鮎川\"]/Station/FirstHeight/ArrivalTime/text()"
    header: "津波の第１波観測時刻："
   -
-   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"××市鮎川\"]/Station/FirstHeight/TsunamiHeight/@Type"
+   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"石巻市鮎川\"]/Station/FirstHeight/TsunamiHeight/@Type"
    delimiter: " "
-  - path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"××市鮎川\"]/Station/MaxHeight/TsunamiHeight/@description"
+  - path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"石巻市鮎川\"]/Station/MaxHeight/TsunamiHeight/@description"
   -
-   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"××市鮎川\"]/Station/MaxHeight/DateTime/text()"
+   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"石巻市鮎川\"]/Station/MaxHeight/DateTime/text()"
    header: "津波の最大波観測時刻："
   -
-   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"××市鮎川\"]/FirstHeight/TsunamiHeight/@Type"
+   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"石巻市鮎川\"]/FirstHeight/TsunamiHeight/@Type"
    delimiter: " "
-  - path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"××市鮎川\"]/FirstHeight/TsunamiHeight/@description"
-  - path: "/Report/Body/Tsunami/Forecast/Item/Station/Name[text()=\"××市鮎川\"]/text()"
+  - path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"石巻市鮎川\"]/FirstHeight/TsunamiHeight/@description"
+  - path: "/Report/Body/Tsunami/Forecast/Item/Station/Name[text()=\"石巻市鮎川\"]/text()"
   -
-   path: "/Report/Body/Tsunami/Forecast/Item/Station[Name/text()=\"××市鮎川\"]/HighTideDateTime/text()"
+   path: "/Report/Body/Tsunami/Forecast/Item/Station[Name/text()=\"石巻市鮎川\"]/HighTideDateTime/text()"
    header: "満潮時刻："
   -
-   path: "/Report/Body/Tsunami/Forecast/Item/Station[Name/text()=\"××市鮎川\"]/FirstHeight/ArrivalTime/text()"
+   path: "/Report/Body/Tsunami/Forecast/Item/Station[Name/text()=\"石巻市鮎川\"]/FirstHeight/ArrivalTime/text()"
    header: "津波の到達予想時刻："
-  - path: "/Report/Body/Tsunami/Forecast/Item/Station[Name/text()=\"××市鮎川\"]/FirstHeight/Condition/text()"
+  - path: "/Report/Body/Tsunami/Forecast/Item/Station[Name/text()=\"石巻市鮎川\"]/FirstHeight/Condition/text()"
   - path: "/Report/Body/Earthquake/Hypocenter/Area/Name/text()"
   - path: "/Report/Body/Earthquake/Hypocenter/Area/Coordinate/@description"
   - path: "/Report/Body/Earthquake/Magnitude/@description"
   - path: "/Report/Body/Comments/WarningComment/Text/text()"
  "沖合の津波観測に関する情報": 
-  - path: "/Report/Body/Tsunami/Observation/Item/Station/Name[text()=\"○○金華山沖\"]/text()"
+  - path: "/Report/Body/Tsunami/Observation/Item/Station/Name[text()=\"宮城金華山沖\"]/text()"
   - 
-   path: "/Report/Body/Tsunami/Observation/Item/Station[Name/text()=\"○○金華山沖\"]/FirstHeight/ArrivalTime/text()"
+   path: "/Report/Body/Tsunami/Observation/Item/Station[Name/text()=\"宮城金華山沖\"]/FirstHeight/ArrivalTime/text()"
    header: "津波の第１波観測時刻："
   - 
-   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"○○金華山沖\"]/Station/FirstHeight/TsunamiHeight/@Type"
+   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"宮城金華山沖\"]/Station/FirstHeight/TsunamiHeight/@Type"
    delimiter: " "
-  - path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"○○金華山沖\"]/Station/FirstHeight/TsunamiHeight/@description"
+  - path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"宮城金華山沖\"]/Station/FirstHeight/TsunamiHeight/@description"
   - 
-   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"○○金華山沖\"]/Station/MaxHeight/DateTime/text()"
+   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"宮城金華山沖\"]/Station/MaxHeight/DateTime/text()"
    header: "津波の最大観測時刻："
   - 
-   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"○○金華山沖\"]/Station/MaxHeight/TsunamiHeight/@Type"
+   path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"宮城金華山沖\"]/Station/MaxHeight/TsunamiHeight/@Type"
    delimiter: " "
-  - path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"○○金華山沖\"]/Station/MaxHeight/TsunamiHeight/@description"
-  - path: "/Report/Body/Tsunami/Estimation/Item/Area/Name[text()=\"○○県\"]/text()"
+  - path: "/Report/Body/Tsunami/Observation/Item[Station/Name/text()=\"宮城金華山沖\"]/Station/MaxHeight/TsunamiHeight/@description"
+  - path: "/Report/Body/Tsunami/Estimation/Item/Area/Name[text()=\"宮城県\"]/text()"
   - 
-   path: "/Report/Body/Tsunami/Estimation/Item[Area/Name/text()=\"○○県\"]/FirstHeight/ArrivalTime/text()"
+   path: "/Report/Body/Tsunami/Estimation/Item[Area/Name/text()=\"宮城県\"]/FirstHeight/ArrivalTime/text()"
    header: "津波の到達予想時刻："
-  - path: "/Report/Body/Tsunami/Estimation/Item[Area/Name/text()=\"○○県\"]/FirstHeight/Condition/text()"
+  - path: "/Report/Body/Tsunami/Estimation/Item[Area/Name/text()=\"宮城県\"]/FirstHeight/Condition/text()"
   - 
-   path: "/Report/Body/Tsunami/Estimation/Item[Area/Name/text()=\"○○県\"]/MaxHeight/TsunamiHeight/@description"
+   path: "/Report/Body/Tsunami/Estimation/Item[Area/Name/text()=\"宮城県\"]/MaxHeight/TsunamiHeight/@description"
    header: "予想される津波の高さ："
   - path: "/Report/Body/Earthquake/Hypocenter/Area/Name/text()"
   - path: "/Report/Body/Earthquake/Hypocenter/Area/Coordinate/@description"
@@ -402,9 +516,9 @@ description_contents:
   - path: "/Report/Body/Comments/WarningComment/Text/text()"
  "気象警報・注意報":
   -
-   path: "/Report/Body/Warning/Item[Area/Name/text()=\"××市\"]/Area/Name/text()"
+   path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Area/Name/text()"
    child_nodes: 
-    - root: "/Report/Body/Warning/Item[Area/Name/text()=\"××市\"]/Kind"
+    - root: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind"
     - path: "Name/text()"
     - path: "Status/text()"
     - path: "Condition/text()"
@@ -412,7 +526,7 @@ description_contents:
      child_nodes:
       - root: "Attention/Note"
       - path: "text()"
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"××市\"]/ChangeStatus/text()"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/ChangeStatus/text()"
  "地方海上警報":
   - path: "/Report/Body/Warning/Item[Kind/Property/Type/text()=\"風\"][Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Area/Name/text()"
   - path: "/Report/Body/Warning/Item[Kind/Property/Type/text()=\"風\"][Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]/Kind/Name/text()"
@@ -429,20 +543,20 @@ description_contents:
  "異常天候早期警戒情報":
   - path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Areas/Area/Name/text()=\"東北地方\" or Areas/Area/Name/text()=\"東北南部\" or Areas/Area/Name/text()=\"東北太平洋側\"]/Kind/Property/Text/text()"
  "竜巻注意情報":
-  - path: "/Report/Body/Warning/Item/Area/Name[text()=\"××市\"]/text()"
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"××市\"]/Kind/Name/text()"
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"××市\"]/Kind/Status/text()"
+  - path: "/Report/Body/Warning/Item/Area/Name[text()=\"石巻市\"]/text()"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind/Name/text()"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind/Status/text()"
  "土砂災害警戒情報":
-  - path: "/Report/Body/Warning/Item/Area/Name[text()=\"××市\"]/text()"
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"××市\"]/Kind/Name/text()"
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"××市\"]/Kind/Status/text()"
+  - path: "/Report/Body/Warning/Item/Area/Name[text()=\"石巻市\"]/text()"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind/Name/text()"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind/Status/text()"
 
  "指定河川洪水予報":
   - path: "/Report/Body/Warning/Item/Areas/Area/Name[text()=\"北上川\" or text()=\"旧北上川\" or text()=\"江合川\"]/text()"
   - path: "/Report/Body/Warning/Item[Areas/Area/Name/text()=\"北上川\" or Areas/Area/Name/text()=\"旧北上川\" or Areas/Area/Name/text()=\"江合川\"]/Kind/Property/Text/text()"
-  - path: "/Report/Body/Warning/Item/Areas/Area/City[text()=\"××市\"]/text()"
-  - path: "/Report/Body/Warning/Item[Areas/Area/City/text()=\"××市\"]/Kind/Name/text()"
-  - path: "/Report/Body/Warning/Item[Areas/Area/City/text()=\"××市\"]/Kind/Property/Text/text()"
+  - path: "/Report/Body/Warning/Item/Areas/Area/City[text()=\"石巻市\"]/text()"
+  - path: "/Report/Body/Warning/Item[Areas/Area/City/text()=\"石巻市\"]/Kind/Name/text()"
+  - path: "/Report/Body/Warning/Item[Areas/Area/City/text()=\"石巻市\"]/Kind/Property/Text/text()"
  "地方高温注意情報":
   - path: "/Report/Body/Comment/Text/text()"
  "府県高温注意情報":
