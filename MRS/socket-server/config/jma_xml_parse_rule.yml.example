@@ -276,7 +276,10 @@ disposition:
    - "/Report/Control/Title[text()=\"異常天候早期警戒情報\"]"
    - "/Report/Control/Title[text()=\"地方天候情報\"]"
    - "/Report/Control/Title[text()=\"地方高温注意情報\"]"
-   - "/Report/Control/Title[text()=\"地方海上警報\"]"
+# 地方海上警報サンプル
+#   - "/Report/Control/Title[text()=\"地方海上警報\"]"
+   - "/Report[Head/Title/text()=\"地方海上警報\"]/Body/Warning/Item[Area/Name/text()=\"三陸沖\" or Area/Name/text()=\"三陸沖東部\" or Area/Name/text()=\"三陸沖西部\"]"
+
    - "/Report/Control/Title[text()=\"地方海上予報\"]"
 # 府県天気予報
 #   - "/Report/Control/Title[text()=\"府県天気予報\"]"
