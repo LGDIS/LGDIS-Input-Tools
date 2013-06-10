@@ -256,7 +256,7 @@ disposition:
    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"6-\"]"
    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"6-\"]"
    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"7\"]"
-## for Twitter
+# for Twitter
  - 
   number: "4"
   paths: 
@@ -268,7 +268,7 @@ disposition:
    - "/Report/Control/Title[text()=\"生物季節観測\"]"
    - "/Report/Control/Title[text()=\"特殊気象報\"]"
    - "/Report/Control/Title[text()=\"紫外線観測データ\"]"
-   - "/Report/Control/Title[text()=\"全般潮位情報\"]"
+#   - "/Report/Control/Title[text()=\"全般潮位情報\"]"
    - "/Report/Control/Title[text()=\"地方潮位情報\"]"
    - "/Report/Control/Title[text()=\"府県潮位情報\"]"
    - "/Report/Control/Title[text()=\"府県海氷予報\"]"
@@ -276,7 +276,7 @@ disposition:
    - "/Report/Control/Title[text()=\"異常天候早期警戒情報\"]"
    - "/Report/Control/Title[text()=\"地方天候情報\"]"
    - "/Report/Control/Title[text()=\"地方高温注意情報\"]"
-   - "/Report/Control/Title[text()=\"地方海上警報\"]"
+#   - "/Report/Control/Title[text()=\"地方海上警報\"]"
    - "/Report/Control/Title[text()=\"地方海上予報\"]"
    - "/Report/Control/Title[text()=\"府県天気予報\"]"
    - "/Report/Control/Title[text()=\"天気概況\"]"
@@ -285,43 +285,43 @@ disposition:
    - "/Report/Control/Title[text()=\"竜巻注意情報\"]"
    - "/Report/Control/Title[text()=\"スモッグ気象情報\"]"
    - "/Report/Control/Title[text()=\"全般台風情報\"]"
-##   - "/Report/Control/Title[text()=\"台風解析・予報情報（３日予報）\"]"
-##   - "/Report/Control/Title[text()=\"台風解析・予報情報（５日予報）\"]"
+#   - "/Report/Control/Title[text()=\"台風解析・予報情報（３日予報）\"]"
+#   - "/Report/Control/Title[text()=\"台風解析・予報情報（５日予報）\"]"
    - "/Report/Control/Title[text()=\"気象警報・注意報\"]"
-##   - "/Report/Control/Title[text()=\"全般天候情報\"]"
-##   - "/Report/Control/Title[text()=\"全般気象情報\"]"
-##   - "/Report/Control/Title[text()=\"全般1か月予報\"]"
-##   - "/Report/Control/Title[text()=\"全般3か月予報\"]"
+#   - "/Report/Control/Title[text()=\"全般天候情報\"]"
+#   - "/Report/Control/Title[text()=\"全般気象情報\"]"
+#   - "/Report/Control/Title[text()=\"全般1か月予報\"]"
+#   - "/Report/Control/Title[text()=\"全般3か月予報\"]"
    - "/Report/Control/Title[text()=\"全般暖・寒候期予報\"]"
    - "/Report/Control/Title[text()=\"全般スモッグ気象情報\"]"
-##   - "/Report/Control/Title[text()=\"全般海上警報（定時）\"]"
+#   - "/Report/Control/Title[text()=\"全般海上警報（定時）\"]"
    - "/Report/Control/Title[text()=\"全般海上警報（臨時）\"]"
-##   - "/Report/Control/Title[text()=\"全般週間天気予報\"]"
+#   - "/Report/Control/Title[text()=\"全般週間天気予報\"]"
    - "/Report/Control/Title[text()=\"津波警報・注意報・予報\"]"
    - "/Report/Control/Title[text()=\"津波情報\"]"
-##   - "/Report/Control/Title[text()=\"東海地震予知情報\"]"
-##   - "/Report/Control/Title[text()=\"東海地震注意情報\"]"
-##   - "/Report/Control/Title[text()=\"東海地震に関連する調査情報\"]"
-#震度速報
+#   - "/Report/Control/Title[text()=\"東海地震予知情報\"]"
+#   - "/Report/Control/Title[text()=\"東海地震注意情報\"]"
+#   - "/Report/Control/Title[text()=\"東海地震に関連する調査情報\"]"
+# 震度速報
    - "/Report/Control/Title[text()=\"震度速報\"]"
-#震源に関する情報
+# 震源に関する情報
    - "/Report/Control/Title[text()=\"震源に関する情報\"]"
-#震源・震度に関する情報
+# 震源・震度に関する情報
    - "/Report/Control/Title[text()=\"震源・震度に関する情報\"]"
-#地震の活動状況等に関する情報
+# 地震の活動状況等に関する情報
    - "/Report/Control/Title[text()=\"地震の活動状況等に関する情報\"]"
-#地震回数に関する情報
+# 地震回数に関する情報
    - "/Report/Control/Title[text()=\"地震回数に関する情報\"]"
-#顕著な地震の震源要素更新のお知らせ
+# 顕著な地震の震源要素更新のお知らせ
    - "/Report/Control/Title[text()=\"顕著な地震の震源要素更新のお知らせ\"]"
-##   - "/Report/Control/Title[text()=\"地上概況図\"]"
-#地震・津波に関するお知らせ
+#   - "/Report/Control/Title[text()=\"地上概況図\"]"
+# 地震・津波に関するお知らせ
    - "/Report/Control/Title[text()=\"地震・津波に関するお知らせ\"]"
-##   - "/Report/Control/Title[text()=\"海上悪天24時間予想図\"]"
-##   - "/Report/Control/Title[text()=\"海上悪天48時間予想図\"]"
-##   - "/Report/Control/Title[text()=\"火山に関するお知らせ\"]"
-##   - "/Report/Control/Title[text()=\"緊急地震速報（警報）\"]"
-##   - "/Report/Control/Title[text()=\"緊急地震速報（予報）\"]"
+#   - "/Report/Control/Title[text()=\"海上悪天24時間予想図\"]"
+#   - "/Report/Control/Title[text()=\"海上悪天48時間予想図\"]"
+#   - "/Report/Control/Title[text()=\"火山に関するお知らせ\"]"
+#   - "/Report/Control/Title[text()=\"緊急地震速報（警報）\"]"
+#   - "/Report/Control/Title[text()=\"緊急地震速報（予報）\"]"
 
 # ------------------------------------------------------------
 # 配備時の配信用メッセージ
@@ -340,26 +340,25 @@ send_message:
   parameter: "summary"
   max_length: 2000
   paths: 
-#共通
+# 共通
    - "/Report/Head/Title/text()"
    - "/Report/Head/Headline/Text/text()"
-#震度速報
+# 震度速報
    - "/Report/Body/Intensity/Obsevation/Pref/Area/Name[text()=\"宮城県中部\"]/text()"
-   - "/Report/Head/Headline/Text/text()"
    - "/Report/Body/Intensity/Obsevation/Pref/Area/Name[text()=\"宮城県中部\"]/text()"
    - "/Report/Body/Intensity/Obsevation/Pref/Area/Name[text()=\"宮城県中部\"]/MaxInt/text()"
-#震源に関する情報
+# 震源に関する情報
    - "/Report/Body/Earthquake/Hypocenter/Area/Nmae[text()=\"宮城県中部\"]/text()"
    - "/Report/Body/Earthquake/Hypocenter/Area/Nmae[text()=\"宮城県中部\"]/text()"
    - "/Report/Body/Earthquake/Hypocenter/Area/Nmae[text()=\"宮城県中部\"]/jmx_eb:Coordinate description/text()"
-#震源・震度に関する情報
+# 震源・震度に関する情報
    - "/Report/Body/Intensity/Obsevation/Pref/Area/Name[text()=\"石巻市\"]/text()"
    - "/Report/Body/Intensity/Obsevation/Pref/Area/Name[text()=\"石巻市\"]/Int/text()"
-#地方海上警報
+# 地方海上警報
    - "/Report/Body/Warning/Area/Name[text()=\"三陸沖\"]/text()"
    - "/Report/Body/Warning/Area/Name[text()=\"三陸沖\"]/text()"
    - "/Report/Body/Warning/Item/Kind/Name[text()=\"三陸沖\"]/text()"
-#気象警報・注意報／ 記録的短時間大雨情報
+# 気象警報・注意報／ 記録的短時間大雨情報
    - "/Report/Head/Title/[text()=\"宮城県気象警報・注意報\"]/text()"
    - "/Report/Body/Warning/Item/Area[text()=\"宮城県\"]/text()"
    - "/Report/Body/Warning/Item/Area[text()=\"宮城県東部\"]/text()"
@@ -367,15 +366,14 @@ send_message:
    - "/Report/Body/Warning/Item/Area[text()=\"石巻市\"]/text()"
    - "/Report/Body/Warning/Item/Kind/Name/text()"
    - "/Report/Body/Warning/Item/Kind/Status/text()"
-#異常天候早期警戒情報
-#   - "/Report/Head/Headline/Informaiton/Item/Kind/Name/text()"
+# 異常天候早期警戒情報
    - "/Report/Head/Headline/Informaiton/Item/Kind/Condition/text()"
    - "/Report/Head/Headline/Item/Areas/Area[text()=\"宮城県\"]/text()"
    - "/Report/Head/Headline/Item/Areas/Area[text()=\"宮城県東部\"]/text()"
    - "/Report/Head/Headline/Item/Areas/Area[text()=\"石巻地区\"]/text()"
    - "/Report/Head/Headline/Item/Areas/Area[text()=\"石巻市\"]/text()"
-
-#####
+#
+#
 #   - "/Report/Body/Intensity/Observation/Pref/Area/City/Name[text()=\"石巻市\"]/text()"
 #   - "/Report/Head/Headline/Information/Item[Areas/Area/Name/text()=\"石巻市\"]/Kind/Name/text()"
 #   - "/Report/Body/Tsunami/Forecast/Item/Area/Name[text()=\"宮城県\"]/text()"
@@ -384,7 +382,7 @@ send_message:
 #   - "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind/Name/text()"
 #   - "/Report/Body/Comments/ForecastComment/Text/text()"
 #   - "/Report/Body/Comments/WarningComment/Text/text()"
-#####
+#
 #   - "/Report/Head/Headline/Text/text()"
 #   - "/Report/Body/Intensity/Observation/Pref/Area/City/Name[text()=\"石巻市\"]/text()"
 #   - "/Report/Head/Headline/Information/Item[Areas/Area/Name/text()=\"石巻市\"]/Kind/Name/text()"
@@ -394,7 +392,7 @@ send_message:
 #   - "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind/Name/text()"
 #   - "/Report/Body/Comments/ForecastComment/Text/text()"
 #   - "/Report/Body/Comments/WarningComment/Text/text()"
-#####
+#
 
 
 
