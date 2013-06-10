@@ -276,9 +276,12 @@ disposition:
    - "/Report/Control/Title[text()=\"異常天候早期警戒情報\"]"
    - "/Report/Control/Title[text()=\"地方天候情報\"]"
    - "/Report/Control/Title[text()=\"地方高温注意情報\"]"
-#   - "/Report/Control/Title[text()=\"地方海上警報\"]"
+   - "/Report/Control/Title[text()=\"地方海上警報\"]"
    - "/Report/Control/Title[text()=\"地方海上予報\"]"
-   - "/Report/Control/Title[text()=\"府県天気予報\"]"
+# 府県天気予報
+#   - "/Report/Control/Title[text()=\"府県天気予報\"]"
+   - "/Report/Head/Title/text()=\"宮城県府県天気予報\"]"
+#
    - "/Report/Control/Title[text()=\"天気概況\"]"
    - "/Report/Control/Title[text()=\"府県天候情報\"]"
    - "/Report/Control/Title[text()=\"府県気象情報\"]"
@@ -345,12 +348,10 @@ send_message:
    - "/Report/Head/Headline/Text/text()"
 # 震度速報
    - "/Report/Body/Intensity/Obsevation/Pref/Area/Name[text()=\"宮城県中部\"]/text()"
-   - "/Report/Body/Intensity/Obsevation/Pref/Area/Name[text()=\"宮城県中部\"]/text()"
    - "/Report/Body/Intensity/Obsevation/Pref/Area/Name[text()=\"宮城県中部\"]/MaxInt/text()"
 # 震源に関する情報
-   - "/Report/Body/Earthquake/Hypocenter/Area/Nmae[text()=\"宮城県中部\"]/text()"
-   - "/Report/Body/Earthquake/Hypocenter/Area/Nmae[text()=\"宮城県中部\"]/text()"
-   - "/Report/Body/Earthquake/Hypocenter/Area/Nmae[text()=\"宮城県中部\"]/jmx_eb:Coordinate description/text()"
+   - "/Report/Body/Earthquake/Hypocenter/Area/Name[text()=\"宮城県中部\"]/text()"
+   - "/Report/Body/Earthquake/Hypocenter/Area/Name[text()=\"宮城県中部\"]/@description"
 # 震源・震度に関する情報
    - "/Report/Body/Intensity/Obsevation/Pref/Area/Name[text()=\"石巻市\"]/text()"
    - "/Report/Body/Intensity/Obsevation/Pref/Area/Name[text()=\"石巻市\"]/Int/text()"
@@ -359,13 +360,15 @@ send_message:
    - "/Report/Body/Warning/Area/Name[text()=\"三陸沖\"]/text()"
    - "/Report/Body/Warning/Item/Kind/Name[text()=\"三陸沖\"]/text()"
 # 気象警報・注意報／ 記録的短時間大雨情報
-   - "/Report/Head/Title/[text()=\"宮城県気象警報・注意報\"]/text()"
-   - "/Report/Body/Warning/Item/Area[text()=\"宮城県\"]/text()"
-   - "/Report/Body/Warning/Item/Area[text()=\"宮城県東部\"]/text()"
-   - "/Report/Body/Warning/Item/Area[text()=\"石巻地域\"]/text()"
-   - "/Report/Body/Warning/Item/Area[text()=\"石巻市\"]/text()"
-   - "/Report/Body/Warning/Item/Kind/Name/text()"
-   - "/Report/Body/Warning/Item/Kind/Status/text()"
+   - "/Report/Head/Title[text()=\"宮城県気象警報・注意報\"]/text()"
+   - "/Report/Body/Warning/Item[Area/text()=\"宮城県\"]/Kind/Name/text()"
+   - "/Report/Body/Warning/Item[Area/text()=\"宮城県\"]/Kind/Status/text()"
+   - "/Report/Body/Warning/Item[Area/text()=\"宮城県東部\"]/Kind/Name/text()"
+   - "/Report/Body/Warning/Item[Area/text()=\"宮城県東部\"]/Kind/Status/text()"
+   - "/Report/Body/Warning/Item[Area/text()=\"石巻地域\"]/Kind/Name/text()"
+   - "/Report/Body/Warning/Item[Area/text()=\"石巻地域\"]/Kind/Status/text()"
+   - "/Report/Body/Warning/Item[Area/text()=\"石巻市\"]/Kind/Name/text()"
+   - "/Report/Body/Warning/Item[Area/text()=\"石巻市\"]/Kind/Status/text()"
 # 異常天候早期警戒情報
    - "/Report/Head/Headline/Informaiton/Item/Kind/Condition/text()"
    - "/Report/Head/Headline/Item/Areas/Area[text()=\"宮城県\"]/text()"
