@@ -109,7 +109,7 @@ module Mrsss
       
       # 拡張子を作成してデータ内容をアーカイブにする
       extension = gen_extension(message)
-      Util.archive(contents, @archive_path, extension)
+      Util.archive_ext(contents, @archive_path, @channel_name, extension)
       
       # message_typeが'JL'の場合はtarファイルのためtarファイルを解凍する
       # このtarファイル内のテキストデータはShift_JIS文字コードのため
