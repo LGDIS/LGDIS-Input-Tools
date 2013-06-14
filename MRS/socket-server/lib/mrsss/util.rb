@@ -95,6 +95,23 @@ module Mrsss
       # ファイル保存
       File.binwrite(File.join(archive_path, file_name), contents)
     end
+
+    # 引数データをとして保存します。ファイル名は現在日時を+YYYYMMDD_hhmmss+形式で表現したものになります。
+    # ==== Args
+    # _contents_ :: 保存するデータ(String)
+    # _archive_path_ :: データ保存ディレクトリ
+    # _thread_id_ :: データ保存ディレクトリ
+    # _ext_ :: ファイルの拡張子
+    # ==== Return
+    # ==== Raise
+    def self.archive_ext(contents, archive_path, thread_id, ext)
+      # 現在日時.<拡張子>の形式でファイル名を作成
+      now = Time.now
+      file_name = now.strftime("%Y%m%d_%H%M%S") + '_' + thread_id + '.' + ext
+      
+      # ファイル保存
+      File.binwrite(File.join(archive_path, file_name), contents)
+    end
     
     # tarパッケージされたデータ(String)を解凍して返却します。tar内の日本語ファイルの文字コードは"Shift-JIS"であることを前提とします。
     # ==== Args
