@@ -30,7 +30,7 @@ pdf_config:
  content_type: "application/pdf"
 
 txt_config: 
- subject: "内閣官房長"
+ subject: "J-Alert発信（内閣官房）"
  project_id: "I04202000000000000001"
  tracker_id: "77"
  description: ""
