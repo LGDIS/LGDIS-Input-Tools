@@ -7,56 +7,67 @@ channels:
   port: 36010
   archive_path: "/home/mrsuser/LGDIS-Input-Tools/MRS/archives/socket/jalert"
   channel_id: "JAL"
+  mode: 0
 
  JAL-Earthquake-Training:
   port: 36011
   archive_path: "/home/mrsuser/LGDIS-Input-Tools/MRS/archives/socket/jalert"
   channel_id: "JAL"
+  mode: 1
 
  JAL-Tsunami-Normal:
   port: 36020
   archive_path: "/home/mrsuser/LGDIS-Input-Tools/MRS/archives/socket/jalert"
   channel_id: "JAL"
+  mode: 0
 
  JAL-Tsunami-Training:
   port: 36021
   archive_path: "/home/mrsuser/LGDIS-Input-Tools/MRS/archives/socket/jalert"
   channel_id: "JAL"
+  mode: 1
 
  JAL-Volcano-Normal:
   port: 36030
   archive_path: "/home/mrsuser/LGDIS-Input-Tools/MRS/archives/socket/jalert"
   channel_id: "JAL"
+  mode: 0
 
  JAL-Volcano-Training:
   port: 36031
   archive_path: "/home/mrsuser/LGDIS-Input-Tools/MRS/archives/socket/jalert"
   channel_id: "JAL"
+  mode: 1
 
  JAL-Meteorological-Normal:
   port: 36040
   archive_path: "/home/mrsuser/LGDIS-Input-Tools/MRS/archives/socket/jalert"
   channel_id: "JAL"
+  mode: 0
 
  JAL-Meteorological-Training:
   port: 36041
   archive_path: "/home/mrsuser/LGDIS-Input-Tools/MRS/archives/socket/jalert"
   channel_id: "JAL"
+  mode: 1
 
  JAL-Cabinet-Normal:
   port: 36000
   archive_path: "/home/mrsuser/LGDIS-Input-Tools/MRS/archives/socket/jalert"
   channel_id: "JAL"
+  mode: 0
 
  JAL-Cabinet-Training:
   port: 36001
   archive_path: "/home/mrsuser/LGDIS-Input-Tools/MRS/archives/socket/jalert"
   channel_id: "JAL"
+  mode: 1
 
  JMA:
   port: 60123
   archive_path: "/home/mrsuser/LGDIS-Input-Tools/MRS/archives/socket/jma"
   channel_id: "JMA"
+  mode: 0
 
 # BCHのチェックサム値によるチェック要否
 # true チェック要
