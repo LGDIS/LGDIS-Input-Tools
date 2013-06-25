@@ -31,7 +31,7 @@ log4r_config:
      date_pattern: "%H:%M:%S"
   - name: "F1"
     type: "RollingFileOutputter"
-    filename: "/home/mrsuser/MRS/socket-server/log/server.log"
+    filename: "/home/mrsuser/LGDIS-Input-Tools/MRS/socket-server/log/server.log"
     maxsize: 10000
     maxtime: 86400
     trunc: "false"
@@ -42,7 +42,7 @@ log4r_config:
      date_pattern: "%Y/%m/%d %H:%M:%S"
   - name: "F2"
     type: "RollingFileOutputter"
-    filename: "/home/mrsuser/MRS/socket-server/log/parser.log"
+    filename: "/home/mrsuser/LGDIS-Input-Tools/MRS/socket-server/log/parser.log"
     maxsize: 10000
     maxtime: 86400
     trunc: "false"
