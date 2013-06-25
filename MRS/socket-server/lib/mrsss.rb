@@ -142,7 +142,7 @@ module Mrsss
       threads = []
       config['channels'].each do |channel_name, entry|
         thread = Thread.new do
-          server = Server.new(channel_name, entry['channel_id'], entry['port'], entry['archive_path'], config['mode'], config['need_checksum'], config['use_queue'])
+          server = Server.new(channel_name, entry['channel_id'], entry['port'], entry['archive_path'], entry['mode'], config['need_checksum'], config['use_queue'])
           server.start
         end
         threads.push(thread)
