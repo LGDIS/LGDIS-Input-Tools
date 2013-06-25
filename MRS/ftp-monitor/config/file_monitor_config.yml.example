@@ -5,18 +5,18 @@
 # file monitoring threads
 threads:
  JMA:
-  monitor_path: "/home/mrsuser/received_files/ftp/jma"
+  monitor_path: "/home/mrsuser/LGDIS-Input-Tools/received_files/ftp/jma"
   source_id: "JMA"
-  archive_path: "/home/mrsuser/MRS/archives/ftp/jma"
+  archive_path: "/home/mrsuser/LGDIS-Input-Tools/MRS/archives/ftp/jma"
   filters:
     - "*.xml"
     - "*.bin"
     - "*.tar.gz"
 
  KSN:
-  monitor_path: "/home/mrsuser/received_files/ftp/ksn"
+  monitor_path: "/home/mrsuser/LGDIS-Input-Tools/received_files/ftp/ksn"
   source_id: "KSN"
-  archive_path: "/home/mrsuser/MRS/archives/ftp/ksn"
+  archive_path: "/home/mrsuser/LGDIS-Input-Tools/MRS/archives/ftp/ksn"
   filters:
    - "*.xml"
    - "*.tar.gz"

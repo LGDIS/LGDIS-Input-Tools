@@ -5,57 +5,57 @@
 channels:
  JAL-Earthquake-Normal:
   port: 36010
-  archive_path: "/home/mrsuser/MRS/archives/socket/jalert"
+  archive_path: "/home/mrsuser/LGDIS-Input-Tools/MRS/archives/socket/jalert"
   channel_id: "JAL"
 
  JAL-Earthquake-Training:
   port: 36011
-  archive_path: "/home/mrsuser/MRS/archives/socket/jalert"
+  archive_path: "/home/mrsuser/LGDIS-Input-Tools/MRS/archives/socket/jalert"
   channel_id: "JAL"
 
  JAL-Tsunami-Normal:
   port: 36020
-  archive_path: "/home/mrsuser/MRS/archives/socket/jalert"
+  archive_path: "/home/mrsuser/LGDIS-Input-Tools/MRS/archives/socket/jalert"
   channel_id: "JAL"
 
  JAL-Tsunami-Training:
   port: 36021
-  archive_path: "/home/mrsuser/MRS/archives/socket/jalert"
+  archive_path: "/home/mrsuser/LGDIS-Input-Tools/MRS/archives/socket/jalert"
   channel_id: "JAL"
 
  JAL-Volcano-Normal:
   port: 36030
-  archive_path: "/home/mrsuser/MRS/archives/socket/jalert"
+  archive_path: "/home/mrsuser/LGDIS-Input-Tools/MRS/archives/socket/jalert"
   channel_id: "JAL"
 
  JAL-Volcano-Training:
   port: 36031
-  archive_path: "/home/mrsuser/MRS/archives/socket/jalert"
+  archive_path: "/home/mrsuser/LGDIS-Input-Tools/MRS/archives/socket/jalert"
   channel_id: "JAL"
 
  JAL-Meteorological-Normal:
   port: 36040
-  archive_path: "/home/mrsuser/MRS/archives/socket/jalert"
+  archive_path: "/home/mrsuser/LGDIS-Input-Tools/MRS/archives/socket/jalert"
   channel_id: "JAL"
 
  JAL-Meteorological-Training:
   port: 36041
-  archive_path: "/home/mrsuser/MRS/archives/socket/jalert"
+  archive_path: "/home/mrsuser/LGDIS-Input-Tools/MRS/archives/socket/jalert"
   channel_id: "JAL"
 
  JAL-Cabinet-Normal:
   port: 36000
-  archive_path: "/home/mrsuser/MRS/archives/socket/jalert"
+  archive_path: "/home/mrsuser/LGDIS-Input-Tools/MRS/archives/socket/jalert"
   channel_id: "JAL"
 
  JAL-Cabinet-Training:
   port: 36001
-  archive_path: "/home/mrsuser/MRS/archives/socket/jalert"
+  archive_path: "/home/mrsuser/LGDIS-Input-Tools/MRS/archives/socket/jalert"
   channel_id: "JAL"
 
  JMA:
   port: 60123
-  archive_path: "/home/mrsuser/MRS/archives/socket/jma"
+  archive_path: "/home/mrsuser/LGDIS-Input-Tools/MRS/archives/socket/jma"
   channel_id: "JMA"
 
 # BCHのチェックサム値によるチェック要否
