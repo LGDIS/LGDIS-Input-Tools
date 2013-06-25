@@ -19,3 +19,6 @@ queue.yml
 /shells
 /test/temporaryFile
 
+MRS/ftp-monitor/log/*
+MRS/socket-server/log/*
+
