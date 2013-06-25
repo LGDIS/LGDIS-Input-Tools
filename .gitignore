@@ -1,21 +1,26 @@
-# java
-*.class
-*.war
-*.ear
-
-# eclipse
-/bin
-.project
-.classpath
-.settings/
-
 # mac
 .DS_Store
 
-# project specifity
-parser.yml
-receiver.yml
-queue.yml
-/shells
-/test/temporaryFile
+MRS/archives/ftp/jma/*
+MRS/archives/ftp/ksn/*
+MRS/archives/socket/jalert/*
+MRS/archives/socket/jma/*
+
+MRS/ftp-monitor/config/file_monitor_config.yml
+MRS/ftp-monitor/config/log4r.yml
+MRS/ftp-monitor/config/mail_config.yml
+MRS/ftp-monitor/config/socket.yml
+MRS/ftp-monitor/log/*
+MRS/ftp-monitor/tmp/*
+
+MRS/socket-server/config/jma_xml_parse_rule.yml
+MRS/socket-server/config/ksn_xml_parse_rule.yml
+MRS/socket-server/config/log4r.yml
+MRS/socket-server/config/mrsss_config.yml
+MRS/socket-server/config/redmine.yml
+MRS/socket-server/log/*
+MRS/socket-server/tmp/*
+
+received_files/ftp/jma/*
+received_files/ftp/ksn/*
 

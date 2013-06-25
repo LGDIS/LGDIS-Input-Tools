@@ -5,7 +5,7 @@ base_dir = File.dirname(File.dirname(File.expand_path(__FILE__)))
 
 # load libraries path
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
-$LOAD_PATH.unshift '/home/mrsuser/MRS/socket-server/lib'
+$LOAD_PATH.unshift '/home/mrsuser/LGDIS-Input-Tools/MRS/socket-server/lib'
 
 require "daemons"
 require "mrsfm"

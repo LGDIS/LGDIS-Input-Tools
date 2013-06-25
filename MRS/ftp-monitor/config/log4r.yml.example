@@ -24,7 +24,7 @@ log4r_config:
      date_pattern: "%H:%M:%S"
   - name: "F1"
     type: "RollingFileOutputter"
-    filename: "/home/mrsuser/MRS/ftp-monitor/log/ftp-monitor.log"
+    filename: "/home/mrsuser/LGDIS-Input-Tools/MRS/ftp-monitor/log/ftp-monitor.log"
     maxsize: 10000
     maxtime: 86400
     trunc: "false"
