@@ -107,7 +107,7 @@ module Mrsss
     def self.archive_ext(contents, archive_path, thread_id, ext)
       # 現在日時.<拡張子>の形式でファイル名を作成
       now = Time.now
-      file_name = now.strftime("%Y%m%d_%H%M%S") + '_' + thread_id + '.' + ext
+      file_name = now.strftime("%Y%m%d_%H%M%S%3N") + '_' + thread_id + '.' + ext
       
       # ファイル保存
       File.binwrite(File.join(archive_path, file_name), contents)
