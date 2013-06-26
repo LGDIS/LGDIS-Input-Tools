@@ -516,6 +516,8 @@ send_message:
    - "/Report[Control/Title/text()=\"異常天候早期警戒情報\"][string-length(Head/Headline/Text)=0]/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Areas/Area/Name/text()=\"東北地方\"]/Kind/Property[Type/text()=\"本文\"]/Text/text()"
    - "/Report[Control/Title/text()=\"異常天候早期警戒情報\"][string-length(Head/Headline/Text)=0]/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Kind/Property/Type/text()=\"本文\"]/Areas/Area[Name/text()=\"東北南部\"]/Name/text()"
    - "/Report[Control/Title/text()=\"異常天候早期警戒情報\"][string-length(Head/Headline/Text)=0]/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Areas/Area/Name/text()=\"東北南部\"]/Kind/Property[Type/text()=\"本文\"]/Text/text()"
+   - "/Report[Control/Title/text()=\"異常天候早期警戒情報\"][string-length(Head/Headline/Text)=0]/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Kind/Property/Type/text()=\"本文\"]/Areas/Area[Name/text()=\"東北太平洋側\"]/Name/text()"
+   - "/Report[Control/Title/text()=\"異常天候早期警戒情報\"][string-length(Head/Headline/Text)=0]/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Areas/Area/Name/text()=\"東北太平洋側\"]/Kind/Property[Type/text()=\"本文\"]/Text/text()"
    - "/Report[string-length(Head/Headline/Text)=0]/Body/Comment/Text/text()"
    - "/Report/Body/Comments/ForecastComment/Text/text()"
    - "/Report/Body/Comments/WarningComment/Text/text()"
@@ -619,24 +621,36 @@ description_contents:
  "地方海上予報":
   - path: "/Report/Head/Title/text()"
   - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
-  - path: "/Report/Body/Warning/Item/Area/Name[text()=\"三陸沖\"]/text()"
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖\"]/Kind/Name/text()"
-  - path: "/Report/Body/Warning/Item/Area/Name[text()=\"三陸沖東部\"]/text()"
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖東部\"]/Kind/Name/text()"
-  - path: "/Report/Body/Warning/Item/Area/Name[text()=\"三陸沖西部\"]/text()"
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖西部\"]/Kind/Name/text()"
-  - path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Name[text()=\"三陸沖\"]/text()"
+  -
+   path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖\"]/Area/Name/text()"
+   child_nodes: 
+    - root: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖\"]/Kind"
+    - path: "Name/text()"
+    - path: "Status/text()"
+  -
+   path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖東部\"]/Area/Name/text()"
+   child_nodes: 
+    - root: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖東部\"]/Kind"
+    - path: "Name/text()"
+    - path: "Status/text()"
+  -
+   path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖西部\"]/Area/Name/text()"
+   child_nodes: 
+    - root: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖西部\"]/Kind"
+    - path: "Name/text()"
+    - path: "Status/text()"
+  - path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Kind/Property/Type/text()=\"概況\"]/Area/Name[text()=\"三陸沖\"]/text()"
   - 
    path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Area/Name/text()=\"三陸沖\"]/Kind/Property/SynopsisPart/Synopsis/text()"
-   header: "概要："
-  - path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Name[text()=\"三陸沖東部\"]/text()"
+   header: "概況："
+  - path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Kind/Property/Type/text()=\"概況\"]/Area/Name[text()=\"三陸沖東部\"]/text()"
   - 
    path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Area/Name/text()=\"三陸沖東部\"]/Kind/Property/SynopsisPart/Synopsis/text()"
-   header: "概要："
-  - path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Name[text()=\"三陸沖西部\"]/text()"
+   header: "概況："
+  - path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Kind/Property/Type/text()=\"概況\"]/Area/Name[text()=\"三陸沖西部\"]/text()"
   - 
    path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Area/Name/text()=\"三陸沖西部\"]/Kind/Property/SynopsisPart/Synopsis/text()"
-   header: "概要："
+   header: "概況："
  "気象警報・注意報":
   - path: "/Report/Head/Title/text()"
   - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
@@ -684,9 +698,9 @@ description_contents:
   - path: "/Report/Head/Title/text()"
   - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
-  - path: "/Report/Body/Warning/Item/Area/Name[text()=\"石巻市\"]/text()"
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind/Name/text()"
-  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind/Status/text()"
+  - path: "/Report/Body/Warning/Item/Area/Name[text()=\"石巻地域\"]/text()"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻地域\"]/Kind/Name/text()"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻地域\"]/Kind/Status/text()"
  "全般気象情報":
   - path: "/Report/Head/Title/text()"
   - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
@@ -736,6 +750,7 @@ description_contents:
    path: "/Report/Body/Intensity/Observation/Pref/Area[Name/text()=\"宮城県中部\"]/MaxInt/text()"
    decorator: "add_modifier"
   - path: "/Report/Body/Comments/ForecastComment/Text/text()"
+  - path: "/Report/Body/Comments/FreeFormComment/text()"
  "震源に関する情報": 
   - path: "/Report/Head/Title/text()"
   - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
@@ -746,6 +761,7 @@ description_contents:
   - path: "/Report/Body/Earthquake/Hypocenter/Area/Coordinate/@description"
   - path: "/Report/Body/Earthquake/Magnitude/@description"
   - path: "/Report/Body/Comments/ForecastComment/Text/text()"
+  - path: "/Report/Body/Comments/FreeFormComment/text()"
  "震源・震度に関する情報":
   - path: "/Report/Head/Title/text()"
   - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
@@ -800,6 +816,7 @@ description_contents:
   - path: "/Report/Body/Earthquake/Hypocenter/Area/Coordinate/@description"
   - path: "/Report/Body/Earthquake/Magnitude/@description"
   - path: "/Report/Body/Comments/ForecastComment/Text/text()"
+  - path: "/Report/Body/Comments/FreeFormComment/text()"
  "津波警報・注意報・予報": 
   - path: "/Report/Head/Title/text()"
   - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
@@ -817,6 +834,7 @@ description_contents:
   - path: "/Report/Body/Earthquake/Hypocenter/Area/Coordinate/@description"
   - path: "/Report/Body/Earthquake/Magnitude/@description"
   - path: "/Report/Body/Comments/WarningComment/Text/text()"
+  - path: "/Report/Body/Comments/FreeFormComment/text()"
  "津波警報・注意報・予報a":
   - path: "/Report/Head/Title/text()"
   - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
@@ -834,6 +852,7 @@ description_contents:
   - path: "/Report/Body/Earthquake/Hypocenter/Area/Coordinate/@description"
   - path: "/Report/Body/Earthquake/Magnitude/@description"
   - path: "/Report/Body/Comments/WarningComment/Text/text()"
+  - path: "/Report/Body/Comments/FreeFormComment/text()"
  "津波情報":
   - path: "/Report/Head/Title/text()"
   - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
@@ -865,6 +884,7 @@ description_contents:
   - path: "/Report/Body/Earthquake/Hypocenter/Area/Coordinate/@description"
   - path: "/Report/Body/Earthquake/Magnitude/@description"
   - path: "/Report/Body/Comments/WarningComment/Text/text()"
+  - path: "/Report/Body/Comments/FreeFormComment/text()"
  "津波情報a":
   - path: "/Report/Head/Title/text()"
   - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
@@ -896,6 +916,7 @@ description_contents:
   - path: "/Report/Body/Earthquake/Hypocenter/Area/Coordinate/@description"
   - path: "/Report/Body/Earthquake/Magnitude/@description"
   - path: "/Report/Body/Comments/WarningComment/Text/text()"
+  - path: "/Report/Body/Comments/FreeFormComment/text()"
  "緊急地震速報（予報）":
   - path: "/Report/Head/Title/text()"
   - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
@@ -1043,6 +1064,7 @@ description_contents:
   - path: "/Report/Body/Earthquake/Hypocenter/Area/Coordinate/@description"
   - path: "/Report/Body/Earthquake/Magnitude/@description"
   - path: "/Report/Body/Comments/WarningComment/Text/text()"
+  - path: "/Report/Body/Comments/FreeFormComment/text()"
  "異常天候早期警戒情報":
   - path: "/Report/Head/Title/text()"
   - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
