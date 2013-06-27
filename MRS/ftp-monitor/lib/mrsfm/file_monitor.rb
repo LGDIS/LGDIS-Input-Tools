@@ -102,14 +102,17 @@ module Mrsfm
 
               # archive the file
               if success && File.exists?(file_path)
-                FileUtils.mv(file_path,@archive_path)
+                now = Time.now               
+                filename = now.strftime("%Y%m%d_%H%M%S%3N") + '_' + @thread_id + File.extname(file_path)
+                filename = File.join(@archive_path, filename)
+                FileUtils.mv(file_path, filename)
 
                 archive_log_message = ""
                 archive_log_message << MrsfmUtil.get_bracketed_string(@thread_id)
                 archive_log_message << "Archived:"
                 archive_log_message << file_path
                 archive_log_message << " => "
-                archive_log_message << @archive_path
+                archive_log_message << filename
                 Mrsfm.logger.info(archive_log_message)
               end
 
