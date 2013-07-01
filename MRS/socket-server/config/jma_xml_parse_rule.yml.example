@@ -618,6 +618,18 @@ description_contents:
   - path: "/Report/Body/Warning/Item[Kind/Property/Type/text()=\"着氷\"][Area/Name/text()=\"三陸沖西部\"]/Area/Name/text()"
   - path: "/Report/Body/Warning/Item[Kind/Property/Type/text()=\"着氷\"][Area/Name/text()=\"三陸沖西部\"]/Kind/Name/text()"
   - path: "/Report/Body/Warning/Item[Kind/Property/Type/text()=\"着氷\"][Area/Name/text()=\"三陸沖西部\"]/Kind/Property/IcingPart/SubArea/Sentence/text()"
+  - path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Kind/Property/Type/text()=\"概況\"]/Area/Name[text()=\"三陸沖\"]/text()"
+  - 
+   path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Area/Name/text()=\"三陸沖\"]/Kind/Property/SynopsisPart/Synopsis/text()"
+   header: "概況："
+  - path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Kind/Property/Type/text()=\"概況\"]/Area/Name[text()=\"三陸沖東部\"]/text()"
+  - 
+   path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Area/Name/text()=\"三陸沖東部\"]/Kind/Property/SynopsisPart/Synopsis/text()"
+   header: "概況："
+  - path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Kind/Property/Type/text()=\"概況\"]/Area/Name[text()=\"三陸沖西部\"]/text()"
+  - 
+   path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Area/Name/text()=\"三陸沖西部\"]/Kind/Property/SynopsisPart/Synopsis/text()"
+   header: "概況："
  "地方海上予報":
   - path: "/Report/Head/Title/text()"
   - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
@@ -661,12 +673,128 @@ description_contents:
     - root: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind"
     - path: "Name/text()"
     - path: "Status/text()"
-    - path: "Condition/text()"
+    - path: "Condition/text()"    
     - 
      child_nodes:
       - root: "Attention/Note"
       - path: "text()"
+    - 
+     child_nodes:
+      - root: "Addition/Note"
+      - path: "text()"
   - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/ChangeStatus/text()"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/Type[text()=\"土砂災害\"]/text()"
+  - 
+   path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"土砂災害\"]/WarningPeriod/EndTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"土砂災害\"]/WarningPeriod/EndTime/Term/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"土砂災害\"]/WarningPeriod/OverTime/text())"
+   header: "警戒期間："
+  - 
+   path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"土砂災害\"]/AdvisoryPeriod/EndTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"土砂災害\"]/AdvisoryPeriod/EndTime/Term/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"土砂災害\"]/AdvisoryPeriod/OverTime/text())"
+   header: "注意期間："
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/Type[text()=\"浸水\"]/text()"
+  - 
+   path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"浸水\"]/WarningPeriod/EndTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"浸水\"]/WarningPeriod/EndTime/Term/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"浸水\"]/WarningPeriod/OverTime/text())"
+   header: "警戒期間："
+  - 
+   path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"浸水\"]/AdvisoryPeriod/EndTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"浸水\"]/AdvisoryPeriod/EndTime/Term/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"浸水\"]/AdvisoryPeriod/OverTime/text())"
+   header: "注意期間："
+  - 
+   path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"浸水\"]/PeakTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"浸水\"]/PeakTime/Term/text())"
+   header: "ピークの時間帯："
+  - 
+   path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/PrecipitationPart/Base/Precipitation/@description"
+   header: "１時間最大雨量："
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/Type[text()=\"雷\"]/text()"
+  - path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"雷\"]/AdvisoryPeriod/EndTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"雷\"]/AdvisoryPeriod/EndTime/Term/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"雷\"]/AdvisoryPeriod/OverTime/text())"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/Type[text()=\"洪水\"]/text()"
+  - path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"洪水\"]/WarningPeriod/EndTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"洪水\"]/WarningPeriod/EndTime/Term/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"洪水\"]/WarningPeriod/OverTime/text())"
+  - path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"洪水\"]/AdvisoryPeriod/EndTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"洪水\"]/AdvisoryPeriod/EndTime/Term/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"洪水\"]/AdvisoryPeriod/OverTime/text())"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/Type[text()=\"融雪\"]/text()"
+  - path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"融雪\"]/AdvisoryPeriod/EndTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"融雪\"]/AdvisoryPeriod/EndTime/Term/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"融雪\"]/AdvisoryPeriod/OverTime/text())"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/Type[text()=\"雪\"]/text()"
+  - path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"雪\"]/WarningPeriod/EndTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"雪\"]/WarningPeriod/EndTime/Term/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"雪\"]/WarningPeriod/OverTime/text())"
+  - path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"雪\"]/AdvisoryPeriod/EndTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"雪\"]/AdvisoryPeriod/EndTime/Term/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"雪\"]/AdvisoryPeriod/OverTime/text())"
+  -
+   child_nodes: 
+    - root: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/SnowfallDepthPart/Base"
+    - path: "SnowfallDepth/@type"
+    - path: "SnowfallDepth/@description"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/Type[text()=\"着雪\"]/text()"
+  - path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"着雪\"]/AdvisoryPeriod/EndTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"着雪\"]/AdvisoryPeriod/EndTime/Term/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"着雪\"]/AdvisoryPeriod/OverTime/text())"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/Type[text()=\"着氷\"]/text()"
+  - path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"着氷\"]/AdvisoryPeriod/EndTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"着氷\"]/AdvisoryPeriod/EndTime/Term/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"着氷\"]/AdvisoryPeriod/OverTime/text())"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/Type[text()=\"なだれ\"]/text()"
+  - path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"なだれ\"]/AdvisoryPeriod/EndTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"なだれ\"]/AdvisoryPeriod/EndTime/Term/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"なだれ\"]/AdvisoryPeriod/OverTime/text())"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/Type[text()=\"風\"]/text()"
+  - 
+   path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"風\"]/WarningPeriod/EndTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"風\"]/WarningPeriod/EndTime/Term/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"風\"]/WarningPeriod/OverTime/text())"
+   header: "警戒期間："
+  - 
+   path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"風\"]/AdvisoryPeriod/EndTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"風\"]/AdvisoryPeriod/EndTime/Term/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"風\"]/AdvisoryPeriod/OverTime/text())"
+   header: "注意期間："
+  - 
+   path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"風\"]/PeakTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"風\"]/PeakTime/Term/text())"
+   header: "ピークの時間帯："
+  - 
+   path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/WindDirectionPart/Becoming/WindDirection/@description"
+   header: "風向："
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/WindSpeedPart/Base/Local/AreaName[text()=\"陸上\"]/text()"
+  - 
+   path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/WindSpeedPart/Base/Local[AreaName/text()=\"陸上\"]/WindSpeed/@description"
+   header: "最大風速："
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/WindSpeedPart/Base/Local/AreaName[text()=\"海上\"]/text()"
+  - 
+   path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/WindSpeedPart/Base/Local[AreaName/text()=\"海上\"]/WindSpeed/@description"
+   header: "最大風速："
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/Type[text()=\"波\"]/text()"
+  - 
+   path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"波\"]/WarningPeriod/EndTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"波\"]/WarningPeriod/EndTime/Term/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"波\"]/WarningPeriod/OverTime/text())"
+   header: "警戒期間："
+  - 
+   path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"波\"]/AdvisoryPeriod/EndTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"波\"]/AdvisoryPeriod/EndTime/Term/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"波\"]/AdvisoryPeriod/OverTime/text())"
+   header: "注意期間："
+  - 
+   path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"波\"]/PeakTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"波\"]/PeakTime/Term/text())"
+   header: "ピークの時間帯："
+  - 
+   path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/WaveHeightPart/Base/WaveHeight/@description"
+   header: "波高："
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/Type[text()=\"濃霧\"]/text()"
+  - path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"濃霧\"]/AdvisoryPeriod/EndTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"濃霧\"]/AdvisoryPeriod/EndTime/Term/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"濃霧\"]/AdvisoryPeriod/OverTime/text())"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/VisibilityPart/Base/Local/AreaName[text()=\"陸上\"]/text()"
+  - 
+   path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/VisibilityPart/Base/Local[AreaName/text()=\"陸上\"]/Visibility/@description"
+   header: "視程："
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/VisibilityPart/Base/Local/AreaName[text()=\"海上\"]/text()"
+  - 
+   path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/VisibilityPart/Base/Local[AreaName/text()=\"海上\"]/Visibility/@description"
+   header: "視程："
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/Type[text()=\"乾燥\"]/text()"
+  - path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"乾燥\"]/AdvisoryPeriod/EndTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"乾燥\"]/AdvisoryPeriod/EndTime/Term/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"乾燥\"]/AdvisoryPeriod/OverTime/text())"
+  -
+   child_nodes: 
+    - root: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/HumidityPart/Base"
+    - path: "Humidity/@type"
+    - path: "Humidity/@description"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/Type[text()=\"霜\"]/text()"
+  - path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"霜\"]/AdvisoryPeriod/EndTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"霜\"]/AdvisoryPeriod/EndTime/Term/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"霜\"]/AdvisoryPeriod/OverTime/text())"
+  - 
+   path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/TemperaturePart/Base/Temperature/@description"
+   header: "最低温度："
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/Type[text()=\"低温\"]/text()"
+  - path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"低温\"]/AdvisoryPeriod/EndTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"低温\"]/AdvisoryPeriod/EndTime/Term/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"着雪\"]/AdvisoryPeriod/OverTime/text())"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/Type[text()=\"高潮\"]/text()"
+  - 
+   path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"高潮\"]/WarningPeriod/EndTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"高潮\"]/WarningPeriod/EndTime/Term/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"高潮\"]/WarningPeriod/OverTime/text())"
+   header: "警戒期間："
+  - 
+   path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"高潮\"]/AdvisoryPeriod/EndTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"高潮\"]/AdvisoryPeriod/EndTime/Term/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"高潮\"]/AdvisoryPeriod/OverTime/text())"
+   header: "注意期間："
+  - 
+   path: "concat(/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"高潮\"]/PeakTime/Date/text(),/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property[Type/text()=\"高潮\"]/PeakTime/Term/text())"
+   header: "ピークの時間帯："
+  - 
+   path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/TidalLevelPart/Base/TidalLevel/@description"
+   header: "最高潮位："
  "指定河川洪水予報":
   - path: "/Report/Head/Title/text()"
   - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
