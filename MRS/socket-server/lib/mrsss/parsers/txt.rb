@@ -95,7 +95,11 @@ private
         json['issue'] = issue
         
         # プロジェクトID
-        issue['project_id'] = config['project_id']
+        if @mode == 1
+          issue['project_id'] = Mrsss::get_mrsss_config['trainingmode_project_id']
+        else
+          issue['project_id'] = config['project_id']
+        end
         # トラッカーID
         issue['tracker_id'] = config['tracker_id']
         # 題名
