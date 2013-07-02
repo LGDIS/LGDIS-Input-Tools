@@ -366,6 +366,7 @@ send_message:
    - "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind[Name/text()=\"着氷注意報\"]/Status/text()"
    - "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind/Name[text()=\"着雪注意報\"]/text()"
    - "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind[Name/text()=\"着雪注意報\"]/Status/text()"
+   - "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind[Status/text()=\"発表警報・注意報はなし\"]/Status/text()"
    - "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/ChangeStatus/text()"
    - "/Report[Control/Title/text()=\"地方海上予報\"]/Body/Warning/Item/Area/Name[text()=\"三陸沖\"]/text()"
    - "/Report[Control/Title/text()=\"地方海上警報\"]/Body/Warning/Item[Kind/Property/Type/text()=\"風\"]/Area/Name[text()=\"三陸沖\"]/text()"
