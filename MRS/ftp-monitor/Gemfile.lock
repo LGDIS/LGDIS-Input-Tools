@@ -29,6 +29,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  daemons
-  log4r
-  resque
+  daemons (= 1.1.9)
+  log4r (= 1.1.10)
+  resque (= 1.24.1)

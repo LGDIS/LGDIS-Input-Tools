@@ -3,53 +3,57 @@ source 'https://rubygems.org'
 # Daemons provides an easy way to wrap existing ruby scripts
 # (for example a self-written server) to be run as a daemon
 # and to be controlled by simple start/stop/restart commands.
-gem 'daemons'
+gem 'daemons', '1.1.9'
 
 # Nokogiri is an HTML, XML, SAX, and Reader parser. Among
 # Nokogiri’s many features is the ability to search documents
 # via XPath or CSS3 selectors.
-gem 'nokogiri'
+gem 'nokogiri', '1.6.0'
 
 # Resque is a Redis-backed Ruby library for creating background
 # jobs, placing them on multiple queues, and processing them later.
-gem 'resque'
+gem 'resque', '1.24.1'
 
 # A simple HTTP and REST client for Ruby, inspired by the Sinatra
 # microframework style of specifying actions: get, put, post, delete.
-gem 'rest-client'
+gem 'rest-client', '1.6.7'
 
 # Log4r is a comprehensive and flexible logging library written
 # in Ruby for use in Ruby programs. 
-gem 'log4r'
+gem 'log4r', '1.1.10'
 
 # A toolkit of support libraries and Ruby core extensions
 # extracted from the Rails framework. Rich support for multibyte
 # strings, internationalization, time zones, and testing.
-gem 'activesupport'
+gem 'activesupport', '4.0.0'
 
 # Archive::Tar::Minitar is a pure-Ruby library and command-line
 # utility that provides the ability to deal with POSIX tar(1)
 # archive files. 
-gem 'archive-tar-minitar'
+gem 'archive-tar-minitar', '0.5.2'
 
 # Ruby bindings for libzip. libzip is a C library for reading,
 # creating, and modifying zip archives.
-gem 'zipruby'
+gem 'zipruby', '0.3.6'
 
 # A Ruby client that tries to match Redis' API one-to-one,
 # while still providing an idiomatic interface. It features
 # thread-safety, client-side sharding, pipelining, and an
 # obsession for performance.
-gem 'redis'
+gem 'redis', '3.0.4'
 
 # This is a implementation of the JSON specification according to
 # RFC 4627. You can think of it as a low fat alternative to XML,
 # if you want to store data to disk or transmit it over a network
 # rather than use a verbose markup language.
-gem 'json'
+gem 'json', '1.8.0'
 
 # Although made popular by Windows, INI files can be used on any
 # system thanks to their flexibility. They allow a program to store
 # configuration data, which can then be easily parsed and changed.
 # Two notable systems that use the INI format are Samba and Trac.
-gem 'inifile'
+gem 'inifile', '2.0.2'
+
+# Rake is a Make-like program implemented in Ruby. 
+# Tasks and dependencies arespecified in standard Ruby syntax.
+gem 'rake', '10.1.0'

@@ -412,7 +412,6 @@ send_message:
    - "/Report[Control/Title/text()=\"地方海上警報\"]/Body/Warning/Item[Kind/Property/Type/text()=\"風\"]/Area/Name[text()=\"三陸沖西部\"]/text()"
    - "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖西部\"]/Kind/Name[contains(text(), \"風警報\")]/text()"
    - "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖西部\"]/Kind[contains(Name/text(), \"風警報\")]/Status/text()"
-   - "/Report[Control/Title/text()=\"地方海上警報\"]/Body/Warning/Item[Kind/Property/Type/text()=\"風\"]/Area/Name[text()=\"三陸沖西部\"]/text()"
    - "/Report[Control/Title/text()=\"地方海上警報\"]/Body/Warning/Item[Kind/Property/Type/text()=\"うねり\" or Kind/Property/Type/text()=\"波\"]/Area/Name[text()=\"三陸沖西部\"]/text()"
    - "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖西部\"]/Kind/Name[text()=\"海上うねり警報\"]/text()"
    - "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖西部\"]/Kind[Name/text()=\"海上うねり警報\"]/Status/text()"
@@ -842,7 +841,7 @@ description_contents:
   - path: "/Report/Body/Comment/Text/text()"
  "府県気象情報":
   - path: "/Report/Head/Title/text()"
-  - path: "concat(/Report/Head/Headline/Text/text(),\" \",substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Comment/Text/text()"
  "地方週間天気予報":

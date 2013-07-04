@@ -3,12 +3,12 @@ source 'https://rubygems.org'
 # Daemons provides an easy way to wrap existing ruby scripts
 # (for example a self-written server) to be run as a daemon
 # and to be controlled by simple start/stop/restart commands.
-gem 'daemons'
+gem 'daemons', '1.1.9'
 
 # Resque is a Redis-backed Ruby library for creating background
 # jobs, placing them on multiple queues, and processing them later.
-gem 'resque'
+gem 'resque', '1.24.1'
 
 # Log4r is a comprehensive and flexible logging library written
 # in Ruby for use in Ruby programs.
-gem 'log4r'
+gem 'log4r', '1.1.10'
