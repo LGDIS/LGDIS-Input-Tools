@@ -25,7 +25,7 @@ gem 'log4r', '1.1.10'
 # A toolkit of support libraries and Ruby core extensions
 # extracted from the Rails framework. Rich support for multibyte
 # strings, internationalization, time zones, and testing.
-gem 'activesupport', '4.0.0'
+gem 'activesupport', '3.2.13'
 
 # Archive::Tar::Minitar is a pure-Ruby library and command-line
 # utility that provides the ability to deal with POSIX tar(1)
