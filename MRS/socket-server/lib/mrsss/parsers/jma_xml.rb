@@ -526,7 +526,7 @@ private
         threshold = autolaunch_map['tsunami_threashold'] # しきい値
         location = autolaunch_map['tsunami_path']  # 震度取得用xpath
         
-        nodelit = @xml.xpath(location)
+        nodelist = @xml.xpath(location)
         nodelist.each do |node|
           node_val = node.to_s.to_f
           if node_val >= threshold
