@@ -137,7 +137,7 @@ trackers:
     "地方海上警報": "4"
     "地方海上予報": "4"
     "気象警報・注意報": "4"
-    "気象特別警報・注意報": "4"
+    "気象特別警報・警報・注意報": "4"
     "気象特別警報報知": "4"
     "指定河川洪水予報": "4"
     "記録的短時間大雨情報": "4"
@@ -241,14 +241,14 @@ disposition:
   number: "0"
   paths: 
    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"4\"]"
-   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"][Category/Kind/Name/text()=\"津波注意報\"]/Category/LastKind/Name[text()=\"津波なし\"]"
+   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category[Kind/Name/text()=\"津波注意報\"][LastKind/Name/text()=\"津波なし\"]"
  - 
   number: "1"
   paths:
-   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"][Category/Kind/Name/text()=\"津波警報\"]/Category/LastKind/Name[text()=\"津波なし\" or text()=\"津波注意報\"]"
-   - "/Report/Body/Warning/Item[Kind/Name/text()=\"高潮警報\"][Kind/Status/text()=\"発表\"]/Area/Name[text()=\"石巻市\"]"
-   - "/Report/Body/Warning/Item[Kind/Name/text()=\"大雨警報\"][Kind/Status/text()=\"発表\"]/Area/Name[text()=\"石巻市\"]"
-   - "/Report/Body/Warning/Item[Kind/Name/text()=\"洪水警報\"][Kind/Status/text()=\"発表\"]/Area/Name[text()=\"石巻市\"]"
+   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category[Kind/Name/text()=\"津波警報\"][LastKind/Name/text()=\"津波なし\" or LastKind/Name/text()=\"津波注意報\"]"
+   - "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind[Name/text()=\"高潮警報\"][Status/text()=\"発表\"]"
+   - "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind[Name/text()=\"大雨警報\"][Status/text()=\"発表\"]"
+   - "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind[Name/text()=\"洪水警報\"][Status/text()=\"発表\"]"
  - 
   number: "2"
   paths:
@@ -431,15 +431,15 @@ send_message:
    - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Areas/Area/Name/text()=\"東北南部\"]/Kind/Property/Type/text()"
    - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Areas/Area/Name[text()=\"東北太平洋側\"]/text()"
    - "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Areas/Area/Name/text()=\"東北太平洋側\"]/Kind/Property/Type/text()"
-   - "/Report/Head/Headline/Information/Item/Areas/Area/Name[text()=\"北上川\"]/text()"
-   - "/Report/Head/Headline/Information/Item[Areas/Area/Name/text()=\"北上川\"]/Kind/Name/text()"
-   - "/Report/Head/Headline/Information/Item[Areas/Area/Name/text()=\"北上川\"]/Kind/Condition/text()"
-   - "/Report/Head/Headline/Information/Item/Areas/Area/Name[text()=\"旧北上川\"]/text()"
-   - "/Report/Head/Headline/Information/Item[Areas/Area/Name/text()=\"旧北上川\"]/Kind/Name/text()"
-   - "/Report/Head/Headline/Information/Item[Areas/Area/Name/text()=\"旧北上川\"]/Kind/Condition/text()"
-   - "/Report/Head/Headline/Information/Item/Areas/Area/Name[text()=\"江合川\"]/text()"
-   - "/Report/Head/Headline/Information/Item[Areas/Area/Name/text()=\"江合川\"]/Kind/Name/text()"
-   - "/Report/Head/Headline/Information/Item[Areas/Area/Name/text()=\"江合川\"]/Kind/Condition/text()"
+   - "/Report/Head/Headline/Information[@type=\"指定河川洪水予報（河川）\"]/Item/Areas/Area/Name[text()=\"北上川\"]/text()"
+   - "/Report/Head/Headline/Information[@type=\"指定河川洪水予報（河川）\"]/Item[Areas/Area/Name/text()=\"北上川\"]/Kind/Name/text()"
+   - "/Report/Head/Headline/Information[@type=\"指定河川洪水予報（河川）\"]/Item[Areas/Area/Name/text()=\"北上川\"]/Kind/Condition/text()"
+   - "/Report/Head/Headline/Information[@type=\"指定河川洪水予報（河川）\"]/Item/Areas/Area/Name[text()=\"旧北上川\"]/text()"
+   - "/Report/Head/Headline/Information[@type=\"指定河川洪水予報（河川）\"]/Item[Areas/Area/Name/text()=\"旧北上川\"]/Kind/Name/text()"
+   - "/Report/Head/Headline/Information[@type=\"指定河川洪水予報（河川）\"]/Item[Areas/Area/Name/text()=\"旧北上川\"]/Kind/Condition/text()"
+   - "/Report/Head/Headline/Information[@type=\"指定河川洪水予報（河川）\"]/Item/Areas/Area/Name[text()=\"江合川\"]/text()"
+   - "/Report/Head/Headline/Information[@type=\"指定河川洪水予報（河川）\"]/Item[Areas/Area/Name/text()=\"江合川\"]/Kind/Name/text()"
+   - "/Report/Head/Headline/Information[@type=\"指定河川洪水予報（河川）\"]/Item[Areas/Area/Name/text()=\"江合川\"]/Kind/Condition/text()"
    - "/Report[Control/Title/text()=\"竜巻注意情報\"]/Body/Warning/Item/Area/Name[text()=\"石巻地域\"]/text()"
    - "/Report[Control/Title/text()=\"竜巻注意情報\"]/Body/Warning/Item[Area/Name/text()=\"石巻地域\"]/Kind/Name/text()"
    - "/Report[Control/Title/text()=\"竜巻注意情報\"]/Body/Warning/Item[Area/Name/text()=\"石巻地域\"]/Kind/Status/text()"
@@ -799,15 +799,61 @@ description_contents:
   - path: "/Report/Head/Title/text()"
   - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
-  - path: "/Report/Body/Warning/Item/Areas/Area/Name[text()=\"北上川\"]/text()"
-  - path: "/Report/Body/Warning/Item[Areas/Area/Name/text()=\"北上川\"]/Kind/Property/Text/text()"
-  - path: "/Report/Body/Warning/Item/Areas/Area/Name[text()=\"旧北上川\"]/text()"
-  - path: "/Report/Body/Warning/Item[Areas/Area/Name/text()=\"旧北上川\"]/Kind/Property/Text/text()"
-  - path: "/Report/Body/Warning/Item/Areas/Area/Name[text()=\"江合川\"]/text()"
-  - path: "/Report/Body/Warning/Item[Areas/Area/Name/text()=\"江合川\"]/Kind/Property/Text/text()"
-  - path: "/Report/Body/Warning/Item/Areas/Area/City[text()=\"石巻市\"]/text()"
-  - path: "/Report/Body/Warning/Item[Areas/Area/City/text()=\"石巻市\"]/Kind/Name/text()"
-  - path: "/Report/Body/Warning/Item[Areas/Area/City/text()=\"石巻市\"]/Kind/Property/Text/text()"
+  - path: "/Report/Body/Warning/Item[contains(Stations/Station/Name/text(),\"飯野川\")]/Areas/Area/Name/text()"
+  - 
+   path: "/Report/Body/Warning/Item/Stations/Station[contains(Name/text(),\"飯野川\")]/Name/text()"
+   header: "水位観測所："
+  - path: "/Report/Body/Warning/Item[contains(Stations/Station/Name/text(),\"飯野川\")]/Kind/Property/Text/text()"
+  - path: "/Report/Body/Warning/Item[contains(Stations/Station/Name/text(),\"脇谷\")]/Areas/Area/Name/text()"
+  - 
+   path: "/Report/Body/Warning/Item/Stations/Station[contains(Name/text(),\"脇谷\")]/Name/text()"
+   header: "水位観測所："
+  - path: "/Report/Body/Warning/Item[contains(Stations/Station/Name/text(),\"脇谷\")]/Kind/Property/Text/text()"
+  - path: "/Report/Body/Warning/Item[Stations/Station/Name/text()=\"和渕\"]/Areas/Area/Name/text()"
+  - 
+   path: "/Report/Body/Warning/Item/Stations/Station/Name[text()=\"和渕\"]/text()"
+   header: "水位観測所："
+  - path: "/Report/Body/Warning/Item[Stations/Station/Name/text()=\"和渕\"]/Kind/Property/Text/text()"
+  - path: "/Report/Body/Warning/Item[Stations/Station/Name/text()=\"大森\"]/Areas/Area/Name/text()"
+  - 
+   path: "/Report/Body/Warning/Item/Stations/Station/Name[text()=\"大森\"]/text()"
+   header: "水位観測所："
+  - path: "/Report/Body/Warning/Item[Stations/Station/Name/text()=\"大森\"]/Kind/Property/Text/text()"
+  - path: "/Report/Body/Warning/Item[Stations/Station/Name/text()=\"門脇\"]/Areas/Area/Name/text()"
+  - 
+   path: "/Report/Body/Warning/Item/Stations/Station/Name[text()=\"門脇\"]/text()"
+   header: "水位観測所："
+  - path: "/Report/Body/Warning/Item[Stations/Station/Name/text()=\"門脇\"]/Kind/Property/Text/text()"
+  - path: "/Report/Body/Warning/Item[Stations/Station/Name/text()=\"涌谷\"]/Areas/Area/Name/text()"
+  - 
+   path: "/Report/Body/Warning/Item/Stations/Station/Name[text()=\"涌谷\"]/text()"
+   header: "水位観測所："
+  - path: "/Report/Body/Warning/Item[Stations/Station/Name/text()=\"涌谷\"]/Kind/Property/Text/text()"
+  - path: "/Report/Body/Warning/Item/Kind[Name/text()=\"浸水想定地区\"]/Name/text()"
+  - 
+   path: "/Report/Body/Warning/Item/Areas/Area/Name[contains(text(),\"飯野川\")]/text()"
+   header: "水位観測所："
+  - path: "/Report/Body/Warning/Item/Areas/Area[contains(Name/text(),\"飯野川\")]/SubCityList/text()"
+  - 
+   path: "/Report/Body/Warning/Item/Areas/Area/Name[contains(text(),\"脇谷\")]/text()"
+   header: "水位観測所："
+  - path: "/Report/Body/Warning/Item/Areas/Area[contains(Name/text(),\"脇谷\")]/SubCityList/text()"
+  - 
+   path: "/Report/Body/Warning/Item/Areas/Area/Name[text()=\"和渕\"]/text()"
+   header: "水位観測所："
+  - path: "/Report/Body/Warning/Item/Areas/Area[Name/text()=\"和渕\"]/SubCityList/text()"
+  - 
+   path: "/Report/Body/Warning/Item/Areas/Area/Name[text()=\"大森\"]/text()"
+   header: "水位観測所："
+  - path: "/Report/Body/Warning/Item/Areas/Area[Name/text()=\"大森\"]/SubCityList/text()"
+  - 
+   path: "/Report/Body/Warning/Item/Areas/Area/Name[text()=\"門脇\"]/text()"
+   header: "水位観測所："
+  - path: "/Report/Body/Warning/Item/Areas/Area[Name/text()=\"門脇\"]/SubCityList/text()"
+  - 
+   path: "/Report/Body/Warning/Item/Areas/Area/Name[text()=\"涌谷\"]/text()"
+   header: "水位観測所："
+  - path: "/Report/Body/Warning/Item/Areas/Area[Name/text()=\"涌谷\"]/SubCityList/text()"
  "土砂災害警戒情報":
   - path: "/Report/Head/Title/text()"
   - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
@@ -1239,7 +1285,7 @@ forward_to_issue:
   - path: "/Report/Control/PublishingOffice[contains(text(), \"仙台管区気象台\")]"
  "気象警報・注意報":
   - path: "/Report/Body/Warning/Item/Area/Name[text()=\"石巻市\"]"
- "気象特別警報・注意報":
+ "気象特別警報・警報・注意報":
   - path: "/Report/Body/Warning/Item/Area/Name[text()=\"石巻市\"]"
  "指定河川洪水予報":
   - path: "/Report/Control/PublishingOffice[contains(text(), \"仙台管区気象台\")]"
