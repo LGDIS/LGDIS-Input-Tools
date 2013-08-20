@@ -325,9 +325,6 @@ send_message:
   parameter: "summary"
   max_length: 2000
   paths:
-   - "/Report/Head/Title/text()"
-   - "substring(/Report/Head/ReportDateTime/text(),1,10)"
-   - "substring(/Report/Head/ReportDateTime/text(),12,5)"
    - "/Report/Control/PublishingOffice/text()"
    - "/Report/Head/InfoType/text()"
    - "/Report/Head/Headline/Text/text()"
@@ -551,41 +548,34 @@ description_type_path: "/Report/Control/Title/text()"
 description_target_param: "description"
 description_contents: 
  "季節観測":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Name/text()"
   - path: "/Report/Body/AdditionalInfo/ObservationAddition/Text/text()"
  "生物季節観測報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Name/text()"
   - path: "/Report/Body/AdditionalInfo/ObservationAddition/Text/text()"
  "特殊気象報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Name/text()"
   - path: "/Report/Body/AdditionalInfo/ObservationAddition/Text/text()"
  "全般台風情報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Comment/Text/text()"
  "全般台風情報（定型）":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Comment/Text/text()"
  "全般台風情報（詳細）":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Comment/Text/text()"
  "地方海上警報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Body/Warning/Item[Kind/Property/Type/text()=\"風\"][Area/Name/text()=\"三陸沖\"]/Area/Name/text()"
   - path: "/Report/Body/Warning/Item[Kind/Property/Type/text()=\"風\"][Area/Name/text()=\"三陸沖\"]/Kind/Name/text()"
   - path: "/Report/Body/Warning/Item[Kind/Property/Type/text()=\"風\"][Area/Name/text()=\"三陸沖\"]/Kind/Property/WindPart/SubArea/Sentence/text()"
@@ -635,8 +625,7 @@ description_contents:
    path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Area/Name/text()=\"三陸沖西部\"]/Kind/Property/SynopsisPart/Synopsis/text()"
    header: "概況："
  "地方海上予報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   -
    path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖\"]/Area/Name/text()"
    child_nodes: 
@@ -668,8 +657,7 @@ description_contents:
    path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Area/Name/text()=\"三陸沖西部\"]/Kind/Property/SynopsisPart/Synopsis/text()"
    header: "概況："
  "気象警報・注意報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   -
    path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Area/Name/text()"
@@ -800,8 +788,7 @@ description_contents:
    path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/TidalLevelPart/Base/TidalLevel/@description"
    header: "最高潮位："
  "気象特別警報・警報・注意報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   -
    path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Area/Name/text()"
@@ -932,8 +919,7 @@ description_contents:
    path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"][contains(ChangeStatus/text(), \"量的予想事項\")]/Kind/Property/TidalLevelPart/Base/TidalLevel/@description"
    header: "最高潮位："
  "指定河川洪水予報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Warning/Item[contains(Stations/Station/Name/text(),\"飯野川\")]/Areas/Area/Name/text()"
   - 
@@ -991,69 +977,57 @@ description_contents:
    header: "水位観測所："
   - path: "/Report/Body/Warning/Item/Areas/Area[Name/text()=\"涌谷\"]/SubCityList/text()"
  "土砂災害警戒情報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Warning/Item/Area/Name[text()=\"石巻市\"]/text()"
   - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind/Name/text()"
   - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind/Status/text()"
  "記録的短時間大雨情報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Warning/Item/Area/Name[text()=\"宮城県\"]/text()"
   - path: "/Report/Body/Warning/Item[Area/Name/text()=\"宮城県\"]/Kind/Name/text()"
   - path: "/Report/Body/Warning/Item[Area/Name/text()=\"宮城県\"]/Kind/Status/text()"
  "竜巻注意情報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Warning/Item/Area/Name[text()=\"石巻地域\"]/text()"
   - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻地域\"]/Kind/Name/text()"
   - path: "/Report/Body/Warning/Item[Area/Name/text()=\"石巻地域\"]/Kind/Status/text()"
  "全般気象情報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Comment/Text/text()"
  "地方気象情報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Comment/Text/text()"
  "府県気象情報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Comment/Text/text()"
  "地方週間天気予報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Comment/Text/text()"
  "スモッグ気象情報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Comment/Text/text()"
  "地方天候情報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property[Type/text()=\"本文\"]/Text/text()"
  "府県天候情報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Kind/Property[Type/text()=\"本文\"]/Text/text()"
  "府県天気概況":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Comment/Text/text()"
  "震度速報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Intensity/Observation/Pref/Area/Name[text()=\"宮城県中部\"]/text()"
   - 
@@ -1062,8 +1036,7 @@ description_contents:
   - path: "/Report/Body/Comments/ForecastComment/Text/text()"
   - path: "/Report/Body/Comments/FreeFormComment/text()"
  "震源に関する情報": 
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - 
    path: "/Report/Body/Earthquake/Hypocenter/Area/Name/text()"
@@ -1073,8 +1046,7 @@ description_contents:
   - path: "/Report/Body/Comments/ForecastComment/Text/text()"
   - path: "/Report/Body/Comments/FreeFormComment/text()"
  "震源・震度に関する情報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Intensity/Observation/Pref/Area/City/Name[text()=\"石巻市\"]/text()"
   - 
@@ -1128,8 +1100,7 @@ description_contents:
   - path: "/Report/Body/Comments/ForecastComment/Text/text()"
   - path: "/Report/Body/Comments/FreeFormComment/text()"
  "津波警報・注意報・予報": 
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Tsunami/Forecast/Item/Area/Name[text()=\"宮城県\"]/text()"
   - path: "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name/text()"
@@ -1148,8 +1119,7 @@ description_contents:
   - path: "/Report/Body/Comments/WarningComment/Text/text()"
   - path: "/Report/Body/Comments/FreeFormComment/text()"
  "津波警報・注意報・予報a":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Tsunami/Forecast/Item/Area/Name[text()=\"宮城県\"]/text()"
   - path: "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name/text()"
@@ -1168,8 +1138,7 @@ description_contents:
   - path: "/Report/Body/Comments/WarningComment/Text/text()"
   - path: "/Report/Body/Comments/FreeFormComment/text()"
  "津波情報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Tsunami/Observation/Item/Station/Name[text()=\"石巻港\"]/text()"
   -
@@ -1225,8 +1194,7 @@ description_contents:
   - path: "/Report/Body/Comments/WarningComment/Text/text()"
   - path: "/Report/Body/Comments/FreeFormComment/text()"
  "津波情報a":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Tsunami/Observation/Item/Station/Name[text()=\"石巻港\"]/text()"
   -
@@ -1282,8 +1250,7 @@ description_contents:
   - path: "/Report/Body/Comments/WarningComment/Text/text()"
   - path: "/Report/Body/Comments/FreeFormComment/text()"
  "緊急地震速報（予報）":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - 
    path: "/Report/Body/Earthquake/ArrivalTime/text()"
@@ -1300,8 +1267,7 @@ description_contents:
    decorator: "add_modifier"
   - path: "/Report/Body/Comments/WarningComment/Text/text()"
  "緊急地震速報（警報）":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - 
    path: "/Report/Body/Earthquake/ArrivalTime/text()"
@@ -1318,8 +1284,7 @@ description_contents:
    decorator: "add_modifier"
   - path: "/Report/Body/Comments/WarningComment/Text/text()"
  "噴火警報・予報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/VolcanoInfo[@type=\"噴火警報・予報（対象市町村等）\"]/Item/Areas/Area/Name[text()=\"石巻市\" or text()=\"宮城県石巻市\"]/text()"
   - path: "/Report/Body/VolcanoInfo[@type=\"噴火警報・予報（対象市町村等）\"]/Item[Areas/Area/Name/text()=\"石巻市\" or Areas/Area/Name/text()=\"宮城県石巻市\"]/Kind/Name/text()"
@@ -1334,8 +1299,7 @@ description_contents:
   - path: "/Report/Body/VolcanoInfoContent/VolcanoActivity/text()"
   - path: "/Report/Body/VolcanoInfoContent/VolcanoPrevention/text()"
  "噴火に関する火山観測報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/VolcanoInfo/Item/Areas/Area/Name[text()=\"蔵王山\"]/text()"
   - path: "/Report/Body/VolcanoInfo/Item[Areas/Area/Name/text()=\"蔵王山\"]/Kind/Name/text()"
@@ -1347,8 +1311,7 @@ description_contents:
   - path: "/Report/Body/VolcanoInfoContent/VolcanoActivity/text()"
   - path: "/Report/Body/VolcanoInfoContent/VolcanoPrevention/text()"
  "火山現象に関する海上警報・海上予報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/VolcanoInfo/Item/Areas/Area/Name[text()=\"三陸沖東部\"]/text()"
   - path: "/Report/Body/VolcanoInfo/Item[Areas/Area/Name/text()=\"三陸沖東部\"]/Kind/Name/text()"
@@ -1360,43 +1323,35 @@ description_contents:
   - path: "/Report/Body/VolcanoInfoContent/VolcanoActivity/text()"
   - path: "/Report/Body/VolcanoInfoContent/VolcanoPrevention/text()"
  "府県海氷予報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Comment/Text/text()"
  "全般潮位情報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Comment/Text/text()"
  "地方潮位情報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Comment/Text/text()"
  "府県潮位情報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Comment/Text/text()"
  "全般スモッグ気象情報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Comment/Text/text()"
  "地方高温注意情報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Comment/Text/text()"
  "府県高温注意情報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Comment/Text/text()"
  "沖合の津波観測に関する情報": 
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Tsunami/Observation/Item/Station/Name[text()=\"宮城金華山沖\"]/text()"
   - 
@@ -1428,8 +1383,7 @@ description_contents:
   - path: "/Report/Body/Comments/WarningComment/Text/text()"
   - path: "/Report/Body/Comments/FreeFormComment/text()"
  "異常天候早期警戒情報":
-  - path: "/Report/Head/Title/text()"
-  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Name/text()"
   - path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Areas/Area/Name/text()=\"東北地方\"]/Kind[Property/Type/text()=\"本文\"]/Name/text()"
