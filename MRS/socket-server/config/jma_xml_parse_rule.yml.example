@@ -292,7 +292,8 @@ disposition:
    - "/Report[Control/Title/text()=\"津波情報\"]/Body/Tsunami/Observation/Item/Station/Name[text()=\"石巻市鮎川\" or text()=\"石巻港\"]"
    - "/Report[Control/Title/text()=\"津波警報・注意報・予報a\"]/Head/Headline/Information/Item/Areas/Area/Name[text()=\"宮城県\"]"
    - "/Report[Control/Title/text()=\"津波情報a\"]/Body/Tsunami/Observation/Item/Station/Name[text()=\"石巻市鮎川\" or text()=\"石巻港\"]"
-   - "/Report[Control/Title/text()=\"緊急地震速報（警報）\"]/Head/Headline/Information/Item/Areas/Area/Name[text()=\"宮城県\"]"
+   - "/Report[Control/Title/text()=\"緊急地震速報（予報）\"]/Body/Intensity/Forecast/Pref/Area/Name[text()=\"宮城県中部\"]"
+   - "/Report[Control/Title/text()=\"緊急地震速報（警報）\"]/Head/Headline/Information/Item/Areas/Area/Name[text()=\"宮城県中部\"]"
    - "/Report[Control/Title/text()=\"噴火警報・予報\"]/Head/Headline/Information/Item/Areas/Area/Name[text()=\"石巻市\" or text()=\"宮城県石巻市\"]"
    - "/Report[Control/Title/text()=\"噴火に関する火山観測報\"]/Head/Headline/Information/Item/Areas/Area/Name[text()=\"鳴子\" or text()=\"蔵王山\"]"
    - "/Report[Control/Title/text()=\"火山現象に関する海上警報・海上予報\"]/Head/Headline/Information/Item/Areas/Area/Name[text()=\"三陸沖東部\" or text()=\"三陸沖西部\"]"
@@ -1260,11 +1261,11 @@ description_contents:
    header: "震源位置:"
   - path: "/Report/Body/Earthquake/Hypocenter/Area/Coordinate/@description"
   - path: "/Report/Body/Earthquake/Magnitude/@description"
-  - path: "/Report/Body/Comments/ForecastComment/Text/text()"
-  - path: "/Report/Body/Intensity/Observation/Pref/Area/Name[text()=\"宮城県中部\"]/text()"
+  - path: "/Report/Body/Intensity/Forecast/Pref/Area/Name[text()=\"宮城県中部\"]/text()"
   - 
-   path: "/Report/Body/Intensity/Observation/Pref/Area[Name/text()=\"宮城県中部\"]/MaxInt/text()"
-   decorator: "add_modifier"
+   path: "/Report/Body/Intensity/Forecast[Pref/Area/Name/text()=\"宮城県中部\"]/ForecastInt/To/text()"
+   header: "最大予測震度:"
+  - path: "/Report/Body/Text/text()"
   - path: "/Report/Body/Comments/WarningComment/Text/text()"
  "緊急地震速報（警報）":
   - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
@@ -1277,11 +1278,10 @@ description_contents:
    header: "震源位置:"
   - path: "/Report/Body/Earthquake/Hypocenter/Area/Coordinate/@description"
   - path: "/Report/Body/Earthquake/Magnitude/@description"
-  - path: "/Report/Body/Comments/ForecastComment/Text/text()"
-  - path: "/Report/Body/Intensity/Observation/Pref/Area/Name[text()=\"宮城県中部\"]/text()"
+  - path: "/Report/Body/Intensity/Forecast/Pref/Area/Name[text()=\"宮城県中部\"]/text()"
   - 
-   path: "/Report/Body/Intensity/Observation/Pref/Area[Name/text()=\"宮城県中部\"]/MaxInt/text()"
-   decorator: "add_modifier"
+   path: "/Report/Body/Intensity/Forecast[Pref/Area/Name/text()=\"宮城県中部\"]/ForecastInt/To/text()"
+   header: "最大予測震度:"
   - path: "/Report/Body/Comments/WarningComment/Text/text()"
  "噴火警報・予報":
   - path: "concat(/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
@@ -1483,6 +1483,8 @@ forward_to_issue:
   - path: "/Report/Control/Title[text()=\"緊急地震速報（予報）\"]"
  "緊急地震速報（警報）":
   - path: "/Report/Control/Title[text()=\"緊急地震速報（警報）\"]"
+ "緊急地震速報配信テスト":
+  - path: "/Report/Control/Title[text()=\"緊急地震速報配信テスト\"]"
  "噴火警報・予報":
   - path: "/Report/Control/PublishingOffice[contains(text(), \"仙台管区気象台\")]"
  "火山の状況に関する解説情報":
