@@ -241,23 +241,28 @@ disposition:
   number: "0"
   paths: 
    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"4\"]"
-   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category[Kind/Name/text()=\"津波注意報\"][LastKind/Name/text()=\"津波なし\"]"
  - 
   number: "1"
   paths:
-   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category[Kind/Name/text()=\"津波警報\"][LastKind/Name/text()=\"津波なし\" or LastKind/Name/text()=\"津波注意報\"]"
-   - "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind[Name/text()=\"高潮警報\"][Status/text()=\"発表\"]"
-   - "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind[Name/text()=\"大雨警報\"][Status/text()=\"発表\"]"
-   - "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind[Name/text()=\"洪水警報\"][Status/text()=\"発表\"]"
+   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category[Kind/Name/text()=\"津波注意報\"][LastKind/Name/text()=\"津波なし\" or LastKind/Name/text()=\"津波注意報\"]"
+   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[text()=\"津波注意報解除\"]"
+   - "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind[Name/text()=\"高潮警報\"]"
+   - "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind[Name/text()=\"大雨警報\"]"
+   - "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind[Name/text()=\"洪水警報\"]"
+   - "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind[Name/text()=\"高潮注意報\"][Status/text()=\"警報から注意報\"]"
+   - "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind[Name/text()=\"大雨注意報\"][Status/text()=\"警報から注意報\"]"
+   - "/Report/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind[Name/text()=\"洪水注意報\"][Status/text()=\"警報から注意報\"]"
  - 
   number: "2"
   paths:
    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"5-\"]"
    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"5+\"]"
-   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[text()=\"大津波警報：発表\"]"
  - 
   number: "3"
   paths:
+   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category[Kind/Name/text()=\"津波注意報\"]/LastKind/Name[contains(text(),\"津波警報\")]"
+   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[contains(text(),\"津波警報\")]"
+   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[text()=\"警報解除\"]"
    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"6-\"]"
    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"6+\"]"
    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"7\"]"
@@ -613,6 +618,12 @@ description_contents:
   - path: "/Report/Body/Warning/Item[Kind/Property/Type/text()=\"着氷\"][Area/Name/text()=\"三陸沖西部\"]/Area/Name/text()"
   - path: "/Report/Body/Warning/Item[Kind/Property/Type/text()=\"着氷\"][Area/Name/text()=\"三陸沖西部\"]/Kind/Name/text()"
   - path: "/Report/Body/Warning/Item[Kind/Property/Type/text()=\"着氷\"][Area/Name/text()=\"三陸沖西部\"]/Kind/Property/IcingPart/SubArea/Sentence/text()"
+  - path: "/Report/Body/Warning/Item[Kind/Name/text()=\"海上警報解除\"]/Area/Name[text()=\"三陸沖\"]/text()"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖\"]/Kind/Name[text()=\"海上警報解除\"]/text()"
+  - path: "/Report/Body/Warning/Item[Kind/Name/text()=\"海上警報解除\"]/Area/Name[text()=\"三陸沖東部\"]/text()"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖東部\"]/Kind/Name[text()=\"海上警報解除\"]/text()"
+  - path: "/Report/Body/Warning/Item[Kind/Name/text()=\"海上警報解除\"]/Area/Name[text()=\"三陸沖西部\"]/text()"
+  - path: "/Report/Body/Warning/Item[Area/Name/text()=\"三陸沖西部\"]/Kind/Name[text()=\"海上警報解除\"]/text()"
   - path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Kind/Property/Type/text()=\"概況\"]/Area/Name[text()=\"三陸沖\"]/text()"
   - 
    path: "/Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item[Area/Name/text()=\"三陸沖\"]/Kind/Property/SynopsisPart/Synopsis/text()"
