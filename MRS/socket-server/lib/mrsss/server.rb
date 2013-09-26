@@ -167,10 +167,10 @@ module Mrsss
         @log.fatal(error)
       ensure
         unless session.nil?
-          @addr_info.delete(addrstring)
           @joined_message.delete_at(@addr_info.index(addrstring))
           @total_message_length.delete_at(@addr_info.index(addrstring))
           @user_data_length_list.delete_at(@addr_info.index(addrstring))
+          @addr_info.delete(addrstring)
           session.close
         end
       end
