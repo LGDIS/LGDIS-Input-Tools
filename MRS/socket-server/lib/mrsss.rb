@@ -14,6 +14,7 @@ require 'json'
 require 'nokogiri'
 require 'rest_client'
 require 'inifile'
+require 'thread'
 
 require_relative "mrsss/server"
 require_relative "mrsss/message"
@@ -123,7 +124,7 @@ module Mrsss
   # _Log4r_ :: 
   # ==== Raise
   def self.load_log_config
-    if Log4r::Logger["Server"].nil?
+    if Log4r::Logger["Parser"].nil?
       Log4r::YamlConfigurator.load_yaml_file(File.join(Util.get_config_path(__FILE__), "log4r.yml"))
     end
   end

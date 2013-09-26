@@ -226,7 +226,7 @@ projects:
 autolaunch: 
  earthquake_path: "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt/text()"
  tsunami_path: "/Report/Body/Tsunami/Estimation/Item[Area/Name/text()=\"宮城金華山沖\"]/MaxHeight/TsunamiHeight/text()"
- earthquake_threashold: "5-"
+ earthquake_threashold: "5+"
  tsunami_threashold: 3.0
 
 
@@ -1311,7 +1311,10 @@ description_contents:
   - path: "/Report/Body/Intensity/Forecast/Pref/Area/Name[text()=\"宮城県中部\"]/text()"
   - 
    path: "/Report/Body/Intensity/Forecast[Pref/Area/Name/text()=\"宮城県中部\"]/ForecastInt/To/text()"
-   header: "最大予測震度:"
+   header: "最大予測震度の上限:"
+  - 
+   path: "/Report/Body/Intensity/Forecast[Pref/Area/Name/text()=\"宮城県中部\"]/ForecastInt/From/text()"
+   header: "最大予測震度の下限:"
   - path: "/Report/Body/Text/text()"
   - path: "/Report/Body/Comments/WarningComment/Text/text()"
  "緊急地震速報（警報）":
@@ -1329,7 +1332,10 @@ description_contents:
   - path: "/Report/Body/Intensity/Forecast/Pref/Area/Name[text()=\"宮城県中部\"]/text()"
   - 
    path: "/Report/Body/Intensity/Forecast[Pref/Area/Name/text()=\"宮城県中部\"]/ForecastInt/To/text()"
-   header: "最大予測震度:"
+   header: "最大予測震度の上限:"
+  - 
+   path: "/Report/Body/Intensity/Forecast[Pref/Area/Name/text()=\"宮城県中部\"]/ForecastInt/From/text()"
+   header: "最大予測震度の下限:"
   - path: "/Report/Body/Comments/WarningComment/Text/text()"
  "噴火警報・予報":
   - path: "/Report/Head/Title/text()"

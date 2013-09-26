@@ -50,9 +50,12 @@ module Mrsss
       @need_checksum = need_checksum
       @use_queue = use_queue
       @user_data_length_list = Array.new
-      @joined_message = nil
+      @joined_message = Array.new
       @log = Mrsss.server_logger
-      @duplicate = Array.new # 重複チェック
+      @addr_info = Array.new
+      @total_message_length = Array.new
+      @user_data_length_list = Array.new
+      @locker = Mutex::new
     end
     
     #
@@ -90,6 +93,7 @@ module Mrsss
           session = @server.accept
           
           @log.info("[#{@channel_name}] 接続しました")
+          @log.info("[#{@channel_name}] 接続先情報：#{session.peeraddr}")
           
           # 新規にスレッド実行
           Thread.new(session) { |c|
@@ -109,7 +113,7 @@ module Mrsss
       end
       
       @log.info("[#{@channel_name}] JMA受信サーバを停止します")
-      @joined_message = nil
+      @joined_message = Array.new
       @user_data_length_list = Array.new
     end
     
@@ -132,30 +136,48 @@ module Mrsss
           @log.info("[#{@channel_name}] データ受信待ち...")
           
           data = session.recv(MAX_BUFFER)
-          
-          @log.info("[#{@channel_name}] データを受信しました データ長[#{data.length}]")
+          addr = session.peeraddr
           
           # 入力がなくなれば処理終了
           if data.empty?
-            @log.info("[#{@channel_name}] データの受信を終了します")
+            @log.info("[#{@channel_name}] 空データのためデータ受信を終了します")
             break
           end
           
-          # データ解析処理
-          handle_data(data, session)
+          @locker.synchronize do
+            @log.info("[#{@channel_name}] データを受信しました データ長[#{data.length}]")
+            @log.info("[#{@channel_name}] データ送信先情報：#{addr}")
+
+            #クライアント側はポート番号をランダムに割り当てるため、ホスト名に限定
+            #addrstring = addr.join
+            addrstring = addr[2]
+            unless @addr_info.size > 0 && @addr_info.include?(addrstring)
+              @addr_info.push(addrstring)
+              @joined_message.push("")
+              @total_message_length.push(0)
+              @user_data_length_list.push([])
+            end
+
+            # データ解析処理
+            handle_data(data, session, @addr_info.index(addrstring))
+          end
         end
       rescue => error
         @log.fatal("[#{@channel_name}] データ受信待ちで例外が発生しました。");
         @log.fatal(error)
       ensure
         unless session.nil?
+          @addr_info.delete(addrstring)
+          @joined_message.delete_at(@addr_info.index(addrstring))
+          @total_message_length.delete_at(@addr_info.index(addrstring))
+          @user_data_length_list.delete_at(@addr_info.index(addrstring))
           session.close
         end
       end
       
       @log.info("[#{@channel_name}] データ受信待ちを停止します")
-      @joined_message = nil
-      @user_data_length_list = Array.new
+      #@joined_message = nil
+      #@user_data_length_list = Array.new
     end
     
     #
@@ -164,50 +186,51 @@ module Mrsss
     # ==== Args
     # _data_ :: ソケットから受信したデータ
     # _session_ :: クライアントと接続が確立したTCPSocketインスタンス
+    # _addr_id_ :: TCPSocketインスタンスの送信元index
     # ==== Return
     # ==== Raise
-    def handle_data(data, session)
+    def handle_data(data, session, addr_id)
       
       str_log = ""
       # 分割データではない場合は受信したデータで新規にMessageインスタンスを作成
       # 分割データの場合は保存されているMessageインスタンスにデータを結合
-      if @joined_message.blank?
-        @log.debug("[#{@channel_name}] 新規の受信データです")
+      if @joined_message[addr_id].blank?
+        @log.debug("[#{@channel_name}] 新規の受信データです addr_id=#{addr_id}")
 
         # JMAソケットヘッダ部の解析
         header = data[0, HEADER_SIZE]
         message_type = header[HEADER_MSGTYPE_OFFSET, HEADER_MSGTYPE_SIZE].to_s
-        @total_message_length = HEADER_SIZE + header[HEADER_LENGTH_OFFSET, HEADER_LENGTH_SIZE].to_i
+        @total_message_length[addr_id] = HEADER_SIZE + header[HEADER_LENGTH_OFFSET, HEADER_LENGTH_SIZE].to_i
         @actual_data_length = data.length
-        @user_data_length_list << header[HEADER_LENGTH_OFFSET, HEADER_LENGTH_SIZE].to_i
-        @joined_message = data
+        @user_data_length_list[addr_id] << header[HEADER_LENGTH_OFFSET, HEADER_LENGTH_SIZE].to_i
+        @joined_message[addr_id] = data
         str_log = "[#{@channel_name}] 解析データ\n"
         str_log = "#{str_log}--------------------------------------------------------------------------------\n"
-        str_log = "#{str_log}* データ長    [#{@user_data_length_list[0]}]\n"
+        str_log = "#{str_log}* データ長    [#{@user_data_length_list[addr_id][0]}]\n"
         str_log = "#{str_log}* メッセージ種別  [#{message_type}]\n"
         str_log = "#{str_log}--------------------------------------------------------------------------------"
         @log.info(str_log)
       else
-        @log.debug("[#{@channel_name}] 分割の受信データです")
-        @joined_message = @joined_message + data
-        @actual_data_length = @joined_message.length
+        @log.debug("[#{@channel_name}] 分割の受信データです addr_id=#{addr_id}")
+        @joined_message[addr_id] = @joined_message[addr_id] + data
+        @actual_data_length = @joined_message[addr_id].length
       end
       
 
       # 分割データを判定
       completed = false
       # 理論上の長さと実メッセージの長さの差分を元に分割データの処理を分ける
-      diff = @actual_data_length - @total_message_length
+      diff = @actual_data_length - @total_message_length[addr_id]
       if diff > 0 && diff < HEADER_SIZE
         #差分有り：まとめ送りで次のヘッダ情報が取得不能のため、後続のデータを取得する必要有り。
-        @log.debug("[#{@channel_name}] 実サイズ#{@actual_data_length} > 理論サイズ(#{@total_message_length}):HEADER_SIZE以内")
+        @log.debug("[#{@channel_name}] 実サイズ#{@actual_data_length} > 理論サイズ(#{@total_message_length[addr_id]}):HEADER_SIZE以内")
         completed = false
       elsif diff >= HEADER_SIZE
         #差分有り：まとめ送りのため、後続のヘッダから情報を取得する必要有り。
         @log.debug("[#{@channel_name}] 実サイズ#{@actual_data_length} > 理論サイズ")
-        while @actual_data_length > @total_message_length
-          next_message_size = @joined_message[@total_message_length + HEADER_LENGTH_OFFSET, HEADER_LENGTH_SIZE].to_i
-          next_message_type = @joined_message[@total_message_length + HEADER_MSGTYPE_OFFSET, HEADER_MSGTYPE_SIZE]
+        while @actual_data_length > @total_message_length[addr_id]
+          next_message_size = @joined_message[addr_id][@total_message_length[addr_id] + HEADER_LENGTH_OFFSET, HEADER_LENGTH_SIZE].to_i
+          next_message_type = @joined_message[addr_id][@total_message_length[addr_id] + HEADER_MSGTYPE_OFFSET, HEADER_MSGTYPE_SIZE]
 
           str_log = "[#{@channel_name}] 解析データ(まとめ送り処理中)\n"
           str_log = "#{str_log}--------------------------------------------------------------------------------\n"
@@ -223,19 +246,18 @@ module Mrsss
                  next_message_type != "EN"
             raise RuntimeError.new("受信データの処理が正常に行えませんでした。")
           end
-            
-		
-          @user_data_length_list << next_message_size
-          @total_message_length = @total_message_length + HEADER_SIZE + next_message_size
+
+          @user_data_length_list[addr_id] << next_message_size
+          @total_message_length[addr_id] = @total_message_length[addr_id] + HEADER_SIZE + next_message_size
         end
 
-        if @actual_data_length == @total_message_length
+        if @actual_data_length == @total_message_length[addr_id]
           completed = true
         else
           completed = false
         end
       elsif diff < 0
-        @log.debug("[#{@channel_name}] 実サイズ(#{@actual_data_length} < 理論サイズ(#{@total_message_length})")
+        @log.debug("[#{@channel_name}] 実サイズ(#{@actual_data_length} < 理論サイズ(#{@total_message_length[addr_id]})")
         completed = false
       else
         @log.debug("[#{@channel_name}] 実サイズ == 理論サイズ")
@@ -248,9 +270,9 @@ module Mrsss
         @log.debug("[#{@channel_name}] データが揃ったため後続処理を行います")
 
         pointer = 0 # データ抽出のため、現在の位置を保存
-        for user_data_length in @user_data_length_list do
+        for user_data_length in @user_data_length_list[addr_id] do
           # データの抽出
-          segment = @joined_message[pointer, HEADER_SIZE + user_data_length]
+          segment = @joined_message[addr_id][pointer, HEADER_SIZE + user_data_length]
 
           # 次のデータの位置を取得
           pointer = pointer + HEADER_SIZE + user_data_length
@@ -264,17 +286,8 @@ module Mrsss
             session.flush
           else
             @log.info("[#{@channel_name}] ユーザデータのため解析")
-            if @duplicate.size >0 && @duplicate.include?(message)
-              # 重複有のため、処理を行いません。
-              @log.info("[#{@channel_name}] データが重複しているため、処理を行いません。")
-            else
-              handler = Handler.new(@channel_name, @channel_id, @archive_path, @mode, @need_checksum, @use_queue)
-              handler.handle(message)
-              if @duplicate.size >= MAX_DUP_SIZE 
-                @duplicate.shift
-              end
-              @duplicate.push(message)
-            end 
+            handler = Handler.new(@channel_name, @channel_id, @archive_path, @mode, @need_checksum, @use_queue)
+            handler.handle(message)
           end # end message.healthcheck?
   
           # チェックポイント要求の場合はチェックポイント応答を返却
@@ -293,8 +306,8 @@ module Mrsss
         end # end for
 
         # 処理用メッセージと配列を初期化
-        @joined_message = nil
-        @user_data_length_list = Array.new
+        @joined_message[addr_id] = nil
+        @user_data_length_list[addr_id] = []
       else
         # データ分割の場合
         @log.debug("[#{@channel_name}] 分割受信のため再度データ受信待ち状態になります")
