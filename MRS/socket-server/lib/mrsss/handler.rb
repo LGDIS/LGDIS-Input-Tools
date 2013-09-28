@@ -9,7 +9,7 @@ module Mrsss
 
     cattr_accessor(:duplicate_contents)
     @@duplicate_contents = []
-    MAX_DUP_SIZE = 10
+    MAX_DUP_SIZE = 20
 
     #
     # 初期化処理です。
@@ -124,14 +124,16 @@ module Mrsss
         contents = Util.untar(contents)
       end
 
-      if duplicate_contents.size > 0 && duplicate_contents.include?(contents)
+      # 重複メッセージ排除処理
+      check_contents = @channel_name + contents
+      if duplicate_contents.size > 0 && duplicate_contents.include?(check_contents)
         @log.info("[#{@channel_name}] 冗長化によるメッセージ重複のためキューイング対象外とする\n#{contents}")
         return
       else
         if duplicate_contents.size >= MAX_DUP_SIZE
           duplicate_contents.shift
         end
-        duplicate_contents.push(contents)
+        duplicate_contents.push(check_contents)
       end
 
       # ファイルフォーマットを作成

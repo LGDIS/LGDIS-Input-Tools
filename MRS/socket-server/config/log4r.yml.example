@@ -34,6 +34,7 @@ log4r_config:
     filename: "/home/mrsuser/LGDIS-Input-Tools/MRS/socket-server/log/server.log"
     maxsize: 10000
     maxtime: 86400
+    max_backups: 560
     trunc: "false"
     formatter:
      name: "P2"
@@ -45,6 +46,7 @@ log4r_config:
     filename: "/home/mrsuser/LGDIS-Input-Tools/MRS/socket-server/log/parser.log"
     maxsize: 10000
     maxtime: 86400
+    max_backups: 560
     trunc: "false"
     formatter:
      name: "P3"
