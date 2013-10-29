@@ -244,8 +244,8 @@ disposition:
  - 
   number: "1"
   paths:
-   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category[Kind/Name/text()=\"津波注意報\"][LastKind/Name/text()=\"津波なし\" or LastKind/Name/text()=\"津波注意報\"]"
-   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[text()=\"津波注意報解除\"]"
+   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category[Kind/Name/text()=\"津波注意報\"][LastKind/Name/text()=\"津波なし\" or LastKind/Name/text()=\"津波注意報\" or LastKind/Name/text()=\"津波予報（若干の海面変動）\"]"
+   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category[Kind/Name/text()=\"津波注意報解除\" or Kind/Name/text()=\"津波予報（若干の海面変動）\"][LastKind/Name/text()=\"津波注意報\"]"
    - "/Report[Control/Title/text()=\"気象特別警報・警報・注意報\"]/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind[Name/text()=\"高潮警報\"]"
    - "/Report[Control/Title/text()=\"気象特別警報・警報・注意報\"]/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind[Name/text()=\"大雨警報\"]"
    - "/Report[Control/Title/text()=\"気象特別警報・警報・注意報\"]/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind[Name/text()=\"洪水警報\"]"
@@ -260,9 +260,9 @@ disposition:
  - 
   number: "3"
   paths:
-   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category[Kind/Name/text()=\"津波注意報\"]/LastKind/Name[contains(text(),\"津波警報\")]"
+   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category[Kind/Name/text()=\"津波注意報\" or Kind/Name/text()=\"津波予報（若干の海面変動）\"]/LastKind/Name[contains(text(),\"津波警報\")]"
    - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[contains(text(),\"津波警報\")]"
-   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[text()=\"警報解除\"]"
+   - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category/Kind/Name[text()=\"津波警報解除\"]"
    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"6-\"]"
    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"6+\"]"
    - "/Report/Body/Intensity/Observation/Pref/Area/City[Name/text()=\"石巻市\"]/MaxInt[text()=\"7\"]"
@@ -293,10 +293,10 @@ disposition:
    - "/Report/Control[Title/text()=\"地方天候情報\"]/PublishingOffice[contains(text(), \"仙台管区気象台\")]"
    - "/Report[Control/Title/text()=\"震源・震度に関する情報\"]/Body/Intensity/Observation/Pref/Area/City/Name[text()=\"石巻市\"]"
    - "/Report[Control/Title/text()=\"震度速報\"]/Head/Headline/Information/Item/Areas/Area/Name[text()=\"宮城県中部\"]"
-   - "/Report[Control/Title/text()=\"津波警報・注意報・予報\"]/Head/Headline/Information/Item/Areas/Area/Name[text()=\"宮城県\"]"
+   - "/Report[Control/Title/text()=\"津波警報・注意報・予報\"]/Body/Tsunami/Forecast/Item/Area/Name[text()=\"宮城県\"]"
    - "/Report[Control/Title/text()=\"津波情報\"]/Body/Tsunami/Observation/Item/Station/Name[text()=\"石巻市鮎川\" or text()=\"石巻港\"]"
-   - "/Report[Control/Title/text()=\"津波警報・注意報・予報a\"]/Head/Headline/Information/Item/Areas/Area/Name[text()=\"宮城県\"]"
-   - "/Report[Control/Title/text()=\"津波情報a\"]/Body/Tsunami/Observation/Item/Station/Name[text()=\"石巻市鮎川\" or text()=\"石巻港\"]"
+   - "/Report[Control/Title/text()=\"津波警報・注意報・予報a\"]/Body/Tsunami/Forecast/Item/Area/Name[text()=\"宮城県\"]"
+   - "/Report[Control/Title/text()=\"津波情報a\"]/Body/Tsunami[Observation/Item/Station/Name/text()=\"石巻市鮎川\" or Observation/Item/Station/Name/text()=\"石巻港\" or Forecast/Item/Station/Name/text()=\"石巻市鮎川\" or Forecast/Item/Station/Name/text()=\"石巻港\"]"
    - "/Report[Control/Title/text()=\"緊急地震速報（予報）\"]/Body/Intensity/Forecast/Pref/Area/Name[text()=\"宮城県中部\"]"
    - "/Report[Control/Title/text()=\"緊急地震速報（警報）\"]/Head/Headline/Information/Item/Areas/Area/Name[text()=\"宮城県中部\"]"
    - "/Report[Control/Title/text()=\"噴火警報・予報\"]/Head/Headline/Information/Item/Areas/Area/Name[text()=\"石巻市\" or text()=\"宮城県石巻市\"]"
@@ -1141,6 +1141,7 @@ description_contents:
   - path: "/Report/Body/Earthquake/Hypocenter/Area/Coordinate/@description"
   - path: "/Report/Body/Earthquake/Magnitude/@description"
   - path: "/Report/Body/Comments/ForecastComment/Text/text()"
+  - path: "/Report/Body/Comments/VarComment/Text/text()"
   - path: "/Report/Body/Comments/FreeFormComment/text()"
  "津波警報・注意報・予報": 
   - path: "/Report/Head/Title/text()"

@@ -52,6 +52,7 @@ module Mrsss
       @user_data_length_list = Array.new
       @joined_message = Array.new
       @log = Mrsss.server_logger
+      @addr_string = ""
       @addr_info = Array.new
       @total_message_length = Array.new
       @user_data_length_list = Array.new
@@ -143,23 +144,23 @@ module Mrsss
             @log.info("[#{@channel_name}] 空データのためデータ受信を終了します")
             break
           end
-          
+ 
           @locker.synchronize do
             @log.info("[#{@channel_name}] データを受信しました データ長[#{data.length}]")
-            @log.info("[#{@channel_name}] データ送信先情報：#{addr}")
+            @log.info("[#{@channel_name}] データ送信元情報：#{addr}")
 
             #クライアント側はポート番号をランダムに割り当てるため、ホスト名に限定
             #addrstring = addr.join
-            addrstring = addr[2]
-            unless @addr_info.size > 0 && @addr_info.include?(addrstring)
-              @addr_info.push(addrstring)
+            @addrstring = addr[2]
+            unless @addr_info.size > 0 && @addr_info.include?(@addrstring)
+              @addr_info.push(@addrstring)
               @joined_message.push("")
               @total_message_length.push(0)
               @user_data_length_list.push([])
             end
 
             # データ解析処理
-            handle_data(data, session, @addr_info.index(addrstring))
+            handle_data(data, session, @addr_info.index(@addrstring))
           end
         end
       rescue => error
@@ -167,17 +168,15 @@ module Mrsss
         @log.fatal(error)
       ensure
         unless session.nil?
-          @joined_message.delete_at(@addr_info.index(addrstring))
-          @total_message_length.delete_at(@addr_info.index(addrstring))
-          @user_data_length_list.delete_at(@addr_info.index(addrstring))
-          @addr_info.delete(addrstring)
+          @joined_message.delete_at(@addr_info.index(@addrstring))
+          @total_message_length.delete_at(@addr_info.index(@addrstring))
+          @user_data_length_list.delete_at(@addr_info.index(@addrstring))
+          @addr_info.delete(@addrstring)
           session.close
         end
       end
       
       @log.info("[#{@channel_name}] データ受信待ちを停止します")
-      #@joined_message = nil
-      #@user_data_length_list = Array.new
     end
     
     #
