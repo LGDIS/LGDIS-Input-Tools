@@ -246,6 +246,8 @@ disposition:
   paths:
    - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category[Kind/Name/text()=\"津波注意報\"][LastKind/Name/text()=\"津波なし\" or LastKind/Name/text()=\"津波注意報\" or LastKind/Name/text()=\"津波予報（若干の海面変動）\"]"
    - "/Report/Body/Tsunami/Forecast/Item[Area/Name/text()=\"宮城県\"]/Category[Kind/Name/text()=\"津波注意報解除\" or Kind/Name/text()=\"津波予報（若干の海面変動）\"][LastKind/Name/text()=\"津波注意報\"]"
+   - "/Report[Control/Title/text()=\"津波情報\"]/Body/Tsunami/Observation/Item/Station/Name[text()=\"石巻市鮎川\" or text()=\"石巻港\"]"
+   - "/Report[Control/Title/text()=\"津波情報a\"]/Body/Tsunami[Observation/Item/Station/Name/text()=\"石巻市鮎川\" or Observation/Item/Station/Name/text()=\"石巻港\" or Forecast/Item/Station/Name/text()=\"石巻市鮎川\" or Forecast/Item/Station/Name/text()=\"石巻港\"]"
    - "/Report[Control/Title/text()=\"気象特別警報・警報・注意報\"]/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind[Name/text()=\"高潮警報\"]"
    - "/Report[Control/Title/text()=\"気象特別警報・警報・注意報\"]/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind[Name/text()=\"大雨警報\"]"
    - "/Report[Control/Title/text()=\"気象特別警報・警報・注意報\"]/Body/Warning/Item[Area/Name/text()=\"石巻市\"]/Kind[Name/text()=\"洪水警報\"]"
@@ -288,6 +290,7 @@ disposition:
    - "/Report/Control[Title/text()=\"地方気象情報\"]/PublishingOffice[contains(text(), \"仙台管区気象台\")]"
    - "/Report/Control[Title/text()=\"府県気象情報\"]/PublishingOffice[contains(text(), \"仙台管区気象台\")]"
    - "/Report/Control[Title/text()=\"府県天気概況\"]/PublishingOffice[contains(text(), \"仙台管区気象台\")]"
+   - "/Report/Control[Title/text()=\"府県天気予報\"]/PublishingOffice[contains(text(), \"仙台管区気象台\")]"
    - "/Report/Control[Title/text()=\"地方週間天気予報\"]/PublishingOffice[contains(text(), \"仙台管区気象台\")]"
    - "/Report/Control[Title/text()=\"スモッグ気象情報\"]/PublishingOffice[contains(text(), \"仙台管区気象台\")]"
    - "/Report/Control[Title/text()=\"地方天候情報\"]/PublishingOffice[contains(text(), \"仙台管区気象台\")]"
@@ -455,6 +458,11 @@ send_message:
    - "/Report[Control/Title/text()=\"記録的短時間大雨情報\"]/Body/Warning/Item/Area/Name[text()=\"宮城県\"]/text()"
    - "/Report[Control/Title/text()=\"記録的短時間大雨情報\"]/Body/Warning/Item[Area/Name/text()=\"宮城県\"]/Kind/Name/text()"
    - "/Report[Control/Title/text()=\"記録的短時間大雨情報\"]/Body/Warning/Item[Area/Name/text()=\"宮城県\"]/Kind/Status/text()"
+   - "/Report/Body/MeteorologicalInfos[@type=\"区域予報\"]/TimeSeriesInfo/Item[Kind/Property/Type/text()=\"天気\"]/Area/Name[text()=\"東部\"]/text()"
+   - "/Report/Body/MeteorologicalInfos[@type=\"区域予報\"]/TimeSeriesInfo[Item/Kind/Property/Type/text()=\"天気\"]/TimeDefines/TimeDefine[@timeId=\"1\"]/Name/text()"
+   - "/Report/Body/MeteorologicalInfos[@type=\"区域予報\"]/TimeSeriesInfo/Item[Area/Name/text()=\"東部\"]/Kind/Property/DetailForecast/WeatherForecastPart[@refID=\"1\"]/Sentence/text()"
+   - "/Report/Body/MeteorologicalInfos[@type=\"区域予報\"]/TimeSeriesInfo[Item/Kind/Property/Type/text()=\"天気\"]/TimeDefines/TimeDefine[@timeId=\"2\"]/Name/text()"
+   - "/Report/Body/MeteorologicalInfos[@type=\"区域予報\"]/TimeSeriesInfo/Item[Area/Name/text()=\"東部\"]/Kind/Property/DetailForecast/WeatherForecastPart[@refID=\"2\"]/Sentence/text()"
    - "/Report[Control/Title/text()=\"震度速報\" or Control/Title/text()=\"緊急地震速報（警報）\"]/Head/Headline/Information/Item/Areas/Area/Name[text()=\"宮城県中部\"]/text()"
    - "/Report[Control/Title/text()=\"震度速報\" or Control/Title/text()=\"緊急地震速報（警報）\"]/Head/Headline/Information/Item[Areas/Area/Name/text()=\"宮城県中部\"]/Kind/Name/text()"
    - "/Report/Body/Intensity/Observation/Pref/Area/City/Name[text()=\"石巻市\"]/text()"
@@ -1066,6 +1074,48 @@ description_contents:
   - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
   - path: "/Report/Head/Headline/Text/text()"
   - path: "/Report/Body/Comment/Text/text()"
+ "府県天気予報":
+  - path: "/Report/Head/Title/text()"
+  - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"
+  - path: "/Report/Body/MeteorologicalInfos[@type=\"区域予報\"]/TimeSeriesInfo/Item[Kind/Property/Type/text()=\"天気\"]/Area/Name[text()=\"東部\"]/text()"
+  - path: "/Report/Body/MeteorologicalInfos[@type=\"区域予報\"]/TimeSeriesInfo[Item/Kind/Property/Type/text()=\"天気\"]/TimeDefines/TimeDefine[@timeId=\"1\"]/Name/text()"
+  -
+   path: "/Report/Body/MeteorologicalInfos[@type=\"区域予報\"]/TimeSeriesInfo/Item[Area/Name/text()=\"東部\"]/Kind/Property/DetailForecast/WeatherForecastPart[@refID=\"1\"]/Sentence/text()"
+   header: "天気："
+  -
+   path: "/Report/Body/MeteorologicalInfos[@type=\"区域予報\"]/TimeSeriesInfo/Item[Area/Name/text()=\"東部\"]/Kind/Property/DetailForecast/WindForecastPart[@refID=\"1\"]/Sentence/text()"
+   header: "風："
+  -
+   path: "/Report/Body/MeteorologicalInfos[@type=\"区域予報\"]/TimeSeriesInfo/Item[Area/Name/text()=\"東部\"]/Kind/Property/DetailForecast/WaveHeightForecastPart[@refID=\"1\"]/Sentence/text()"
+   header: "波："
+  - path: "/Report/Body/MeteorologicalInfos[@type=\"区域予報\"]/TimeSeriesInfo[Item/Kind/Property/Type/text()=\"天気\"]/TimeDefines/TimeDefine[@timeId=\"2\"]/Name/text()"
+  -
+   path: "/Report/Body/MeteorologicalInfos[@type=\"区域予報\"]/TimeSeriesInfo/Item[Area/Name/text()=\"東部\"]/Kind/Property/DetailForecast/WeatherForecastPart[@refID=\"2\"]/Sentence/text()"
+   header: "天気："
+  -
+   path: "/Report/Body/MeteorologicalInfos[@type=\"区域予報\"]/TimeSeriesInfo/Item[Area/Name/text()=\"東部\"]/Kind/Property/DetailForecast/WindForecastPart[@refID=\"2\"]/Sentence/text()"
+   header: "風："
+  -
+   path: "/Report/Body/MeteorologicalInfos[@type=\"区域予報\"]/TimeSeriesInfo/Item[Area/Name/text()=\"東部\"]/Kind/Property/DetailForecast/WaveHeightForecastPart[@refID=\"2\"]/Sentence/text()"
+   header: "波："
+  - path: "/Report/Body/MeteorologicalInfos[@type=\"区域予報\"]/TimeSeriesInfo[Item/Kind/Property/Type/text()=\"天気\"]/TimeDefines/TimeDefine[@timeId=\"3\"]/Name/text()"
+  -
+   path: "/Report/Body/MeteorologicalInfos[@type=\"区域予報\"]/TimeSeriesInfo/Item[Area/Name/text()=\"東部\"]/Kind/Property/DetailForecast/WeatherForecastPart[@refID=\"3\"]/Sentence/text()"
+   header: "天気："
+  -
+   path: "/Report/Body/MeteorologicalInfos[@type=\"区域予報\"]/TimeSeriesInfo/Item[Area/Name/text()=\"東部\"]/Kind/Property/DetailForecast/WindForecastPart[@refID=\"3\"]/Sentence/text()"
+   header: "風："
+  -
+   path: "/Report/Body/MeteorologicalInfos[@type=\"区域予報\"]/TimeSeriesInfo/Item[Area/Name/text()=\"東部\"]/Kind/Property/DetailForecast/WaveHeightForecastPart[@refID=\"3\"]/Sentence/text()"
+   header: "波："
+  - path: "/Report/Body/MeteorologicalInfos[@type=\"区域予報\"]/TimeSeriesInfo/Item[Area/Name/text()=\"東部\"]/Kind/Property/Type[text()=\"降水確率\"]/text()"
+  - path: "concat(/Report/Body/MeteorologicalInfos[@type=\"区域予報\"]/TimeSeriesInfo[Item/Kind/Property/Type/text()=\"降水確率\"]/TimeDefines/TimeDefine[@timeId=\"1\"]/Name/text(), /Report/Body/MeteorologicalInfos[@type=\"区域予報\"]/TimeSeriesInfo/Item[Area/Name/text()=\"東部\"]/Kind/Property/ProbabilityOfPrecipitationPart/ProbabilityOfPrecipitation[@refID=\"1\"]/@description)"
+  - path: "concat(/Report/Body/MeteorologicalInfos[@type=\"区域予報\"]/TimeSeriesInfo[Item/Kind/Property/Type/text()=\"降水確率\"]/TimeDefines/TimeDefine[@timeId=\"2\"]/Name/text(), /Report/Body/MeteorologicalInfos[@type=\"区域予報\"]/TimeSeriesInfo/Item[Area/Name/text()=\"東部\"]/Kind/Property/ProbabilityOfPrecipitationPart/ProbabilityOfPrecipitation[@refID=\"2\"]/@description)"
+  - path: "concat(/Report/Body/MeteorologicalInfos[@type=\"区域予報\"]/TimeSeriesInfo[Item/Kind/Property/Type/text()=\"降水確率\"]/TimeDefines/TimeDefine[@timeId=\"3\"]/Name/text(), /Report/Body/MeteorologicalInfos[@type=\"区域予報\"]/TimeSeriesInfo/Item[Area/Name/text()=\"東部\"]/Kind/Property/ProbabilityOfPrecipitationPart/ProbabilityOfPrecipitation[@refID=\"3\"]/@description)"
+  - path: "/Report/Body/MeteorologicalInfos[@type=\"地点予報\"]/TimeSeriesInfo/Item/Station/Name[text()=\"石巻\"]/text()"
+  - path: "concat(/Report/Body/MeteorologicalInfos[@type=\"地点予報\"]/TimeSeriesInfo/Item/Kind/Property[TemperaturePart/Temperature/@refID=\"1\"]/Type/text(), /Report/Body/MeteorologicalInfos[@type=\"地点予報\"]/TimeSeriesInfo/Item/Kind/Property/TemperaturePart/Temperature[@refID=\"1\"]/@description)"
+  - path: "concat(/Report/Body/MeteorologicalInfos[@type=\"地点予報\"]/TimeSeriesInfo/Item/Kind/Property[TemperaturePart/Temperature/@refID=\"2\"]/Type/text(), /Report/Body/MeteorologicalInfos[@type=\"地点予報\"]/TimeSeriesInfo/Item/Kind/Property/TemperaturePart/Temperature[@refID=\"2\"]/@description)"
+  - path: "concat(/Report/Body/MeteorologicalInfos[@type=\"地点予報\"]/TimeSeriesInfo/Item/Kind/Property[TemperaturePart/Temperature/@refID=\"3\"]/Type/text(), /Report/Body/MeteorologicalInfos[@type=\"地点予報\"]/TimeSeriesInfo/Item/Kind/Property/TemperaturePart/Temperature[@refID=\"3\"]/@description)"
  "震度速報":
   - path: "/Report/Head/Title/text()"
   - path: "concat(substring(/Report/Head/ReportDateTime/text(),1,10),\" \",substring(/Report/Head/ReportDateTime/text(),12,5),\" \",/Report/Control/PublishingOffice/text(),\" \",/Report/Head/InfoType/text())"

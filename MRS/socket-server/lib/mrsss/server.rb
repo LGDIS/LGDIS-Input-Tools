@@ -164,8 +164,10 @@ module Mrsss
           end
         end
       rescue => error
-        @log.fatal("[#{@channel_name}] データ受信待ちで例外が発生しました。");
-        @log.fatal(error)
+        unless error.message == "don't get message_type"
+          @log.fatal("[#{@channel_name}] データ受信待ちで例外が発生しました。");
+          @log.fatal(error)
+        end
       ensure
         unless session.nil?
           @joined_message.delete_at(@addr_info.index(@addrstring))
@@ -243,7 +245,8 @@ module Mrsss
                  next_message_type != "bI" && next_message_type != "BI" && \
                  next_message_type != "fX" && next_message_type != "FX" && \
                  next_message_type != "EN"
-            raise RuntimeError.new("受信データの処理が正常に行えませんでした。")
+            @log.warn("メッセージ種別が不正で、チェックポイント管理が行えため、一旦、接続を切断します。")
+            raise RuntimeError.new("don't get message_type")
           end
 
           @user_data_length_list[addr_id] << next_message_size
