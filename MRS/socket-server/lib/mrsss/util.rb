@@ -111,6 +111,7 @@ module Mrsss
       
       # ファイル保存
       File.binwrite(File.join(archive_path, file_name), contents)
+      file_name
     end
     
     # tarパッケージされたデータ(String)を解凍して返却します。tar内の日本語ファイルの文字コードは"Shift-JIS"であることを前提とします。

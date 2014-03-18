@@ -7,6 +7,7 @@ module Mrsss
   #
   class Handler
 
+    # クラス変数を使用しているため、重複checkは、ポートまたぎを考慮する必要有。
     cattr_accessor(:duplicate_contents)
     @@duplicate_contents = []
     MAX_DUP_SIZE = 20
@@ -113,7 +114,7 @@ module Mrsss
       
       # 拡張子を作成してデータ内容をアーカイブにする
       extension = gen_extension(message)
-      Util.archive_ext(contents, @archive_path, @channel_name, extension)
+      file_name = Util.archive_ext(contents, @archive_path, @channel_name, extension)
       
       # message_typeが'JL'の場合はtarファイルのためtarファイルを解凍する
       # このtarファイル内のテキストデータはShift_JIS文字コードのため
@@ -122,12 +123,23 @@ module Mrsss
       if message.message_type == 'JL'
         @log.debug("[#{@channel_name}] メッセージ種別が[JL]のためtarファイルを解凍する")
         contents = Util.untar(contents)
+        check_contents = @channel_name + contents.join(',')
+      else
+        check_contents = @channel_name + contents
       end
 
       # 重複メッセージ排除処理
-      check_contents = @channel_name + contents
       if duplicate_contents.size > 0 && duplicate_contents.include?(check_contents)
-        @log.info("[#{@channel_name}] 冗長化によるメッセージ重複のためキューイング対象外とする\n#{contents}")
+        @log.info("[#{@channel_name}] 冗長化によるメッセージ重複のためキューイング対象外とする(#{file_name})")
+        if check_contents.valid_encoding?
+          @log.info("[#{contents}")
+        elsif contents.force_encoding("Shift_JIS").valid_encoding?
+          # convert to UTF-8
+          converter = Encoding::Converter.new("Shift_JIS","UTF-8")
+          convert_contents = converter.convert(contents)
+          convert_contents.sub!("encoding=\"Shift_JIS\"","encoding=\"UTF-8\"")
+          @log.info("[#{convert_contents}")
+        end
         return
       else
         if duplicate_contents.size >= MAX_DUP_SIZE
